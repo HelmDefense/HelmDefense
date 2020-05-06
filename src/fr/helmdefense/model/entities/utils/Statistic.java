@@ -47,27 +47,27 @@ public class Statistic {
 		return this.shootRangeProperty.get();
 	}
 	
-	public final void bindHp(Property<? super Number> observable) {
-		observable.bind(this.hpProperty);
+	public final void bindHp(Property<? super Number> property) {
+		property.bind(this.hpProperty);
 	}
 	
-	public final void bindDmg(Property<? super Number> observable) {
-		observable.bind(this.dmgProperty);
+	public final void bindDmg(Property<? super Number> property) {
+		property.bind(this.dmgProperty);
 	}
 	
-	public final void bindMvtSpd(Property<? super Number> observable) {
-		observable.bind(this.mvtSpdProperty);
+	public final void bindMvtSpd(Property<? super Number> property) {
+		property.bind(this.mvtSpdProperty);
 	}
 	
-	public final void bindAtkSpd(Property<? super Number> observable) {
-		observable.bind(this.atkSpdProperty);
+	public final void bindAtkSpd(Property<? super Number> property) {
+		property.bind(this.atkSpdProperty);
 	}
 	
-	public final void bindAtkRange(Property<? super Number> observable) {
-		observable.bind(this.atkRangeProperty);
+	public final void bindAtkRange(Property<? super Number> property) {
+		property.bind(this.atkRangeProperty);
 	}
 	
-	public final void bindShootRange(Property<? super Number> observable) {
-		observable.bind(this.shootRangeProperty);
+	public final void bindShootRange(Property<? super Number> property) {
+		property.bind(this.shootRangeProperty);
 	}
 }
