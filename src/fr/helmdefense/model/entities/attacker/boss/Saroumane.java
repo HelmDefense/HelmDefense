@@ -4,8 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class Saroumane extends Entity {
 
-	public Saroumane(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public Saroumane(int x, int y) {
+		super(x, y, 45000, 1200, 192, 2.5, 64, 640);
 	}
 
 }

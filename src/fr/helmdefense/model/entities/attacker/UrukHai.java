@@ -4,8 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class UrukHai extends Entity {
 
-	public UrukHai(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public UrukHai(int x, int y) {
+		super(x, y, 1000, 150, 64, 2, 128, 640);
 	}
 
 }

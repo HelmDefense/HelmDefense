@@ -4,10 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class OrcKamikaze extends Entity {
 
-	public OrcKamikaze(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange,
-			double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
-		// TODO Auto-generated constructor stub
+	public OrcKamikaze(int x, int y) {
+		super(x, y, 300, 1500, 128, 1, 64, 0);
 	}
 
 }

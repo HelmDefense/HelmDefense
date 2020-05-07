@@ -4,9 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class OrcGuerrier extends Entity {
 
-	public OrcGuerrier(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange,
-			double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public OrcGuerrier(int x, int y) {
+		super(x, y, 2000, 230, 64, 1, 128, 0);
 	}
 
 }

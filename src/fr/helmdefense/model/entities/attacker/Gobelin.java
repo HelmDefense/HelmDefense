@@ -4,8 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class Gobelin extends Entity {
 
-	public Gobelin(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public Gobelin(int x, int y) {
+		super(x, y, 800, 100, 128, 2, 64, 512);
 	}
 
 }

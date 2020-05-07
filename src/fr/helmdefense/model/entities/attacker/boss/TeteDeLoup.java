@@ -4,8 +4,8 @@ import fr.helmdefense.model.entities.Entity;
 
 public class TeteDeLoup extends Entity {
 
-	public TeteDeLoup(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public TeteDeLoup(int x, int y) {
+		super(x, y, 100000, 3000, 64, 0.5, 128, 0);
 	}
 
 }
