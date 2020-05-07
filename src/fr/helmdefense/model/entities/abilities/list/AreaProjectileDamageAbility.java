@@ -2,7 +2,7 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.abilities.AbilityAction;
-import fr.helmdefense.model.entities.abilities.actions.entity.EntityDamageAction;
+import fr.helmdefense.model.entities.abilities.actions.entity.EntityProjectileAttackAction;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class AreaProjectileDamageAbility extends Ability {
@@ -12,7 +12,7 @@ public class AreaProjectileDamageAbility extends Ability {
 	}
 	
 	@AbilityAction
-	public void dmgAreaAbility(EntityDamageAction action) {
+	public void dmgAreaAbility(EntityProjectileAttackAction action) {
 		
 	}
 
