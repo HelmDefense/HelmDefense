@@ -5,10 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.abilities.actions.entity.EntityDamagedAction;
-import fr.helmdefense.model.entities.utils.Actions;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
+import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -22,21 +21,17 @@ public abstract class Entity {
 	
 	private boolean hasSpawned;
 	
-	public Entity(Location loc, Statistic stats) {
+	public Entity(Location loc, String name) {
 		this.loc = loc;
-		this.stats = stats;
+		this.stats = YAMLLoader.loadStats(name);
 		this.hp = new SimpleIntegerProperty(stats.getHp());
 		this.shield = new SimpleIntegerProperty(0);
 		this.abilities = new ArrayList<Ability>();
 		this.hasSpawned = false;
 	}
 	
-	public Entity(int x, int y, Statistic stats) {
-		this(new Location(x, y), stats);
-	}
-	
-	public Entity(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		this(x, y, new Statistic(hp, dmg, mvtSpd, atkSpd, atkRange, shootRange));
+	public Entity(int x, int y, String name) {
+		this(new Location(x, y), name);
 	}
 	
 	public void addAbilities(Ability... abilities) {
