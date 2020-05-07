@@ -1,16 +1,15 @@
 package fr.helmdefense.model.entities.defender;
 
-import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Statistic;
 
-public class ElfWarrior extends Entity {
+public class ElfWarrior extends Defender {
 	
-	public ElfWarrior(int x, int y, Statistic stats) {
-		super(x, y, stats);
+	public ElfWarrior(Statistic stats) {
+		super(0, 0, stats);
 	}
 	
-	public ElfWarrior(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public ElfWarrior() {
+		super(0, 0, 1000, 200, 1, 1, 1, 0);
 	}
 
 }

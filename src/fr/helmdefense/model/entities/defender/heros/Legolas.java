@@ -1,15 +1,15 @@
 package fr.helmdefense.model.entities.defender.heros;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.defender.Defender;
 import fr.helmdefense.model.entities.utils.Statistic;
 
-public class Legolas extends Entity {
+public class Legolas extends Defender {
 
-	public Legolas(int x, int y, Statistic stats) {
-		super(x, y, stats);
+	public Legolas(Statistic stats) {
+		super(0, 0, stats);
 	}
 	
-	public Legolas(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public Legolas() {
+		super(0, 0, 1000, 200, 1, 1, 1, 0);
 	}
 }
