@@ -6,15 +6,15 @@ import fr.helmdefense.model.entities.abilities.actions.entity.EntityDirectAttack
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class OppressionAbility extends Ability {
-
-	public OppressionAbility() {
+	private int duration;
+	public OppressionAbility(int duration) {
 		super(Tier.TIER_3);
-		
+		this.duration = duration;
 	}
 	
 	@AbilityAction
-	public void oppression(EntityDirectAttackAction action) {
-		
+	public void onDirectAttack(EntityDirectAttackAction action) {
+		// TODO : Appliquer un effet de slowness pendant duration sec à la victime 
 	}
 
 }
