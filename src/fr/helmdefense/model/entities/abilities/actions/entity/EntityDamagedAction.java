@@ -2,11 +2,11 @@ package fr.helmdefense.model.entities.abilities.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
 
-public class EntityDamageAction extends EntityAction {
+public class EntityDamagedAction extends EntityAction {
 	private Entity attacker;
 	private int hpBefore;
 	
-	public EntityDamageAction(Entity entity, Entity attacker, int hpBefore) {
+	public EntityDamagedAction(Entity entity, Entity attacker, int hpBefore) {
 		super(entity);
 		this.attacker = attacker;
 		this.hpBefore = hpBefore;

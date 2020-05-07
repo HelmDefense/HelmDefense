@@ -70,4 +70,11 @@ public class Statistic {
 	public final void bindShootRange(Property<? super Number> property) {
 		property.bind(this.shootRangeProperty);
 	}
+	
+	@Override
+	public String toString() {
+		return "Statistic [hp=" + this.getHp() + ", dmg=" + this.getDmg() + ", mvtSpd="
+				+ this.getMvtSpd() + ", atkSpd=" + this.getAtkSpd() + ", atkRange=" + this.getAtkRange()
+				+ ", shootRange=" + this.getShootRange() + "]";
+	}
 }

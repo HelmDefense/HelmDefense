@@ -1,0 +1,54 @@
+# Defender statistics
+defenders:
+  # Basic defenders
+  human-warrior: &def
+    tier1: &statdef
+      hp: 2000
+      dmg: 250
+      mvt-spd: 1
+      atk-spd: 0.75
+      atk-range: 1
+      dist-range: 6
+      cost: 50
+      
+    tier2: *statdef
+    
+    tier3: *statdef
+    
+  archer: *def
+  
+  elven: *def
+  
+  catapult: *def
+  
+  # Heros default stats
+  heros:
+    aragorn: *def
+    
+    legolas: *def
+    
+    gimli: *def
+    
+attackers:
+  orc-warrior: &atk
+    tier1: &statatk
+      hp: 1000
+      dmg: 150
+      mvt-spd: 1
+      atk-spd: 0.75
+      atk-range: 1
+      dist-range: 6
+      reward: 25
+    tier2: *statatk
+    tier3: *statatk
+  orc-bomber: *atk
+  goblin: *atk
+  troll: *atk
+  uruk-hai: *atk
+  bosses:
+    isengard-tower: *atk
+    mordor-tower: *atk
+    grond: *atk
+    saruman: *atk
+    angmar-witch-king: *atk
+    nazgul: *atk
