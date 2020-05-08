@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.helmdefense.controller.Controller">
+   <center>
+      <Pane maxHeight="704.0" maxWidth="1024.0" minHeight="704.0" minWidth="1024.0" prefHeight="704.0" prefWidth="1024.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+         <children>
+            <TilePane />
+         </children>
+      </Pane>
+   </center>
+   <left>
+      <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Nom de l'unité" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="1.0" style="-fx-accent: #ff3333;" />
+                        <Label text="xxxx / xxxx">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xxx">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <Label text="Statistiques">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </Label>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="PV">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Dégâts">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Vit mvt">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Vit atk">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Portée atk">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Portée tir">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <Label text="+xx%">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" spacing="5.0">
+               <children>
+                  <Label text="Coût">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <StackPane>
+                     <children>
+                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../assets/models/coin.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <TextFlow>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </TextFlow>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </left>
+   <right>
+      <ScrollPane hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="entityIDCardList" alignment="TOP_CENTER" spacing="25.0">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </right>
+   <bottom>
+      <BorderPane BorderPane.alignment="CENTER">
+         <left>
+            <Label prefWidth="500.0" text="IUT de Montreuil, projet S2" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </left>
+         <center>
+            <Label text="By Télio, Jules &amp; Théo" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Italic" size="24.0" />
+               </font>
+            </Label>
+         </center>
+         <right>
+            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="500.0" text="Unité xN - Clic gauche pour placer" textAlignment="RIGHT" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </right>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </BorderPane>
+   </bottom>
+   <top>
+      <BorderPane BorderPane.alignment="CENTER">
+         <left>
+            <HBox alignment="CENTER_LEFT" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Options" />
+                  <Button mnemonicParsing="false" text="Pause" />
+                  <Button mnemonicParsing="false" text="Rapide" />
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <HBox alignment="CENTER_RIGHT" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../assets/models/coin.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </right>
+         <center>
+            <Label text="Helm Defense" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+         </center>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </BorderPane>
+   </top>
+</BorderPane>
