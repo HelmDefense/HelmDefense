@@ -12,10 +12,6 @@ public class GoldStealing extends Ability {
 	
 	@AbilityAction
 	public void onEntityKillAction(EntityKillAction action) {
-		/*if ( bourseDuJoueur - action.getVictim().getStats().getRewards() > 0 )
-			Bourse du joueur -= 3 ( tier 1 ) ; 6 ( tier 2 ) ; 9 ( tier 3 );
-		else if ( bourseDuJoueur < action.getVictim().getStats().getRewards())
-			BourseDuJoueur = 0;
-		*/
+		// Bourse = Math.max(bourse - 3,6,9 ( selon tier ), 0);
 	}
 }

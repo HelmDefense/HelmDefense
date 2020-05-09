@@ -1,11 +1,14 @@
 package fr.helmdefense.model.entities.attacker;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class Troll extends Entity {
+public class Troll extends Attacker {
 
 	public Troll(int x, int y) {
-		super(x, y, 25000, 500, 16, 0.5, 64, 0);
+		super(new Location(x, y), "troll");
 	}
 
+	public Troll(Location loc) {
+		super(loc, "troll");
+	}
 }

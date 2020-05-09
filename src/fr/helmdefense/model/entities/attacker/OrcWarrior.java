@@ -1,11 +1,16 @@
 package fr.helmdefense.model.entities.attacker;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class OrcWarrior extends Entity {
-
+public class OrcWarrior extends Attacker{
+	
 	public OrcWarrior(int x, int y) {
-		super(x, y, 2000, 230, 64, 1, 128, 0);
+		super(new Location(x, y), "orcwarrior");
+
+	}
+
+	public OrcWarrior(Location loc) {
+		super(loc, "orcwarrior");
 	}
 
 }

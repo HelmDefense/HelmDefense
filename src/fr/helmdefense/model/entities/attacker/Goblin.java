@@ -1,11 +1,14 @@
 package fr.helmdefense.model.entities.attacker;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class Goblin extends Entity {
+public class Goblin extends Attacker {
 
 	public Goblin(int x, int y) {
-		super(x, y, 800, 100, 128, 2, 64, 512);
+		super(new Location(x, y), "gobelin");
 	}
 
+	public Goblin(Location loc) {
+		super(loc, "gobelin");
+	}
 }

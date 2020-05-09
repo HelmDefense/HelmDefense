@@ -1,11 +1,16 @@
 package fr.helmdefense.model.entities.attacker.boss;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.attacker.Attacker;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class Boss extends Entity {
+public class Boss extends Attacker {
 
-	public Boss(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
+	public Boss(int x, int y, String name) {
+		super(x, y, "boss." + name);
+	}
+	
+	public Boss(Location location, String name) {
+		super(location, "boss." + name);
 	}
 
 }
