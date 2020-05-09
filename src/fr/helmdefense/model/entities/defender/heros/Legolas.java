@@ -4,7 +4,7 @@ import fr.helmdefense.model.entities.defender.Defender;
 import fr.helmdefense.model.entities.utils.Location;
 
 
-public class Legolas extends Defender {
+public class Legolas extends Heros {
 	
 	public Legolas(Location loc) {
 		super(loc, "legolas");
