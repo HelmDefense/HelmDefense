@@ -1,10 +1,14 @@
 package fr.helmdefense.model.entities.defender.heros;
 
-import fr.helmdefense.model.entities.defender.Defender;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class Gimli extends Defender {
+public class Gimli extends Heros {
 	
-	public Gimli() {
-		super(0, 0, 1000, 200, 1, 1, 1, 0, 0);
+	public Gimli(Location loc) {
+		super(loc, "gimli");
+	}
+	
+	public Gimli(int x, int y) {
+		this(new Location(x, y));
 	}
 }
