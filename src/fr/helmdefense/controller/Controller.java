@@ -8,6 +8,9 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
+import fr.helmdefense.model.entities.defenders.Archer;
+import fr.helmdefense.model.entities.defenders.Catapult;
+import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
@@ -159,14 +162,10 @@ public class Controller implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		try {
-			for (int i = 0; i < 5; i++) {
-				VBox card = FXMLLoader.load(this.getClass().getResource("../view/EntityIDCard.fxml"));
-				this.entityIDCardList.getChildren().add(card);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.addIDCard(HumanWarrior.class);
+		this.addIDCard(Archer.class);
+		this.addIDCard(ElvenShooter.class);
+		this.addIDCard(Catapult.class);
 		
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
@@ -197,6 +196,17 @@ public class Controller implements Initializable {
 
 		new OrcWarrior(0, 5).spawn(this.level);
 		new HumanWarrior(2, 4).spawn(this.level);
+	}
+	
+	private void addIDCard(Class<? extends Entity> type) {
+		try {
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
+			loader.setController(new IDCardController(type));
+			VBox card = loader.load();
+			this.entityIDCardList.getChildren().add(card);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static ImageView getImg(String... paths) {
