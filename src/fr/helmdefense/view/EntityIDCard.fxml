@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <Label text="Nom de l'entité">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <Line endX="100.0" opacity="0.75" startX="-100.0" strokeWidth="3.0">
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
+      </Line>
+      <BorderPane>
+         <left>
+            <Label text="Acheter" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <Label text="Coût : xx" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </right>
+      </BorderPane>
+      <HBox alignment="CENTER" spacing="5.0">
+         <children>
+            <Button mnemonicParsing="false" text="x1" />
+            <Button mnemonicParsing="false" text="x2" />
+            <Button mnemonicParsing="false" text="x5" />
+            <Line endY="23.0" opacity="0.75" strokeWidth="2.0">
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </Line>
+            <TextField prefWidth="50.0" promptText="Autre">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" text="OK" />
+         </children>
+      </HBox>
+      <BorderPane>
+         <left>
+            <Label text="Améliorer" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </left>
+         <right>
+            <Label text="Coût : xx" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </right>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </BorderPane>
+      <HBox alignment="CENTER" spacing="15.0">
+         <children>
+            <Label text="Tier N" />
+            <Button mnemonicParsing="false" text="==&gt;" />
+            <Label text="Tier N+1" />
+         </children>
+      </HBox>
+      <TextFlow>
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+      </TextFlow>
+      <HBox alignment="CENTER" spacing="25.0">
+         <children>
+            <Button mnemonicParsing="false" text="A" />
+            <Button mnemonicParsing="false" text="B" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

@@ -10,4 +10,12 @@ public class YAMLLoadException extends RuntimeException {
 	public YAMLLoadException(String message) {
 		super(message);
 	}
+	
+	public YAMLLoadException(Throwable cause) {
+		super("YAML failed to load!", cause);
+	}
+	
+	public YAMLLoadException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }
