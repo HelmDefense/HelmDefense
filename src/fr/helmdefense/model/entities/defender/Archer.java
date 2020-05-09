@@ -9,7 +9,7 @@ public class Archer extends Defender {
 	}
 	
 	public Archer(int x, int y) {
-		super(new Location(x,y), "archer");
+		this(new Location(x,y));
 	}
 
 

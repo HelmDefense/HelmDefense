@@ -9,7 +9,7 @@ public class ElvenShooter extends Defender {
 	}
 	
 	public ElvenShooter(int x, int y) {
-		super(new Location(x,y), "elven");
+		this(new Location(x,y));
 	}
 
 }

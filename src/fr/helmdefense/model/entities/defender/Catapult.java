@@ -9,7 +9,7 @@ public class Catapult extends Defender {
 	}
 	
 	public Catapult(int x, int y) {
-		super(new Location(x,y), "catapult");
+		this(new Location(x,y));
 	}
 
 }

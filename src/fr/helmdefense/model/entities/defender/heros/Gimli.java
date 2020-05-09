@@ -9,6 +9,6 @@ public class Gimli extends Heros {
 	}
 	
 	public Gimli(int x, int y) {
-		super(new Location(x, y), "gimli");
+		this(new Location(x, y));
 	}
 }

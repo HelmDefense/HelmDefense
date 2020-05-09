@@ -10,7 +10,7 @@ public class ElvenWarrior extends Defender {
 	}
 	
 	public ElvenWarrior(int x, int y) {
-		super(new Location(x,y), "elven");
+		this(new Location(x,y));
 	}
 
 }

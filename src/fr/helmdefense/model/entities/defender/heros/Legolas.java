@@ -1,6 +1,5 @@
 package fr.helmdefense.model.entities.defender.heros;
 
-import fr.helmdefense.model.entities.defender.Defender;
 import fr.helmdefense.model.entities.utils.Location;
 
 
@@ -11,6 +10,6 @@ public class Legolas extends Heros {
 	}
 	
 	public Legolas(int x, int y) {
-		super(new Location(x, y), "legolas");
+		this(new Location(x, y));
 	}
 }

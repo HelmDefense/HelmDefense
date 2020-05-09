@@ -9,7 +9,7 @@ public class HumanWarrior extends Defender {
 	}
 	
 	public HumanWarrior(int x, int y) {
-		super(new Location(x,y), "human-warrior");
+		this(new Location(x,y));
 	}
 	
 	

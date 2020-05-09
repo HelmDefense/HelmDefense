@@ -9,6 +9,6 @@ public class Aragorn extends Heros {
 	}
 	
 	public Aragorn(int x, int y) {
-		super(new Location(x, y), "aragorn");
+		this(new Location(x, y));
 	}
 }
