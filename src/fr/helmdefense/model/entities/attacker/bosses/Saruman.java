@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.attacker.boss;
+package fr.helmdefense.model.entities.attacker.bosses;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Location;

@@ -1,9 +1,9 @@
-package fr.helmdefense.model.entities.attacker;
+package fr.helmdefense.model.entities.attackers;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Location;
 
-public class Attacker extends Entity {
+public abstract class Attacker extends Entity {
 
 	public Attacker(Location loc, String name) {
 		super(loc, "attackers." + name);

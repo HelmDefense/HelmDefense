@@ -1,8 +1,8 @@
-package fr.helmdefense.model.entities.attacker.boss;
+package fr.helmdefense.model.entities.attacker.bosses;
 
 import fr.helmdefense.model.entities.utils.Location;
 
-public class TwoTowers extends Boss {
+public abstract class TwoTowers extends Boss {
 
 	public TwoTowers(Location location, String name) {
 		super(location, name);
