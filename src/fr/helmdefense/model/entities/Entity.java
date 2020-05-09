@@ -3,6 +3,7 @@ package fr.helmdefense.model.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Location;
@@ -12,6 +13,7 @@ import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 
 public abstract class Entity {
 	private String id;
@@ -29,7 +31,7 @@ public abstract class Entity {
 		this.id = Integer.toString(++ids);
 		this.loc = loc;
 		this.name = name;
-		this.stats = YAMLLoader.loadStats(name);
+		this.stats = YAMLLoader.loadStats(name + ".tier1");
 		this.hp = new SimpleIntegerProperty(stats.getHp());
 		this.shield = new SimpleIntegerProperty(0);
 		this.abilities = new ArrayList<Ability>();
@@ -59,12 +61,20 @@ public abstract class Entity {
 		return this.loc.copy();
 	}
 	
+	public void bindX(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.getXProperty()) : this.loc.getXProperty());
+	}
+	
 	public void bindX(Property<? super Number> property) {
-		property.bind(this.loc.getXProperty());
+		this.bindX(property, null);
+	}
+	
+	public void bindY(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.getYProperty()) : this.loc.getYProperty());
 	}
 	
 	public void bindY(Property<? super Number> property) {
-		property.bind(this.loc.getYProperty());
+		this.bindY(property, null);
 	}
 	
 	public void teleport(int x, int y) {
@@ -133,5 +143,11 @@ public abstract class Entity {
 	
 	public int getShield() {
 		return this.shield.get();
+	}
+
+	@Override
+	public String toString() {
+		return "Entity [id=" + id + ", loc=" + loc + ", name=" + name + ", stats=" + stats + ", hp=" + hp + ", shield="
+				+ shield + ", abilities=" + abilities + ", level=" + level + "]";
 	}
 }
