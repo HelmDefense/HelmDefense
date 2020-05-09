@@ -1,12 +1,17 @@
 package fr.helmdefense.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.attackers.OrcWarrior;
+import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -168,13 +173,36 @@ public class Controller implements Initializable {
 		this.level = Level.load("test_level");
 		for (int y = 0; y < GameMap.HEIGHT; y++)
 			for (int x = 0; x < GameMap.WIDTH; x++)
-				this.mapPane.getChildren().add(
-						new ImageView(Paths.get(
-								System.getProperty("user.dir"),
-								"assets",
-								"maptiles",
-								this.level.getMap().getTile(x, y) + ".png"
-						).toUri().toString())
-				);
+				this.mapPane.getChildren().add(getImg("maptiles", this.level.getMap().getTile(x, y) + ".png"));
+		
+		ListChangeListener<Entity> lcl = c -> {
+			while (c.next()) {
+				if (c.wasAdded()) {
+					for (Entity e : c.getAddedSubList()) {
+						ImageView img = getImg("entities", e.getName().replace('.', File.separatorChar) + ".png");
+						img.setId(e.getId());
+						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
+						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
+						this.levelPane.getChildren().add(img);
+					}
+				}
+				if (c.wasRemoved()) {
+					for (Entity e : c.getRemoved()) {
+						this.levelPane.getChildren().remove(this.levelPane.lookup("#" + e.getId()));
+					}
+				}
+			}
+		};
+		this.level.getEntities().addListener(lcl);
+
+		new OrcWarrior(0, 5).spawn(this.level);
+		new HumanWarrior(2, 4).spawn(this.level);
+	}
+	
+	private static ImageView getImg(String... paths) {
+		return new ImageView(Paths.get(
+				Paths.get(System.getProperty("user.dir"), "assets").toString(),
+				paths
+		).toUri().toString());
 	}
 }
