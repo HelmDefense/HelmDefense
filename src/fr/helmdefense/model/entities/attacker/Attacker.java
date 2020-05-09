@@ -6,11 +6,11 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Attacker extends Entity {
 
 	public Attacker(Location loc, String name) {
-		super(loc, "attacker." + name);
+		super(loc, "attackers." + name);
 	}
 
 	public Attacker(int x, int y, String name) {
-		super(new Location(x, y),"attacker." + name);
+		super(new Location(x, y),"attackers." + name);
 	}
 
 }

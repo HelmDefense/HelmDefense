@@ -5,12 +5,12 @@ import fr.helmdefense.model.entities.utils.Location;
 public class MordorTower extends Boss {
 
 	public MordorTower(int x, int y) {
-		super(new Location(x, y), "mordortower");
+		super(new Location(x, y), "mordor-tower");
 
 	}
 
 	public MordorTower(Location location) {
-		super(location, "mordortower");
+		super(location, "mordor-tower");
 
 	}
 
