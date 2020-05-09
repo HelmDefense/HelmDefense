@@ -39,4 +39,9 @@ public class Location {
 	public final IntegerProperty getYProperty() {
 		return this.yProperty;
 	}
+
+	@Override
+	public String toString() {
+		return "Location [x=" + this.getX() + ", y=" + this.getY() + "]";
+	}
 }
