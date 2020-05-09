@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.defender;
+package fr.helmdefense.model.entities.defenders;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Location;
@@ -10,6 +10,6 @@ public abstract class Defender extends Entity {
 	}
 	
 	public Defender(int x, int y, String name) {
-		this(new Location(x,y), "defenders." + name);
+		this(new Location(x,y), name);
 	}
 }
