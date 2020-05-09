@@ -4,13 +4,12 @@ import fr.helmdefense.model.entities.utils.Location;
 
 public class UrukHai extends Attacker {
 
-	public UrukHai(int x, int y) {
-		super(new Location(x, y), "uruk-hai");
-	}
-
 	public UrukHai(Location loc) {
-		super(loc, "uruk-hai");
-		
+		super(loc, "uruk-hai");	
+	}
+	
+	public UrukHai(int x, int y) {
+		this(new Location(x, y));
 	}
 
 	

@@ -10,7 +10,7 @@ public class Attacker extends Entity {
 	}
 
 	public Attacker(int x, int y, String name) {
-		super(new Location(x, y),"attackers." + name);
+		this(new Location(x, y), name);
 	}
 
 }
