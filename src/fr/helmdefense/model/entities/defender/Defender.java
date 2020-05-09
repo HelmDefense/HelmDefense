@@ -1,12 +1,15 @@
 package fr.helmdefense.model.entities.defender;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Location;
 
 public abstract class Defender extends Entity {
-	private int cost;
 	
-	public Defender(int x, int y, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange, int cost) {
-		super(x, y, hp, dmg, mvtSpd, atkSpd, atkRange, shootRange);
-		this.cost = cost;
+	public Defender(Location loc, String name) {
+		super(loc, "defenders." + name);
+	}
+	
+	public Defender(int x, int y, String name) {
+		this(new Location(x,y), "defenders." + name);
 	}
 }

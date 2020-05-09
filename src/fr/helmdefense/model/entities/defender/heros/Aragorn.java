@@ -1,10 +1,14 @@
 package fr.helmdefense.model.entities.defender.heros;
 
-import fr.helmdefense.model.entities.defender.Defender;
+import fr.helmdefense.model.entities.utils.Location;
 
-public class Aragorn extends Defender {
+public class Aragorn extends Heros {
 	
-	public Aragorn() {
-		super(0, 0, 1000, 200, 1, 1, 1, 0, 0);
+	public Aragorn(Location loc) {
+		super(loc, "aragorn");
+	}
+	
+	public Aragorn(int x, int y) {
+		super(new Location(x, y), "aragorn");
 	}
 }
