@@ -3,8 +3,8 @@ package fr.helmdefense.model.map;
 public class GameMap {
 private int[][] tiles;
 	
-	public static final int WIDTH = 10;
-	public static final int HEIGHT = 10;
+	public static final int WIDTH = 16;
+	public static final int HEIGHT = 11;
 	
 	public GameMap(int[][] tiles) {
 		this.tiles = tiles;

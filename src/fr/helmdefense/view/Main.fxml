@@ -10,38 +10,38 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.helmdefense.controller.Controller">
    <center>
-      <Pane maxHeight="704.0" maxWidth="1024.0" minHeight="704.0" minWidth="1024.0" prefHeight="704.0" prefWidth="1024.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
+      <Pane fx:id="levelPane" maxHeight="704.0" maxWidth="1024.0" minHeight="704.0" minWidth="1024.0" prefHeight="704.0" prefWidth="1024.0" style="-fx-background-color: green;" BorderPane.alignment="CENTER">
          <children>
-            <TilePane />
+            <TilePane fx:id="mapPane" />
          </children>
       </Pane>
    </center>
    <left>
       <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Nom de l'unité" textAlignment="CENTER">
+            <Label fx:id="entityNameLabel" text="Nom de l'unité" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
             <HBox alignment="CENTER" spacing="5.0">
                <children>
-                  <Label text="xx%">
+                  <Label fx:id="entityHealthPercentLabel" text="xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="1.0" style="-fx-accent: #ff3333;" />
-                        <Label text="xxxx / xxxx">
+                        <ProgressBar fx:id="entityHealthBar" prefHeight="35.0" prefWidth="100.0" progress="1.0" style="-fx-accent: #ff3333;" />
+                        <Label fx:id="EntityHealthBarLabel" text="xxxx / xxxx">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xxx">
+                  <Label fx:id="entityHealthBonusLabel" text="+xxx">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -68,15 +68,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityHpBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityHpBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityHpBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -92,15 +92,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityDmgBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityDmgBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityDmgBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -116,15 +116,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityMvtSpdBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityMvtSpdBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityMvtSpdBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -140,15 +140,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityAtkSpdBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityAtkSpdBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityAtkSpdBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -164,15 +164,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityAtkRangeBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityAtkRangeBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityAtkRangeBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -188,15 +188,15 @@
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityDistRangeBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityDistRangeBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                      </children>
                   </StackPane>
-                  <Label text="+xx%">
+                  <Label fx:id="entityDistRangeBonusLabel" text="+xx%">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -205,15 +205,15 @@
             </HBox>
             <HBox alignment="CENTER" spacing="5.0">
                <children>
-                  <Label text="Coût">
+                  <Label fx:id="entityMoneyLabel" text="Coût">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                   <StackPane>
                      <children>
-                        <ProgressBar prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
-                        <Label alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
+                        <ProgressBar fx:id="entityMoneyBar" prefHeight="35.0" prefWidth="100.0" progress="0.65" style="-fx-accent: #4db8ff;" />
+                        <Label fx:id="entityMoneyBarLabel" alignment="CENTER" contentDisplay="CENTER" text="xxxx" textAlignment="CENTER">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -227,7 +227,7 @@
                   </ImageView>
                </children>
             </HBox>
-            <TextFlow>
+            <TextFlow fx:id="entityDescText">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -266,7 +266,7 @@
             </Label>
          </center>
          <right>
-            <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="500.0" text="Unité xN - Clic gauche pour placer" textAlignment="RIGHT" BorderPane.alignment="CENTER">
+            <Label fx:id="buyInfoLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefWidth="500.0" text="Unité xN - Clic gauche pour placer" textAlignment="RIGHT" BorderPane.alignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -282,21 +282,21 @@
          <left>
             <HBox alignment="CENTER_LEFT" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Options" />
-                  <Button mnemonicParsing="false" text="Pause" />
-                  <Button mnemonicParsing="false" text="Rapide" />
+                  <Button fx:id="optionButton" mnemonicParsing="false" onAction="#optionButtonAction" text="Options" />
+                  <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseButtonAction" text="Pause" />
+                  <Button fx:id="speedButton" mnemonicParsing="false" onAction="#speedButtonAction" text="Rapide" />
                </children>
             </HBox>
          </left>
          <right>
             <HBox alignment="CENTER_RIGHT" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="0">
+                  <Label fx:id="moneyLabel" text="0">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="moneyImage" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../assets/models/coin.png" />
                      </image>
@@ -304,16 +304,25 @@
                </children>
             </HBox>
          </right>
-         <center>
-            <Label text="Helm Defense" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="35.0" />
-               </font>
-            </Label>
-         </center>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
+         <center>
+            <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Helm Defense" textAlignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="35.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="levelNameLabel" text="Niveau en cours">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+         </center>
       </BorderPane>
    </top>
 </BorderPane>
