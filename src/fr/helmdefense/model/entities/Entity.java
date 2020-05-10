@@ -3,31 +3,39 @@ package fr.helmdefense.model.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
+import fr.helmdefense.model.level.Level;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 
 public abstract class Entity {
+	private String id;
 	private Location loc;
+	private String name;
 	private Statistic stats;
 	private IntegerProperty hp;
 	private IntegerProperty shield;
 	private List<Ability> abilities;
+	private Level level;
 	
-	private boolean hasSpawned;
+	private static int ids = 0;
 	
 	public Entity(Location loc, String name) {
+		this.id = Integer.toString(++ids);
 		this.loc = loc;
-		this.stats = YAMLLoader.loadStats(name);
+		this.name = name;
+		this.stats = YAMLLoader.loadStats(name + ".tier1");
 		this.hp = new SimpleIntegerProperty(stats.getHp());
 		this.shield = new SimpleIntegerProperty(0);
 		this.abilities = new ArrayList<Ability>();
-		this.hasSpawned = false;
+		this.level = null;
 	}
 	
 	public Entity(int x, int y, String name) {
@@ -38,24 +46,35 @@ public abstract class Entity {
 		this.abilities.addAll(Arrays.asList(abilities));
 	}
 	
-	public void spawn() {
-		if (this.hasSpawned)
+	public void spawn(Level lvl) {
+		if (this.level != null || lvl.getEntities().contains(this))
 			return;
-		this.hasSpawned = true;
-		
-		// TODO Add entity to level entities list
+		this.level = lvl;
+		lvl.getEntities().add(this);
+	}
+	
+	public String getId() {
+		return this.id;
 	}
 	
 	public Location getLoc() {
 		return this.loc.copy();
 	}
 	
+	public void bindX(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.getXProperty()) : this.loc.getXProperty());
+	}
+	
 	public void bindX(Property<? super Number> property) {
-		property.bind(this.loc.getXProperty());
+		this.bindX(property, null);
+	}
+	
+	public void bindY(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.getYProperty()) : this.loc.getYProperty());
 	}
 	
 	public void bindY(Property<? super Number> property) {
-		property.bind(this.loc.getYProperty());
+		this.bindY(property, null);
 	}
 	
 	public void teleport(int x, int y) {
@@ -65,6 +84,10 @@ public abstract class Entity {
 	
 	public void teleport(Location loc) {
 		this.teleport(loc.getX(), loc.getY());
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 
 	public Statistic getStats() {
@@ -120,5 +143,11 @@ public abstract class Entity {
 	
 	public int getShield() {
 		return this.shield.get();
+	}
+
+	@Override
+	public String toString() {
+		return "Entity [id=" + id + ", loc=" + loc + ", name=" + name + ", stats=" + stats + ", hp=" + hp + ", shield="
+				+ shield + ", abilities=" + abilities + ", level=" + level + "]";
 	}
 }
