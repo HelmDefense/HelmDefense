@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.abilities.actions;
+package fr.helmdefense.model.actions;
 
 public abstract class Action {
 	

@@ -1,7 +1,7 @@
-package fr.helmdefense.model.entities.abilities.actions.entity;
+package fr.helmdefense.model.actions.entity;
 
+import fr.helmdefense.model.actions.Action;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.abilities.actions.Action;
 
 public abstract class EntityAction extends Action {
 	private Entity entity;

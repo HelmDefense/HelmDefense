@@ -1,8 +1,9 @@
 package fr.helmdefense.model.entities.abilities;
 
+import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public abstract class Ability {
+public abstract class Ability implements ActionListener {
 	private Tier unlock;
 	
 	public Ability(Tier unlock) {
