@@ -52,4 +52,10 @@ public class Statistic {
 	public final int getReward() {
 		return this.reward;
 	}
+
+	@Override
+	public String toString() {
+		return "Statistic [hp=" + hp + ", dmg=" + dmg + ", mvtSpd=" + mvtSpd + ", atkSpd=" + atkSpd + ", atkRange="
+				+ atkRange + ", shootRange=" + shootRange + ", cost=" + cost + ", reward=" + reward + "]";
+	}
 }
