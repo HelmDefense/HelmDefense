@@ -1,80 +1,61 @@
 package fr.helmdefense.model.entities.utils;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class Statistic {
-	private IntegerProperty hpProperty;
-	private IntegerProperty dmgProperty;
-	private DoubleProperty mvtSpdProperty;
-	private DoubleProperty atkSpdProperty;
-	private DoubleProperty atkRangeProperty;
-	private DoubleProperty shootRangeProperty;
+	private int hp;
+	private int dmg;
+	private double mvtSpd;
+	private double atkSpd;
+	private double atkRange;
+	private double shootRange;
+	private int cost;
+	private int reward;
 	
-	public Statistic(int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange) {
-		this.hpProperty = new SimpleIntegerProperty(hp);
-		this.dmgProperty = new SimpleIntegerProperty(dmg);
-		this.mvtSpdProperty = new SimpleDoubleProperty(mvtSpd);
-		this.atkSpdProperty = new SimpleDoubleProperty(atkSpd);
-		this.atkRangeProperty = new SimpleDoubleProperty(atkRange);
-		this.shootRangeProperty = new SimpleDoubleProperty(shootRange);
+	public Statistic(int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange, int cost, int reward) {
+		this.hp = hp;
+		this.dmg = dmg;
+		this.mvtSpd = mvtSpd;
+		this.atkSpd = atkSpd;
+		this.atkRange = atkRange;
+		this.shootRange = shootRange;
+		this.cost = cost;
+		this.reward = reward;
 	}
 	
 	public final int getHp() {
-		return this.hpProperty.get();
+		return this.hp;
 	}
 	
 	public final int getDmg() {
-		return this.dmgProperty.get();
+		return this.dmg;
 	}
 	
 	public final double getMvtSpd() {
-		return this.mvtSpdProperty.get();
+		return this.mvtSpd;
 	}
 	
 	public final double getAtkSpd() {
-		return this.atkSpdProperty.get();
+		return this.atkSpd;
 	}
 	
 	public final double getAtkRange() {
-		return this.atkRangeProperty.get();
+		return this.atkRange;
 	}
 	
 	public final double getShootRange() {
-		return this.shootRangeProperty.get();
+		return this.shootRange;
 	}
 	
-	public final void bindHp(Property<? super Number> property) {
-		property.bind(this.hpProperty);
+	public final int getcost() {
+		return this.cost;
 	}
 	
-	public final void bindDmg(Property<? super Number> property) {
-		property.bind(this.dmgProperty);
+	public final int getReward() {
+		return this.reward;
 	}
-	
-	public final void bindMvtSpd(Property<? super Number> property) {
-		property.bind(this.mvtSpdProperty);
-	}
-	
-	public final void bindAtkSpd(Property<? super Number> property) {
-		property.bind(this.atkSpdProperty);
-	}
-	
-	public final void bindAtkRange(Property<? super Number> property) {
-		property.bind(this.atkRangeProperty);
-	}
-	
-	public final void bindShootRange(Property<? super Number> property) {
-		property.bind(this.shootRangeProperty);
-	}
-	
+
 	@Override
 	public String toString() {
-		return "Statistic [hp=" + this.getHp() + ", dmg=" + this.getDmg() + ", mvtSpd="
-				+ this.getMvtSpd() + ", atkSpd=" + this.getAtkSpd() + ", atkRange=" + this.getAtkRange()
-				+ ", shootRange=" + this.getShootRange() + "]";
+		return "Statistic [hp=" + hp + ", dmg=" + dmg + ", mvtSpd=" + mvtSpd + ", atkSpd=" + atkSpd + ", atkRange="
+				+ atkRange + ", shootRange=" + shootRange + ", cost=" + cost + ", reward=" + reward + "]";
 	}
 }
