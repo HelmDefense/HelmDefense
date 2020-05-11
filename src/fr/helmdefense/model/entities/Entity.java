@@ -5,12 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.attackers.Goblin;
-import fr.helmdefense.model.entities.attackers.OrcBomber;
-import fr.helmdefense.model.entities.attackers.OrcWarrior;
-import fr.helmdefense.model.entities.attackers.Troll;
-import fr.helmdefense.model.entities.attackers.UrukHai;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.level.Level;
@@ -33,7 +29,7 @@ public abstract class Entity {
 	private static int ids = 0;
 	
 	public Entity(Location loc, String name) {
-		this.id = Integer.toString(++ids);
+		this.id = "E" + (++ids);
 		this.loc = loc;
 		this.name = name;
 		this.stats = YAMLLoader.loadStats(name + ".tier1");
@@ -49,6 +45,7 @@ public abstract class Entity {
 	
 	public void addAbilities(Ability... abilities) {
 		this.abilities.addAll(Arrays.asList(abilities));
+		Actions.registerListener(abilities);
 	}
 	
 	public void spawn(Level lvl) {
@@ -154,23 +151,5 @@ public abstract class Entity {
 	public String toString() {
 		return "Entity [id=" + id + ", loc=" + loc + ", name=" + name + ", stats=" + stats + ", hp=" + hp + ", shield="
 				+ shield + ", abilities=" + abilities + ", level=" + level + "]";
-	}
-	
-	public enum EntityList {
-		ORC_WARRIOR(OrcWarrior.class),
-		ORC_BOMBER(OrcBomber.class),
-		GOBLIN(Goblin.class),
-		URUK_HAI(UrukHai.class),
-		TROLL(Troll.class);
-		
-		private Class<? extends Entity> type;
-		
-		private EntityList(Class<? extends Entity> type) {
-			this.type = type;
-		}
-		
-		public Class<? extends Entity> getType() {
-			return this.type;
-		}
 	}
 }
