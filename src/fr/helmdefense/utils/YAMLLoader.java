@@ -66,7 +66,9 @@ public class YAMLLoader {
 				s.getDouble("mvt-spd"),
 				s.getDouble("atk-spd"),
 				s.getDouble("atk-range"),
-				s.getDouble("dist-range")
+				s.getDouble("dist-range"),
+				s.getInt("cost"),
+				s.getInt("reward")
 		);
 	}
 	

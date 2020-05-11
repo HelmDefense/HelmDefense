@@ -2,6 +2,7 @@
 defenders:
   # Basic defenders
   human-warrior:
+    name: "Guerrier Humain"
     class: fr.helmdefense.model.entities.defenders.HumanWarrior
     tier1:
       hp: 2000
@@ -25,6 +26,7 @@ defenders:
       atk-range: 1
       cost: 500
   archer:
+    name: "Archer"
     class: fr.helmdefense.model.entities.defenders.Archer
     tier1:
       hp: 1500
@@ -45,6 +47,7 @@ defenders:
       dist-range: 7
       cost: 750
   elven:
+    name: "Elfe"
     class: fr.helmdefense.model.entities.defenders.ElvenShooter
     tier1:
       hp: 2500
@@ -71,6 +74,7 @@ defenders:
       dist-range: 8
       cost: 2500
   catapult:
+    name: "Trébuchet"
     class: fr.helmdefense.model.entities.defenders.Catapult
     tier1:
       hp: 5000
@@ -93,6 +97,7 @@ defenders:
   # Heros default stats
   heros:
     aragorn:
+      name: "Aragorn"
       class: fr.helmdefense.model.entities.defenders.heros.Aragorn
       hp: 7500
       dmg: 700
@@ -101,6 +106,7 @@ defenders:
       atk-range: 3
       dist-range: 8
     legolas:
+      name: "Legolas"
       class: fr.helmdefense.model.entities.defenders.heros.Legolas
       hp: 4500
       dmg: 1100
@@ -109,6 +115,7 @@ defenders:
       atk-range: 2
       dist-range: 10
     gimli:
+      name: "Gimli"
       class: fr.helmdefense.model.entities.defenders.heros.Gimli
       hp: 12500
       dmg: 850
@@ -118,6 +125,7 @@ defenders:
       dist-range: 6
 attackers:
   orc-warrior:
+    name: "Guerrier Orc"
     class: fr.helmdefense.model.entities.attackers.OrcWarrior
     tier1:
       hp: 1000
@@ -141,6 +149,7 @@ attackers:
       atk-range: 1
       reward: 600
   orc-bomber:
+    name: "Orc Kamikaze"
     class: fr.helmdefense.model.entities.attackers.OrcBomber
     tier1:
       hp: 700
@@ -164,6 +173,7 @@ attackers:
       atk-range: 1
       reward: 700
   goblin:
+    name: "Gobelin"
     class: fr.helmdefense.model.entities.attackers.Goblin
     tier1:
       hp: 700
@@ -190,6 +200,7 @@ attackers:
       dist-range: 6
       reward: 500
   troll:
+    name: "Troll"
     class: fr.helmdefense.model.entities.attackers.Troll
     tier1:
       hp: 5000
@@ -213,6 +224,7 @@ attackers:
       atk-range: 2
       reward: 2500
   uruk-hai:
+    name: "Uruk-Haï"
     class: fr.helmdefense.model.entities.attackers.UrukHai
     tier1:
       hp: 1500
@@ -237,14 +249,20 @@ attackers:
       reward: 1500
   bosses:
     isengard-tower:
+      name: "Tour d'Isengard"
       class: fr.helmdefense.model.entities.attackers.bosses.IsengardTower
     mordor-tower:
+      name: "Tour du Mordor"
       class: fr.helmdefense.model.entities.attackers.bosses.MordorTower
     grond:
+      name: "Tête de Loup (Grond)"
       class: fr.helmdefense.model.entities.attackers.bosses.Grond
     saruman:
+      name: "Saroumane"
       class: fr.helmdefense.model.entities.attackers.bosses.Saruman
     angmar-witch-king:
+      name: "Roi Sorcier d'Angmar"
       class: fr.helmdefense.model.entities.attackers.bosses.AngmarWitchKing
     nazgul:
+      name: "Nazgûl"
       class: fr.helmdefense.model.entities.attackers.bosses.Nazgul
