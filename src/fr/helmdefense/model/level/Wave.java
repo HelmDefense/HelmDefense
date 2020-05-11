@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.utils.Location;
 
 public class Wave {
 	private int duration;
@@ -15,19 +14,19 @@ public class Wave {
 	public Wave(int duration, int reward, Map<Integer, String> entities) {
 		this.duration = duration;
 		this.reward = reward;
-		this.entities = entities.entrySet().stream()
+		/*this.entities = entities.entrySet().stream()
 				.collect(Collectors.toMap(
 						e -> e.getKey(),
 						e -> {
 							try {
-								return Entity.EntityList.valueOf(e.getValue()).getType().getConstructor(Location.class).newInstance(new Location(0, 0));
+								return Entity.TYPES.get(e.getValue()).getConstructor(int.class, int.class).newInstance(0, 0);
 							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 									| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 								e1.printStackTrace();
 								return null;
 							}
 						}
-				));
+				));*/
 	}
 	
 	public int getDuration() {
