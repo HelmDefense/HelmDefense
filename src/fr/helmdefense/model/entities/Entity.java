@@ -150,6 +150,6 @@ public abstract class Entity {
 	@Override
 	public String toString() {
 		return "Entity [id=" + id + ", loc=" + loc + ", name=" + name + ", stats=" + stats + ", hp=" + hp + ", shield="
-				+ shield + ", abilities=" + abilities + ", level=" + level + "]";
+				+ shield + ", abilities=" + abilities + "]";
 	}
 }
