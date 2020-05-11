@@ -2,6 +2,8 @@ package fr.helmdefense.model.level;
 
 import java.util.List;
 
+import fr.helmdefense.model.actions.game.GameTickAction;
+import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
@@ -12,11 +14,19 @@ public class Level {
 	private GameMap map;
 	private ObservableList<Entity> entities;
 	private List<Wave> waves;
+	private GameLoop gameloop;
 	
 	public Level(GameMap map, List<Wave> waves) {
 		this.map = map;
 		this.entities = FXCollections.observableArrayList();
 		this.waves = waves;
+		this.gameloop = new GameLoop(ticks -> {
+			Actions.trigger(new GameTickAction(this, ticks));
+		});
+	}
+	
+	public void startLoop() {
+		this.gameloop.start();
 	}
 	
 	public GameMap getMap() {

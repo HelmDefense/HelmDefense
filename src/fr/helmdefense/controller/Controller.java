@@ -193,6 +193,8 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getEntities().addListener(lcl);
+		
+		this.level.startLoop();
 
 		new OrcWarrior(0, 5).spawn(this.level);
 		new HumanWarrior(2, 4).spawn(this.level);
