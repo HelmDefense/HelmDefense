@@ -54,8 +54,7 @@ public class YAMLLoader {
 	}
 
 	public static Statistic loadStats(String name) {
-		if (entities == null)
-			entities = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
+		checkEntities();
 		
 		YAMLData s = entities.getData(name);
 		if (s == null)
@@ -69,6 +68,16 @@ public class YAMLLoader {
 				s.getDouble("atk-range"),
 				s.getDouble("dist-range")
 		);
+	}
+	
+	public static YAMLData getEntities() {
+		checkEntities();
+		return entities;
+	}
+	
+	private static void checkEntities() {
+		if (entities == null)
+			entities = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
 	}
 	
 	public static YAMLData load(String file) {
