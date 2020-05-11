@@ -10,4 +10,28 @@ map:
   - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+spawns:
+  - x: 0
+    y: 5
+targets:
+  - x: 15
+    y: 5
 name: "Niveau de test"
+start-money: 999999
+waves:
+  - duration: 150 # Times are in 1/10s
+    reward: 500
+    entities:
+      0: orc-warrior
+      20: orc-warrior
+      50: orc-warrior
+      75: orc-warrior
+      100: orc-warrior
+  - duration: 200
+    reward: 1000
+    entities:
+      0: orc-warrior
+      20: goblin
+      50: troll
+      75: uruk-hai
+      100: orc-bomber

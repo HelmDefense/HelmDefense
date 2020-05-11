@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.abilities;
+package fr.helmdefense.model.actions;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface AbilityAction {
+public @interface ActionHandler {
 	
 }

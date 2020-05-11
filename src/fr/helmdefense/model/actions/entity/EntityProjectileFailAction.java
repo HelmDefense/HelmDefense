@@ -1,12 +1,12 @@
-package fr.helmdefense.model.entities.abilities.actions.entity;
+package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.projectiles.Projectile;
 
-public class EntityShootAction extends EntityAction {
+public class EntityProjectileFailAction extends EntityAction {
 	private Projectile proj;
 	
-	public EntityShootAction(Entity entity, Projectile proj) {
+	public EntityProjectileFailAction(Entity entity, Projectile proj) {
 		super(entity);
 		this.proj = proj;
 	}

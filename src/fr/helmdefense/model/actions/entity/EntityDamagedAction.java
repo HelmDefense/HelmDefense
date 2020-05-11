@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.abilities.actions.entity;
+package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
 
