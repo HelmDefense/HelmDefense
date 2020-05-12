@@ -14,6 +14,7 @@ import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
+import fr.helmdefense.view.statbar.StatBar;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +22,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -34,116 +34,100 @@ public class Controller implements Initializable {
 	/* Header */
 	// Controls buttons
     @FXML
-    private Button optionButton;
+    Button optionButton;
     @FXML
-    private Button pauseButton;
+    Button pauseButton;
     @FXML
-    private Button speedButton;
+    Button speedButton;
     
     // Title
     @FXML
-    private Label levelNameLabel;
+    Label levelNameLabel;
     
     // Money
     @FXML
-    private Label moneyLabel;
+    Label moneyLabel;
     @FXML
-    private ImageView moneyImage;
+    ImageView moneyImage;
     
     
     /* Left Entity Infos */
     // Title
     @FXML
-    private Label entityNameLabel;
+    Label entityNameLabel;
     
     // Health bar
     @FXML
-    private Label entityHealthPercentLabel;
+    Label entityHealthPercentLabel;
     @FXML
-    private ProgressBar entityHealthBar;
+    StatBar entityHealthBar;
     @FXML
-    private Label EntityHealthBarLabel;
-    @FXML
-    private Label entityHealthBonusLabel;
+    Label entityHealthBonusLabel;
     
     // Hp bar
     @FXML
-    private Label entityHpBarLabel;
+    StatBar entityHpBar;
     @FXML
-    private ProgressBar entityHpBar;
-    @FXML
-    private Label entityHpBonusLabel;
+    Label entityHpBonusLabel;
     
     // Dmg bar
     @FXML
-    private Label entityDmgBarLabel;
+    StatBar entityDmgBar;
     @FXML
-    private ProgressBar entityDmgBar;
-    @FXML
-    private Label entityDmgBonusLabel;
+    Label entityDmgBonusLabel;
     
     // Mvt spd bar
     @FXML
-    private Label entityMvtSpdBarLabel;
+    StatBar entityMvtSpdBar;
     @FXML
-    private ProgressBar entityMvtSpdBar;
-    @FXML
-    private Label entityMvtSpdBonusLabel;
+    Label entityMvtSpdBonusLabel;
     
     // Atk spd bar
     @FXML
-    private Label entityAtkSpdBarLabel;
+    StatBar entityAtkSpdBar;
     @FXML
-    private ProgressBar entityAtkSpdBar;
-    @FXML
-    private Label entityAtkSpdBonusLabel;
+    Label entityAtkSpdBonusLabel;
     
     // Atk range bar
     @FXML
-    private Label entityAtkRangeBarLabel;
+    StatBar entityAtkRangeBar;
     @FXML
-    private ProgressBar entityAtkRangeBar;
-    @FXML
-    private Label entityAtkRangeBonusLabel;
+    Label entityAtkRangeBonusLabel;
     
     // Dist range bar
     @FXML
-    private Label entityDistRangeBarLabel;
+    StatBar entityDistRangeBar;
     @FXML
-    private ProgressBar entityDistRangeBar;
-    @FXML
-    private Label entityDistRangeBonusLabel;
+    Label entityDistRangeBonusLabel;
     
     // Money bar
     @FXML
-    private Label entityMoneyLabel;
+    Label entityMoneyLabel;
     @FXML
-    private Label entityMoneyBarLabel;
-    @FXML
-    private ProgressBar entityMoneyBar;
+    StatBar entityMoneyBar;
     
     // Description & Abilities
     @FXML
-    private TextFlow entityDescText;
+    TextFlow entityDescText;
     
     /* Center */
     // Board
     @FXML
-    private Pane levelPane;
+    Pane levelPane;
     
     // Map
     @FXML
-    private TilePane mapPane;
+    TilePane mapPane;
     
     /* Right Entity Infos */
     // Entity list
     @FXML
-    private VBox entityIDCardList;
+    VBox entityIDCardList;
     
     /* Footer */
     // Right text
     @FXML
-    private Label buyInfoLabel;
+    Label buyInfoLabel;
 
     @FXML
     void optionButtonAction(ActionEvent event) {
