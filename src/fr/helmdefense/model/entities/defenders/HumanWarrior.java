@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class HumanWarrior extends Defender {
 	
 	public HumanWarrior(Location loc) {
-		super(loc, "human-warrior");
+		super(loc);
 	}
 	
 	public HumanWarrior(int x, int y) {

@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Troll extends Attacker {
 
 	public Troll(Location loc) {
-		super(loc, "troll");
+		super(loc);
 	}
 	
 	public Troll(int x, int y) {

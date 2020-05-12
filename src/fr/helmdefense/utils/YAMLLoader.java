@@ -3,20 +3,21 @@ package fr.helmdefense.utils;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
 
+import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
-import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
 import fr.helmdefense.model.map.GameMap;
 
 public class YAMLLoader {
-	private static YAMLData entities = null;
 	private static final Yaml YAML = new Yaml();
 	
 	public static final String SAVES_FOLDER = "saves";
@@ -52,34 +53,51 @@ public class YAMLLoader {
 				.map(w -> new Wave(w.getInt("duration"), w.getInt("reward"), w.get("entities")))
 				.collect(Collectors.toList());
 	}
+	
+	public static Map<Class<? extends Entity>, EntityData> loadEntityData() {
+		Map<Class<? extends Entity>, EntityData> map = new HashMap<Class<? extends Entity>, EntityData>();
+		YAMLData data = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
+		
+		parseEntityData(map, data, "defenders", "heros");
+		parseEntityData(map, data, "attackers", "bosses");
+		
+		return map;
+	}
 
-	public static Statistic loadStats(String name) {
-		checkEntities();
-		
-		YAMLData s = entities.getData(name);
-		if (s == null)
-			throw new YAMLLoadException("Incorrect format for entity!");
-		
-		return new Statistic(
-				s.getInt("hp"),
-				s.getInt("dmg"),
-				s.getDouble("mvt-spd"),
-				s.getDouble("atk-spd"),
-				s.getDouble("atk-range"),
-				s.getDouble("dist-range"),
-				s.getInt("cost"),
-				s.getInt("reward")
-		);
+	private static void parseEntityData(Map<Class<? extends Entity>, EntityData> map, YAMLData data, String section, String subsection) {
+		YAMLData d = data.getData(section), misc;
+		for (String path : d.getPaths()) {
+			if (! path.equals(subsection)) {
+				constructEntityData(map, (misc = d.getData(path)), misc.getData("tier1"), section + "." + path);
+			}
+		}
+		d = d.getData(subsection);
+		for (String path : d.getPaths()) {
+			constructEntityData(map, (misc = d.getData(path)), misc, section + "." + subsection + "." + path);
+		}
 	}
 	
-	public static YAMLData getEntities() {
-		checkEntities();
-		return entities;
-	}
-	
-	private static void checkEntities() {
-		if (entities == null)
-			entities = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
+	@SuppressWarnings("unchecked")
+	private static void constructEntityData(Map<Class<? extends Entity>, EntityData> map, YAMLData entity, YAMLData stats, String path) {
+		try {
+			map.put(
+					(Class<? extends Entity>) Class.forName(entity.getString("class")),
+					new EntityData(
+							entity.getString("name"),
+							path,
+							stats.getInt("hp"),
+							stats.getInt("dmg"),
+							stats.getDouble("mvt-spd"),
+							stats.getDouble("atk-spd"),
+							stats.getDouble("atk-range"),
+							stats.getDouble("dist-range"),
+							stats.getInt("cost"),
+							stats.getInt("reward")
+					)
+			);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	public static YAMLData load(String file) {

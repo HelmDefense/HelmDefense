@@ -12,6 +12,7 @@ import fr.helmdefense.model.entities.defenders.Archer;
 import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
+import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.statbar.StatBar;
@@ -162,7 +163,7 @@ public class Controller implements Initializable {
 			while (c.next()) {
 				if (c.wasAdded()) {
 					for (Entity e : c.getAddedSubList()) {
-						ImageView img = getImg("entities", e.getName().replace('.', File.separatorChar) + ".png");
+						ImageView img = getImg("entities", Entities.getData(e.getClass()).getPath().replace('.', File.separatorChar) + ".png");
 						img.setId(e.getId());
 						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
 						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
