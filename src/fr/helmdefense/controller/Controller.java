@@ -190,10 +190,10 @@ public class Controller implements Initializable {
 		this.level.getEntities().addListener(lcl);
 		MapChangeListener<Class<? extends Entity>, Integer> mcl = c -> {
 			if(c.wasAdded()) {
-				System.out.println("ajout");
+				System.out.println("ajout" + c.getValueAdded() + " " + c.getKey());
 			}
 			if(c.wasRemoved()) {
-				System.out.println("suppression");
+				System.out.println("suppression" + c.getValueRemoved() + " " + c.getKey());
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);

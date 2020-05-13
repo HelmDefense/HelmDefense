@@ -9,9 +9,9 @@ import fr.helmdefense.model.entities.utils.Tier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextFlow;
 
@@ -26,10 +26,6 @@ public class IDCardController implements Initializable {
 	// Buy
     @FXML
     private Label buyCostLabel;
-    @FXML
-    private Button buyTwoButton;
-    @FXML
-    private Button buyFiveButton;
     @FXML
     private TextField buyAmountField;
     
@@ -52,30 +48,32 @@ public class IDCardController implements Initializable {
 	
 	//OnMouse event
 	@FXML
-    void buyTwoMouseEntered(ActionEvent event) {
+    void buyTwoMouseEntered(MouseEvent event) {
         updateCost(2);
     }
 	
 	@FXML
-    void buyTwoMouseExited(ActionEvent event) {
+    void buyTwoMouseExited(MouseEvent event) {
         updateCost(1);
     }
 	
 	@FXML
-    void buyFiveMouseEntered(ActionEvent event) {
+    void buyFiveMouseEntered(MouseEvent event) {
         updateCost(5);
     }
 	
 	@FXML
-    void buyFiveMouseExited(ActionEvent event) {
+    void buyFiveMouseExited(MouseEvent event) {
         updateCost(1);
     }
 	
 	@FXML
-    void buyNMouseEntered(ActionEvent event) {
+    void buyNMouseEntered(MouseEvent event) {
 		int n;
 		try {
 			n = Integer.parseInt(buyAmountField.getText());
+			if(n < 0)
+				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			n = 0;
 		}
@@ -83,7 +81,7 @@ public class IDCardController implements Initializable {
     }
 	
 	@FXML
-    void buyNMouseExited(ActionEvent event) {
+    void buyNMouseExited(MouseEvent event) {
         updateCost(1);
     }
 	
@@ -105,7 +103,7 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyNAction(ActionEvent event) {
-
+    	this.buyAmountField.clear();
     }
 
     // Upgrade actions
