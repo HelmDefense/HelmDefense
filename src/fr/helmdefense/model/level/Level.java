@@ -15,6 +15,7 @@ public class Level {
 	private ObservableList<Entity> entities;
 	private List<Wave> waves;
 	private GameLoop gameloop;
+	private Inventory inv;
 	
 	public Level(GameMap map, List<Wave> waves) {
 		this.map = map;
@@ -23,6 +24,7 @@ public class Level {
 		this.gameloop = new GameLoop(ticks -> {
 			Actions.trigger(new GameTickAction(this, ticks));
 		});
+		this.inv = new Inventory();
 	}
 	
 	public void startLoop() {
@@ -39,6 +41,10 @@ public class Level {
 	
 	public List<Wave> getWaves() {
 		return this.waves;
+	}
+	
+	public Inventory getInv() {
+		return this.inv;
 	}
 	
 	@Override

@@ -50,15 +50,52 @@ public class IDCardController implements Initializable {
 		this.main = main;
 	}
 	
+	//OnMouse event
+	@FXML
+    void buyTwoMouseEntered(ActionEvent event) {
+        updateCost(2);
+    }
+	
+	@FXML
+    void buyTwoMouseExited(ActionEvent event) {
+        updateCost(1);
+    }
+	
+	@FXML
+    void buyFiveMouseEntered(ActionEvent event) {
+        updateCost(5);
+    }
+	
+	@FXML
+    void buyFiveMouseExited(ActionEvent event) {
+        updateCost(1);
+    }
+	
+	@FXML
+    void buyNMouseEntered(ActionEvent event) {
+		int n;
+		try {
+			n = Integer.parseInt(buyAmountField.getText());
+		} catch (NumberFormatException e) {
+			n = 0;
+		}
+        updateCost(n);
+    }
+	
+	@FXML
+    void buyNMouseExited(ActionEvent event) {
+        updateCost(1);
+    }
+	
 	// Buy actions
     @FXML
     void buyOneAction(ActionEvent event) {
-    	
+    	this.main.getLvl().getInv().addEntity(type);
     }
 
     @FXML
     void buyTwoAction(ActionEvent event) {
-    	
+    	this.main.getLvl().getInv().removeEntity(type);
     }
 
     @FXML
@@ -90,6 +127,10 @@ public class IDCardController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(type.getSimpleName());
-		this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getStats(Tier.TIER_1).getCost()).toString());
+		updateCost(1);
+	}
+	
+	private void updateCost(int n) {
+		this.buyCostLabel.setText("Coût : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
 	}
 }
