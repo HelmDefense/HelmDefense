@@ -127,6 +127,9 @@ attackers:
   orc-warrior:
     name: "Guerrier Orc"
     class: fr.helmdefense.model.entities.attackers.OrcWarrior
+    abilities:
+      - name: RandomMoveAbility
+        tier: TIER_0
     tier1:
       hp: 1000
       dmg: 150
@@ -151,6 +154,9 @@ attackers:
   orc-bomber:
     name: "Orc Kamikaze"
     class: fr.helmdefense.model.entities.attackers.OrcBomber
+    abilities:
+      - name: RandomMoveAbility
+        tier: TIER_0
     tier1:
       hp: 700
       dmg: 1000
@@ -175,6 +181,9 @@ attackers:
   goblin:
     name: "Gobelin"
     class: fr.helmdefense.model.entities.attackers.Goblin
+    abilities:
+      - name: RandomMoveAbility
+        tier: TIER_0
     tier1:
       hp: 700
       dmg: 100
@@ -202,6 +211,9 @@ attackers:
   troll:
     name: "Troll"
     class: fr.helmdefense.model.entities.attackers.Troll
+    abilities:
+      - name: RandomMoveAbility
+        tier: TIER_0
     tier1:
       hp: 5000
       dmg: 400
@@ -226,6 +238,9 @@ attackers:
   uruk-hai:
     name: "Uruk-Haï"
     class: fr.helmdefense.model.entities.attackers.UrukHai
+    abilities:
+      - name: RandomMoveAbility
+        tier: TIER_0
     tier1:
       hp: 1500
       dmg: 250
