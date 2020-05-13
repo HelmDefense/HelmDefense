@@ -8,7 +8,9 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.attackers.Attacker;
+import fr.helmdefense.model.entities.attackers.Goblin;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
+import fr.helmdefense.model.entities.attackers.Troll;
 import fr.helmdefense.model.entities.defenders.Archer;
 import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
@@ -20,8 +22,6 @@ import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.statbar.StatBar;
 import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
@@ -178,7 +178,7 @@ public class Controller implements Initializable {
 						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
 						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
 						this.levelPane.getChildren().add(img);
-						img.setOnMouseClicked(i ->displayStats(e));
+						img.setOnMouseClicked(i -> displayStats(e));
 					}
 				}
 				if (c.wasRemoved()) {
@@ -203,6 +203,8 @@ public class Controller implements Initializable {
 
 		new OrcWarrior(0, 5).spawn(this.level);
 		new HumanWarrior(2, 4).spawn(this.level);
+		new Goblin(2, 5).spawn(this.level);
+		new Troll(7, 5).spawn(this.level);
 	}
 	
 	private void addIDCard(Class<? extends Entity> type) {
@@ -232,11 +234,11 @@ public class Controller implements Initializable {
 		EntityData entityData = Entities.getData(e.getClass());
 		int entityHp = e.getHp(), entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
 		entityNameLabel.setText(entityData.getName());
-		entityHealthPercentLabel.setText("" + (double)entityHp / entityMaxHp * 100 + "%");
+		entityHealthPercentLabel.setText(Math.round((double) entityHp / entityMaxHp * 100) + "%");
 		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
-					   .setMax(entityMaxHp);
+				.setMax(entityMaxHp);
 		e.bindHp(entityHealthBar.valueProperty());
-		entityHealthBonusLabel.setText("0% boost");
+		entityHealthBonusLabel.setText("0%");
 		
 		// stats :	
 		// Hp
@@ -282,14 +284,14 @@ public class Controller implements Initializable {
 		
 		// reward ( for attacker ) / cost ( for defenders )
 		
-		if ( e instanceof Attacker) {
-			entityMoneyLabel.setText("récompense");
+		if (e instanceof Attacker) {
+			entityMoneyLabel.setText("Récompense");
 			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
 					.setValue(entityData.getStats(Tier.TIER_1).getReward())
 					.setMax(entityData.getStats(Tier.TIER_3).getReward());
 		}
 		else {
-			entityMoneyLabel.setText("coût");
+			entityMoneyLabel.setText("Coût");
 			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
 					.setValue(entityData.getStats(Tier.TIER_1).getCost())
 					.setMax(entityData.getStats(Tier.TIER_3).getCost());
