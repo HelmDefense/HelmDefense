@@ -7,15 +7,18 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.attackers.Attacker;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
 import fr.helmdefense.model.entities.defenders.Archer;
 import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.statbar.StatBar;
+import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -168,6 +171,7 @@ public class Controller implements Initializable {
 						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
 						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
 						this.levelPane.getChildren().add(img);
+						img.setOnMouseClicked(i ->displayStats(e));
 					}
 				}
 				if (c.wasRemoved()) {
@@ -201,5 +205,70 @@ public class Controller implements Initializable {
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
 		).toUri().toString());
+	}
+	
+	private void displayStats(Entity e) {
+		// Health 
+		EntityData entityData = Entities.getData(e.getClass());
+		int entityHp = e.getHp(), entityMaxHp = entityData.getHp();
+		entityNameLabel.setText(entityData.getName());
+		entityHealthPercentLabel.setText("" + (double)entityHp / entityMaxHp * 100 + "%");
+		entityHealthBar.setDisplayStyle(DisplayStyle.FULL)
+					   .setValue(entityHp)
+					   .setMax(entityMaxHp);
+		entityHealthBonusLabel.setText("0% boost");
+		
+		// stats :	
+		// Hp
+		entityHpBar.setDisplayStyle(DisplayStyle.VALUE)
+				   .setValue(entityMaxHp);
+		entityHpBonusLabel.setText("");
+		
+		// Damages
+		
+		entityDmgBar.setDisplayStyle(DisplayStyle.VALUE)
+				    .setValue(entityData.getDmg());
+		entityDmgBonusLabel.setText("");
+		
+		// Movement speed
+		
+		entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
+					   .setValue(entityData.getMvtSpd());
+		entityMvtSpdBonusLabel.setText("");
+		
+		// attack speed
+		
+		entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
+					   .setValue(entityData.getAtkSpd())
+					   .setMax(entityData.getAtkSpd());
+		entityAtkSpdBonusLabel.setText("");
+		
+		// portée attaque
+		
+		entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+						 .setValue(entityData.getAtkRange());
+		entityAtkRangeBonusLabel.setText("");
+		
+		// distance range
+		
+		entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+						  .setValue(entityData.getShootRange());
+		entityDistRangeBonusLabel.setText("");
+		
+		// reward ( for attacker ) / cost ( for defenders )
+		
+		if ( e instanceof Attacker) {
+			entityMoneyLabel.setText("récompense");
+			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+						  .setValue(entityData.getReward());
+		}
+		else {
+			entityMoneyLabel.setText("cout");
+			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+					 	  .setValue(entityData.getCost());
+		}
+		
+		
+		
 	}
 }
