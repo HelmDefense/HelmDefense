@@ -20,6 +20,8 @@ import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.statbar.StatBar;
 import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -155,7 +157,6 @@ public class Controller implements Initializable {
 		this.addIDCard(Archer.class);
 		this.addIDCard(ElvenShooter.class);
 		this.addIDCard(Catapult.class);
-		
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
 		this.level = Level.load("test_level");
@@ -215,8 +216,8 @@ public class Controller implements Initializable {
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.setText("" + (double)entityHp / entityMaxHp * 100 + "%");
 		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
-					   .setValue(entityHp)
 					   .setMax(entityMaxHp);
+		e.bindHp(entityHealthBar.valueProperty());
 		entityHealthBonusLabel.setText("0% boost");
 		
 		// stats :	
@@ -270,7 +271,7 @@ public class Controller implements Initializable {
 					.setMax(entityData.getStats(Tier.TIER_3).getReward());
 		}
 		else {
-			entityMoneyLabel.setText("cout");
+			entityMoneyLabel.setText("coût");
 			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
 					.setValue(entityData.getStats(Tier.TIER_1).getCost())
 					.setMax(entityData.getStats(Tier.TIER_3).getCost());
