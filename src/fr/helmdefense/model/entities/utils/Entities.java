@@ -1,10 +1,9 @@
 package fr.helmdefense.model.entities.utils;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.utils.YAMLLoader;
 
 public class Entities {
 	
@@ -23,7 +22,8 @@ public class Entities {
 	public static Class<? extends Entity> getClass(String path) {
 		return entityData.entrySet().stream()
 				.filter(e -> e.getValue().getPath().equalsIgnoreCase(path))
-				.;
+				.findAny()
+				.orElse(null).getKey();
 	}
 	
 	
