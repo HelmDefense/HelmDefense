@@ -72,7 +72,7 @@ public class IDCardController implements Initializable {
 		int n;
 		try {
 			n = Integer.parseInt(buyAmountField.getText());
-			if(n < 0)
+			if(n < 0 || n > 50)
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			n = 0;
@@ -126,6 +126,8 @@ public class IDCardController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(type.getSimpleName());
 		updateCost(1);
+		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
+		chooseUpgradeBox.setVisible(false);
 	}
 	
 	private void updateCost(int n) {
