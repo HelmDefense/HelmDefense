@@ -27,4 +27,4 @@ bin/
 .classpath
 .DS_Store
 .settings
-.ucls
+*.ucls
