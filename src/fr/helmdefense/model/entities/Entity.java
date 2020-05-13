@@ -11,6 +11,7 @@ import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -59,23 +60,23 @@ public abstract class Entity {
 		return this.loc.copy();
 	}
 	
-	public void bindX(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.loc.getXProperty()) : this.loc.getXProperty());
+	public void bindX(Property<? super Number> property, Function<DoubleProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.xProperty()) : this.loc.xProperty());
 	}
 	
 	public void bindX(Property<? super Number> property) {
 		this.bindX(property, null);
 	}
 	
-	public void bindY(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.loc.getYProperty()) : this.loc.getYProperty());
+	public void bindY(Property<? super Number> property, Function<DoubleProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.loc.yProperty()) : this.loc.yProperty());
 	}
 	
 	public void bindY(Property<? super Number> property) {
 		this.bindY(property, null);
 	}
 	
-	public void teleport(int x, int y) {
+	public void teleport(double x, double y) {
 		this.loc.setX(x);
 		this.loc.setY(y);
 	}
