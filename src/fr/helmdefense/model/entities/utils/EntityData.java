@@ -1,28 +1,16 @@
 package fr.helmdefense.model.entities.utils;
 
+import java.util.Map;
+
 public class EntityData {
 	private String name;
 	private String path;
-	private int hp;
-	private int dmg;
-	private double mvtSpd;
-	private double atkSpd;
-	private double atkRange;
-	private double shootRange;
-	private int cost;
-	private int reward;
+	private Map<Tier, Statistic> stats;
 	
-	public EntityData(String name, String path, int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange, int cost, int reward) {
+	public EntityData(String name, String path, Map<Tier, Statistic> stats) {
 		this.name = name;
 		this.path = path;
-		this.hp = hp;
-		this.dmg = dmg;
-		this.mvtSpd = mvtSpd;
-		this.atkSpd = atkSpd;
-		this.atkRange = atkRange;
-		this.shootRange = shootRange;
-		this.cost = cost;
-		this.reward = reward;
+		this.stats = stats;
 	}
 	
 	public final String getName() {
@@ -33,42 +21,7 @@ public class EntityData {
 		return this.path;
 	}
 	
-	public final int getHp() {
-		return this.hp;
-	}
-	
-	public final int getDmg() {
-		return this.dmg;
-	}
-	
-	public final double getMvtSpd() {
-		return this.mvtSpd;
-	}
-	
-	public final double getAtkSpd() {
-		return this.atkSpd;
-	}
-	
-	public final double getAtkRange() {
-		return this.atkRange;
-	}
-	
-	public final double getShootRange() {
-		return this.shootRange;
-	}
-	
-	public final int getCost() {
-		return this.cost;
-	}
-	
-	public final int getReward() {
-		return this.reward;
-	}
-
-	@Override
-	public String toString() {
-		return "EntityData [name=" + name + ", path=" + path + ", hp=" + hp + ", dmg=" + dmg + ", mvtSpd=" + mvtSpd
-				+ ", atkSpd=" + atkSpd + ", atkRange=" + atkRange + ", shootRange=" + shootRange + ", cost=" + cost
-				+ ", reward=" + reward + "]";
+	public final Statistic getStats(Tier tier) {
+		return this.stats.get(tier);
 	}
 }

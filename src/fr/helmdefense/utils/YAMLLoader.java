@@ -13,6 +13,8 @@ import org.yaml.snakeyaml.Yaml;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.Statistic;
+import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
 import fr.helmdefense.model.map.GameMap;
@@ -65,39 +67,55 @@ public class YAMLLoader {
 	}
 
 	private static void parseEntityData(Map<Class<? extends Entity>, EntityData> map, YAMLData data, String section, String subsection) {
-		YAMLData d = data.getData(section), misc;
+		YAMLData d = data.getData(section);
 		for (String path : d.getPaths()) {
 			if (! path.equals(subsection)) {
-				constructEntityData(map, (misc = d.getData(path)), misc.getData("tier1"), section + "." + path);
+				constructEntityData(map, section + "." + path, d.getData(path), true);
 			}
 		}
 		d = d.getData(subsection);
 		for (String path : d.getPaths()) {
-			constructEntityData(map, (misc = d.getData(path)), misc, section + "." + subsection + "." + path);
+			constructEntityData(map, section + "." + subsection + "." + path, d.getData(path), false);
 		}
 	}
 	
 	@SuppressWarnings("unchecked")
-	private static void constructEntityData(Map<Class<? extends Entity>, EntityData> map, YAMLData entity, YAMLData stats, String path) {
+	private static void constructEntityData(Map<Class<? extends Entity>, EntityData> map, String path, YAMLData data, boolean tiers) {
+		Map<Tier, Statistic> stats = new HashMap<Tier, Statistic>();
+		
+		if (tiers) {
+			constructStats(stats, Tier.TIER_1, data.getData("tier1"));
+			constructStats(stats, Tier.TIER_2, data.getData("tier2"));
+			constructStats(stats, Tier.TIER_3, data.getData("tier3"));
+		}
+		else
+			constructStats(stats, Tier.TIER_0, data);
+		
 		try {
 			map.put(
-					(Class<? extends Entity>) Class.forName(entity.getString("class")),
+					(Class<? extends Entity>) Class.forName(data.getString("class")),
 					new EntityData(
-							entity.getString("name"),
+							data.getString("name"),
 							path,
-							stats.getInt("hp"),
-							stats.getInt("dmg"),
-							stats.getDouble("mvt-spd"),
-							stats.getDouble("atk-spd"),
-							stats.getDouble("atk-range"),
-							stats.getDouble("dist-range"),
-							stats.getInt("cost"),
-							stats.getInt("reward")
+							stats
 					)
 			);
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
+		stats.put(tier, new Statistic(
+				data.getInt("hp"),
+				data.getInt("dmg"),
+				data.getDouble("mvt-spd"),
+				data.getDouble("atk-spd"),
+				data.getDouble("atk-range"),
+				data.getDouble("dist-range"),
+				data.getInt("cost"),
+				data.getInt("reward")
+		));
 	}
 	
 	public static YAMLData load(String file) {

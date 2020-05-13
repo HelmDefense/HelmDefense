@@ -20,7 +20,7 @@ public class Wave {
 						e -> e.getKey(),
 						e -> {
 							try {
-								return Entities.getClass("attackers" + e.getValue()).getConstructor(int.class, int.class).newInstance(0, 0);
+								return Entities.getClass("attackers." + e.getValue()).getConstructor(int.class, int.class).newInstance(0, 0);
 							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 									| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 								e1.printStackTrace();
