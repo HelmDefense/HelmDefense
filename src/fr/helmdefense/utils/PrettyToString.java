@@ -4,10 +4,12 @@ public class PrettyToString {
 	private PrettyToString() {}
 	
 	public static String pretty(Object obj) {
-		return pretty(obj.toString());
+		return obj == null ? "null" : pretty(obj.toString());
 	}
 	
 	public static String pretty(String str) {
+		if (str == null)
+			return "null";
 		String prettified = "";
 		boolean comma = false;
 		char c;
