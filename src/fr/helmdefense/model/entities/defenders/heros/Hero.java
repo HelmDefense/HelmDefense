@@ -5,12 +5,12 @@ import fr.helmdefense.model.entities.utils.Location;
 
 public abstract class Hero extends Defender {
 
-	public Hero(int x, int y, String name) {
-		this(new Location(x, y), name);
+	public Hero(int x, int y) {
+		this(new Location(x, y));
 	}
 	
-	public Hero(Location loc, String name) {
-		super(loc, "heros." + name);
+	public Hero(Location loc) {
+		super(loc);
 	}
 
 }

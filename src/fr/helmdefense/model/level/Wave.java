@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.utils.YAMLLoader;
 
 public class Wave {
@@ -20,9 +21,7 @@ public class Wave {
 						e -> e.getKey(),
 						e -> {
 							try {
-								@SuppressWarnings("unchecked")
-								Class<? extends Entity> type = (Class<? extends Entity>) Class.forName(YAMLLoader.getEntities().getString("attackers." + e.getValue() + ".class"));
-								return type.getConstructor(int.class, int.class).newInstance(0, 0);
+								return Entities.getClass("attackers" + e.getValue()).getConstructor(int.class, int.class).newInstance(0, 0);
 							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 									| InvocationTargetException | NoSuchMethodException | SecurityException
 									| ClassNotFoundException e1) {

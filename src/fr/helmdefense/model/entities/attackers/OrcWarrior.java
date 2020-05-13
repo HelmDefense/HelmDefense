@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class OrcWarrior extends Attacker{
 
 	public OrcWarrior(Location loc) {
-		super(loc, "orc-warrior");
+		super(loc);
 	}
 	
 	public OrcWarrior(int x, int y) {

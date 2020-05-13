@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Catapult extends Defender {
 	
 	public Catapult(Location loc) {
-		super(loc, "catapult");
+		super(loc);
 	}
 	
 	public Catapult(int x, int y) {

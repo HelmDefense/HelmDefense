@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class MordorTower extends TwoTowers {
 
 	public MordorTower(Location location) {
-		super(location, "mordor-tower");
+		super(location);
 	}
 	
 	public MordorTower(int x, int y) {

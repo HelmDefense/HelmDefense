@@ -2,6 +2,7 @@ package fr.helmdefense.utils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class YAMLData {
 	private Map<?, ?> data;
@@ -133,5 +134,10 @@ public class YAMLData {
 	
 	public YAMLData getData(String path) {
 		return this.getData(path, null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<String> getPaths() {
+		return (Set<String>) this.data.keySet();
 	}
 }

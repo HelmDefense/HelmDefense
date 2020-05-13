@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Gimli extends Hero {
 	
 	public Gimli(Location loc) {
-		super(loc, "gimli");
+		super(loc);
 	}
 	
 	public Gimli(int x, int y) {

@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class IsengardTower extends TwoTowers {
 	
 	public IsengardTower(Location location) {
-		super(location, "isengard-tower");
+		super(location);
 	}
 	
 	public IsengardTower(int x, int y) {

@@ -6,7 +6,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Legolas extends Hero {
 	
 	public Legolas(Location loc) {
-		super(loc, "legolas");
+		super(loc);
 	}
 	
 	public Legolas(int x, int y) {
