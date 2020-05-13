@@ -129,6 +129,6 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		this.buyCostLabel.setText("Coût : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
+		this.buyCostLabel.setText("CoÃ»t : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
 	}
 }
