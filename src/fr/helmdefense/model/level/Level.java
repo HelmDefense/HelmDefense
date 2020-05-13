@@ -2,12 +2,15 @@ package fr.helmdefense.model.level;
 
 import java.util.List;
 
+import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class Level {
@@ -20,6 +23,13 @@ public class Level {
 	public Level(GameMap map, List<Wave> waves) {
 		this.map = map;
 		this.entities = FXCollections.observableArrayList();
+		ListChangeListener<Entity> lcl = c -> {
+			while (c.next())
+				if (c.wasAdded())
+					for (Entity e : c.getAddedSubList())
+						Entities.getData(e.getClass()).triggerAbilities(new EntitySpawnAction(e));
+		};
+		this.entities.addListener(lcl);
 		this.waves = waves;
 		this.gameloop = new GameLoop(ticks -> {
 			Actions.trigger(new GameTickAction(this, ticks));
