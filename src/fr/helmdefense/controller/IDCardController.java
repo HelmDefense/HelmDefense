@@ -72,7 +72,7 @@ public class IDCardController implements Initializable {
 		int n;
 		try {
 			n = Integer.parseInt(buyAmountField.getText());
-			if(n < 0)
+			if(n < 0 || n > 50)
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
 			n = 0;
@@ -129,6 +129,8 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		this.buyCostLabel.setText("Coût : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
+		this.buyCostLabel.setText("CoÃ»t : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
+		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
+		chooseUpgradeBox.setVisible(false);
 	}
 }
