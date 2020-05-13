@@ -126,11 +126,11 @@ public class IDCardController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(type.getSimpleName());
 		updateCost(1);
+		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
+		chooseUpgradeBox.setVisible(false);
 	}
 	
 	private void updateCost(int n) {
 		this.buyCostLabel.setText("Coût : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
-		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
-		chooseUpgradeBox.setVisible(false);
 	}
 }
