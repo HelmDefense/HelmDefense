@@ -1,12 +1,7 @@
 package fr.helmdefense.model.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 
-import fr.helmdefense.model.actions.utils.Actions;
-import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
@@ -22,7 +17,6 @@ public abstract class Entity {
 	private Location loc;
 	private IntegerProperty hpProperty;
 	private IntegerProperty shieldProperty;
-	private List<Ability> abilities;
 	private Level level;
 	
 	private static int ids = 0;
@@ -32,17 +26,11 @@ public abstract class Entity {
 		this.loc = loc;
 		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
 		this.shieldProperty = new SimpleIntegerProperty(0);
-		this.abilities = new ArrayList<Ability>();
 		this.level = null;
 	}
 	
 	public Entity(int x, int y) {
 		this(new Location(x, y));
-	}
-	
-	public void addAbilities(Ability... abilities) {
-		this.abilities.addAll(Arrays.asList(abilities));
-		Actions.registerListener(abilities);
 	}
 	
 	public void spawn(Level lvl) {
@@ -147,6 +135,6 @@ public abstract class Entity {
 	@Override
 	public String toString() {
 		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
-				+ ", abilities=" + abilities + "]";
+				+ "]";
 	}
 }
