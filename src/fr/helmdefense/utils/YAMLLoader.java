@@ -2,7 +2,9 @@ package fr.helmdefense.utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 import org.yaml.snakeyaml.Yaml;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
@@ -97,7 +100,8 @@ public class YAMLLoader {
 					new EntityData(
 							data.getString("name"),
 							path,
-							stats
+							stats,
+							listAbilities(data)
 					)
 			);
 		} catch (ClassNotFoundException e1) {
@@ -116,6 +120,30 @@ public class YAMLLoader {
 				data.getInt("cost"),
 				data.getInt("reward")
 		));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List<? extends Ability> listAbilities(YAMLData data) {
+		List<Map<String, String>> abilities = data.get("abilities");
+		if (abilities == null)
+			return new ArrayList<Ability>();
+		
+		return abilities.stream()
+				.map(m -> {
+					try {
+						return ((Class<? extends Ability>) Class.forName("fr.helmdefense.model.entities.abilities.list." + m.get("name"))).getConstructor(Tier.class).newInstance(Tier.valueOf(m.get("tier")));
+					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+							| InvocationTargetException | NoSuchMethodException | SecurityException
+							| ClassNotFoundException e) {
+						e.printStackTrace();
+						return null;
+					}
+				})
+				.collect(Collectors.toList());
+	}
+	
+	public static void main(String[] args) {
+		PrettyToString.disp(loadEntityData());
 	}
 	
 	public static YAMLData load(String file) {
