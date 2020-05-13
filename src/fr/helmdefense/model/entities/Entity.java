@@ -123,6 +123,14 @@ public abstract class Entity {
 		this.gainHp(amount, true);
 	}
 	
+	public void bindHp(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
+		property.bind(transform != null ? transform.apply(this.hpProperty) : this.hpProperty);
+	}
+	
+	public void bindHp(Property<? super Number> property) {
+		this.bindHp(property, null);
+	}
+	
 	public boolean isAlive() {
 		return this.getHp() > 0;
 	}
