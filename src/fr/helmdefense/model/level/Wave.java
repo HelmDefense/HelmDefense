@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
-import fr.helmdefense.utils.YAMLLoader;
 
 public class Wave {
 	private int duration;
@@ -23,8 +22,7 @@ public class Wave {
 							try {
 								return Entities.getClass("attackers" + e.getValue()).getConstructor(int.class, int.class).newInstance(0, 0);
 							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-									| InvocationTargetException | NoSuchMethodException | SecurityException
-									| ClassNotFoundException e1) {
+									| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
 								e1.printStackTrace();
 								return null;
 							}

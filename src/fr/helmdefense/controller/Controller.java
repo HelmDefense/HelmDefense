@@ -188,7 +188,7 @@ public class Controller implements Initializable {
 	private void addIDCard(Class<? extends Entity> type) {
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
-			loader.setController(new IDCardController(type));
+			loader.setController(new IDCardController(type, this));
 			VBox card = loader.load();
 			this.entityIDCardList.getChildren().add(card);
 		} catch (IOException e) {

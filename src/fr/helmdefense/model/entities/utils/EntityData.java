@@ -57,7 +57,7 @@ public class EntityData {
 		return this.shootRange;
 	}
 	
-	public final int getcost() {
+	public final int getCost() {
 		return this.cost;
 	}
 	

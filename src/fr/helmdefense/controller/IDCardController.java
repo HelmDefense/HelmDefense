@@ -4,9 +4,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.utils.Entities;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -14,6 +16,7 @@ import javafx.scene.text.TextFlow;
 
 public class IDCardController implements Initializable {
 	private Class<? extends Entity> type;
+	private Controller main;
 	
     // Infos
 	@FXML
@@ -22,6 +25,10 @@ public class IDCardController implements Initializable {
 	// Buy
     @FXML
     private Label buyCostLabel;
+    @FXML
+    private Button buyTwoButton;
+    @FXML
+    private Button buyFiveButton;
     @FXML
     private TextField buyAmountField;
     
@@ -37,8 +44,9 @@ public class IDCardController implements Initializable {
 	@FXML
     private HBox chooseUpgradeBox;
 
-	public IDCardController(Class<? extends Entity> type) {
+	public IDCardController(Class<? extends Entity> type, Controller main) {
 		this.type = type;
+		this.main = main;
 	}
 	
 	// Buy actions
@@ -49,7 +57,7 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyTwoAction(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -81,5 +89,12 @@ public class IDCardController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(type.getSimpleName());
+		this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString());
+		//affichage du prix de 2 unité dans le Label "buyCostLabel" en passant sur le bouton x2
+		buyTwoButton.setOnMouseEntered(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()*2).toString()));
+		buyTwoButton.setOnMouseExited(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString()));
+		//affichage du prix de 5 unité dans le Label "buyCostLabel" en passant sur le bouton x5
+		buyFiveButton.setOnMouseEntered(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()*5).toString()));
+		buyFiveButton.setOnMouseExited(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString()));
 	}
 }
