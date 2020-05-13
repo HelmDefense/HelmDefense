@@ -9,6 +9,7 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
@@ -28,7 +29,7 @@ public abstract class Entity {
 	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
-		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getHp());
+		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
 		this.shieldProperty = new SimpleIntegerProperty(0);
 		this.abilities = new ArrayList<Ability>();
 		this.level = null;
@@ -111,10 +112,10 @@ public abstract class Entity {
 	
 	public void gainHp(int amount, boolean ignoreShield) {
 		this.hpProperty.set(this.getHp() + amount);
-		if (this.getHp() > Entities.getData(this.getClass()).getHp()) {
+		if (this.getHp() > Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp()) {
 			if (! ignoreShield)
-				this.shieldProperty.set(this.getShield() + this.getHp() - Entities.getData(this.getClass()).getHp());
-			this.hpProperty.set(Entities.getData(this.getClass()).getHp());
+				this.shieldProperty.set(this.getShield() + this.getHp() - Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
+			this.hpProperty.set(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
 		}
 	}
 	

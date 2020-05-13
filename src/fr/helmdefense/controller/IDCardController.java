@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.Tier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -89,12 +90,6 @@ public class IDCardController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(type.getSimpleName());
-		this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString());
-		//affichage du prix de 2 unité dans le Label "buyCostLabel" en passant sur le bouton x2
-		buyTwoButton.setOnMouseEntered(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()*2).toString()));
-		buyTwoButton.setOnMouseExited(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString()));
-		//affichage du prix de 5 unité dans le Label "buyCostLabel" en passant sur le bouton x5
-		buyFiveButton.setOnMouseEntered(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()*5).toString()));
-		buyFiveButton.setOnMouseExited(e -> this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getCost()).toString()));
+		this.buyCostLabel.setText(Integer.valueOf(Entities.getData(type).getStats(Tier.TIER_1).getCost()).toString());
 	}
 }

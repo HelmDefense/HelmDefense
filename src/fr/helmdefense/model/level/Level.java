@@ -43,7 +43,7 @@ public class Level {
 	
 	@Override
 	public String toString() {
-		return "Level [map=" + map + ", entities=" + entities + ", waves=" + waves + "]";
+		return "Level [map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop=" + gameloop + "]";
 	}
 
 	public static Level load(String name) {

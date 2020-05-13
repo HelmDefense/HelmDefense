@@ -15,6 +15,7 @@ import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
+import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.statbar.StatBar;
@@ -210,49 +211,54 @@ public class Controller implements Initializable {
 	private void displayStats(Entity e) {
 		// Health 
 		EntityData entityData = Entities.getData(e.getClass());
-		int entityHp = e.getHp(), entityMaxHp = entityData.getHp();
+		int entityHp = e.getHp(), entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.setText("" + (double)entityHp / entityMaxHp * 100 + "%");
-		entityHealthBar.setDisplayStyle(DisplayStyle.FULL)
+		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
 					   .setValue(entityHp)
 					   .setMax(entityMaxHp);
 		entityHealthBonusLabel.setText("0% boost");
 		
 		// stats :	
 		// Hp
-		entityHpBar.setDisplayStyle(DisplayStyle.VALUE)
-				   .setValue(entityMaxHp);
+		entityHpBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+				.setValue(entityMaxHp)
+				.setMax(entityData.getStats(Tier.TIER_3).getHp());
 		entityHpBonusLabel.setText("");
 		
 		// Damages
 		
-		entityDmgBar.setDisplayStyle(DisplayStyle.VALUE)
-				    .setValue(entityData.getDmg());
+		entityDmgBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+				.setValue(entityData.getStats(Tier.TIER_1).getDmg())
+				.setMax(entityData.getStats(Tier.TIER_3).getDmg());
 		entityDmgBonusLabel.setText("");
 		
 		// Movement speed
 		
 		entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-					   .setValue(entityData.getMvtSpd());
+				.setValue(entityData.getStats(Tier.TIER_1).getMvtSpd())
+				.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
 		entityMvtSpdBonusLabel.setText("");
 		
 		// attack speed
 		
 		entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-					   .setValue(entityData.getAtkSpd())
-					   .setMax(entityData.getAtkSpd());
+				.setValue(entityData.getStats(Tier.TIER_1).getAtkSpd())
+				.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
 		entityAtkSpdBonusLabel.setText("");
 		
 		// portée attaque
 		
 		entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-						 .setValue(entityData.getAtkRange());
+				.setValue(entityData.getStats(Tier.TIER_1).getAtkRange())
+				.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
 		entityAtkRangeBonusLabel.setText("");
 		
 		// distance range
 		
 		entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-						  .setValue(entityData.getShootRange());
+				.setValue(entityData.getStats(Tier.TIER_1).getShootRange())
+				.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
 		entityDistRangeBonusLabel.setText("");
 		
 		// reward ( for attacker ) / cost ( for defenders )
@@ -260,12 +266,14 @@ public class Controller implements Initializable {
 		if ( e instanceof Attacker) {
 			entityMoneyLabel.setText("récompense");
 			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-						  .setValue(entityData.getReward());
+					.setValue(entityData.getStats(Tier.TIER_1).getReward())
+					.setMax(entityData.getStats(Tier.TIER_3).getReward());
 		}
 		else {
 			entityMoneyLabel.setText("cout");
 			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-					 	  .setValue(entityData.getCost());
+					.setValue(entityData.getStats(Tier.TIER_1).getCost())
+					.setMax(entityData.getStats(Tier.TIER_3).getCost());
 		}
 		
 		
