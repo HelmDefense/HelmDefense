@@ -23,6 +23,7 @@ import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -117,6 +118,10 @@ public class Controller implements Initializable {
     @FXML
     TextFlow entityDescText;
     
+    // Inventory
+    @FXML
+    VBox inventoryList;
+    
     /* Center */
     // Board
     @FXML
@@ -184,6 +189,15 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getEntities().addListener(lcl);
+		MapChangeListener<Class<? extends Entity>, Integer> mcl = c -> {
+			if(c.wasAdded()) {
+				System.out.println("ajout" + c.getValueAdded() + " " + c.getKey());
+			}
+			if(c.wasRemoved()) {
+				System.out.println("suppression" + c.getValueRemoved() + " " + c.getKey());
+			}
+		};
+		this.level.getInv().getContent().addListener(mcl);
 		
 		this.level.startLoop();
 
@@ -207,6 +221,10 @@ public class Controller implements Initializable {
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
 		).toUri().toString());
+	}
+	
+	Level getLvl() {
+		return this.level;
 	}
 	
 	private void displayStats(Entity e) {

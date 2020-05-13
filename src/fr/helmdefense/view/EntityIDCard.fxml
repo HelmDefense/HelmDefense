@@ -42,8 +42,8 @@
       <HBox alignment="CENTER" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#buyOneAction" text="x1" />
-            <Button fx:id="buyTwoButton" mnemonicParsing="false" onAction="#buyTwoAction" text="x2" />
-            <Button fx:id="buyFiveButton" mnemonicParsing="false" onAction="#buyFiveAction" text="x5" />
+            <Button mnemonicParsing="false" onAction="#buyTwoAction" onMouseEntered="#buyTwoMouseEntered" onMouseExited="#buyTwoMouseExited" text="x2" />
+            <Button mnemonicParsing="false" onAction="#buyFiveAction" onMouseEntered="#buyFiveMouseEntered" onMouseExited="#buyFiveMouseExited" text="x5" />
             <Line endY="23.0" opacity="0.75" strokeWidth="2.0">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
@@ -54,7 +54,7 @@
                   <Insets />
                </HBox.margin>
             </TextField>
-            <Button mnemonicParsing="false" onAction="#buyNAction" text="OK" />
+            <Button mnemonicParsing="false" onAction="#buyNAction" onMouseEntered="#buyNMouseEntered" onMouseExited="#buyNMouseExited" text="OK" />
          </children>
       </HBox>
       <BorderPane>
