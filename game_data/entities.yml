@@ -147,7 +147,7 @@ attackers:
       mvt-spd: 1
       atk-spd: 1
       atk-range: 1
-      reward: 600
+      reward: 60
   orc-bomber:
     name: "Orc Kamikaze"
     class: fr.helmdefense.model.entities.attackers.OrcBomber
@@ -171,7 +171,7 @@ attackers:
       mvt-spd: 1.5
       atk-spd: 1
       atk-range: 1
-      reward: 700
+      reward: 70
   goblin:
     name: "Gobelin"
     class: fr.helmdefense.model.entities.attackers.Goblin
@@ -198,7 +198,7 @@ attackers:
       atk-spd: 1
       atk-range: 1
       dist-range: 6
-      reward: 500
+      reward: 50
   troll:
     name: "Troll"
     class: fr.helmdefense.model.entities.attackers.Troll
@@ -222,7 +222,7 @@ attackers:
       mvt-spd: 0.4
       atk-spd: 0.5
       atk-range: 2
-      reward: 2500
+      reward: 250
   uruk-hai:
     name: "Uruk-Haï"
     class: fr.helmdefense.model.entities.attackers.UrukHai
@@ -246,7 +246,7 @@ attackers:
       mvt-spd: 1
       atk-spd: 1
       atk-range: 2
-      reward: 1500
+      reward: 150
   bosses:
     isengard-tower:
       name: "Tour d'Isengard"
