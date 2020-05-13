@@ -6,10 +6,10 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class OppressionAbility extends Ability {
-	private int duration;
-	public OppressionAbility(int duration) {
+	//private int duration;
+	public OppressionAbility(/*int duration*/) {
 		super(Tier.TIER_3);
-		this.duration = duration;
+		//this.duration = duration;
 	}
 	
 	@ActionHandler
