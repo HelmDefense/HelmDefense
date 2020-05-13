@@ -13,6 +13,7 @@ public class GameMap {
 	
 	public static final int WIDTH = 16;
 	public static final int HEIGHT = 11;
+	public static final int TILE_SIZE = 64;
 	
 	public GameMap(int[][] tiles, List<Location> spawns, List<Location> targets) {
 		this.tiles = tiles;
