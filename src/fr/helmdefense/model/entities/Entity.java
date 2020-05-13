@@ -7,10 +7,9 @@ import java.util.function.Function;
 
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Location;
-import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.level.Level;
-import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,28 +18,24 @@ import javafx.beans.value.ObservableValue;
 public abstract class Entity {
 	private String id;
 	private Location loc;
-	private String name;
-	private Statistic stats;
-	private IntegerProperty hp;
-	private IntegerProperty shield;
+	private IntegerProperty hpProperty;
+	private IntegerProperty shieldProperty;
 	private List<Ability> abilities;
 	private Level level;
 	
 	private static int ids = 0;
 	
-	public Entity(Location loc, String name) {
+	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
-		this.name = name;
-		this.stats = YAMLLoader.loadStats(name + ".tier1");
-		this.hp = new SimpleIntegerProperty(stats.getHp());
-		this.shield = new SimpleIntegerProperty(0);
+		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getHp());
+		this.shieldProperty = new SimpleIntegerProperty(0);
 		this.abilities = new ArrayList<Ability>();
 		this.level = null;
 	}
 	
-	public Entity(int x, int y, String name) {
-		this(new Location(x, y), name);
+	public Entity(int x, int y) {
+		this(new Location(x, y));
 	}
 	
 	public void addAbilities(Ability... abilities) {
@@ -88,30 +83,22 @@ public abstract class Entity {
 		this.teleport(loc.getX(), loc.getY());
 	}
 	
-	public String getName() {
-		return this.name;
-	}
-
-	public Statistic getStats() {
-		return this.stats;
-	}
-	
 	public final int getHp() {
-		return this.hp.get();
+		return this.hpProperty.get();
 	}
 	
 	public void looseHp(int amount, boolean ignoreShield) {
 		if (! ignoreShield) {
 			int shield = this.getShield();
-			this.shield.set(shield - amount);
+			this.shieldProperty.set(shield - amount);
 			if (this.hasShield())
 				amount = 0;
 			else {
-				this.shield.set(0);
+				this.shieldProperty.set(0);
 				amount -= shield;
 			}
 		}
-		this.hp.set(this.getHp() - amount);
+		this.hpProperty.set(this.getHp() - amount);
 		
 		if (! this.isAlive()) {
 			// TODO Kill entity
@@ -123,11 +110,11 @@ public abstract class Entity {
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
-		this.hp.set(this.getHp() + amount);
-		if (this.getHp() > this.stats.getHp()) {
+		this.hpProperty.set(this.getHp() + amount);
+		if (this.getHp() > Entities.getData(this.getClass()).getHp()) {
 			if (! ignoreShield)
-				this.shield.set(this.getShield() + this.getHp() - this.stats.getHp());
-			this.hp.set(this.stats.getHp());
+				this.shieldProperty.set(this.getShield() + this.getHp() - Entities.getData(this.getClass()).getHp());
+			this.hpProperty.set(Entities.getData(this.getClass()).getHp());
 		}
 	}
 	
@@ -144,12 +131,12 @@ public abstract class Entity {
 	}
 	
 	public int getShield() {
-		return this.shield.get();
+		return this.shieldProperty.get();
 	}
 
 	@Override
 	public String toString() {
-		return "Entity [id=" + id + ", loc=" + loc + ", name=" + name + ", stats=" + stats + ", hp=" + hp + ", shield="
-				+ shield + ", abilities=" + abilities + "]";
+		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
+				+ ", abilities=" + abilities + "]";
 	}
 }

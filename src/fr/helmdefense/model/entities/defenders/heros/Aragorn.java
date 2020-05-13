@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Aragorn extends Hero {
 	
 	public Aragorn(Location loc) {
-		super(loc, "aragorn");
+		super(loc);
 	}
 	
 	public Aragorn(int x, int y) {

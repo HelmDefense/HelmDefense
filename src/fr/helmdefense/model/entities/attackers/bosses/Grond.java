@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class Grond extends Boss {
 
 	public Grond(Location location) {
-		super(location, "grond");
+		super(location);
 	}
 	
 	public Grond(int x, int y) {

@@ -5,7 +5,7 @@ import fr.helmdefense.model.entities.utils.Location;
 public class UrukHai extends Attacker {
 
 	public UrukHai(Location loc) {
-		super(loc, "uruk-hai");	
+		super(loc);	
 	}
 	
 	public UrukHai(int x, int y) {

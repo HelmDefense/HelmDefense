@@ -4,12 +4,12 @@ import fr.helmdefense.model.entities.utils.Location;
 
 public abstract class TwoTowers extends Boss {
 
-	public TwoTowers(Location location, String name) {
-		super(location, name);
+	public TwoTowers(Location location) {
+		super(location);
 	}
 	
-	public TwoTowers(int x, int y, String name) {
-		this(new Location(x, y), name);
+	public TwoTowers(int x, int y) {
+		this(new Location(x, y));
 	}
 }
 
