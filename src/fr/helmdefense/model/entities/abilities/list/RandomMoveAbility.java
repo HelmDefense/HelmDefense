@@ -7,7 +7,6 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.GameLoop;
 import fr.helmdefense.model.map.GameMap;
@@ -36,7 +35,7 @@ public class RandomMoveAbility extends Ability {
 	}
 	
 	private double randomMove() {
-		return randomFactor() * Entities.getData(this.entity.getClass()).getStats(Tier.TIER_1).getMvtSpd() * GameLoop.TPS;
+		return randomFactor() * this.entity.data().getStats(Tier.TIER_1).getMvtSpd() * GameLoop.TPS;
 	}
 	
 	private int randomFactor() {

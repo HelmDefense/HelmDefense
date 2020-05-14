@@ -275,7 +275,7 @@ public class Controller implements Initializable {
 	
 	private void displayStats(Entity e) {
 		// Health 
-		EntityData entityData = Entities.getData(e.getClass());
+		EntityData entityData = e.data();
 		int entityHp = e.getHp(), entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.setText(Math.round((double) entityHp / entityMaxHp * 100) + "%");

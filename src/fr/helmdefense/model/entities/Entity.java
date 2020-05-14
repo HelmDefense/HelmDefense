@@ -30,7 +30,7 @@ public abstract class Entity {
 	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
-		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
+		this.hpProperty = new SimpleIntegerProperty(this.data().getStats(Tier.TIER_1).getHp());
 		this.shieldProperty = new SimpleIntegerProperty(0);
 		this.abilities = this.data().instanciateAbilities();
 		Actions.registerListeners(this.abilities);
@@ -113,10 +113,10 @@ public abstract class Entity {
 	
 	public void gainHp(int amount, boolean ignoreShield) {
 		this.hpProperty.set(this.getHp() + amount);
-		if (this.getHp() > Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp()) {
+		if (this.getHp() > this.data().getStats(Tier.TIER_1).getHp()) {
 			if (! ignoreShield)
-				this.shieldProperty.set(this.getShield() + this.getHp() - Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
-			this.hpProperty.set(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
+				this.shieldProperty.set(this.getShield() + this.getHp() - this.data().getStats(Tier.TIER_1).getHp());
+			this.hpProperty.set(this.data().getStats(Tier.TIER_1).getHp());
 		}
 	}
 	
