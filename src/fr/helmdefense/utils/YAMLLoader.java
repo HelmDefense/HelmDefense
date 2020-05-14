@@ -2,7 +2,6 @@ package fr.helmdefense.utils;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +100,7 @@ public class YAMLLoader {
 							data.getString("name"),
 							path,
 							stats,
-							listAbilities(data)
+							abilities(data)
 					)
 			);
 		} catch (ClassNotFoundException e1) {
@@ -109,7 +108,7 @@ public class YAMLLoader {
 		}
 	}
 	
-	public static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
+	private static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
 		stats.put(tier, new Statistic(
 				data.getInt("hp"),
 				data.getInt("dmg"),
@@ -123,27 +122,27 @@ public class YAMLLoader {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<? extends Ability> listAbilities(YAMLData data) {
-		List<Map<String, String>> abilities = data.get("abilities");
+	private static Map<Class<? extends Ability>, List<Object>> abilities(YAMLData data) {
+		Map<String, List<?>> abilities = data.get("abilities");
 		if (abilities == null)
-			return new ArrayList<Ability>();
+			return new HashMap<Class<? extends Ability>, List<Object>>();
 		
-		return abilities.stream()
-				.map(m -> {
+		return abilities.entrySet().stream()
+				.collect(Collectors.toMap(e -> {
 					try {
-						return ((Class<? extends Ability>) Class.forName("fr.helmdefense.model.entities.abilities.list." + m.get("name"))).getConstructor(Tier.class).newInstance(Tier.valueOf(m.get("tier")));
-					} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-							| InvocationTargetException | NoSuchMethodException | SecurityException
-							| ClassNotFoundException e) {
-						e.printStackTrace();
+						return (Class<? extends Ability>) Class.forName("fr.helmdefense.model.entities.abilities.list." + e.getKey());
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
 						return null;
 					}
-				})
-				.collect(Collectors.toList());
+				}, e -> abilitiesParams(e.getValue())));
 	}
 	
-	public static void main(String[] args) {
-		PrettyToString.disp(loadEntityData());
+	private static List<Object> abilitiesParams(List<?> data) {
+		List<Object> list = new ArrayList<Object>(data);
+		list.set(0, Tier.valueOf((String) list.get(0)));
+		
+		return list;
 	}
 	
 	public static YAMLData load(String file) {
