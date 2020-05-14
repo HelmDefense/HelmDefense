@@ -6,7 +6,6 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.collections.FXCollections;
@@ -27,7 +26,7 @@ public class Level {
 			while (c.next())
 				if (c.wasAdded())
 					for (Entity e : c.getAddedSubList())
-						Entities.getData(e.getClass()).triggerAbilities(new EntitySpawnAction(e));
+						e.triggerAbilities(new EntitySpawnAction(e));
 		};
 		this.entities.addListener(lcl);
 		this.waves = waves;
@@ -59,7 +58,8 @@ public class Level {
 	
 	@Override
 	public String toString() {
-		return "Level [map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop=" + gameloop + "]";
+		return "Level [map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop=" + gameloop + ", inv="
+				+ inv + "]";
 	}
 
 	public static Level load(String name) {
