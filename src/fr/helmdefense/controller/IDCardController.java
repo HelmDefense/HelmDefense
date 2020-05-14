@@ -69,15 +69,7 @@ public class IDCardController implements Initializable {
 	
 	@FXML
     void buyNMouseEntered(MouseEvent event) {
-		int n;
-		try {
-			n = Integer.parseInt(buyAmountField.getText());
-			if(n < 0 || n > 50)
-				throw new NumberFormatException();
-		} catch (NumberFormatException e) {
-			n = 0;
-		}
-        updateCost(n);
+        updateCostN();
     }
 	
 	@FXML
@@ -128,6 +120,19 @@ public class IDCardController implements Initializable {
 		updateCost(1);
 		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
 		chooseUpgradeBox.setVisible(false);
+    	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCostN());
+	}
+	
+	private void updateCostN() {
+		int n;
+		try {
+			n = Integer.parseInt(buyAmountField.getText());
+			if(n < 0 || n > 50)
+				throw new NumberFormatException();
+		} catch (NumberFormatException e) {
+			n = 0;
+		}
+        updateCost(n);
 	}
 	
 	private void updateCost(int n) {
