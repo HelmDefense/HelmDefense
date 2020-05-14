@@ -17,4 +17,9 @@ public abstract class Ability implements ActionListener {
 	public boolean isUnlocked(Tier actual) {
 		return this.unlock.compareTo(actual) <= 0;
 	}
+
+	@Override
+	public String toString() {
+		return "Ability [unlock=" + unlock + "]";
+	}
 }

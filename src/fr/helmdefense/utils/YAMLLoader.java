@@ -3,6 +3,7 @@ package fr.helmdefense.utils;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import org.yaml.snakeyaml.Yaml;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
@@ -97,7 +99,8 @@ public class YAMLLoader {
 					new EntityData(
 							data.getString("name"),
 							path,
-							stats
+							stats,
+							abilities(data)
 					)
 			);
 		} catch (ClassNotFoundException e1) {
@@ -105,7 +108,7 @@ public class YAMLLoader {
 		}
 	}
 	
-	public static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
+	private static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
 		stats.put(tier, new Statistic(
 				data.getInt("hp"),
 				data.getInt("dmg"),
@@ -116,6 +119,30 @@ public class YAMLLoader {
 				data.getInt("cost"),
 				data.getInt("reward")
 		));
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static Map<Class<? extends Ability>, List<Object>> abilities(YAMLData data) {
+		Map<String, List<?>> abilities = data.get("abilities");
+		if (abilities == null)
+			return new HashMap<Class<? extends Ability>, List<Object>>();
+		
+		return abilities.entrySet().stream()
+				.collect(Collectors.toMap(e -> {
+					try {
+						return (Class<? extends Ability>) Class.forName("fr.helmdefense.model.entities.abilities.list." + e.getKey());
+					} catch (ClassNotFoundException e1) {
+						e1.printStackTrace();
+						return null;
+					}
+				}, e -> abilitiesParams(e.getValue())));
+	}
+	
+	private static List<Object> abilitiesParams(List<?> data) {
+		List<Object> list = new ArrayList<Object>(data);
+		list.set(0, Tier.valueOf((String) list.get(0)));
+		
+		return list;
 	}
 	
 	public static YAMLData load(String file) {

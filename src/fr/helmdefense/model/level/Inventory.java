@@ -5,7 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 public class Inventory {
-	
+
 	private ObservableMap<Class<? extends Entity>, Integer> content;
 	
 	public Inventory() {
@@ -36,5 +36,9 @@ public class Inventory {
 		return content;
 	}
 	
+	@Override
+	public String toString() {
+		return "Inventory [content=" + content + "]";
+	}
 	
 }

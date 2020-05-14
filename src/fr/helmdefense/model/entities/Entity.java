@@ -1,13 +1,13 @@
 package fr.helmdefense.model.entities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import fr.helmdefense.model.actions.Action;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
@@ -30,9 +30,10 @@ public abstract class Entity {
 	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
-		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
+		this.hpProperty = new SimpleIntegerProperty(this.data().getStats(Tier.TIER_1).getHp());
 		this.shieldProperty = new SimpleIntegerProperty(0);
-		this.abilities = new ArrayList<Ability>();
+		this.abilities = this.data().instanciateAbilities();
+		Actions.registerListeners(this.abilities);
 		this.level = null;
 	}
 	
@@ -40,16 +41,15 @@ public abstract class Entity {
 		this(new Location(x, y));
 	}
 	
-	public void addAbilities(Ability... abilities) {
-		this.abilities.addAll(Arrays.asList(abilities));
-		Actions.registerListener(abilities);
-	}
-	
 	public void spawn(Level lvl) {
 		if (this.level != null || lvl.getEntities().contains(this))
 			return;
 		this.level = lvl;
 		lvl.getEntities().add(this);
+	}
+	
+	public void triggerAbilities(Action action) {
+		Actions.trigger(action, this.abilities);
 	}
 	
 	public String getId() {
@@ -113,10 +113,10 @@ public abstract class Entity {
 	
 	public void gainHp(int amount, boolean ignoreShield) {
 		this.hpProperty.set(this.getHp() + amount);
-		if (this.getHp() > Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp()) {
+		if (this.getHp() > this.data().getStats(Tier.TIER_1).getHp()) {
 			if (! ignoreShield)
-				this.shieldProperty.set(this.getShield() + this.getHp() - Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
-			this.hpProperty.set(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
+				this.shieldProperty.set(this.getShield() + this.getHp() - this.data().getStats(Tier.TIER_1).getHp());
+			this.hpProperty.set(this.data().getStats(Tier.TIER_1).getHp());
 		}
 	}
 	
@@ -142,6 +142,10 @@ public abstract class Entity {
 	
 	public int getShield() {
 		return this.shieldProperty.get();
+	}
+	
+	public EntityData data() {
+		return Entities.getData(this.getClass());
 	}
 
 	@Override
