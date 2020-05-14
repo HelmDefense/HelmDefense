@@ -1,8 +1,13 @@
 package fr.helmdefense.model.entities;
 
+import java.util.List;
 import java.util.function.Function;
 
+import fr.helmdefense.model.actions.Action;
+import fr.helmdefense.model.actions.utils.Actions;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
@@ -17,6 +22,7 @@ public abstract class Entity {
 	private Location loc;
 	private IntegerProperty hpProperty;
 	private IntegerProperty shieldProperty;
+	private List<Ability> abilities;
 	private Level level;
 	
 	private static int ids = 0;
@@ -26,6 +32,8 @@ public abstract class Entity {
 		this.loc = loc;
 		this.hpProperty = new SimpleIntegerProperty(Entities.getData(this.getClass()).getStats(Tier.TIER_1).getHp());
 		this.shieldProperty = new SimpleIntegerProperty(0);
+		this.abilities = this.data().instanciateAbilities();
+		Actions.registerListeners(this.abilities);
 		this.level = null;
 	}
 	
@@ -38,6 +46,10 @@ public abstract class Entity {
 			return;
 		this.level = lvl;
 		lvl.getEntities().add(this);
+	}
+	
+	public void triggerAbilities(Action action) {
+		Actions.trigger(action, this.abilities);
 	}
 	
 	public String getId() {
@@ -131,10 +143,14 @@ public abstract class Entity {
 	public int getShield() {
 		return this.shieldProperty.get();
 	}
+	
+	public EntityData data() {
+		return Entities.getData(this.getClass());
+	}
 
 	@Override
 	public String toString() {
 		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
-				+ "]";
+				+ ", abilities=" + abilities + "]";
 	}
 }
