@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.attackers.Attacker;
 import fr.helmdefense.model.entities.attackers.Goblin;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
 import fr.helmdefense.model.entities.attackers.Troll;
@@ -28,6 +27,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -74,11 +74,15 @@ public class Controller implements Initializable {
     
     // Hp bar
     @FXML
+    Label entityHpLabel;
+    @FXML
     StatBar entityHpBar;
     @FXML
     Label entityHpBonusLabel;
     
     // Dmg bar
+    @FXML
+    Label entityDmgLabel;
     @FXML
     StatBar entityDmgBar;
     @FXML
@@ -86,11 +90,15 @@ public class Controller implements Initializable {
     
     // Mvt spd bar
     @FXML
+    Label entityMvtSpdLabel;
+    @FXML
     StatBar entityMvtSpdBar;
     @FXML
     Label entityMvtSpdBonusLabel;
     
     // Atk spd bar
+    @FXML
+    Label entityAtkSpdLabel;
     @FXML
     StatBar entityAtkSpdBar;
     @FXML
@@ -98,21 +106,35 @@ public class Controller implements Initializable {
     
     // Atk range bar
     @FXML
+    Label entityAtkRangeLabel;
+    @FXML
     StatBar entityAtkRangeBar;
     @FXML
     Label entityAtkRangeBonusLabel;
     
     // Dist range bar
     @FXML
+    Label entityDistRangeLabel;
+    @FXML
     StatBar entityDistRangeBar;
     @FXML
     Label entityDistRangeBonusLabel;
     
-    // Money bar
+    // Cost bar
     @FXML
-    Label entityMoneyLabel;
+    Label entityCostLabel;
     @FXML
-    StatBar entityMoneyBar;
+    StatBar entityCostBar;
+    @FXML
+    ImageView entityCostCoin;
+    
+    // Reward bar
+    @FXML
+    Label entityRewardLabel;
+    @FXML
+    StatBar entityRewardBar;
+    @FXML
+    ImageView entityRewardCoin;
     
     // Description & Abilities
     @FXML
@@ -158,6 +180,8 @@ public class Controller implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		setupStats();
+		
 		this.addIDCard(HumanWarrior.class);
 		this.addIDCard(Archer.class);
 		this.addIDCard(ElvenShooter.class);
@@ -205,6 +229,26 @@ public class Controller implements Initializable {
 		new HumanWarrior(2, 4).spawn(this.level);
 		new Goblin(2, 5).spawn(this.level);
 		new Troll(7, 5).spawn(this.level);
+		new Goblin(10, 5).spawn(this.level);
+	}
+	
+	private void setupStats() {
+		setupStat(this.entityHpLabel, this.entityHpBar, this.entityHpBonusLabel);
+		setupStat(this.entityDmgLabel, this.entityDmgBar, this.entityDmgBonusLabel);
+		setupStat(this.entityMvtSpdLabel, this.entityMvtSpdBar, this.entityMvtSpdBonusLabel);
+		setupStat(this.entityAtkSpdLabel, this.entityAtkSpdBar, this.entityAtkSpdBonusLabel);
+		setupStat(this.entityAtkRangeLabel, this.entityAtkRangeBar, this.entityAtkRangeBonusLabel);
+		setupStat(this.entityDistRangeLabel, this.entityDistRangeBar, this.entityDistRangeBonusLabel);
+		setupStat(this.entityCostLabel, this.entityCostBar, this.entityCostCoin);
+		setupStat(this.entityRewardLabel, this.entityRewardBar, this.entityRewardCoin);
+	}
+	
+	private static void setupStat(Node... nodes) {
+		for (int i = 0; i < nodes.length; i++) {
+			nodes[i].managedProperty().bind(nodes[i].visibleProperty());
+			if (i != 0)
+				nodes[i].visibleProperty().bind(nodes[i - 1].visibleProperty());
+		}
 	}
 	
 	private void addIDCard(Class<? extends Entity> type) {
@@ -246,6 +290,10 @@ public class Controller implements Initializable {
 				.setValue(entityMaxHp)
 				.setMax(entityData.getStats(Tier.TIER_3).getHp());
 		entityHpBonusLabel.setText("");
+		if (entityHpBar.getValue() == -1)
+			entityHpLabel.setVisible(false);
+		else
+			entityHpLabel.setVisible(true);
 		
 		// Damages
 		
@@ -253,6 +301,10 @@ public class Controller implements Initializable {
 				.setValue(entityData.getStats(Tier.TIER_1).getDmg())
 				.setMax(entityData.getStats(Tier.TIER_3).getDmg());
 		entityDmgBonusLabel.setText("");
+		if (entityDmgBar.getValue() == -1)
+			entityDmgLabel.setVisible(false);
+		else
+			entityDmgLabel.setVisible(true);
 		
 		// Movement speed
 		
@@ -260,6 +312,10 @@ public class Controller implements Initializable {
 				.setValue(entityData.getStats(Tier.TIER_1).getMvtSpd())
 				.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
 		entityMvtSpdBonusLabel.setText("");
+		if (entityMvtSpdBar.getValue() == -1)
+			entityMvtSpdLabel.setVisible(false);
+		else
+			entityMvtSpdLabel.setVisible(true);
 		
 		// attack speed
 		
@@ -267,6 +323,10 @@ public class Controller implements Initializable {
 				.setValue(entityData.getStats(Tier.TIER_1).getAtkSpd())
 				.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
 		entityAtkSpdBonusLabel.setText("");
+		if (entityAtkSpdBar.getValue() == -1)
+			entityAtkSpdLabel.setVisible(false);
+		else
+			entityAtkSpdLabel.setVisible(true);
 		
 		// portée attaque
 		
@@ -274,6 +334,10 @@ public class Controller implements Initializable {
 				.setValue(entityData.getStats(Tier.TIER_1).getAtkRange())
 				.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
 		entityAtkRangeBonusLabel.setText("");
+		if (entityAtkRangeBar.getValue() == -1)
+			entityAtkRangeLabel.setVisible(false);
+		else
+			entityAtkRangeLabel.setVisible(true);
 		
 		// distance range
 		
@@ -281,21 +345,30 @@ public class Controller implements Initializable {
 				.setValue(entityData.getStats(Tier.TIER_1).getShootRange())
 				.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
 		entityDistRangeBonusLabel.setText("");
+		if (entityDistRangeBar.getValue() == -1)
+			entityDistRangeLabel.setVisible(false);
+		else
+			entityDistRangeLabel.setVisible(true);
 		
 		// reward ( for attacker ) / cost ( for defenders )
 		
-		if (e instanceof Attacker) {
-			entityMoneyLabel.setText("Récompense");
-			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-					.setValue(entityData.getStats(Tier.TIER_1).getReward())
-					.setMax(entityData.getStats(Tier.TIER_3).getReward());
-		}
-		else {
-			entityMoneyLabel.setText("Coût");
-			entityMoneyBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-					.setValue(entityData.getStats(Tier.TIER_1).getCost())
-					.setMax(entityData.getStats(Tier.TIER_3).getCost());
-		}
+	
+		entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+				.setValue(entityData.getStats(Tier.TIER_1).getCost())
+				.setMax(entityData.getStats(Tier.TIER_3).getCost());
+		if (entityCostBar.getValue() == -1)
+			entityCostLabel.setVisible(false);
+		else
+			entityCostLabel.setVisible(true);
+		
+		entityRewardBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+				.setValue(entityData.getStats(Tier.TIER_1).getReward())
+				.setMax(entityData.getStats(Tier.TIER_3).getReward());
+		if (entityRewardBar.getValue() == -1)
+			entityRewardLabel.setVisible(false);
+		else
+			entityRewardLabel.setVisible(true);
+	
 		
 		
 		
