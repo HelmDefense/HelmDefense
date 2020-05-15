@@ -85,16 +85,24 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyTwoAction(ActionEvent event) {
-    	this.main.getLvl().getInv().removeEntity(type);
+    	for(int i = 0 ; i < 2 ; i++) {
+        	this.main.getLvl().getInv().addEntity(type);
+    	}
     }
 
     @FXML
     void buyFiveAction(ActionEvent event) {
-
+    	for(int i = 0 ; i < 5 ; i++) {
+        	this.main.getLvl().getInv().addEntity(type);
+    	}
     }
 
     @FXML
     void buyNAction(ActionEvent event) {
+    	int n = Integer.parseInt(buyAmountField.getText());
+    	for(int i = 0 ; i < n ; i++) {
+        	this.main.getLvl().getInv().addEntity(type);
+    	}
     	this.buyAmountField.clear();
     }
 
