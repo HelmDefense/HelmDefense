@@ -5,13 +5,15 @@ import fr.helmdefense.model.actions.entity.EntityKillAction;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class GoldStealing extends Ability {
-	public GoldStealing() {
-		super(Tier.TIER_1);
+public class BountyHuntingAbility extends Ability {
+
+	public BountyHuntingAbility(Tier unlock) {
+		super(unlock);
 	}
 	
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
-		// Bourse = Math.max(bourse - 3,6,9 ( selon tier ), 0);
+		action.getEntity().getLevel().earnCoins(action.getVictim().data().getStats(Tier.TIER_1).getReward());
 	}
+
 }
