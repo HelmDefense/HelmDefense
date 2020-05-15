@@ -221,8 +221,8 @@ public class Controller implements Initializable {
 			if(c.wasAdded()) {
 				ImageView img = getImg("entities", Entities.getData(c.getKey()).getPath().replace('.', File.separatorChar) + ".png");
 				VBox vbox = new VBox();
-				vbox.setOnMouseClicked(MouseAction -> {
-					this.getLvl().getInv().removeEntity(c.getKey());
+				vbox.setOnMouseClicked(e -> {
+					this.level.getInv().removeEntity(c.getKey());
 				});
 				vbox.getChildren().add(img);
 				vbox.getChildren().add(new Label(c.getValueAdded().toString()));
