@@ -153,4 +153,9 @@ public abstract class Entity {
 		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
 				+ ", abilities=" + abilities + "]";
 	}
+
+	public Level getLevel() {
+		return level;
+	}
+	
 }
