@@ -18,6 +18,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class Level {
+	private String name;
 	private GameMap map;
 	private ObservableList<Entity> entities;
 	private List<Wave> waves;
@@ -25,7 +26,8 @@ public class Level {
 	private Inventory inv;
 	private IntegerProperty purseProperty;
 	
-	public Level(GameMap map, List<Wave> waves, int startMoney) {
+	public Level(String name, GameMap map, List<Wave> waves, int startMoney) {
+		this.name = name;
 		this.map = map;
 		this.entities = FXCollections.observableArrayList();
 		ListChangeListener<Entity> lcl = c -> {
@@ -45,6 +47,10 @@ public class Level {
 	
 	public void startLoop() {
 		this.gameloop.start();
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public GameMap getMap() {
