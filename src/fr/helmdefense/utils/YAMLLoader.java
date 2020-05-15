@@ -31,7 +31,7 @@ public class YAMLLoader {
 	
 	public static Level loadLevel(String name) {
 		YAMLData lvl = load(Paths.get(SAVES_FOLDER, name, "data.yml").toString());
-		return new Level(loadMap(lvl), loadWaves(lvl));
+		return new Level(lvl.getString("name"), loadMap(lvl), loadWaves(lvl), lvl.getInt("start-money"));
 	}
 	
 	private static GameMap loadMap(YAMLData lvl) {
