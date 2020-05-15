@@ -8,7 +8,7 @@ import fr.helmdefense.model.entities.utils.Tier;
 public class BountyHuntingAbility extends Ability {
 
 	public BountyHuntingAbility(Tier unlock) {
-		super(Tier.TIER_0);
+		super(unlock);
 	}
 	
 	@ActionHandler

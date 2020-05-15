@@ -6,8 +6,8 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class GoldStealingAbility extends Ability {
-	public GoldStealingAbility() {
-		super(Tier.TIER_1);
+	public GoldStealingAbility(Tier unlock) {
+		super(unlock);
 	}
 	
 	@ActionHandler
