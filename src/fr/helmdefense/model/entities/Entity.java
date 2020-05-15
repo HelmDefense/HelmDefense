@@ -147,15 +147,12 @@ public abstract class Entity {
 	public EntityData data() {
 		return Entities.getData(this.getClass());
 	}
-
+	public Level getLevel() {
+		return level;
+	}
 	@Override
 	public String toString() {
 		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
 				+ ", abilities=" + abilities + "]";
 	}
-
-	public Level getLevel() {
-		return level;
-	}
-	
 }
