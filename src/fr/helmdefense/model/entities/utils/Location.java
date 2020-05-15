@@ -86,6 +86,10 @@ public class Location {
 	public final DoubleProperty yProperty() {
 		return this.yProperty;
 	}
+	
+	public boolean equals(Location loc) {
+		return this.getX() == loc.getX() && this.getY() == loc.getY();
+	}
 
 	@Override
 	public String toString() {
