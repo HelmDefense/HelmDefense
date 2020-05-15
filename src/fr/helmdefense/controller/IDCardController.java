@@ -69,7 +69,7 @@ public class IDCardController implements Initializable {
 	
 	@FXML
     void buyNMouseEntered(MouseEvent event) {
-        updateCostN();
+		updateCost(parseInt(buyAmountField.getText(), 0, 50));
     }
 	
 	@FXML
@@ -85,16 +85,19 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyTwoAction(ActionEvent event) {
-    	this.main.getLvl().getInv().removeEntity(type);
+        this.main.getLvl().getInv().addEntity(type, 2);
     }
 
     @FXML
     void buyFiveAction(ActionEvent event) {
-
+        this.main.getLvl().getInv().addEntity(type, 5);
     }
 
     @FXML
     void buyNAction(ActionEvent event) {
+    	int n = parseInt(buyAmountField.getText(), 0, 50);
+    	updateCost(n);
+        this.main.getLvl().getInv().addEntity(type, n);
     	this.buyAmountField.clear();
     }
 
@@ -120,19 +123,31 @@ public class IDCardController implements Initializable {
 		updateCost(1);
 		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
 		chooseUpgradeBox.setVisible(false);
-    	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCostN());
+    	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
 	}
 	
-	private void updateCostN() {
+	public static int parseInt(String str, int def, int min, int max) {
 		int n;
 		try {
-			n = Integer.parseInt(buyAmountField.getText());
-			if(n < 0 || n > 50)
+			n = Integer.parseInt(str);
+			if(n < min || n > max)
 				throw new NumberFormatException();
 		} catch (NumberFormatException e) {
-			n = 0;
+			n = def;
 		}
-        updateCost(n);
+		return n;
+	}
+	
+	public static int parseInt(String str, int def) {
+		return parseInt(str, def, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	public static int parseInt(String str, int min, int max) {
+		return parseInt(str, 0, min, max);
+	}
+	
+	public static int parseInt(String str) {
+		return parseInt(str, 0);
 	}
 	
 	private void updateCost(int n) {

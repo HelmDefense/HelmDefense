@@ -21,10 +21,11 @@ public class Inventory {
 	}
 	
 	public boolean removeEntity(Class<? extends Entity> ent) {
+		content.put(ent, content.getOrDefault(ent, 0) - 1);
 		if(hasEntity(ent)) {
-			content.put(ent, content.getOrDefault(ent, 0) - 1);
 			return true;
 		}
+		content.remove(ent);
 		return false;
 	}
 

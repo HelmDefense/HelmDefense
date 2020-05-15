@@ -142,7 +142,7 @@ public class Controller implements Initializable {
     
     // Inventory
     @FXML
-    VBox inventoryList;
+    TilePane inventoryPane;
     
     /* Center */
     // Board
@@ -213,12 +213,21 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getEntities().addListener(lcl);
+		
 		MapChangeListener<Class<? extends Entity>, Integer> mcl = c -> {
-			if(c.wasAdded()) {
-				System.out.println("ajout" + c.getValueAdded() + " " + c.getKey());
-			}
 			if(c.wasRemoved()) {
-				System.out.println("suppression" + c.getValueRemoved() + " " + c.getKey());
+				inventoryPane.getChildren().remove(inventoryPane.lookup("#" + c.getKey().getSimpleName()));
+			}
+			if(c.wasAdded()) {
+				ImageView img = getImg("entities", Entities.getData(c.getKey()).getPath().replace('.', File.separatorChar) + ".png");
+				VBox vbox = new VBox();
+				vbox.setOnMouseClicked(e -> {
+					this.level.getInv().removeEntity(c.getKey());
+				});
+				vbox.getChildren().add(img);
+				vbox.getChildren().add(new Label(c.getValueAdded().toString()));
+				vbox.setId(c.getKey().getSimpleName());
+				inventoryPane.getChildren().add(vbox);
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
