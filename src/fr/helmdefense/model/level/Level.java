@@ -25,7 +25,7 @@ public class Level {
 	private Inventory inv;
 	private IntegerProperty purseProperty;
 	
-	public Level(GameMap map, List<Wave> waves) {
+	public Level(GameMap map, List<Wave> waves, int startMoney) {
 		this.map = map;
 		this.entities = FXCollections.observableArrayList();
 		ListChangeListener<Entity> lcl = c -> {
@@ -40,7 +40,7 @@ public class Level {
 			Actions.trigger(new GameTickAction(this, ticks));
 		});
 		this.inv = new Inventory();
-		this.purseProperty = new SimpleIntegerProperty(/*this.getStartMoney()*/);
+		this.purseProperty = new SimpleIntegerProperty(startMoney);
 	}
 	
 	public void startLoop() {
@@ -74,23 +74,25 @@ public class Level {
 	}
 	
 	public boolean overdrawn() {
-		return this.getPurseValue() > 0;
+		return this.getPurse() > 0;
 	}
 	
-	public int getPurseValue() {
-		return this.purseProperty.getValue();
+	public int getPurse() {
+		return this.purseProperty.get();
 	}
 	
 	// return false if overdrawn, true if money have been debited successfully
 	public boolean debit(int value) {
-		if ( Math.max(this.getPurseValue(), this.getPurseValue() - value) < value )
+		if ( this.getPurse() - value < 0 || value > 0 )
 			return false;
-		this.purseProperty.setValue(this.getPurseValue() - value);
+		this.purseProperty.setValue(this.getPurse() - value);
 		return true;
 	}
 	
 	public void earnCoins(int value) {
-		this.purseProperty.setValue(this.getPurseValue() + value);
+		if ( value < 0 )
+			return;
+		this.purseProperty.setValue(this.getPurse() + value);
 	}
 	
 	public void bindPurse(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
