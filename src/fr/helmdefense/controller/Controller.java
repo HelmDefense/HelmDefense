@@ -19,8 +19,11 @@ import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
+import fr.helmdefense.view.inventory.InventoryView;
+import fr.helmdefense.view.inventory.item.InventoryItem;
 import fr.helmdefense.view.statbar.StatBar;
 import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
@@ -142,7 +145,7 @@ public class Controller implements Initializable {
     
     // Inventory
     @FXML
-    TilePane inventoryPane;
+    InventoryView inventory;
     
     /* Center */
     // Board
@@ -197,7 +200,7 @@ public class Controller implements Initializable {
 			while (c.next()) {
 				if (c.wasAdded()) {
 					for (Entity e : c.getAddedSubList()) {
-						ImageView img = getImg("entities", Entities.getData(e.getClass()).getPath().replace('.', File.separatorChar) + ".png");
+						ImageView img = getImg("entities", e.data().getPath().replace('.', File.separatorChar) + ".png");
 						img.setId(e.getId());
 						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
 						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
@@ -214,20 +217,17 @@ public class Controller implements Initializable {
 		};
 		this.level.getEntities().addListener(lcl);
 		
-		MapChangeListener<Class<? extends Entity>, Integer> mcl = c -> {
+		MapChangeListener<Class<? extends Entity>, IntegerProperty> mcl = c -> {
 			if(c.wasRemoved()) {
-				inventoryPane.getChildren().remove(inventoryPane.lookup("#" + c.getKey().getSimpleName()));
+				inventory.getItems().remove(inventory.getItem(Entities.getData(c.getKey()).getPath()));
 			}
 			if(c.wasAdded()) {
-				ImageView img = getImg("entities", Entities.getData(c.getKey()).getPath().replace('.', File.separatorChar) + ".png");
-				VBox vbox = new VBox();
-				vbox.setOnMouseClicked(e -> {
+				InventoryItem item = new InventoryItem(Entities.getData(c.getKey()).getPath(), 0);
+				item.amountProperty().bind(c.getValueAdded());
+				item.setOnMouseClicked(e -> {
 					this.level.getInv().removeEntity(c.getKey());
 				});
-				vbox.getChildren().add(img);
-				vbox.getChildren().add(new Label(c.getValueAdded().toString()));
-				vbox.setId(c.getKey().getSimpleName());
-				inventoryPane.getChildren().add(vbox);
+				inventory.getItems().add(item);
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
