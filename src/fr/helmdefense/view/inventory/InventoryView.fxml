@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+
+<fx:root type="VBox" xmlns="http://javafx.com/javafx/8"
+	xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<BorderPane>
+			<right>
+				<MenuButton mnemonicParsing="false" text="Trier par..."
+					BorderPane.alignment="CENTER">
+					<items>
+						<Menu mnemonicParsing="false" text="...ordre...">
+							<items>
+								<RadioMenuItem fx:id="sortOrderAsc"
+									mnemonicParsing="false" text="...croissant">
+									<toggleGroup>
+										<ToggleGroup fx:id="sortOrder" />
+									</toggleGroup>
+								</RadioMenuItem>
+								<RadioMenuItem fx:id="sortOrderDesc"
+									mnemonicParsing="false" selected="true" text="...décroissant"
+									toggleGroup="$sortOrder" />
+							</items>
+						</Menu>
+						<Menu mnemonicParsing="false" text="...critère...">
+							<items>
+								<RadioMenuItem fx:id="sortByName"
+									mnemonicParsing="false" text="...noms">
+									<toggleGroup>
+										<ToggleGroup fx:id="sortCriterion" />
+									</toggleGroup>
+								</RadioMenuItem>
+								<RadioMenuItem fx:id="sortByNumber"
+									mnemonicParsing="false" selected="true" text="...quantité"
+									toggleGroup="$sortCriterion" />
+							</items>
+						</Menu>
+					</items>
+				</MenuButton>
+			</right>
+			<left>
+				<HBox BorderPane.alignment="CENTER">
+					<children>
+						<TextField fx:id="search" promptText="Rechercher..." />
+						<Button mnemonicParsing="false" onAction="#reset" text="X" />
+					</children>
+				</HBox>
+			</left>
+		</BorderPane>
+		<TilePane fx:id="inventory" alignment="CENTER" hgap="16.0"
+			prefColumns="0" prefRows="0" tileAlignment="TOP_LEFT" vgap="16.0" />
+	</children>
+</fx:root>
