@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.view.inventory.item.InventoryItem;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -33,6 +35,10 @@ public class InventoryView extends VBox implements Initializable {
 	private RadioMenuItem sortOrderAsc;
 	@FXML
 	private RadioMenuItem sortOrderDesc;
+	@FXML
+	private RadioMenuItem sortByStatHp;
+	@FXML
+	private RadioMenuItem sortByStatDmg;
 	@FXML
 	private RadioMenuItem sortByName;
 	@FXML
@@ -68,6 +74,8 @@ public class InventoryView extends VBox implements Initializable {
 		this.search.textProperty().addListener((obs, o, n) -> this.filter());
 		this.sortOrderAsc.setOnAction(e -> this.setSortOrder(SortOrder.ASC));
 		this.sortOrderDesc.setOnAction(e -> this.setSortOrder(SortOrder.DESC));
+		this.sortByStatHp.setOnAction(e -> this.setSortCriterion(SortCriterion.STAT_HP));
+		this.sortByStatDmg.setOnAction(e -> this.setSortCriterion(SortCriterion.STAT_DMG));
 		this.sortByName.setOnAction(e -> this.setSortCriterion(SortCriterion.NAME));
 		this.sortByNumber.setOnAction(e -> this.setSortCriterion(SortCriterion.NUMBER));
 
@@ -158,12 +166,10 @@ public class InventoryView extends VBox implements Initializable {
 	}
 	
 	public enum SortCriterion {
-		NAME(Comparator.comparing(k -> {
-			return ((InventoryItem) k).getImg();
-		})),
-		NUMBER(Comparator.comparing(k -> {
-			return ((InventoryItem) k).getAmount();
-		}));
+		NAME(Comparator.comparing(node -> ((InventoryItem) node).getImg())),
+		NUMBER(Comparator.comparing(node -> ((InventoryItem) node).getAmount())),
+		STAT_HP(Comparator.comparing(node -> Entities.getData(((InventoryItem) node).getImg()).getStats(Tier.TIER_1).getHp())),
+		STAT_DMG(Comparator.comparing(node -> Entities.getData(((InventoryItem) node).getImg()).getStats(Tier.TIER_1).getDmg()));
 		
 		private Comparator<Node> comparator;
 		

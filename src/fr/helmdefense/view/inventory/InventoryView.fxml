@@ -28,12 +28,22 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="...critère...">
 							<items>
+								<Menu mnemonicParsing="false" text="...stat...">
+									<items>
+										<RadioMenuItem fx:id="sortByStatHp"
+											mnemonicParsing="false" text="...PV">
+											<toggleGroup>
+												<ToggleGroup fx:id="sortCriterion" />
+											</toggleGroup>
+										</RadioMenuItem>
+										<RadioMenuItem fx:id="sortByStatDmg"
+											mnemonicParsing="false" text="...dégâts"
+											toggleGroup="$sortCriterion" />
+									</items>
+								</Menu>
 								<RadioMenuItem fx:id="sortByName"
-									mnemonicParsing="false" text="...noms">
-									<toggleGroup>
-										<ToggleGroup fx:id="sortCriterion" />
-									</toggleGroup>
-								</RadioMenuItem>
+									mnemonicParsing="false" text="...noms"
+									toggleGroup="$sortCriterion" />
 								<RadioMenuItem fx:id="sortByNumber"
 									mnemonicParsing="false" selected="true" text="...quantité"
 									toggleGroup="$sortCriterion" />
