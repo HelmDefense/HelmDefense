@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import fr.helmdefense.view.statbar.StatBar?>
+<?import fr.helmdefense.view.inventory.InventoryView?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1"
@@ -208,13 +209,11 @@
 				</Tab>
 				<Tab text="Inventaire">
 					<content>
-						<TilePane fx:id="inventoryPane" alignment="CENTER"
-							hgap="10.0" prefColumns="2" prefRows="10" prefTileHeight="64.0"
-							prefTileWidth="64.0" vgap="10.0">
+						<InventoryView fx:id="inventory">
 							<padding>
 								<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 							</padding>
-						</TilePane>
+						</InventoryView>
 					</content>
 				</Tab>
 			</tabs>
