@@ -8,6 +8,8 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_0
+      DirectAttackAbility:
+        - TIER_0
     tier1:
       hp: 2000
       dmg: 250
@@ -158,6 +160,8 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
+        - TIER_0
+      DirectAttackAbility:
         - TIER_0
     tier1:
       hp: 1000
