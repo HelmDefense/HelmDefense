@@ -202,10 +202,10 @@ public class Controller implements Initializable {
 					for (Entity e : c.getAddedSubList()) {
 						ImageView img = getImg("entities", e.data().getPath().replace('.', File.separatorChar) + ".png");
 						img.setId(e.getId());
-						e.bindX(img.translateXProperty(), x -> x.multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
-						e.bindY(img.translateYProperty(), y -> y.multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
-						this.levelPane.getChildren().add(img);
+						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
+						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
 						img.setOnMouseClicked(i -> displayStats(e));
+						this.levelPane.getChildren().add(img);
 					}
 				}
 				if (c.wasRemoved()) {
@@ -285,13 +285,15 @@ public class Controller implements Initializable {
 	private void displayStats(Entity e) {
 		// Health 
 		EntityData entityData = e.data();
-		int entityHp = e.getHp(), entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
+		int entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
 		entityNameLabel.setText(entityData.getName());
-		entityHealthPercentLabel.setText(Math.round((double) entityHp / entityMaxHp * 100) + "%");
+		entityHealthPercentLabel.setText(Math.round((double) e.getHp() / entityMaxHp * 100) + "%");
+		e.hpProperty().addListener((obs, o, n) -> entityHealthPercentLabel.setText(Math.round(n.doubleValue() / entityMaxHp * 100) + "%"));
 		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
-				.setMax(entityMaxHp);
-		e.bindHp(entityHealthBar.valueProperty());
-		entityHealthBonusLabel.setText("0%");
+				.setMax(entityMaxHp)
+				.valueProperty().bind(e.hpProperty());
+		entityHealthBonusLabel.setText("+ " + e.getShield());
+		e.shieldProperty().addListener((obs, o, n) -> entityHealthBonusLabel.setText("+ " + n));
 		
 		// stats :	
 		// Hp
