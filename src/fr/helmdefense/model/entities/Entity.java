@@ -8,8 +8,8 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
-import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
@@ -37,7 +37,7 @@ public abstract class Entity {
 		this.level = null;
 	}
 	
-	public Entity(int x, int y) {
+	public Entity(double x, double y) {
 		this(new Location(x, y));
 	}
 	

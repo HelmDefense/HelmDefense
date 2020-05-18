@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers.bosses;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public abstract class TwoTowers extends Boss {
 
@@ -8,7 +8,7 @@ public abstract class TwoTowers extends Boss {
 		super(location);
 	}
 	
-	public TwoTowers(int x, int y) {
+	public TwoTowers(double x, double y) {
 		this(new Location(x, y));
 	}
 }

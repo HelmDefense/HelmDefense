@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.defenders;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class ElvenShooter extends Elven {
 
@@ -8,7 +8,7 @@ public class ElvenShooter extends Elven {
 		super(loc);
 	}
 	
-	public ElvenShooter(int x, int y) {
+	public ElvenShooter(double x, double y) {
 		this(new Location(x,y));
 	}
 

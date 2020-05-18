@@ -191,7 +191,7 @@ public class Controller implements Initializable {
 		this.addIDCard(Catapult.class);
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
-		this.level = Level.load("test_level");
+		this.level = Level.load("troll");
 		for (int y = 0; y < GameMap.HEIGHT; y++)
 			for (int x = 0; x < GameMap.WIDTH; x++)
 				this.mapPane.getChildren().add(getImg("maptiles", this.level.getMap().getTile(x, y) + ".png"));
@@ -202,8 +202,8 @@ public class Controller implements Initializable {
 					for (Entity e : c.getAddedSubList()) {
 						ImageView img = getImg("entities", e.data().getPath().replace('.', File.separatorChar) + ".png");
 						img.setId(e.getId());
-						e.bindX(img.translateXProperty(), x -> x.multiply(64).add(16));
-						e.bindY(img.translateYProperty(), y -> y.multiply(64).add(16));
+						e.bindX(img.translateXProperty(), x -> x.multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
+						e.bindY(img.translateYProperty(), y -> y.multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
 						this.levelPane.getChildren().add(img);
 						img.setOnMouseClicked(i -> displayStats(e));
 					}
@@ -234,11 +234,11 @@ public class Controller implements Initializable {
 		
 		this.level.startLoop();
 
-		new OrcWarrior(0, 5).spawn(this.level);
-		new HumanWarrior(2, 4).spawn(this.level);
-		new Goblin(2, 5).spawn(this.level);
-		new Troll(7, 5).spawn(this.level);
-		new Goblin(10, 5).spawn(this.level);
+		new OrcWarrior(0.5, 5.5).spawn(this.level);
+		new HumanWarrior(2.5, 4.5).spawn(this.level);
+		new Goblin(2.5, 5.5).spawn(this.level);
+		new Troll(7.5, 5.5).spawn(this.level);
+		new Goblin(11.5, 5.5).spawn(this.level);
 	}
 	
 	private void setupStats() {

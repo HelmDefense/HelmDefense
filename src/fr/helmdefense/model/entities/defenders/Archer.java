@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.defenders;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Archer extends Defender {
 	
@@ -8,7 +8,7 @@ public class Archer extends Defender {
 		super(loc);
 	}
 	
-	public Archer(int x, int y) {
+	public Archer(double x, double y) {
 		this(new Location(x,y));
 	}
 
