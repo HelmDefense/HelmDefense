@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers.bosses;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Nazgul extends Boss {
 
@@ -8,7 +8,7 @@ public class Nazgul extends Boss {
 		super(location);
 	}	
 	
-	public Nazgul(int x, int y) {
+	public Nazgul(double x, double y) {
 		this(new Location(x, y));
 	}
 }

@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Goblin extends Attacker {
 
@@ -8,7 +8,7 @@ public class Goblin extends Attacker {
 		super(loc);
 	}
 	
-	public Goblin(int x, int y) {
+	public Goblin(double x, double y) {
 		this(new Location(x, y));
 	}
 }
