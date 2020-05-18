@@ -4,6 +4,10 @@ defenders:
   human-warrior:
     name: "Guerrier Humain"
     class: fr.helmdefense.model.entities.defenders.HumanWarrior
+    abilities:
+      BountyHuntingAbility:
+        # Tier
+        - TIER_00
     tier1:
       hp: 2000
       dmg: 250
@@ -28,6 +32,10 @@ defenders:
   archer:
     name: "Archer"
     class: fr.helmdefense.model.entities.defenders.Archer
+    abilities:
+      BountyHuntingAbility:
+        # Tier
+        - TIER_0
     tier1:
       hp: 1500
       dmg: 350
@@ -49,6 +57,10 @@ defenders:
   elven:
     name: "Elfe"
     class: fr.helmdefense.model.entities.defenders.ElvenShooter
+    abilities:
+      BountyHuntingAbility:
+        # Tier
+        - TIER_0
     tier1:
       hp: 2500
       dmg: 450
@@ -76,6 +88,10 @@ defenders:
   catapult:
     name: "Trébuchet"
     class: fr.helmdefense.model.entities.defenders.Catapult
+    abilities:
+      BountyHuntingAbility:
+        # Tier
+        - TIER_00
     tier1:
       hp: 5000
       dmg: 2000
@@ -99,6 +115,10 @@ defenders:
     aragorn:
       name: "Aragorn"
       class: fr.helmdefense.model.entities.defenders.heros.Aragorn
+      abilities:
+        BountyHuntingAbility:
+          # Tier
+          - TIER_00
       hp: 7500
       dmg: 700
       mvt-spd: 1.1
@@ -108,6 +128,10 @@ defenders:
     legolas:
       name: "Legolas"
       class: fr.helmdefense.model.entities.defenders.heros.Legolas
+      abilities:
+        BountyHuntingAbility:
+          # Tier
+          - TIER_0
       hp: 4500
       dmg: 1100
       mvt-spd: 1.3
@@ -117,6 +141,10 @@ defenders:
     gimli:
       name: "Gimli"
       class: fr.helmdefense.model.entities.defenders.heros.Gimli
+      abilities:
+        BountyHuntingAbility:
+          # Tier
+          - TIER_0
       hp: 12500
       dmg: 850
       mvt-spd: 0.75
@@ -128,7 +156,7 @@ attackers:
     name: "Guerrier Orc"
     class: fr.helmdefense.model.entities.attackers.OrcWarrior
     abilities:
-      RandomMoveAbility:
+      MoveToEndAbility:
         # Tier
         - TIER_0
     tier1:
@@ -156,7 +184,7 @@ attackers:
     name: "Orc Kamikaze"
     class: fr.helmdefense.model.entities.attackers.OrcBomber
     abilities:
-      RandomMoveAbility:
+      MoveToEndAbility:
         # Tier
         - TIER_0
     tier1:
@@ -184,7 +212,7 @@ attackers:
     name: "Gobelin"
     class: fr.helmdefense.model.entities.attackers.Goblin
     abilities:
-      RandomMoveAbility:
+      MoveToEndAbility:
         # Tier
         - TIER_0
     tier1:
@@ -215,7 +243,7 @@ attackers:
     name: "Troll"
     class: fr.helmdefense.model.entities.attackers.Troll
     abilities:
-      RandomMoveAbility:
+      MoveToEndAbility:
         # Tier
         - TIER_0
     tier1:
@@ -243,7 +271,7 @@ attackers:
     name: "Uruk-Haï"
     class: fr.helmdefense.model.entities.attackers.UrukHai
     abilities:
-      RandomMoveAbility:
+      MoveToEndAbility:
         # Tier
         - TIER_0
     tier1:
