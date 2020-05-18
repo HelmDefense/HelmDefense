@@ -7,7 +7,7 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_00
+        - TIER_0
     tier1:
       hp: 2000
       dmg: 250
@@ -91,7 +91,7 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_00
+        - TIER_0
     tier1:
       hp: 5000
       dmg: 2000
@@ -118,7 +118,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_00
+          - TIER_0
       hp: 7500
       dmg: 700
       mvt-spd: 1.1
