@@ -1,9 +1,11 @@
 package fr.helmdefense.model.map;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Graph {
 	private Set<Cell> cells;
@@ -24,12 +26,29 @@ public class Graph {
 	
 	public Cell getCellAt(Location loc) {
 		return this.cells.stream()
-				.filter(cell -> cell.getLoc().equals(loc))
+				.filter(cell -> cell.getLoc().equals(loc.copy().round()))
 				.findAny()
 				.orElse(null);
 	}
 	
 	public Cell getStart() {
 		return this.start;
+	}
+	
+	public void bfs() {
+		this.reset();
+		List<Cell> queue = new ArrayList<Cell>();
+		Cell c, d;
+		this.start.setMarked(true);
+		queue.add(this.start);
+		
+		while (! queue.isEmpty()) {
+			c = queue.remove(0);
+			while ((d = c.getUnmarkedNeighbor()) != null) {
+				d.setMarked(true);
+				d.setNext(c);
+				queue.add(d);
+			}
+		}
 	}
 }
