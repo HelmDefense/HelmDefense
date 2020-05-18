@@ -16,7 +16,8 @@ public class Actions {
 	private Actions() {}
 	
 	public static void trigger(Action action, List<? extends ActionListener> listeners) {
-		for (ActionListener a : listeners) {
+		List<ActionListener> list = new ArrayList<ActionListener>(listeners);
+		for (ActionListener a : list) {
 			Method[] actions = a.getClass().getMethods();
 			
 			for (Method m : actions) {
@@ -43,5 +44,13 @@ public class Actions {
 	
 	public static void registerListeners(List<? extends ActionListener> listeners) {
 		registeredListeners.addAll(listeners);
+	}
+	
+	public static void unregisterListeners(ActionListener... listeners) {
+		unregisterListeners(Arrays.asList(listeners));
+	}
+	
+	public static void unregisterListeners(List<? extends ActionListener> listeners) {
+		registeredListeners.removeAll(listeners);
 	}
 }

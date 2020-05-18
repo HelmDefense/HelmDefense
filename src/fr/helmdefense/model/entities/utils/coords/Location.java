@@ -1,20 +1,19 @@
 package fr.helmdefense.model.entities.utils.coords;
 
 import fr.helmdefense.model.map.GameMap;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleWrapper;
 
 public class Location implements Coords {
-	private DoubleProperty xProperty;
-	private DoubleProperty yProperty;
+	private ReadOnlyDoubleWrapper xProperty;
+	private ReadOnlyDoubleWrapper yProperty;
 	
 	public Location(Coords coords) {
 		this(coords.getX(), coords.getY());
 	}
 	
 	public Location(double x, double y) {
-		this.xProperty = new SimpleDoubleProperty(x);
-		this.yProperty = new SimpleDoubleProperty(y);
+		this.xProperty = new ReadOnlyDoubleWrapper(x);
+		this.yProperty = new ReadOnlyDoubleWrapper(y);
 	}
 	
 	public Location add(double x, double y) {
@@ -117,11 +116,11 @@ public class Location implements Coords {
 		return this;
 	}
 	
-	public final DoubleProperty xProperty() {
+	public final ReadOnlyDoubleWrapper xProperty() {
 		return this.xProperty;
 	}
 	
-	public final DoubleProperty yProperty() {
+	public final ReadOnlyDoubleWrapper yProperty() {
 		return this.yProperty;
 	}
 	
