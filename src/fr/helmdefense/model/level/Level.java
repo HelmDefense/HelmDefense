@@ -1,7 +1,6 @@
 package fr.helmdefense.model.level;
 
 import java.util.List;
-import java.util.function.Function;
 
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
@@ -9,10 +8,8 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -24,7 +21,7 @@ public class Level {
 	private List<Wave> waves;
 	private GameLoop gameloop;
 	private Inventory inv;
-	private IntegerProperty purseProperty;
+	private ReadOnlyIntegerWrapper purseProperty;
 	
 	public Level(String name, GameMap map, List<Wave> waves, int startMoney) {
 		this.name = name;
@@ -42,7 +39,7 @@ public class Level {
 			Actions.trigger(new GameTickAction(this, ticks));
 		});
 		this.inv = new Inventory();
-		this.purseProperty = new SimpleIntegerProperty(startMoney);
+		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
 	}
 	
 	public void startLoop() {
@@ -69,16 +66,6 @@ public class Level {
 		return this.inv;
 	}
 	
-	@Override
-	public String toString() {
-		return "Level [map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop=" + gameloop + ", inv="
-				+ inv + "]";
-	}
-
-	public static Level load(String name) {
-		return YAMLLoader.loadLevel(name);
-	}
-	
 	public boolean overdrawn() {
 		return this.getPurse() > 0;
 	}
@@ -87,25 +74,34 @@ public class Level {
 		return this.purseProperty.get();
 	}
 	
-	// return false if overdrawn, true if money have been debited successfully
+	/**
+	 * @return	false if overdrawn, true if money
+	 * 			have been debited successfully
+	 */
 	public boolean debit(int value) {
-		if ( this.getPurse() - value < 0 || value > 0 )
+		if (this.getPurse() - value < 0 || value > 0)
 			return false;
 		this.purseProperty.setValue(this.getPurse() - value);
 		return true;
 	}
 	
 	public void earnCoins(int value) {
-		if ( value < 0 )
+		if (value < 0)
 			return;
 		this.purseProperty.setValue(this.getPurse() + value);
 	}
 	
-	public void bindPurse(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.purseProperty) : this.purseProperty);
+	public ReadOnlyIntegerProperty purseProperty() {
+		return this.purseProperty.getReadOnlyProperty();
 	}
 	
-	public void bindPurse(Property<? super Number> property) {
-		this.bindPurse(property, null);
+	@Override
+	public String toString() {
+		return "Level [name=" + name + ", map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop="
+				+ gameloop + ", inv=" + inv + ", purseProperty=" + purseProperty + "]";
+	}
+
+	public static Level load(String name) {
+		return YAMLLoader.loadLevel(name);
 	}
 }
