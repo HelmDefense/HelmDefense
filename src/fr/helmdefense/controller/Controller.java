@@ -231,7 +231,7 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
-		
+		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.level.startLoop();
 
 		new OrcWarrior(0.5, 5.5).spawn(this.level);
