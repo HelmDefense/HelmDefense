@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers.bosses;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Saruman extends Boss {
 
@@ -8,7 +8,7 @@ public class Saruman extends Boss {
 		super(loc);
 	}
 	
-	public Saruman(int x, int y) {
+	public Saruman(double x, double y) {
 		this(new Location(x, y));
 	}
 }

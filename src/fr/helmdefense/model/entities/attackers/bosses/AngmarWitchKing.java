@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers.bosses;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class AngmarWitchKing extends Boss {
 	private Nazgul nazgul;
@@ -10,7 +10,7 @@ public class AngmarWitchKing extends Boss {
 		this.nazgul = new Nazgul(location);
 	}
 	
-	public AngmarWitchKing(int x, int y) {
+	public AngmarWitchKing(double x, double y) {
 		this(new Location(x, y));
 	}
 	

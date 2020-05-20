@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers.bosses;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Grond extends Boss {
 
@@ -8,7 +8,7 @@ public class Grond extends Boss {
 		super(location);
 	}
 	
-	public Grond(int x, int y) {
+	public Grond(double x, double y) {
 		this(new Location(x,y));
 	}
 

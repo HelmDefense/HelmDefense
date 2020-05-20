@@ -30,24 +30,25 @@ public class StatBar extends StackPane implements Initializable {
 	private Label label;
 	
 	public StatBar(DisplayStyle displayStyle, double max, double value, String color) {
-		this.displayStyleProperty = new SimpleObjectProperty<DisplayStyle>(displayStyle);
+		this.displayStyleProperty = new SimpleObjectProperty<DisplayStyle>();
 		this.maxProperty = new SimpleDoubleProperty();
 		this.valueProperty = new SimpleDoubleProperty();
 		this.colorProperty = new SimpleStringProperty();
-		
-		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("StatBar.fxml"));
-        loader.setRoot(this);
-        loader.setController(this);
 
-        try {
-            loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        
-        this.setMax(max);
-        this.setValue(value);
-        this.setColor(color);
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("StatBar.fxml"));
+		loader.setRoot(this);
+		loader.setController(this);
+
+		try {
+			loader.load();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		this.setDisplayStyle(displayStyle)
+				.setMax(max)
+				.setValue(value)
+				.setColor(color);
 	}
 	
 	public StatBar(double max, double value, String color) {

@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.attackers;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class OrcWarrior extends Attacker{
 
@@ -8,7 +8,7 @@ public class OrcWarrior extends Attacker{
 		super(loc);
 	}
 	
-	public OrcWarrior(int x, int y) {
+	public OrcWarrior(double x, double y) {
 		this(new Location(x, y));
 
 	}

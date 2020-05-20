@@ -14,9 +14,9 @@ import org.yaml.snakeyaml.Yaml;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.EntityData;
-import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
 import fr.helmdefense.model.map.GameMap;
@@ -41,10 +41,10 @@ public class YAMLLoader {
 			for (int j = 0; j < map.get(i).size(); j++)
 				tiles[i][j] = map.get(i).get(j);
 		
-		return new GameMap(tiles, locList(lvl.get("spawns")), locList(lvl.get("targets")));
+		return new GameMap(tiles, locList(lvl.get("spawns")), new Location(lvl.getDouble("target.x"), lvl.getDouble("target.y")));
 	}
 	
-	private static List<Location> locList(List<Map<String, Integer>> locs) {
+	private static List<Location> locList(List<Map<String, Double>> locs) {
 		return locs.stream()
 				.map(loc -> new Location(loc.get("x"), loc.get("y")))
 				.collect(Collectors.toList());

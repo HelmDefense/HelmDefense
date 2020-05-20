@@ -1,27 +1,29 @@
 package fr.helmdefense.model.entities;
 
 import java.util.List;
-import java.util.function.Function;
 
 import fr.helmdefense.model.actions.Action;
+import fr.helmdefense.model.actions.entity.EntityDamagedAction;
+import fr.helmdefense.model.actions.entity.EntityDeathAction;
+import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
+import fr.helmdefense.model.actions.entity.EntityKillAction;
+import fr.helmdefense.model.actions.entity.EntityMoveAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
-import fr.helmdefense.model.entities.utils.Location;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 
 public abstract class Entity {
 	private String id;
 	private Location loc;
-	private IntegerProperty hpProperty;
-	private IntegerProperty shieldProperty;
+	private ReadOnlyIntegerWrapper hpProperty;
+	private ReadOnlyIntegerWrapper shieldProperty;
 	private List<Ability> abilities;
 	private Level level;
 	
@@ -30,14 +32,14 @@ public abstract class Entity {
 	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
-		this.hpProperty = new SimpleIntegerProperty(this.data().getStats(Tier.TIER_1).getHp());
-		this.shieldProperty = new SimpleIntegerProperty(0);
+		this.hpProperty = new ReadOnlyIntegerWrapper(this.data().getStats(Tier.TIER_1).getHp());
+		this.shieldProperty = new ReadOnlyIntegerWrapper(0);
 		this.abilities = this.data().instanciateAbilities();
 		Actions.registerListeners(this.abilities);
 		this.level = null;
 	}
 	
-	public Entity(int x, int y) {
+	public Entity(double x, double y) {
 		this(new Location(x, y));
 	}
 	
@@ -46,6 +48,14 @@ public abstract class Entity {
 			return;
 		this.level = lvl;
 		lvl.getEntities().add(this);
+	}
+	
+	public void attack(Entity victim) {
+		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
+		
+		victim.looseHp(this.data().getStats(Tier.TIER_1).getDmg(), this);
+		
+		this.triggerAbilities(attack);
 	}
 	
 	public void triggerAbilities(Action action) {
@@ -60,25 +70,21 @@ public abstract class Entity {
 		return this.loc.copy();
 	}
 	
-	public void bindX(Property<? super Number> property, Function<DoubleProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.loc.xProperty()) : this.loc.xProperty());
+	public ReadOnlyDoubleProperty xProperty() {
+		return this.loc.xProperty().getReadOnlyProperty();
 	}
 	
-	public void bindX(Property<? super Number> property) {
-		this.bindX(property, null);
-	}
-	
-	public void bindY(Property<? super Number> property, Function<DoubleProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.loc.yProperty()) : this.loc.yProperty());
-	}
-	
-	public void bindY(Property<? super Number> property) {
-		this.bindY(property, null);
+	public ReadOnlyDoubleProperty yProperty() {
+		return this.loc.yProperty().getReadOnlyProperty();
 	}
 	
 	public void teleport(double x, double y) {
+		EntityMoveAction action = new EntityMoveAction(this, this.getLoc());
+		
 		this.loc.setX(x);
 		this.loc.setY(y);
+		
+		this.triggerAbilities(action);
 	}
 	
 	public void teleport(Location loc) {
@@ -89,7 +95,9 @@ public abstract class Entity {
 		return this.hpProperty.get();
 	}
 	
-	public void looseHp(int amount, boolean ignoreShield) {
+	public void looseHp(int amount, Entity cause, boolean ignoreShield) {
+		EntityDamagedAction damage = new EntityDamagedAction(this, cause, this.getHp());
+		
 		if (! ignoreShield) {
 			int shield = this.getShield();
 			this.shieldProperty.set(shield - amount);
@@ -102,13 +110,22 @@ public abstract class Entity {
 		}
 		this.hpProperty.set(this.getHp() - amount);
 		
+		this.triggerAbilities(damage);
+		
 		if (! this.isAlive()) {
-			// TODO Kill entity
+			EntityKillAction kill = new EntityKillAction(cause, this);
+			EntityDeathAction death = new EntityDeathAction(this, cause);
+			
+			this.level.getEntities().remove(this);
+			Actions.unregisterListeners(this.abilities);
+			
+			cause.triggerAbilities(kill);
+			this.triggerAbilities(death);
 		}
 	}
 	
-	public void looseHp(int amount) {
-		this.looseHp(amount, false);
+	public void looseHp(int amount, Entity cause) {
+		this.looseHp(amount, cause, false);
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
@@ -124,12 +141,8 @@ public abstract class Entity {
 		this.gainHp(amount, true);
 	}
 	
-	public void bindHp(Property<? super Number> property, Function<IntegerProperty, ObservableValue<Number>> transform) {
-		property.bind(transform != null ? transform.apply(this.hpProperty) : this.hpProperty);
-	}
-	
-	public void bindHp(Property<? super Number> property) {
-		this.bindHp(property, null);
+	public ReadOnlyIntegerProperty hpProperty() {
+		return this.hpProperty.getReadOnlyProperty();
 	}
 	
 	public boolean isAlive() {
@@ -144,6 +157,10 @@ public abstract class Entity {
 		return this.shieldProperty.get();
 	}
 	
+	public ReadOnlyIntegerProperty shieldProperty() {
+		return this.shieldProperty.getReadOnlyProperty();
+	}
+	
 	public EntityData data() {
 		return Entities.getData(this.getClass());
 	}
@@ -152,7 +169,7 @@ public abstract class Entity {
 	}
 	@Override
 	public String toString() {
-		return "Entity [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
+		return this.getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
 				+ ", abilities=" + abilities + "]";
 	}
 }

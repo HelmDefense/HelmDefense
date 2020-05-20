@@ -3,7 +3,7 @@ package fr.helmdefense.model.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public enum Dir {
 	S(0b0001, 0, 1),

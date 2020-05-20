@@ -10,6 +10,8 @@ public class Statistic {
 	private int cost;
 	private int reward;
 	
+	public static final double SHOOT_FACTOR = 0.75;
+	
 	public Statistic(int hp, int dmg, double mvtSpd, double atkSpd, double atkRange, double shootRange, int cost, int reward) {
 		this.hp = hp;
 		this.dmg = dmg;

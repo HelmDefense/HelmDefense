@@ -1,6 +1,6 @@
 package fr.helmdefense.model.map;
 
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class Cell {
 	private Graph graph;
@@ -26,7 +26,7 @@ public class Cell {
 	}
 	
 	public Location getLoc() {
-		return this.loc;
+		return this.loc.copy();
 	}
 	
 	public void setMarked(boolean mark) {
@@ -39,5 +39,9 @@ public class Cell {
 	
 	public Cell getNext() {
 		return this.next;
+	}
+	
+	public void setNext(Cell c) {
+		this.next = c;
 	}
 }

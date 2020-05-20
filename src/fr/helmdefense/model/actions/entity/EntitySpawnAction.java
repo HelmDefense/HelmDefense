@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.utils.Location;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class EntitySpawnAction extends EntityAction {
 	public EntitySpawnAction(Entity entity) {
