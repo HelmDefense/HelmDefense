@@ -169,7 +169,7 @@ public abstract class Entity {
 	}
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty + ", shieldProperty=" + shieldProperty
-				+ ", abilities=" + abilities + "]";
+		return getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hpProperty=" + hpProperty
+				+ ", shieldProperty=" + shieldProperty + ", abilities=" + abilities + "]";
 	}
 }

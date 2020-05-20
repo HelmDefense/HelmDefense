@@ -61,7 +61,7 @@ public class Location implements Coords {
 	}
 	
 	public Location copy() {
-		return new Location(this.getX(), this.getY());
+		return new Location(this);
 	}
 	
 	public double distance(Location loc) {
@@ -70,6 +70,10 @@ public class Location implements Coords {
 	
 	public boolean isInMap() {
 		return this.getX() >= 0 && this.getX() < GameMap.WIDTH && this.getY() >= 0 && this.getY() < GameMap.HEIGHT;
+	}
+	
+	public Vector toVector() {
+		return new Vector(this);
 	}
 
 	@Override
