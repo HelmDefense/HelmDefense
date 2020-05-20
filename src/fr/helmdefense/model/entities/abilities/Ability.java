@@ -20,6 +20,6 @@ public abstract class Ability implements ActionListener {
 
 	@Override
 	public String toString() {
-		return "Ability [unlock=" + unlock + "]";
+		return getClass().getSimpleName() + " [unlock=" + unlock + "]";
 	}
 }
