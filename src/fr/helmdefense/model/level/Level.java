@@ -67,7 +67,7 @@ public class Level {
 	}
 	
 	public boolean overdrawn() {
-		return this.getPurse() > 0;
+		return this.getPurse() < 0;
 	}
 	
 	public int getPurse() {
@@ -79,7 +79,7 @@ public class Level {
 	 * 			have been debited successfully
 	 */
 	public boolean debit(int value) {
-		if (this.getPurse() - value < 0 || value > 0)
+		if (this.getPurse() - value < 0 || value < 0)
 			return false;
 		this.purseProperty.setValue(this.getPurse() - value);
 		return true;
