@@ -38,6 +38,8 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_0
+      ProjectileAttackAbility:
+        - TIER_0
     tier1:
       hp: 1500
       dmg: 350
@@ -318,3 +320,7 @@ attackers:
     nazgul:
       name: "Nazgûl"
       class: fr.helmdefense.model.entities.attackers.bosses.Nazgul
+projectiles:
+  arrow:
+    name: "Flèche"
+    class: fr.helmdefense.model.entities.projectiles.Projectile
