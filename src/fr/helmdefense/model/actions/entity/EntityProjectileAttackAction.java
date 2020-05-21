@@ -1,14 +1,15 @@
 package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.projectiles.Projectile;
 
 public class EntityProjectileAttackAction extends EntityAction {
-	private Entity victim;
+	private LivingEntity victim;
 	private Projectile proj;
 	private int hpBefore;
 	
-	public EntityProjectileAttackAction(Entity entity, Entity victim, Projectile proj, int hpBefore) {
+	public EntityProjectileAttackAction(LivingEntity entity, LivingEntity victim, Projectile proj, int hpBefore) {
 		super(entity);
 		this.victim = victim;
 		this.proj = proj;

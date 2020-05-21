@@ -1,12 +1,13 @@
 package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 
 public class EntityDamagedAction extends EntityAction {
-	private Entity attacker;
+	private LivingEntity attacker;
 	private int hpBefore;
 	
-	public EntityDamagedAction(Entity entity, Entity attacker, int hpBefore) {
+	public EntityDamagedAction(LivingEntity entity, LivingEntity attacker, int hpBefore) {
 		super(entity);
 		this.attacker = attacker;
 		this.hpBefore = hpBefore;

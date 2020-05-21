@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.attackers.Goblin;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
 import fr.helmdefense.model.entities.attackers.Troll;
@@ -204,7 +205,8 @@ public class Controller implements Initializable {
 						img.setId(e.getId());
 						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
-						img.setOnMouseClicked(i -> displayStats(e));
+						if(e instanceof LivingEntity)
+							img.setOnMouseClicked(i -> displayStats((LivingEntity)e));
 						this.levelPane.getChildren().add(img);
 					}
 				}
@@ -236,6 +238,7 @@ public class Controller implements Initializable {
 
 		new OrcWarrior(0.5, 5.5).spawn(this.level);
 		new HumanWarrior(2.5, 4.5).spawn(this.level);
+		new Archer(4.5, 5).spawn(this.level);
 		new Goblin(2.5, 5.5).spawn(this.level);
 		new Troll(7.5, 5.5).spawn(this.level);
 		new Goblin(11.5, 5.5).spawn(this.level);
@@ -260,7 +263,7 @@ public class Controller implements Initializable {
 		}
 	}
 	
-	private void addIDCard(Class<? extends Entity> type) {
+	private void addIDCard(Class<? extends LivingEntity> type) {
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
 			loader.setController(new IDCardController(type, this));
@@ -282,7 +285,7 @@ public class Controller implements Initializable {
 		return this.level;
 	}
 	
-	private void displayStats(Entity e) {
+	private void displayStats(LivingEntity e) {
 		// Health 
 		EntityData entityData = e.data();
 		int entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();

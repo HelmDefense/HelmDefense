@@ -3,7 +3,7 @@ package fr.helmdefense.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
 import javafx.event.ActionEvent;
@@ -16,7 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.TextFlow;
 
 public class IDCardController implements Initializable {
-	private Class<? extends Entity> type;
+	private Class<? extends LivingEntity> type;
 	private Controller main;
 	
     // Infos
@@ -41,7 +41,7 @@ public class IDCardController implements Initializable {
 	@FXML
     private HBox chooseUpgradeBox;
 
-	public IDCardController(Class<? extends Entity> type, Controller main) {
+	public IDCardController(Class<? extends LivingEntity> type, Controller main) {
 		this.type = type;
 		this.main = main;
 	}
