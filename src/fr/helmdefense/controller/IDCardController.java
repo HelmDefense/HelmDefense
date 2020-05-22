@@ -2,13 +2,10 @@ package fr.helmdefense.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -86,24 +83,18 @@ public class IDCardController implements Initializable {
     void buyOneAction(ActionEvent event) {
         if (buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 1))
         	this.main.getLvl().getInv().addEntity(type);
-        else
-        	redBuyLabel();
     }
 
     @FXML
     void buyTwoAction(ActionEvent event) {
         if (buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 2))
         	this.main.getLvl().getInv().addEntity(type, 2);
-    	else
-    		redBuyLabel();
     }
 
     @FXML
     void buyFiveAction(ActionEvent event) {
     	if ( buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 5))
     		this.main.getLvl().getInv().addEntity(type, 5);
-    	else
-    		redBuyLabel();
     }
 
     @FXML
@@ -112,8 +103,6 @@ public class IDCardController implements Initializable {
     	updateCost(n);
     	if ( buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), n))
     		this.main.getLvl().getInv().addEntity(type, n);
-    	else
-    		redBuyLabel();
     	this.buyAmountField.clear();
     }
     
@@ -141,9 +130,16 @@ public class IDCardController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.entityNameLabel.setText(Entities.getData(this.type).getName());
 		updateCost(1);
+		
 		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
 		chooseUpgradeBox.setVisible(false);
+		
     	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
+    	
+    	this.main.getLvl().purseProperty().addListener((obs, oldValue, newValue) -> {
+    		if ( newValue.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
+    			updateCost(1);
+    	});
 	}
 	
 	public static int parseInt(String str, int def, int min, int max) {
@@ -171,18 +167,12 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		this.buyCostLabel.setText("Coût : " + Integer.toString(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n));
-	}
-	
-	public void redBuyLabel() {
-		buyCostLabel.setTextFill(Color.RED);
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Platform.runLater(() -> {
-		    		buyCostLabel.setTextFill(Color.BLACK);
-				});
-			}
-		}, 1500); 
+		int totalCost = Entities.getData(type).getStats(Tier.TIER_1).getCost() * n;
+		this.buyCostLabel.setText("Coût : " + Integer.toString(totalCost));
+		
+		if ( totalCost > this.main.getLvl().getPurse())
+			this.buyCostLabel.setTextFill(Color.RED);
+		else
+			this.buyCostLabel.setTextFill(Color.BLACK);
 	}
 }
