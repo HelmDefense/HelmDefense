@@ -61,6 +61,15 @@ public class Vector implements Coords {
 		return Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2));
 	}
 	
+	public double angle(boolean degrees) {
+		double angle = Math.atan2(this.y, this.x);
+		return degrees ? Math.toDegrees(angle) : angle;
+	}
+	
+	public double angle() {
+		return this.angle(false);
+	}
+	
 	public Location toLocation() {
 		return new Location(this);
 	}
