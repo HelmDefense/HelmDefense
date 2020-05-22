@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.attackers.Goblin;
 import fr.helmdefense.model.entities.attackers.OrcWarrior;
 import fr.helmdefense.model.entities.attackers.Troll;
@@ -14,6 +15,7 @@ import fr.helmdefense.model.entities.defenders.Archer;
 import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
+import fr.helmdefense.model.entities.projectiles.Projectile;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
@@ -37,10 +39,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextFlow;
 
 public class Controller implements Initializable {
 	private Level level;
+	private Circle atkRange;
+	private Circle shootRange;
 	
 	/* Header */
 	// Controls buttons
@@ -184,6 +192,8 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		setupStats();
+		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
+		this.levelPane.setClip(clip);
 		
 		this.addIDCard(HumanWarrior.class);
 		this.addIDCard(Archer.class);
@@ -204,7 +214,10 @@ public class Controller implements Initializable {
 						img.setId(e.getId());
 						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
-						img.setOnMouseClicked(i -> displayStats(e));
+						if (e instanceof LivingEntity)
+							img.setOnMouseClicked(i -> displayStats((LivingEntity) e));
+						else if (e instanceof Projectile)
+							img.setRotate(((Projectile) e).angle() + 45);
 						this.levelPane.getChildren().add(img);
 					}
 				}
@@ -236,20 +249,31 @@ public class Controller implements Initializable {
 
 		new OrcWarrior(0.5, 5.5).spawn(this.level);
 		new HumanWarrior(2.5, 4.5).spawn(this.level);
+		new Archer(10.5, 7.5).spawn(this.level);
+		new ElvenShooter(8.5, 2.5).spawn(this.level);
 		new Goblin(2.5, 5.5).spawn(this.level);
 		new Troll(7.5, 5.5).spawn(this.level);
 		new Goblin(11.5, 5.5).spawn(this.level);
 	}
 	
 	private void setupStats() {
+		this.atkRange = new Circle();
+		this.shootRange = new Circle();
 		setupStat(this.entityHpLabel, this.entityHpBar, this.entityHpBonusLabel);
 		setupStat(this.entityDmgLabel, this.entityDmgBar, this.entityDmgBonusLabel);
 		setupStat(this.entityMvtSpdLabel, this.entityMvtSpdBar, this.entityMvtSpdBonusLabel);
 		setupStat(this.entityAtkSpdLabel, this.entityAtkSpdBar, this.entityAtkSpdBonusLabel);
-		setupStat(this.entityAtkRangeLabel, this.entityAtkRangeBar, this.entityAtkRangeBonusLabel);
-		setupStat(this.entityDistRangeLabel, this.entityDistRangeBar, this.entityDistRangeBonusLabel);
+		setupStat(this.entityAtkRangeLabel, this.entityAtkRangeBar, this.entityAtkRangeBonusLabel, this.atkRange);
+		setupStat(this.entityDistRangeLabel, this.entityDistRangeBar, this.entityDistRangeBonusLabel, this.shootRange);
 		setupStat(this.entityCostLabel, this.entityCostBar, this.entityCostCoin);
 		setupStat(this.entityRewardLabel, this.entityRewardBar, this.entityRewardCoin);
+		
+		this.atkRange.setStroke(Color.RED);
+		this.atkRange.setFill(RadialGradient.valueOf("radial-gradient(center 50% 50%, radius 100%, transparent 25%, red 100%)"));
+		this.shootRange.setStroke(Color.AQUA);
+		this.shootRange.setFill(RadialGradient.valueOf("radial-gradient(center 50% 50%, radius 100%, transparent 25%, aqua 100%)"));
+		this.levelPane.getChildren().add(this.atkRange);
+		this.levelPane.getChildren().add(this.shootRange);
 	}
 	
 	private static void setupStat(Node... nodes) {
@@ -282,13 +306,13 @@ public class Controller implements Initializable {
 		return this.level;
 	}
 	
-	private void displayStats(Entity e) {
+	private void displayStats(LivingEntity e) {
 		// Health 
 		EntityData entityData = e.data();
 		int entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
 		entityNameLabel.setText(entityData.getName());
-		entityHealthPercentLabel.setText(Math.round((double) e.getHp() / entityMaxHp * 100) + "%");
-		e.hpProperty().addListener((obs, o, n) -> entityHealthPercentLabel.setText(Math.round(n.doubleValue() / entityMaxHp * 100) + "%"));
+		entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
+		
 		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
 				.setMax(entityMaxHp)
 				.valueProperty().bind(e.hpProperty());
@@ -379,9 +403,14 @@ public class Controller implements Initializable {
 			entityRewardLabel.setVisible(false);
 		else
 			entityRewardLabel.setVisible(true);
-	
+
+		this.atkRange.setRadius((entityAtkRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
+		this.atkRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
+		this.atkRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
 		
-		
+		this.shootRange.setRadius((entityDistRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
+		this.shootRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
+		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
 		
 	}
 }
