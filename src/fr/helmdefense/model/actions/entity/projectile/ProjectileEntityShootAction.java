@@ -1,17 +1,9 @@
-package fr.helmdefense.model.actions.entity;
+package fr.helmdefense.model.actions.entity.projectile;
 
-import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.projectiles.Projectile;
 
-public class EntityShootAction extends EntityAction {
-	private Projectile proj;
-	
-	public EntityShootAction(Entity entity, Projectile proj) {
-		super(entity);
-		this.proj = proj;
-	}
-	
-	public Projectile getProj() {
-		return this.proj;
+public class ProjectileEntityShootAction extends ProjectileEntityAction {
+	public ProjectileEntityShootAction(Projectile projectile) {
+		super(projectile);
 	}
 }
