@@ -64,6 +64,7 @@ public class YAMLLoader {
 		
 		parseEntityData(map, data, "defenders", "heros");
 		parseEntityData(map, data, "attackers", "bosses");
+		parseEntityData(map, data, "projectiles", null);
 		
 		return map;
 	}
@@ -72,12 +73,14 @@ public class YAMLLoader {
 		YAMLData d = data.getData(section);
 		for (String path : d.getPaths()) {
 			if (! path.equals(subsection)) {
-				constructEntityData(map, section + "." + path, d.getData(path), true);
+				constructEntityData(map, section + "." + path, d.getData(path), subsection != null);
 			}
 		}
-		d = d.getData(subsection);
-		for (String path : d.getPaths()) {
-			constructEntityData(map, section + "." + subsection + "." + path, d.getData(path), false);
+		if (subsection != null) {
+			d = d.getData(subsection);
+			for (String path : d.getPaths()) {
+				constructEntityData(map, section + "." + subsection + "." + path, d.getData(path), false);
+			}
 		}
 	}
 	

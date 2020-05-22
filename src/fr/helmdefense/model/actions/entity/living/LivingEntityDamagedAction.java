@@ -1,12 +1,13 @@
-package fr.helmdefense.model.actions.entity;
+package fr.helmdefense.model.actions.entity.living;
 
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.LivingEntity;
 
-public class EntityDamagedAction extends EntityAction {
+public class LivingEntityDamagedAction extends LivingEntityAction {
 	private Entity attacker;
 	private int hpBefore;
 	
-	public EntityDamagedAction(Entity entity, Entity attacker, int hpBefore) {
+	public LivingEntityDamagedAction(LivingEntity entity, Entity attacker, int hpBefore) {
 		super(entity);
 		this.attacker = attacker;
 		this.hpBefore = hpBefore;
@@ -21,6 +22,6 @@ public class EntityDamagedAction extends EntityAction {
 	}
 	
 	public int getDmg() {
-		return this.attacker.getHp() - this.hpBefore;
+		return this.getEntity().getHp() - this.hpBefore;
 	}
 }

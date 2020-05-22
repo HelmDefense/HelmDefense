@@ -1,16 +1,15 @@
-package fr.helmdefense.model.actions.entity;
+package fr.helmdefense.model.actions.entity.projectile;
 
-import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.projectiles.Projectile;
 
-public class EntityDirectAttackAction extends EntityAction {
+public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	private LivingEntity victim;
 	private int hpBefore;
 	
-	public EntityDirectAttackAction(Entity entity, LivingEntity victim, int hpBefore) {
-		super(entity);
+	public ProjectileEntityAttackAction(Projectile projectile, LivingEntity victim, int hpBefore) {
+		super(projectile);
 		this.victim = victim;
-		this.hpBefore = hpBefore;
 	}
 	
 	public LivingEntity getVictim() {
