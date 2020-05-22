@@ -13,5 +13,5 @@ public class GoldStealingAbility extends Ability {
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
 		action.getEntity().getLevel().debit(3);
-		}
+	}
 }
