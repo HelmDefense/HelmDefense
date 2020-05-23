@@ -145,8 +145,7 @@ public class IDCardController implements Initializable {
     	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
     	
     	this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
-    		if ( newVal.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
-    			checkCost();
+    		checkCost();
     	});
 	}
 	
