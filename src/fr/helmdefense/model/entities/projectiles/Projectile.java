@@ -16,11 +16,11 @@ import fr.helmdefense.model.entities.utils.coords.Vector;
 import fr.helmdefense.model.level.GameLoop;
 
 public class Projectile extends Entity implements ActionListener {
-	private Entity source;
+	private LivingEntity source;
 	private Vector vector;
 	private double speed;
 	
-	public Projectile(Entity source, Location target, double angle, double speed) {
+	public Projectile(LivingEntity source, Location target, double angle, double speed) {
 		super(source.getLoc());
 		Location loc = source.getLoc();
 		double d = target.distance(loc), a = Math.acos((target.getX() - loc.getX()) / d);
@@ -32,7 +32,7 @@ public class Projectile extends Entity implements ActionListener {
 		this.init(source, speed);
 	}
 	
-	public Projectile(Entity source, Location target, double speed) {
+	public Projectile(LivingEntity source, Location target, double speed) {
 		super(source.getLoc());
 		Location loc = source.getLoc();
 		this.vector = new Vector(loc, target).divide(target.distance(loc));
@@ -40,7 +40,7 @@ public class Projectile extends Entity implements ActionListener {
 		this.init(source, speed);
 	}
 	
-	private void init(Entity source, double speed) {
+	private void init(LivingEntity source, double speed) {
 		this.source = source;
 		this.speed = speed;
 		
