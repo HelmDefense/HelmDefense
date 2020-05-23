@@ -191,6 +191,8 @@ public class Controller implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.level = Level.load("troll");
+		
 		setupStats();
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
 		this.levelPane.setClip(clip);
@@ -199,9 +201,9 @@ public class Controller implements Initializable {
 		this.addIDCard(Archer.class);
 		this.addIDCard(ElvenShooter.class);
 		this.addIDCard(Catapult.class);
+		
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
-		this.level = Level.load("troll");
 		for (int y = 0; y < GameMap.HEIGHT; y++)
 			for (int x = 0; x < GameMap.WIDTH; x++)
 				this.mapPane.getChildren().add(getImg("maptiles", this.level.getMap().getTile(x, y) + ".png"));
@@ -244,7 +246,7 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
-		
+		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.level.startLoop();
 
 		new OrcWarrior(0.5, 5.5).spawn(this.level);
