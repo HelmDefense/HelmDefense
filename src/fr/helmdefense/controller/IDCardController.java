@@ -136,7 +136,6 @@ public class IDCardController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.upgradeBeforeLabel.setOnMouseClicked(a -> this.main.getLvl().debit(999000));
 		this.entityNameLabel.setText(Entities.getData(this.type).getName());
 		updateCost(1);
 		
@@ -145,8 +144,8 @@ public class IDCardController implements Initializable {
 		
     	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
     	
-    	this.main.getLvl().purseProperty().addListener((obs, o, n) -> {
-    		if ( n.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
+    	this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
+    		if ( newVal.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
     			checkCost();
     	});
 	}
