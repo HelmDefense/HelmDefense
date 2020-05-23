@@ -10,6 +10,7 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -17,6 +18,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 public abstract class Entity {
 	private String id;
 	private Location loc;
+	private Hitbox hitbox;
 	private Level level;
 	protected List<Ability> abilities;
 	
@@ -25,6 +27,8 @@ public abstract class Entity {
 	public Entity(Location loc) {
 		this.id = "E" + (++ids);
 		this.loc = loc;
+		this.hitbox = new Hitbox(this.loc, this.data().getSize());
+		this.hitbox.lockLocation();
 		this.abilities = this.data().instanciateAbilities();
 		Actions.registerListeners(this.abilities);
 		this.level = null;
@@ -72,14 +76,17 @@ public abstract class Entity {
 	public void teleport(double x, double y) {
 		EntityMoveAction action = new EntityMoveAction(this, this.getLoc());
 		
-		this.loc.setX(x);
-		this.loc.setY(y);
+		this.loc.setX(x).setY(y);
 		
 		this.triggerAbilities(action);
 	}
 	
 	public void teleport(Location loc) {
 		this.teleport(loc.getX(), loc.getY());
+	}
+	
+	public Hitbox getHitbox() {
+		return this.hitbox;
 	}
 	
 	public EntityData data() {
@@ -90,7 +97,7 @@ public abstract class Entity {
 	}
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", abilities="
+		return getClass().getSimpleName() + " [id=" + id + ", hitbox=" + hitbox + ", abilities="
 				+ abilities + "]";
 	}
 }
