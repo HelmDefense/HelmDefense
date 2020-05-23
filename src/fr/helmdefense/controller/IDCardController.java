@@ -6,6 +6,8 @@ import java.util.ResourceBundle;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +21,7 @@ import javafx.scene.text.TextFlow;
 public class IDCardController implements Initializable {
 	private Class<? extends Entity> type;
 	private Controller main;
+	private IntegerProperty costProperty;
 	
     // Infos
 	@FXML
@@ -45,6 +48,11 @@ public class IDCardController implements Initializable {
 	public IDCardController(Class<? extends Entity> type, Controller main) {
 		this.type = type;
 		this.main = main;
+		this.costProperty = new SimpleIntegerProperty();
+		this.costProperty.addListener((obs, o, n) -> {
+			this.buyCostLabel.setText("Coût : " + this.costProperty.get());
+			checkCost();
+		});
 	}
 	
 	//OnMouse event
@@ -55,17 +63,17 @@ public class IDCardController implements Initializable {
 	
 	@FXML
     void buyTwoMouseExited(MouseEvent event) {
-        updateCost(1);
+       updateCost(1);
     }
 	
 	@FXML
     void buyFiveMouseEntered(MouseEvent event) {
-        updateCost(5);
+       updateCost(5);
     }
 	
 	@FXML
     void buyFiveMouseExited(MouseEvent event) {
-        updateCost(1);
+       updateCost(1);
     }
 	
 	@FXML
@@ -75,7 +83,7 @@ public class IDCardController implements Initializable {
 	
 	@FXML
     void buyNMouseExited(MouseEvent event) {
-        updateCost(1);
+       updateCost(1);
     }
 	
 	// Buy actions
@@ -128,6 +136,7 @@ public class IDCardController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.upgradeBeforeLabel.setOnMouseClicked(a -> this.main.getLvl().debit(999000));
 		this.entityNameLabel.setText(Entities.getData(this.type).getName());
 		updateCost(1);
 		
@@ -136,9 +145,9 @@ public class IDCardController implements Initializable {
 		
     	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
     	
-    	this.main.getLvl().purseProperty().addListener((obs, oldValue, newValue) -> {
-    		if ( newValue.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
-    			updateCost(1);
+    	this.main.getLvl().purseProperty().addListener((obs, o, n) -> {
+    		if ( n.intValue() < Entities.getData(type).getStats(Tier.TIER_1).getCost())
+    			checkCost();
     	});
 	}
 	
@@ -167,12 +176,13 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		int totalCost = Entities.getData(type).getStats(Tier.TIER_1).getCost() * n;
-		this.buyCostLabel.setText("Coût : " + Integer.toString(totalCost));
-		
-		if ( totalCost > this.main.getLvl().getPurse())
+		this.costProperty.set(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n);
+	}
+	
+	public void checkCost() {
+		if ( this.main.getLvl().getPurse() < this.costProperty.get())
 			this.buyCostLabel.setTextFill(Color.RED);
-		else
+		else 
 			this.buyCostLabel.setTextFill(Color.BLACK);
 	}
 }
