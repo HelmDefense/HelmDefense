@@ -141,7 +141,7 @@ defenders:
           - TIER_0
       size:
         width: 1
-        height: 12
+        height: 1
       hp: 7500
       dmg: 700
       mvt-spd: 1.1
@@ -192,7 +192,7 @@ attackers:
         - TIER_0
     size:
       width: 0.5
-      height: 0.54
+      height: 0.5
     tier1:
       hp: 1000
       dmg: 150
