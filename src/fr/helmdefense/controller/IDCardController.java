@@ -89,19 +89,19 @@ public class IDCardController implements Initializable {
 	// Buy actions
     @FXML
     void buyOneAction(ActionEvent event) {
-        if (buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 1))
+        if (buyEntity(1))
         	this.main.getLvl().getInv().addEntity(type);
     }
 
     @FXML
     void buyTwoAction(ActionEvent event) {
-        if (buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 2))
+        if (buyEntity(2))
         	this.main.getLvl().getInv().addEntity(type, 2);
     }
 
     @FXML
     void buyFiveAction(ActionEvent event) {
-    	if ( buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), 5))
+    	if ( buyEntity(5))
     		this.main.getLvl().getInv().addEntity(type, 5);
     }
 
@@ -109,13 +109,13 @@ public class IDCardController implements Initializable {
     void buyNAction(ActionEvent event) {
     	int n = parseInt(buyAmountField.getText(), 0, 50);
     	updateCost(n);
-    	if ( buyEntity(Entities.getData(type).getStats(Tier.TIER_1).getCost(), n))
+    	if ( buyEntity(n))
     		this.main.getLvl().getInv().addEntity(type, n);
     	this.buyAmountField.clear();
     }
     
-    public boolean buyEntity(int entityCost, int quantity) {
-    	return this.main.getLvl().debit(entityCost * quantity);	
+    public boolean buyEntity(int quantity) {
+    	return this.main.getLvl().debit(Entities.getData(type).getStats(Tier.TIER_1).getCost() * quantity);	
     }
 
     // Upgrade actions
