@@ -1,5 +1,8 @@
 package fr.helmdefense.model.entities.projectiles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityAttackAction;
@@ -9,6 +12,8 @@ import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.attackers.Attacker;
+import fr.helmdefense.model.entities.defenders.Defender;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -57,15 +62,22 @@ public class Projectile extends Entity implements ActionListener {
 		victim.looseHp((int) (this.source.data().getStats(Tier.TIER_1).getDmg() * Statistic.SHOOT_FACTOR), this.source);
 		
 		this.source.triggerAbilities(attack);
+		
+		this.delete();
 	}
 	
 	public void fail() {
 		ProjectileEntityFailAction action = new ProjectileEntityFailAction(this);
 		
+		this.source.triggerAbilities(action);
+		
+		this.delete();
+	}
+	
+	private void delete() {
 		this.getLevel().getEntities().remove(this);
 		Actions.unregisterListeners(this.abilities);
-		
-		this.source.triggerAbilities(action);
+		Actions.unregisterListeners(this);
 	}
 	
 	public double angle() {
@@ -75,9 +87,22 @@ public class Projectile extends Entity implements ActionListener {
 	@ActionHandler
 	public void move(GameTickAction action) {
 		Location loc = this.getLoc().add(this.vector.copy().multiply(this.speed / GameLoop.TPS));
-		if (! loc.isInMap() || loc.distance(this.source.getLoc()) > this.source.data().getStats(Tier.TIER_1).getShootRange())
+		if (! loc.isInMap() || loc.distance(this.source.getLoc()) > this.source.data().getStats(Tier.TIER_1).getShootRange() + 0.5)
 			this.fail();
 		else
 			this.teleport(loc);
+		
+		List<Entity> list = new ArrayList<Entity>(this.getLevel().getEntities());
+		for (Entity e : list)
+			if ((this.source instanceof Defender ? e instanceof Attacker : e instanceof Defender)
+					&& this.getHitbox().overlaps(e.getHitbox())) {
+				this.attack((LivingEntity) e);
+				break;
+			}
+	}
+
+	@Override
+	public String toString() {
+		return "Projectile [source=" + source + ", vector=" + vector + ", speed=" + speed + "]";
 	}
 }
