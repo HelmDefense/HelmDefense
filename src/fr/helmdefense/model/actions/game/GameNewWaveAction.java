@@ -4,7 +4,7 @@ import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
 
 /**
- * Action triggered when the wave change.
+ * Action triggered when the wave changes.
  * 
  * @author	indyteo
  * @see		GameAction

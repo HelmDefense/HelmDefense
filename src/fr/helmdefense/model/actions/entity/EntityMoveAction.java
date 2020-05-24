@@ -4,7 +4,7 @@ import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.coords.Location;
 
 /**
- * Action triggered when an entity move.
+ * Action triggered when an entity moves.
  * 
  * @author	indyteo
  * @see		EntityAction

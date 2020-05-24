@@ -19,7 +19,7 @@ public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	}
 	
 	/**
-	 * Return the victim hurted by the projectile.
+	 * Return the victim hurt by the projectile.
 	 * 
 	 * @return	The {@link LivingEntity} the projectile
 	 * 			enter in collision with.
@@ -31,7 +31,7 @@ public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	/**
 	 * Return the HP of the victim before the attack.
 	 * 
-	 * <p>Note : At the moment this action is trigger,
+	 * <p>Note: At the moment this action is triggered,
 	 * the victim already took the damage, but the death
 	 * check didn't occured yet. Restoring this value as
 	 * actual HP should avoid the entity's possible death.
@@ -47,8 +47,8 @@ public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	 * Return the amount of damage the projectile dealt to
 	 * the victim
 	 * 
-	 * <p>Note : The value returned by this method might
-	 * be {@code 0} even if the projectile dealt damage to
+	 * <p>Note: The value returned by this method might
+	 * be {@code 0} even if the projectile dealt damages to
 	 * the victim if the shield absorbed all damages.
 	 * 
 	 * @return	The difference between {@link LivingEntity}'s

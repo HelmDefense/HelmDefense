@@ -4,7 +4,7 @@ import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.LivingEntity;
 
 /**
- * Action triggered when a living entity die.
+ * Action triggered when a living entity dies.
  * 
  * @author	indyteo
  * @see		LivingEntityAction

@@ -11,7 +11,7 @@ import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.ActionListener;
 
 /**
- * Util that provide methods to (un)register listeners
+ * Util that provides methods to (un)register listeners
  * and trigger actions.
  * 
  * @author	indyteo
@@ -66,7 +66,7 @@ public class Actions {
 	/**
 	 * Register the given listeners.
 	 * 
-	 * <p>Note : The registered listeners are used
+	 * <p>Note: The registered listeners are used
 	 * when {@link Actions#trigger(Action)} is call.
 	 * 
 	 * @param listeners
@@ -79,7 +79,7 @@ public class Actions {
 	/**
 	 * Register the given listeners.
 	 * 
-	 * <p>Note : The registered listeners are used
+	 * <p>Note: The registered listeners are used
 	 * when {@link Actions#trigger(Action)} is call.
 	 * 
 	 * @param listeners
@@ -92,7 +92,7 @@ public class Actions {
 	/**
 	 * Unregister the given listeners.
 	 * 
-	 * <p>Note : The registered listeners are used
+	 * <p>Note: The registered listeners are used
 	 * when {@link Actions#trigger(Action)} is call.
 	 * 
 	 * @param listeners
@@ -105,7 +105,7 @@ public class Actions {
 	/**
 	 * Unregister the given listeners.
 	 * 
-	 * <p>Note : The registered listeners are used
+	 * <p>Note: The registered listeners are used
 	 * when {@link Actions#trigger(Action)} is call.
 	 * 
 	 * @param listeners

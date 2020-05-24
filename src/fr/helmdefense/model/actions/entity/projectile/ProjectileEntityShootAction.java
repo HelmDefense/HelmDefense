@@ -5,9 +5,9 @@ import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.projectiles.Projectile;
 
 /**
- * Action triggered when a projectile is shooted by an entity.
+ * Action triggered when a projectile is shot by an entity.
  * 
- * <p>Note : You can retrieve the shooter by doing
+ * <p>Note: You can retrieve the shooter by doing
  * <blockquote><pre>@{@link ActionHandler}
  *public void onProjectileEntityShoot({@link ProjectileEntityShootAction} action) {
  *	{@link LivingEntity} shooter = action.{@link #getEntity() getEntity}().{@link Projectile#getSource() getSource}();

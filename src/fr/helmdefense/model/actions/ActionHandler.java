@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
  * {@link ActionListener action listeners} that should
  * be triggered by {@link Action actions}.
  * 
- * <p>Note : Methods marked with this annotation
- * must take exactly one parameter, the action the
+ * <p>Note: Methods marked with this annotation
+ * must take exactly one parameter: the action the
  * method listen.
  * 
  * @author	indyteo

@@ -33,7 +33,7 @@ public class LivingEntityDamagedAction extends LivingEntityAction {
 	/**
 	 * Return the HP of the victim before the attack.
 	 * 
-	 * <p>Note : At the moment this action is trigger,
+	 * <p>Note: At the moment this action is trigger,
 	 * the victim already took the damage, but the death
 	 * check didn't occured yet. Restoring this value as
 	 * actual HP should avoid the entity's possible death.
@@ -49,7 +49,7 @@ public class LivingEntityDamagedAction extends LivingEntityAction {
 	 * Return the amount of damage the attacker dealt to
 	 * the victim
 	 * 
-	 * <p>Note : The value returned by this method might
+	 * <p>Note: The value returned by this method might
 	 * be {@code 0} even if the attacker dealt damage to
 	 * the victim if the shield absorbed all damages.
 	 * 
