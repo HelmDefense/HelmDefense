@@ -8,9 +8,6 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.attackers.Goblin;
-import fr.helmdefense.model.entities.attackers.OrcWarrior;
-import fr.helmdefense.model.entities.attackers.Troll;
 import fr.helmdefense.model.entities.defenders.Archer;
 import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
@@ -249,13 +246,9 @@ public class Controller implements Initializable {
 		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.level.startLoop();
 
-		new OrcWarrior(0.5, 5.5).spawn(this.level);
 		new HumanWarrior(2.5, 4.5).spawn(this.level);
 		new Archer(10.5, 7.5).spawn(this.level);
 		new ElvenShooter(8.5, 2.5).spawn(this.level);
-		new Goblin(2.5, 5.5).spawn(this.level);
-		new Troll(7.5, 5.5).spawn(this.level);
-		new Goblin(11.5, 5.5).spawn(this.level);
 	}
 	
 	private void setupStats() {

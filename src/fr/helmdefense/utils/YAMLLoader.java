@@ -55,7 +55,7 @@ public class YAMLLoader {
 		List<Map<?, ?>> waves = lvl.get("waves");
 		return waves.stream()
 				.map(w -> new YAMLData(w))
-				.map(w -> new Wave(w.getInt("duration"), w.getInt("reward"), w.get("entities")))
+				.map(w -> new Wave(w.getInt("reward"), w.get("entities")))
 				.collect(Collectors.toList());
 	}
 	

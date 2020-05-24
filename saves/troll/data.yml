@@ -19,16 +19,14 @@ target:
   x: 15.5
   y: 5.5
 waves:
-- duration: 150
-  entities:
+- entities:
     0: orc-warrior
     20: orc-warrior
     50: orc-warrior
     75: orc-warrior
     100: orc-warrior
   reward: 500
-- duration: 200
-  entities:
+- entities:
     0: orc-warrior
     20: goblin
     50: troll

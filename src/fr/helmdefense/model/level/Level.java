@@ -2,7 +2,10 @@ package fr.helmdefense.model.level;
 
 import java.util.List;
 
+import fr.helmdefense.model.actions.ActionHandler;
+import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
+import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
@@ -14,11 +17,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
-public class Level {
+public class Level implements ActionListener {
 	private String name;
 	private GameMap map;
 	private ObservableList<Entity> entities;
 	private List<Wave> waves;
+	private int currentWave;
 	private GameLoop gameloop;
 	private Inventory inv;
 	private ReadOnlyIntegerWrapper purseProperty;
@@ -35,6 +39,7 @@ public class Level {
 		};
 		this.entities.addListener(lcl);
 		this.waves = waves;
+		this.currentWave = -1;
 		this.gameloop = new GameLoop(ticks -> {
 			Actions.trigger(new GameTickAction(this, ticks));
 		});
@@ -44,6 +49,39 @@ public class Level {
 	
 	public void startLoop() {
 		this.gameloop.start();
+		
+		Actions.registerListeners(this);
+	}
+	
+	@ActionHandler
+	public void onTick(GameTickAction action) {
+		if (this.currentWave != -1) {
+			if (! this.waves.get(this.currentWave).isEnded())
+				return;
+		}
+		else {
+			if (action.getTicks() == Wave.TICKS_BEFORE_FIRST_WAVE)
+				this.startWave(null, this.waves.get(0));
+			return;
+		}
+		
+		if (action.getTicks() - this.waves.get(this.currentWave).getEndTick() == Wave.TICKS_BETWEEN_EACH_WAVE) {
+			this.startWave(this.waves.get(this.currentWave), this.currentWave + 1 < this.waves.size() ? this.waves.get(this.currentWave + 1) : null);
+		}
+	}
+	
+	private void startWave(Wave o, Wave n) {
+		GameNewWaveAction wave = new GameNewWaveAction(this, o, n);
+		
+		if (n != null) {
+			n.start(this);
+			this.currentWave++;
+		}
+		else {
+			Actions.unregisterListeners(this);
+		}
+		
+		Actions.trigger(wave);
 	}
 	
 	public String getName() {
