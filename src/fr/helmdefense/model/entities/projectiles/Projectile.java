@@ -100,6 +100,10 @@ public class Projectile extends Entity implements ActionListener {
 				break;
 			}
 	}
+	
+	public LivingEntity getSource() {
+		return this.source;
+	}
 
 	@Override
 	public String toString() {
