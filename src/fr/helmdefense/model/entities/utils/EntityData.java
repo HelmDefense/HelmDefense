@@ -6,16 +6,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.coords.Hitbox.Size;
 
 public class EntityData {
 	private String name;
 	private String path;
+	private Size size;
 	private Map<Tier, Statistic> stats;
 	private Map<Class<? extends Ability>, List<Object>> abilities;
 	
-	public EntityData(String name, String path, Map<Tier, Statistic> stats, Map<Class<? extends Ability>, List<Object>> abilities) {
+	public EntityData(String name, String path, Size size, Map<Tier, Statistic> stats, Map<Class<? extends Ability>, List<Object>> abilities) {
 		this.name = name;
 		this.path = path;
+		this.size = size;
 		this.stats = stats;
 		this.abilities = abilities;
 	}
@@ -26,6 +29,10 @@ public class EntityData {
 	
 	public final String getPath() {
 		return this.path;
+	}
+
+	public Size getSize() {
+		return this.size;
 	}
 	
 	public final Statistic getStats(Tier tier) {

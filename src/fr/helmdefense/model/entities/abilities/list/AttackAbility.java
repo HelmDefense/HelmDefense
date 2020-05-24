@@ -12,7 +12,7 @@ import fr.helmdefense.model.entities.utils.Tier;
 
 public abstract class AttackAbility extends Ability {
     private long lastAtk;
-    protected Entity entity;
+    protected LivingEntity entity;
     protected double range;
 
     public AttackAbility(Tier unlock) {
@@ -23,7 +23,7 @@ public abstract class AttackAbility extends Ability {
 
     @ActionHandler
     public void onSpawn(EntitySpawnAction action) {
-        this.entity = action.getEntity();
+        this.entity = (LivingEntity) action.getEntity();
         this.init();
     }
 

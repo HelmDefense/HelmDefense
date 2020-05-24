@@ -16,6 +16,7 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Hitbox.Size;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
@@ -102,6 +103,7 @@ public class YAMLLoader {
 					new EntityData(
 							data.getString("name"),
 							path,
+							new Size(data.getDouble("size.width"), data.getDouble("size.height")),
 							stats,
 							abilities(data)
 					)
