@@ -19,16 +19,14 @@ target:
 name: "Niveau de test"
 start-money: 999999
 waves:
-  - duration: 150 # Times are in 1/10s
-    reward: 500
+  - reward: 500
     entities:
       0: orc-warrior
       20: orc-warrior
       50: orc-warrior
       75: orc-warrior
       100: orc-warrior
-  - duration: 200
-    reward: 1000
+  - reward: 1000
     entities:
       0: orc-warrior
       20: goblin
