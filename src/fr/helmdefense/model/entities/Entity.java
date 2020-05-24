@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities;
 
+import java.util.Arrays;
 import java.util.List;
 
 import fr.helmdefense.model.actions.Action;
@@ -53,6 +54,11 @@ public abstract class Entity {
 		this.triggerAbilities(attack);
 	}
 	
+	public void addAbilities(Ability... abilities) {
+		Actions.registerListeners(abilities);
+		this.abilities.addAll(Arrays.asList(abilities));
+	}
+	
 	public void triggerAbilities(Action action) {
 		Actions.trigger(action, this.abilities);
 	}
@@ -92,9 +98,11 @@ public abstract class Entity {
 	public EntityData data() {
 		return Entities.getData(this.getClass());
 	}
+	
 	public Level getLevel() {
 		return level;
 	}
+	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + " [id=" + id + ", hitbox=" + hitbox + ", abilities="
