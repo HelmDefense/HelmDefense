@@ -120,24 +120,32 @@ public class IDCardController implements Initializable {
     }
 
     // Upgrade actions
+    @SuppressWarnings("unlikely-arg-type")
     @FXML
     void upgradeAction(ActionEvent event) {
     	EntityData data = Entities.getData(this.type);
     	Tier next = data.getTier().next();
     	if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
     		data.setTier(next);
+    		main.manageStats(data);
+    		updateUpgradeLabel();
     	}
-		updateUpgradeLabel();
+    	if (Entities.getData(this.type).getTier().equals(Tier.number(2).toString())) {
+    		this.chooseUpgradeBox.setVisible(true);
+    	}
+    	else {
+    		this.chooseUpgradeBox.setVisible(false);
+    	}
     }
 
-    @FXML
+	@FXML
     void tierAAction(ActionEvent event) {
-
+    	System.out.println("Upgrade A");	
     }
 
     @FXML
     void tierBAction(ActionEvent event) {
-
+    	System.out.println("Upgrade B");
     }
 	
 	@Override
@@ -145,10 +153,10 @@ public class IDCardController implements Initializable {
 		this.entityNameLabel.setText(Entities.getData(this.type).getName());
 		updateCost(1);
 		
-		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
-		chooseUpgradeBox.setVisible(false);
+		this.chooseUpgradeBox.managedProperty().bind(this.chooseUpgradeBox.visibleProperty());
+		this.chooseUpgradeBox.setVisible(false);
 		
-    	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
+    	this.buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(this.buyAmountField.getText(), 0, 50)));
     	
     	this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
     		checkCost();
