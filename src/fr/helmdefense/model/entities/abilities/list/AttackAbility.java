@@ -36,7 +36,7 @@ public abstract class AttackAbility extends Ability {
 
         if (enemy != null
                 && enemy.getLoc().distance(this.entity.getLoc()) < this.range + 0.5
-                && action.getTicks() - this.lastAtk > 10 / this.entity.data().getStats(Tier.TIER_1).getAtkSpd()) {
+                && action.getTicks() - this.lastAtk > 10 / this.entity.data().getStats().getAtkSpd()) {
             this.lastAtk = action.getTicks();
             this.attack(enemy);
         }

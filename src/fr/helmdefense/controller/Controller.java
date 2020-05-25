@@ -301,10 +301,10 @@ public class Controller implements Initializable {
 		return this.level;
 	}
 	
-	private void displayStats(LivingEntity e) {
+	protected void displayStats(LivingEntity e) {
 		// Health 
 		EntityData entityData = e.data();
-		int entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
+		int entityMaxHp = entityData.getStats().getHp();
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
 		
@@ -328,7 +328,7 @@ public class Controller implements Initializable {
 		// Damages
 		
 		entityDmgBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getDmg())
+				.setValue(entityData.getStats().getDmg())
 				.setMax(entityData.getStats(Tier.TIER_3).getDmg());
 		entityDmgBonusLabel.setText("");
 		if (entityDmgBar.getValue() == -1)
@@ -339,7 +339,7 @@ public class Controller implements Initializable {
 		// Movement speed
 		
 		entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getMvtSpd())
+				.setValue(entityData.getStats().getMvtSpd())
 				.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
 		entityMvtSpdBonusLabel.setText("");
 		if (entityMvtSpdBar.getValue() == -1)
@@ -350,7 +350,7 @@ public class Controller implements Initializable {
 		// attack speed
 		
 		entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getAtkSpd())
+				.setValue(entityData.getStats().getAtkSpd())
 				.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
 		entityAtkSpdBonusLabel.setText("");
 		if (entityAtkSpdBar.getValue() == -1)
@@ -361,7 +361,7 @@ public class Controller implements Initializable {
 		// portée attaque
 		
 		entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getAtkRange())
+				.setValue(entityData.getStats().getAtkRange())
 				.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
 		entityAtkRangeBonusLabel.setText("");
 		if (entityAtkRangeBar.getValue() == -1)
@@ -372,7 +372,7 @@ public class Controller implements Initializable {
 		// distance range
 		
 		entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getShootRange())
+				.setValue(entityData.getStats().getShootRange())
 				.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
 		entityDistRangeBonusLabel.setText("");
 		if (entityDistRangeBar.getValue() == -1)
@@ -384,7 +384,7 @@ public class Controller implements Initializable {
 		
 	
 		entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getCost())
+				.setValue(entityData.getStats().getCost())
 				.setMax(entityData.getStats(Tier.TIER_3).getCost());
 		if (entityCostBar.getValue() == -1)
 			entityCostLabel.setVisible(false);
@@ -392,7 +392,7 @@ public class Controller implements Initializable {
 			entityCostLabel.setVisible(true);
 		
 		entityRewardBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getReward())
+				.setValue(entityData.getStats().getReward())
 				.setMax(entityData.getStats(Tier.TIER_3).getReward());
 		if (entityRewardBar.getValue() == -1)
 			entityRewardLabel.setVisible(false);

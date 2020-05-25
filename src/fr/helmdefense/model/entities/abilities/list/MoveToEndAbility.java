@@ -33,7 +33,7 @@ public class MoveToEndAbility extends Ability {
 		Location loc = this.entity.getLoc(), l = this.movingTo.getLoc().center();
 		Vector v = new Vector(loc, l);
 		double d = l.distance(loc);
-		v.multiply(this.entity.data().getStats(Tier.TIER_1).getMvtSpd() / GameLoop.TPS / d);
+		v.multiply(this.entity.data().getStats().getMvtSpd() / GameLoop.TPS / d);
 		this.entity.teleport(loc.add(v));
 		if (v.length() >= d)
 			this.movingTo = this.movingTo.getNext();
