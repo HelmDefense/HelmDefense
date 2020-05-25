@@ -29,7 +29,7 @@ public class InventoryView extends VBox implements Initializable {
 	private ObjectProperty<SortOrder> sortOrderProperty;
 	private ObjectProperty<SortCriterion> sortCriterionProperty;
 	private ObservableList<InventoryItem> items;
-	private ToggleGroup group;
+	private ToggleGroup toggleGroup;
 	
 	@FXML
 	private TextField search;
@@ -52,7 +52,7 @@ public class InventoryView extends VBox implements Initializable {
 		this.sortOrderProperty = new SimpleObjectProperty<SortOrder>(SortOrder.DESC);
 		this.sortCriterionProperty = new SimpleObjectProperty<SortCriterion>(SortCriterion.NUMBER);
 		this.items = FXCollections.observableArrayList();
-		this.group = new ToggleGroup();
+		this.toggleGroup = new ToggleGroup();
 
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("InventoryView.fxml"));
 		loader.setRoot(this);
@@ -91,7 +91,7 @@ public class InventoryView extends VBox implements Initializable {
 			while (c.next()) {
 				if (c.wasAdded())
 					for (InventoryItem item : c.getAddedSubList()) {
-						item.setToggleGroup(this.group);
+						item.setToggleGroup(this.toggleGroup);
 						item.amountProperty().addListener(cl);
 						item.imgProperty().addListener(cl);
 						this.inventory.getChildren().add(item);
@@ -170,12 +170,8 @@ public class InventoryView extends VBox implements Initializable {
 				.orElse(null);
 	}
 	
-	public final InventoryItem getSelectedItem() {
-		return (InventoryItem) this.group.getSelectedToggle();
-	}
-	
-	public final void selectItem(InventoryItem item) {
-		this.group.selectToggle(item);
+	public final ToggleGroup getToggleGroup() {
+		return this.toggleGroup;
 	}
 	
 	public enum SortCriterion {

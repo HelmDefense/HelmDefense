@@ -238,17 +238,18 @@ public class Controller implements Initializable {
 				item.amountProperty().bind(c.getValueAdded());
 				item.setValue(c.getKey());
 				item.setOnMouseClicked(e -> {
-					// this.level.getInv().removeEntity(item.getValue());
+					// this.level.getInv().removeEntity(((InventoryItem) this.inventory.getToggleGroup().getSelectedToggle()).getValue());
 					if (item.isSelected())
-						this.inventory.selectItem(null);
+						this.inventory.getToggleGroup().selectToggle(null);
 					else
-						this.inventory.selectItem(item);
+						this.inventory.getToggleGroup().selectToggle(item);
 				});
 				this.inventory.getItems().add(item);
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
 		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
+		
 		this.level.startLoop();
 
 		new HumanWarrior(2.5, 4.5).spawn(this.level);
