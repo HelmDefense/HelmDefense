@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -115,13 +116,18 @@ public class IDCardController implements Initializable {
     }
     
     public boolean buyEntity(int quantity) {
-    	return this.main.getLvl().debit(Entities.getData(type).getStats(Tier.TIER_1).getCost() * quantity);	
+    	return this.main.getLvl().debit(Entities.getData(type).getStats().getCost() * quantity);	
     }
 
     // Upgrade actions
     @FXML
     void upgradeAction(ActionEvent event) {
-
+    	EntityData data = Entities.getData(type);
+    	Tier next = data.getTier().next();
+    	if(this.main.getLvl().debit(data.getStats(next).getUnlock())) {
+    		data.setTier(next);
+    	}
+		updateUpgradeLabel();
     }
 
     @FXML
@@ -147,6 +153,7 @@ public class IDCardController implements Initializable {
     	this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
     		checkCost();
     	});
+    	updateUpgradeLabel();
 	}
 	
 	public static int parseInt(String str, int def, int min, int max) {
@@ -174,7 +181,7 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		this.costProperty.set(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n);
+		this.costProperty.set(Entities.getData(type).getStats().getCost() * n);
 	}
 	
 	public void checkCost() {
@@ -182,5 +189,10 @@ public class IDCardController implements Initializable {
 			this.buyCostLabel.setTextFill(Color.RED);
 		else 
 			this.buyCostLabel.setTextFill(Color.BLACK);
+	}
+	
+	public void updateUpgradeLabel() {
+		this.upgradeBeforeLabel.setText(Entities.getData(type).getTier().toString());
+    	this.upgradeAfterLabel.setText(Entities.getData(type).getTier().next() + "");
 	}
 }
