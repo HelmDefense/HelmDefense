@@ -122,7 +122,8 @@ public class YAMLLoader {
 				data.getDouble("atk-range"),
 				data.getDouble("dist-range"),
 				data.getInt("cost"),
-				data.getInt("reward")
+				data.getInt("reward"),
+				data.getInt("unlock")
 		));
 	}
 	

@@ -20,6 +20,7 @@ defenders:
       atk-spd: 0.75
       atk-range: 1
       cost: 50
+      unlock: 0
     tier2:
       hp: 3000
       dmg: 500
@@ -27,6 +28,7 @@ defenders:
       atk-spd: 0.85
       atk-range: 1
       cost: 200
+      unlock: 500
     tier3:
       hp: 4500
       dmg: 650
@@ -34,6 +36,7 @@ defenders:
       atk-spd: 0.85
       atk-range: 1
       cost: 500
+      unlock: 1000
   archer:
     name: "Archer"
     class: fr.helmdefense.model.entities.defenders.Archer
@@ -53,18 +56,21 @@ defenders:
       atk-spd: 0.9
       dist-range: 6
       cost: 125
+      unlock: 200
     tier2:
       hp: 2000
       dmg: 600
       atk-spd: 0.9
       dist-range: 7
       cost: 350
+      unlock: 500
     tier3:
       hp: 3000
       dmg: 950
       atk-spd: 0.9
       dist-range: 7
       cost: 750
+      unlock: 1000
   elven:
     name: "Elfe"
     class: fr.helmdefense.model.entities.defenders.ElvenShooter
