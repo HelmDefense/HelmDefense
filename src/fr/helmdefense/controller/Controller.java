@@ -230,16 +230,21 @@ public class Controller implements Initializable {
 		this.level.getEntities().addListener(lcl);
 		
 		MapChangeListener<Class<? extends Entity>, IntegerProperty> mcl = c -> {
-			if(c.wasRemoved()) {
-				inventory.getItems().remove(inventory.getItem(Entities.getData(c.getKey()).getPath()));
+			if (c.wasRemoved()) {
+				this.inventory.getItems().remove(this.inventory.getItem(Entities.getData(c.getKey()).getPath()));
 			}
-			if(c.wasAdded()) {
+			if (c.wasAdded()) {
 				InventoryItem item = new InventoryItem(Entities.getData(c.getKey()).getPath(), 0);
 				item.amountProperty().bind(c.getValueAdded());
+				item.setValue(c.getKey());
 				item.setOnMouseClicked(e -> {
-					this.level.getInv().removeEntity(c.getKey());
+					// this.level.getInv().removeEntity(item.getValue());
+					if (item.isSelected())
+						this.inventory.selectItem(null);
+					else
+						this.inventory.selectItem(item);
 				});
-				inventory.getItems().add(item);
+				this.inventory.getItems().add(item);
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
