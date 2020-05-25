@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * 
  * <p>Note: Methods marked with this annotation
  * must take exactly one parameter: the action the
- * method listen.
+ * method listens.
  * 
  * @author	indyteo
  * @see		Action
