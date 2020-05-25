@@ -1,7 +1,6 @@
 package fr.helmdefense.model.entities.utils;
 
 public enum Tier {
-	TIER_0(0),
 	TIER_1(1),
 	TIER_2(2),
 	TIER_3(3);
@@ -24,7 +23,7 @@ public enum Tier {
 	}
 	
 	public static Tier number(int n) {
-		if(n < 0 || n > 3)
+		if(n < 1 || n > 3)
 			return null;
 		return valueOf("TIER_" + n);
 	}

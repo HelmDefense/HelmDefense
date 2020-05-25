@@ -7,9 +7,9 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       DirectAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -43,9 +43,9 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
         - 4.0
     size:
       width: 0.5
@@ -77,9 +77,9 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
         - 6.0
     size:
       width: 0.5
@@ -114,7 +114,7 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 1.5
       height: 1.5
@@ -144,7 +144,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -160,7 +160,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -176,7 +176,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -193,9 +193,9 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       DirectAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -226,7 +226,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -257,9 +257,9 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -293,7 +293,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.75
       height: 0.75
@@ -324,7 +324,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5

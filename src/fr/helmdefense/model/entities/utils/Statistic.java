@@ -64,6 +64,7 @@ public class Statistic {
 	@Override
 	public String toString() {
 		return "Statistic [hp=" + hp + ", dmg=" + dmg + ", mvtSpd=" + mvtSpd + ", atkSpd=" + atkSpd + ", atkRange="
-				+ atkRange + ", shootRange=" + shootRange + ", cost=" + cost + ", reward=" + reward + "]";
+				+ atkRange + ", shootRange=" + shootRange + ", cost=" + cost + ", reward=" + reward + ", unlock="
+				+ unlock + "]";
 	}
 }

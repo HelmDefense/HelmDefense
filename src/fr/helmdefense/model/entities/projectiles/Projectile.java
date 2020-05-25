@@ -15,7 +15,6 @@ import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.attackers.Attacker;
 import fr.helmdefense.model.entities.defenders.Defender;
 import fr.helmdefense.model.entities.utils.Statistic;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.entities.utils.coords.Vector;
 import fr.helmdefense.model.level.GameLoop;

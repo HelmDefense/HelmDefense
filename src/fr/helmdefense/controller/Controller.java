@@ -301,7 +301,7 @@ public class Controller implements Initializable {
 		return this.level;
 	}
 	
-	protected void displayStats(LivingEntity e) {
+	private void displayStats(LivingEntity e) {
 		// Health 
 		EntityData entityData = e.data();
 		int entityMaxHp = entityData.getStats().getHp();

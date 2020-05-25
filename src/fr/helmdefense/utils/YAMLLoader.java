@@ -95,7 +95,7 @@ public class YAMLLoader {
 			constructStats(stats, Tier.TIER_3, data.getData("tier3"));
 		}
 		else
-			constructStats(stats, Tier.TIER_0, data);
+			constructStats(stats, Tier.TIER_1, data);
 		
 		try {
 			map.put(

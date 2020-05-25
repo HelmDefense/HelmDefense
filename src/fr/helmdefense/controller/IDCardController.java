@@ -108,7 +108,7 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyNAction(ActionEvent event) {
-    	int n = parseInt(buyAmountField.getText(), 0, 50);
+    	int n = parseInt(this.buyAmountField.getText(), 0, 50);
     	updateCost(n);
     	if ( buyEntity(n))
     		this.main.getLvl().getInv().addEntity(type, n);
@@ -122,9 +122,9 @@ public class IDCardController implements Initializable {
     // Upgrade actions
     @FXML
     void upgradeAction(ActionEvent event) {
-    	EntityData data = Entities.getData(type);
+    	EntityData data = Entities.getData(this.type);
     	Tier next = data.getTier().next();
-    	if(this.main.getLvl().debit(data.getStats(next).getUnlock())) {
+    	if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
     		data.setTier(next);
     	}
 		updateUpgradeLabel();
