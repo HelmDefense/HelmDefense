@@ -2,6 +2,7 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
 
@@ -25,7 +26,7 @@ public class ProjectileAttackAbility extends AttackAbility {
 	
 	@Override
 	protected void init() {
-		this.range = this.entity.data().getStats().getShootRange();
+		this.range = this.entity.stat(Attribute.SHOOT_RANGE);
 		if (this.speed == -1)
 			this.speed = Entities.getData(Projectile.class).getStats().getMvtSpd();
 	}

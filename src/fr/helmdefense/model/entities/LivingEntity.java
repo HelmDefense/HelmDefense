@@ -4,6 +4,7 @@ import fr.helmdefense.model.actions.entity.EntityKillAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDamagedAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.utils.Actions;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
@@ -14,7 +15,7 @@ public abstract class LivingEntity extends Entity {
 	
 	public LivingEntity(Location loc) {
 		super(loc);
-		this.hpProperty = new ReadOnlyIntegerWrapper(this.data().getStats().getHp());
+		this.hpProperty = new ReadOnlyIntegerWrapper((int) this.stat(Attribute.HP));
 		this.shieldProperty = new ReadOnlyIntegerWrapper(0);
 	}
 	
@@ -61,10 +62,10 @@ public abstract class LivingEntity extends Entity {
 	
 	public void gainHp(int amount, boolean ignoreShield) {
 		this.hpProperty.set(this.getHp() + amount);
-		if (this.getHp() > this.data().getStats().getHp()) {
+		if (this.getHp() > this.stat(Attribute.HP)) {
 			if (! ignoreShield)
-				this.shieldProperty.set(this.getShield() + this.getHp() - this.data().getStats().getHp());
-			this.hpProperty.set(this.data().getStats().getHp());
+				this.shieldProperty.set(this.getShield() + this.getHp() - (int) this.stat(Attribute.HP));
+			this.hpProperty.set((int) this.stat(Attribute.HP));
 		}
 	}
 	

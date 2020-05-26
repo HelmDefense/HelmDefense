@@ -9,6 +9,7 @@ import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
 import fr.helmdefense.model.actions.entity.EntityMoveAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
@@ -52,7 +53,7 @@ public abstract class Entity {
 	public void attack(LivingEntity victim) {
 		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
 		
-		victim.looseHp(this.data().getStats().getDmg(), this);
+		victim.looseHp((int) this.stat(Attribute.DMG), this);
 		
 		this.triggerAbilities(attack);
 	}
@@ -106,13 +107,24 @@ public abstract class Entity {
 		return this.modifiers;
 	}
 	
+	public AttributeModifier getModifier(int id) {
+		return this.modifiers.stream()
+				.filter(mod -> mod.getId() == id)
+				.findAny()
+				.orElse(null);
+	}
+	
 	public EntityData data() {
 		return Entities.getData(this.getClass());
 	}
 	
+	public double stat(Attribute attr) {
+		return AttributeModifier.calculate(this.data().getStats().getAttr(attr), attr, this.modifiers);
+	}
+	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [id=" + id + ", hitbox=" + hitbox + ", abilities="
-				+ abilities + "]";
+		return getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hitbox=" + hitbox + ", modifiers="
+				+ modifiers + ", abilities=" + abilities + "]";
 	}
 }

@@ -13,6 +13,7 @@ import fr.helmdefense.model.entities.defenders.Catapult;
 import fr.helmdefense.model.entities.defenders.ElvenShooter;
 import fr.helmdefense.model.entities.defenders.HumanWarrior;
 import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
@@ -304,7 +305,7 @@ public class Controller implements Initializable {
 	private void displayStats(LivingEntity e) {
 		// Current HP
 		EntityData entityData = e.data();
-		int entityMaxHp = entityData.getStats().getHp();
+		int entityMaxHp = (int) e.stat(Attribute.HP);
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
 		
