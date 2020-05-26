@@ -1,6 +1,7 @@
 package fr.helmdefense.model.entities.utils;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.utils.YAMLLoader;
@@ -30,5 +31,9 @@ public class Entities {
 				.filter(e -> e.getValue().getPath().equalsIgnoreCase(path))
 				.findAny()
 				.orElse(null).getKey();
+	}
+	
+	public static void forEachEntity(BiConsumer<Class<? extends Entity>, EntityData> action) {
+		entityData.forEach(action);
 	}
 }

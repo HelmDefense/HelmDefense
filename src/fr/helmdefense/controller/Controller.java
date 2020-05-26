@@ -302,9 +302,9 @@ public class Controller implements Initializable {
 	}
 	
 	private void displayStats(LivingEntity e) {
-		// Health 
+		// Current HP
 		EntityData entityData = e.data();
-		int entityMaxHp = entityData.getStats(Tier.TIER_1).getHp();
+		int entityMaxHp = entityData.getStats().getHp();
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
 		
@@ -314,98 +314,96 @@ public class Controller implements Initializable {
 		entityHealthBonusLabel.setText("+ " + e.getShield());
 		e.shieldProperty().addListener((obs, o, n) -> entityHealthBonusLabel.setText("+ " + n));
 		
-		// stats :	
-		// Hp
-		entityHpBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityMaxHp)
-				.setMax(entityData.getStats(Tier.TIER_3).getHp());
-		entityHpBonusLabel.setText("");
-		if (entityHpBar.getValue() == -1)
-			entityHpLabel.setVisible(false);
-		else
-			entityHpLabel.setVisible(true);
-		
-		// Damages
-		
-		entityDmgBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getDmg())
-				.setMax(entityData.getStats(Tier.TIER_3).getDmg());
-		entityDmgBonusLabel.setText("");
-		if (entityDmgBar.getValue() == -1)
-			entityDmgLabel.setVisible(false);
-		else
-			entityDmgLabel.setVisible(true);
-		
-		// Movement speed
-		
-		entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getMvtSpd())
-				.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
-		entityMvtSpdBonusLabel.setText("");
-		if (entityMvtSpdBar.getValue() == -1)
-			entityMvtSpdLabel.setVisible(false);
-		else
-			entityMvtSpdLabel.setVisible(true);
-		
-		// attack speed
-		
-		entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getAtkSpd())
-				.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
-		entityAtkSpdBonusLabel.setText("");
-		if (entityAtkSpdBar.getValue() == -1)
-			entityAtkSpdLabel.setVisible(false);
-		else
-			entityAtkSpdLabel.setVisible(true);
-		
-		// portée attaque
-		
-		entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getAtkRange())
-				.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
-		entityAtkRangeBonusLabel.setText("");
-		if (entityAtkRangeBar.getValue() == -1)
-			entityAtkRangeLabel.setVisible(false);
-		else
-			entityAtkRangeLabel.setVisible(true);
-		
-		// distance range
-		
-		entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-				.setValue(entityData.getStats(Tier.TIER_1).getShootRange())
-				.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
-		entityDistRangeBonusLabel.setText("");
-		if (entityDistRangeBar.getValue() == -1)
-			entityDistRangeLabel.setVisible(false);
-		else
-			entityDistRangeLabel.setVisible(true);
-		
-		// reward ( for attacker ) / cost ( for defenders )
-		
-	
-		entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getCost())
-				.setMax(entityData.getStats(Tier.TIER_3).getCost());
-		if (entityCostBar.getValue() == -1)
-			entityCostLabel.setVisible(false);
-		else
-			entityCostLabel.setVisible(true);
-		
-		entityRewardBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-				.setValue(entityData.getStats(Tier.TIER_1).getReward())
-				.setMax(entityData.getStats(Tier.TIER_3).getReward());
-		if (entityRewardBar.getValue() == -1)
-			entityRewardLabel.setVisible(false);
-		else
-			entityRewardLabel.setVisible(true);
+		// Statistics
+		manageStats(entityData);
 
+		// Display range
 		this.atkRange.setRadius((entityAtkRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
 		this.atkRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
 		this.atkRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
 		
 		this.shootRange.setRadius((entityDistRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
 		this.shootRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
-		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
-		
+		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));	
+	}
+	
+	protected void manageStats(EntityData entityData) {
+		// HP
+		this.entityHpBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+			.setValue(entityData.getStats().getHp())
+			.setMax(entityData.getStats(Tier.TIER_3).getHp());
+		this.entityHpBonusLabel.setText("");
+		if (this.entityHpBar.getValue() == -1)
+			this.entityHpLabel.setVisible(false);
+		else
+			this.entityHpLabel.setVisible(true);
+
+		// Damages
+		this.entityDmgBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+			.setValue(entityData.getStats().getDmg())
+			.setMax(entityData.getStats(Tier.TIER_3).getDmg());
+		this.entityDmgBonusLabel.setText("");
+		if (this.entityDmgBar.getValue() == -1)
+			this.entityDmgLabel.setVisible(false);
+		else
+			this.entityDmgLabel.setVisible(true);
+
+		// Movement speed
+		this.entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
+			.setValue(entityData.getStats().getMvtSpd())
+			.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
+		this.entityMvtSpdBonusLabel.setText("");
+		if (this.entityMvtSpdBar.getValue() == -1)
+			this.entityMvtSpdLabel.setVisible(false);
+		else
+			this.entityMvtSpdLabel.setVisible(true);
+
+		// attack speed
+		this.entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
+			.setValue(entityData.getStats().getAtkSpd())
+			.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
+		this.entityAtkSpdBonusLabel.setText("");
+		if (this.entityAtkSpdBar.getValue() == -1)
+			this.entityAtkSpdLabel.setVisible(false);
+		else
+			this.entityAtkSpdLabel.setVisible(true);
+
+		// attack range
+		this.entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+			.setValue(entityData.getStats().getAtkRange())
+			.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
+		this.entityAtkRangeBonusLabel.setText("");
+		if (this.entityAtkRangeBar.getValue() == -1)
+			this.entityAtkRangeLabel.setVisible(false);
+		else
+			this.entityAtkRangeLabel.setVisible(true);
+
+		// distance range
+		this.entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+			.setValue(entityData.getStats().getShootRange())
+			.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
+		this.entityDistRangeBonusLabel.setText("");
+		if (this.entityDistRangeBar.getValue() == -1)
+			this.entityDistRangeLabel.setVisible(false);
+		else
+			this.entityDistRangeLabel.setVisible(true);
+
+		// cost ( for defenders )
+		this.entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+			.setValue(entityData.getStats().getCost())
+			.setMax(entityData.getStats(Tier.TIER_3).getCost());
+		if (this.entityCostBar.getValue() == -1)
+			this.entityCostLabel.setVisible(false);
+		else
+			this.entityCostLabel.setVisible(true);
+
+		//reward ( for attacker )
+		this.entityRewardBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
+			.setValue(entityData.getStats().getReward())
+			.setMax(entityData.getStats(Tier.TIER_3).getReward());
+		if (this.entityRewardBar.getValue() == -1)
+			this.entityRewardLabel.setVisible(false);
+		else
+			this.entityRewardLabel.setVisible(true);
 	}
 }

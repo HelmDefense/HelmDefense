@@ -9,6 +9,8 @@ import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.attackers.Attacker;
+import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -26,6 +28,7 @@ public class Level implements ActionListener {
 	private GameLoop gameloop;
 	private Inventory inv;
 	private ReadOnlyIntegerWrapper purseProperty;
+	private Difficulty difficulty;
 	
 	public Level(String name, GameMap map, List<Wave> waves, int startMoney) {
 		this.name = name;
@@ -45,6 +48,7 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
+		this.setDifficulty(Difficulty.EASY);
 	}
 	
 	public void startLoop() {
@@ -131,6 +135,18 @@ public class Level implements ActionListener {
 	
 	public ReadOnlyIntegerProperty purseProperty() {
 		return this.purseProperty.getReadOnlyProperty();
+	}
+	
+	public Difficulty getDifficulty() {
+		return this.difficulty;
+	}
+	
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
+		Entities.forEachEntity((type, data) -> {
+			if (Attacker.class.isAssignableFrom(type))
+				data.setTier(this.difficulty.getTier());
+		});
 	}
 	
 	@Override

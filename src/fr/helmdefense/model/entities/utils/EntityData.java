@@ -14,6 +14,7 @@ public class EntityData {
 	private Size size;
 	private Map<Tier, Statistic> stats;
 	private Map<Class<? extends Ability>, List<Object>> abilities;
+	private Tier tier;
 	
 	public EntityData(String name, String path, Size size, Map<Tier, Statistic> stats, Map<Class<? extends Ability>, List<Object>> abilities) {
 		this.name = name;
@@ -21,6 +22,7 @@ public class EntityData {
 		this.size = size;
 		this.stats = stats;
 		this.abilities = abilities;
+		this.tier = Tier.TIER_1;
 	}
 	
 	public final String getName() {
@@ -33,6 +35,10 @@ public class EntityData {
 
 	public Size getSize() {
 		return this.size;
+	}
+	
+	public final Statistic getStats() {
+		return getStats(this.tier);
 	}
 	
 	public final Statistic getStats(Tier tier) {
@@ -61,6 +67,14 @@ public class EntityData {
 		for (int i = 0; i < list.size(); i++)
 			array[i] = (Class<?>) list.get(i);
 		return array;
+	}
+
+	public Tier getTier() {
+		return tier;
+	}
+
+	public void setTier(Tier tier) {
+		this.tier = tier;
 	}
 
 	@Override

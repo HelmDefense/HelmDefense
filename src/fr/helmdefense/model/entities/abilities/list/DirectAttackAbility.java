@@ -15,6 +15,6 @@ public class DirectAttackAbility extends AttackAbility {
 	
 	@Override
 	protected void init() {
-		this.range = this.entity.data().getStats(Tier.TIER_1).getAtkRange();
+		this.range = this.entity.data().getStats().getAtkRange();
 	}
 }

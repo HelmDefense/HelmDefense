@@ -8,8 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Label fx:id="entityNameLabel" text="Nom de l'entité">
 			<font>
@@ -19,8 +18,7 @@
 				<Insets />
 			</VBox.margin>
 		</Label>
-		<Line endX="100.0" opacity="0.75" startX="-100.0"
-			strokeWidth="3.0">
+		<Line endX="100.0" opacity="0.75" startX="-100.0" strokeWidth="3.0">
 			<VBox.margin>
 				<Insets bottom="10.0" />
 			</VBox.margin>
@@ -34,8 +32,7 @@
 				</Label>
 			</left>
 			<right>
-				<Label fx:id="buyCostLabel" text="Coût : xx"
-					BorderPane.alignment="CENTER">
+				<Label fx:id="buyCostLabel" text="Coût : xx" BorderPane.alignment="CENTER">
 					<font>
 						<Font size="18.0" />
 					</font>
@@ -44,28 +41,20 @@
 		</BorderPane>
 		<HBox alignment="CENTER" spacing="5.0">
 			<children>
-				<Button mnemonicParsing="false" onAction="#buyOneAction"
-					text="x1" />
-				<Button mnemonicParsing="false" onAction="#buyTwoAction"
-					onMouseEntered="#buyTwoMouseEntered"
-					onMouseExited="#buyTwoMouseExited" text="x2" />
-				<Button mnemonicParsing="false" onAction="#buyFiveAction"
-					onMouseEntered="#buyFiveMouseEntered"
-					onMouseExited="#buyFiveMouseExited" text="x5" />
+				<Button mnemonicParsing="false" onAction="#buyOneAction" text="x1" />
+				<Button mnemonicParsing="false" onAction="#buyTwoAction" onMouseEntered="#buyTwoMouseEntered" onMouseExited="#buyTwoMouseExited" text="x2" />
+				<Button mnemonicParsing="false" onAction="#buyFiveAction" onMouseEntered="#buyFiveMouseEntered" onMouseExited="#buyFiveMouseExited" text="x5" />
 				<Line endY="23.0" opacity="0.75" strokeWidth="2.0">
 					<HBox.margin>
 						<Insets left="5.0" right="5.0" />
 					</HBox.margin>
 				</Line>
-				<TextField fx:id="buyAmountField" prefWidth="50.0"
-					promptText="Autre">
+				<TextField fx:id="buyAmountField" prefWidth="50.0" promptText="Autre">
 					<HBox.margin>
 						<Insets />
 					</HBox.margin>
 				</TextField>
-				<Button mnemonicParsing="false" onAction="#buyNAction"
-					onMouseEntered="#buyNMouseEntered" onMouseExited="#buyNMouseExited"
-					text="OK" />
+				<Button mnemonicParsing="false" onAction="#buyNAction" onMouseEntered="#buyNMouseEntered" onMouseExited="#buyNMouseExited" text="OK" />
 			</children>
 		</HBox>
 		<BorderPane>
@@ -77,8 +66,7 @@
 				</Label>
 			</left>
 			<right>
-				<Label fx:id="upgradeCostLabel" text="Coût : xx"
-					BorderPane.alignment="CENTER">
+				<Label fx:id="upgradeCostLabel" text="Coût : xx" BorderPane.alignment="CENTER">
 					<font>
 						<Font size="18.0" />
 					</font>
@@ -91,8 +79,7 @@
 		<HBox alignment="CENTER" spacing="15.0">
 			<children>
 				<Label fx:id="upgradeBeforeLabel" text="Tier N" />
-				<Button mnemonicParsing="false" onAction="#upgradeAction"
-					text="==&gt;" />
+				<Button fx:id="upgradeButton" mnemonicParsing="false" onAction="#upgradeAction" text="==&gt;" />
 				<Label fx:id="upgradeAfterLabel" text="Tier N+1" />
 			</children>
 		</HBox>
@@ -103,10 +90,8 @@
 		</TextFlow>
 		<HBox fx:id="chooseUpgradeBox" alignment="CENTER" spacing="25.0">
 			<children>
-				<Button mnemonicParsing="false" onAction="#tierAAction"
-					text="A" />
-				<Button mnemonicParsing="false" onAction="#tierBAction"
-					text="B" />
+				<Button mnemonicParsing="false" onAction="#tierAAction" text="A" />
+				<Button mnemonicParsing="false" onAction="#tierBAction" text="B" />
 			</children>
 		</HBox>
 	</children>
