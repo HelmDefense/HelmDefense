@@ -369,24 +369,24 @@ public class Controller implements Initializable {
 			this.entityAtkSpdLabel.setVisible(true);
 
 		// attack range
-		entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+		this.entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
 			.setValue(entityData.getStats().getAtkRange())
 			.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
-		entityAtkRangeBonusLabel.setText("");
-		if (entityAtkRangeBar.getValue() == -1)
-			entityAtkRangeLabel.setVisible(false);
+		this.entityAtkRangeBonusLabel.setText("");
+		if (this.entityAtkRangeBar.getValue() == -1)
+			this.entityAtkRangeLabel.setVisible(false);
 		else
-			entityAtkRangeLabel.setVisible(true);
+			this.entityAtkRangeLabel.setVisible(true);
 
 		// distance range
-		entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
+		this.entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
 			.setValue(entityData.getStats().getShootRange())
 			.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
-		entityDistRangeBonusLabel.setText("");
-		if (entityDistRangeBar.getValue() == -1)
-			entityDistRangeLabel.setVisible(false);
+		this.entityDistRangeBonusLabel.setText("");
+		if (this.entityDistRangeBar.getValue() == -1)
+			this.entityDistRangeLabel.setVisible(false);
 		else
-			entityDistRangeLabel.setVisible(true);
+			this.entityDistRangeLabel.setVisible(true);
 
 		// cost ( for defenders )
 		this.entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)

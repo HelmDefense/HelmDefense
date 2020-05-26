@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -39,6 +40,8 @@ public class IDCardController implements Initializable {
     private Label upgradeCostLabel;
     @FXML
     private Label upgradeBeforeLabel;
+    @FXML
+    private Button upgradeButton;
     @FXML
     private Label upgradeAfterLabel;
     @FXML
@@ -127,10 +130,10 @@ public class IDCardController implements Initializable {
     	Tier next = data.getTier().next();
     	if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
     		data.setTier(next);
-    		main.manageStats(data);
+    		this.main.manageStats(data);
     		updateUpgradeLabel();
     	}
-    	if (Entities.getData(this.type).getTier().equals(Tier.number(2).toString())) {
+    	if (data.getTier().equals("TIER_2")) {
     		this.chooseUpgradeBox.setVisible(true);
     	}
     	else {
@@ -200,7 +203,18 @@ public class IDCardController implements Initializable {
 	}
 	
 	public void updateUpgradeLabel() {
-		this.upgradeBeforeLabel.setText(Entities.getData(type).getTier().toString());
-    	this.upgradeAfterLabel.setText(Entities.getData(type).getTier().next() + "");
+		EntityData data = Entities.getData(this.type);
+		Tier next = data.getTier().next();
+		if (next == null) {
+			this.upgradeCostLabel.setText("Niveau max");
+			this.upgradeBeforeLabel.setText("");
+			this.upgradeAfterLabel.setText("");
+//			this.upgradeButton.setDisable(true);
+		}
+		else {
+			this.upgradeBeforeLabel.setText(data.getTier().toString());
+			this.upgradeAfterLabel.setText(next + "");
+			this.upgradeCostLabel.setText(data.getStats(next).getUnlock() + "");
+		}	
 	}
 }

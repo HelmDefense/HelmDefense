@@ -56,21 +56,21 @@ defenders:
       atk-spd: 0.9
       dist-range: 6
       cost: 125
-      unlock: 200
+      unlock: 0
     tier2:
       hp: 2000
       dmg: 600
       atk-spd: 0.9
       dist-range: 7
       cost: 350
-      unlock: 500
+      unlock: 700
     tier3:
       hp: 3000
       dmg: 950
       atk-spd: 0.9
       dist-range: 7
       cost: 750
-      unlock: 1000
+      unlock: 1200
   elven:
     name: "Elfe"
     class: fr.helmdefense.model.entities.defenders.ElvenShooter
@@ -92,6 +92,7 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 700
+      unlock: 0
     tier2:
       hp: 3000
       dmg: 650
@@ -100,6 +101,7 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 1200
+      unlock: 1500
     tier3:
       hp: 3750
       dmg: 1050
@@ -108,6 +110,7 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 2500
+      unlock: 3000
   catapult:
     name: "Trébuchet"
     class: fr.helmdefense.model.entities.defenders.Catapult
@@ -124,18 +127,21 @@ defenders:
       atk-spd: 0.25
       dist-range: 12
       cost: 1500
+      unlock: 0
     tier2:
       hp: 7500
       dmg: 3000
       atk-spd: 0.25
       dist-range: 12
       cost: 2500
+      unlock: 3000
     tier3:
       hp: 10000
       dmg: 4500
       atk-spd: 0.25
       dist-range: 12
       cost: 4000
+      unlock: 5000
   # Heros default stats
   heros:
     aragorn:
