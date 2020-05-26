@@ -1,6 +1,7 @@
 package fr.helmdefense.model.entities.utils;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 public class AttributeModifier {
 	private int id;
@@ -33,17 +34,36 @@ public class AttributeModifier {
 		return this.val;
 	}
 	
+	public double apply(double base) {
+		return this.op.calc(base, this.val);
+	}
+	
 	public static double calculate(double base, Attribute attr, List<AttributeModifier> modifiers) {
 		double result = base;
 		for (AttributeModifier modifier : modifiers)
 			if (modifier.getAttr() == attr)
-				result += modifier.getVal() * (modifier.getOp() == Operation.MULTIPLY ? base : 1);
+				result += modifier.apply(base);
 		
 		return result;
 	}
 	
+	@Override
+	public String toString() {
+		return "AttributeModifier [id=" + id + ", attr=" + attr + ", op=" + op + ", val=" + val + "]";
+	}
+
 	public enum Operation {
-		ADD,
-		MULTIPLY;
+		ADD((b, v) -> v),
+		MULTIPLY((b, v) -> b * v);
+		
+		private BiFunction<Double, Double, Double> op;
+		
+		private Operation(BiFunction<Double, Double, Double> op) {
+			this.op = op;
+		}
+		
+		public double calc(double base, double value) {
+			return this.op.apply(base, value);
+		}
 	}
 }
