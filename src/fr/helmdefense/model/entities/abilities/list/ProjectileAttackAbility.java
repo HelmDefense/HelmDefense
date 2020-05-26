@@ -25,8 +25,8 @@ public class ProjectileAttackAbility extends AttackAbility {
 	
 	@Override
 	protected void init() {
-		this.range = this.entity.data().getStats(Tier.TIER_1).getShootRange();
+		this.range = this.entity.data().getStats().getShootRange();
 		if (this.speed == -1)
-			this.speed = Entities.getData(Projectile.class).getStats(Tier.TIER_0).getMvtSpd();
+			this.speed = Entities.getData(Projectile.class).getStats().getMvtSpd();
 	}
 }

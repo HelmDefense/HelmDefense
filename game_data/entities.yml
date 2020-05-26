@@ -7,9 +7,9 @@ defenders:
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       DirectAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -20,6 +20,7 @@ defenders:
       atk-spd: 0.75
       atk-range: 1
       cost: 50
+      unlock: 0
     tier2:
       hp: 3000
       dmg: 500
@@ -27,6 +28,7 @@ defenders:
       atk-spd: 0.85
       atk-range: 1
       cost: 200
+      unlock: 500
     tier3:
       hp: 4500
       dmg: 650
@@ -34,15 +36,16 @@ defenders:
       atk-spd: 0.85
       atk-range: 1
       cost: 500
+      unlock: 1000
   archer:
     name: "Archer"
     class: fr.helmdefense.model.entities.defenders.Archer
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
         - 4.0
     size:
       width: 0.5
@@ -53,27 +56,30 @@ defenders:
       atk-spd: 0.9
       dist-range: 6
       cost: 125
+      unlock: 0
     tier2:
       hp: 2000
       dmg: 600
       atk-spd: 0.9
       dist-range: 7
       cost: 350
+      unlock: 700
     tier3:
       hp: 3000
       dmg: 950
       atk-spd: 0.9
       dist-range: 7
       cost: 750
+      unlock: 1200
   elven:
     name: "Elfe"
     class: fr.helmdefense.model.entities.defenders.ElvenShooter
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
         - 6.0
     size:
       width: 0.5
@@ -86,6 +92,7 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 700
+      unlock: 0
     tier2:
       hp: 3000
       dmg: 650
@@ -94,6 +101,7 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 1200
+      unlock: 1500
     tier3:
       hp: 3750
       dmg: 1050
@@ -102,13 +110,14 @@ defenders:
       atk-range: 1
       dist-range: 8
       cost: 2500
+      unlock: 3000
   catapult:
     name: "Trébuchet"
     class: fr.helmdefense.model.entities.defenders.Catapult
     abilities:
       BountyHuntingAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 1.5
       height: 1.5
@@ -118,18 +127,21 @@ defenders:
       atk-spd: 0.25
       dist-range: 12
       cost: 1500
+      unlock: 0
     tier2:
       hp: 7500
       dmg: 3000
       atk-spd: 0.25
       dist-range: 12
       cost: 2500
+      unlock: 3000
     tier3:
       hp: 10000
       dmg: 4500
       atk-spd: 0.25
       dist-range: 12
       cost: 4000
+      unlock: 5000
   # Heros default stats
   heros:
     aragorn:
@@ -138,7 +150,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -154,7 +166,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -170,7 +182,7 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
-          - TIER_0
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -187,9 +199,9 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       DirectAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -220,7 +232,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -251,9 +263,9 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
       ProjectileAttackAbility:
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5
@@ -287,7 +299,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.75
       height: 0.75
@@ -318,7 +330,7 @@ attackers:
     abilities:
       MoveToEndAbility:
         # Tier
-        - TIER_0
+        - TIER_1
     size:
       width: 0.5
       height: 0.5

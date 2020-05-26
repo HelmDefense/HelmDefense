@@ -5,12 +5,14 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -38,6 +40,8 @@ public class IDCardController implements Initializable {
     private Label upgradeCostLabel;
     @FXML
     private Label upgradeBeforeLabel;
+    @FXML
+    private Button upgradeButton;
     @FXML
     private Label upgradeAfterLabel;
     @FXML
@@ -107,7 +111,7 @@ public class IDCardController implements Initializable {
 
     @FXML
     void buyNAction(ActionEvent event) {
-    	int n = parseInt(buyAmountField.getText(), 0, 50);
+    	int n = parseInt(this.buyAmountField.getText(), 0, 50);
     	updateCost(n);
     	if ( buyEntity(n))
     		this.main.getLvl().getInv().addEntity(type, n);
@@ -115,23 +119,36 @@ public class IDCardController implements Initializable {
     }
     
     public boolean buyEntity(int quantity) {
-    	return this.main.getLvl().debit(Entities.getData(type).getStats(Tier.TIER_1).getCost() * quantity);	
+    	return this.main.getLvl().debit(Entities.getData(type).getStats().getCost() * quantity);	
     }
 
     // Upgrade actions
+    @SuppressWarnings("unlikely-arg-type")
     @FXML
     void upgradeAction(ActionEvent event) {
-
+    	EntityData data = Entities.getData(this.type);
+    	Tier next = data.getTier().next();
+    	if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
+    		data.setTier(next);
+    		this.main.manageStats(data);
+    		updateUpgradeLabel();
+    	}
+    	if (data.getTier().equals("TIER_2")) {
+    		this.chooseUpgradeBox.setVisible(true);
+    	}
+    	else {
+    		this.chooseUpgradeBox.setVisible(false);
+    	}
     }
 
-    @FXML
+	@FXML
     void tierAAction(ActionEvent event) {
-
+    	System.out.println("Upgrade A");	
     }
 
     @FXML
     void tierBAction(ActionEvent event) {
-
+    	System.out.println("Upgrade B");
     }
 	
 	@Override
@@ -139,14 +156,15 @@ public class IDCardController implements Initializable {
 		this.entityNameLabel.setText(Entities.getData(this.type).getName());
 		updateCost(1);
 		
-		this.chooseUpgradeBox.managedProperty().bind(chooseUpgradeBox.visibleProperty());
-		chooseUpgradeBox.setVisible(false);
+		this.chooseUpgradeBox.managedProperty().bind(this.chooseUpgradeBox.visibleProperty());
+		this.chooseUpgradeBox.setVisible(false);
 		
-    	buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(buyAmountField.getText(), 0, 50)));
+    	this.buyAmountField.textProperty().addListener((obs, oldValue, newValue) -> updateCost(parseInt(this.buyAmountField.getText(), 0, 50)));
     	
     	this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
     		checkCost();
     	});
+    	updateUpgradeLabel();
 	}
 	
 	public static int parseInt(String str, int def, int min, int max) {
@@ -174,7 +192,7 @@ public class IDCardController implements Initializable {
 	}
 	
 	private void updateCost(int n) {
-		this.costProperty.set(Entities.getData(type).getStats(Tier.TIER_1).getCost() * n);
+		this.costProperty.set(Entities.getData(type).getStats().getCost() * n);
 	}
 	
 	public void checkCost() {
@@ -182,5 +200,21 @@ public class IDCardController implements Initializable {
 			this.buyCostLabel.setTextFill(Color.RED);
 		else 
 			this.buyCostLabel.setTextFill(Color.BLACK);
+	}
+	
+	public void updateUpgradeLabel() {
+		EntityData data = Entities.getData(this.type);
+		Tier next = data.getTier().next();
+		if (next == null) {
+			this.upgradeCostLabel.setText("Niveau max");
+			this.upgradeBeforeLabel.setText("");
+			this.upgradeAfterLabel.setText("");
+//			this.upgradeButton.setDisable(true);
+		}
+		else {
+			this.upgradeBeforeLabel.setText(data.getTier().toString());
+			this.upgradeAfterLabel.setText(next + "");
+			this.upgradeCostLabel.setText(data.getStats(next).getUnlock() + "");
+		}	
 	}
 }

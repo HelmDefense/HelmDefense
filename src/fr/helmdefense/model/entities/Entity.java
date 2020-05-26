@@ -12,7 +12,6 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
@@ -53,7 +52,7 @@ public abstract class Entity {
 	public void attack(LivingEntity victim) {
 		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
 		
-		victim.looseHp(this.data().getStats(Tier.TIER_1).getDmg(), this);
+		victim.looseHp(this.data().getStats().getDmg(), this);
 		
 		this.triggerAbilities(attack);
 	}

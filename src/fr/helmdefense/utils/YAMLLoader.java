@@ -95,7 +95,7 @@ public class YAMLLoader {
 			constructStats(stats, Tier.TIER_3, data.getData("tier3"));
 		}
 		else
-			constructStats(stats, Tier.TIER_0, data);
+			constructStats(stats, Tier.TIER_1, data);
 		
 		try {
 			map.put(
@@ -122,7 +122,8 @@ public class YAMLLoader {
 				data.getDouble("atk-range"),
 				data.getDouble("dist-range"),
 				data.getInt("cost"),
-				data.getInt("reward")
+				data.getInt("reward"),
+				data.getInt("unlock")
 		));
 	}
 	
