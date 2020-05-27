@@ -147,6 +147,8 @@ public class Controller implements Initializable {
     // Description & Abilities
     @FXML
     TextFlow entityDescText;
+    @FXML
+    VBox upgradeVBox;
     
     // Inventory
     @FXML
@@ -291,10 +293,14 @@ public class Controller implements Initializable {
 	}
 	
 	private static ImageView getImg(String... paths) {
-		return new ImageView(Paths.get(
+		return new ImageView(imgPath(paths));
+	}
+	
+	public static String imgPath(String... paths) {
+		return Paths.get(
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
-		).toUri().toString());
+		).toUri().toString();
 	}
 	
 	Level getLvl() {

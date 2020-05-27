@@ -15,6 +15,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -44,6 +46,10 @@ public class IDCardController implements Initializable {
     private Button upgradeButton;
     @FXML
     private Label upgradeAfterLabel;
+    @FXML
+    private ImageView upgradeBImage;
+    @FXML
+    private ImageView upgradeAImage;
     @FXML
     private TextFlow upgradeDescText;
 	@FXML
@@ -123,7 +129,6 @@ public class IDCardController implements Initializable {
     }
 
     // Upgrade actions
-    @SuppressWarnings("unlikely-arg-type")
     @FXML
     void upgradeAction(ActionEvent event) {
     	EntityData data = Entities.getData(this.type);
@@ -132,23 +137,44 @@ public class IDCardController implements Initializable {
     		data.setTier(next);
     		this.main.manageStats(data);
     		updateUpgradeLabel();
+    		updateCost(1);
     	}
-    	if (data.getTier().equals("TIER_2")) {
+    	if (data.getTier() == Tier.TIER_3) {
     		this.chooseUpgradeBox.setVisible(true);
     	}
     	else {
     		this.chooseUpgradeBox.setVisible(false);
     	}
     }
-
-	@FXML
-    void tierAAction(ActionEvent event) {
-    	System.out.println("Upgrade A");	
+    
+    @FXML
+    void upgradeAMouseClicked(MouseEvent event) {
+    	
     }
 
     @FXML
-    void tierBAction(ActionEvent event) {
-    	System.out.println("Upgrade B");
+    void upgradeAMouseEntered(MouseEvent event) {
+
+    }
+
+    @FXML
+    void upgradeAMouseExited(MouseEvent event) {
+    	
+    }
+    
+    @FXML
+    void upgradeBMouseClicked(MouseEvent event) {
+    	
+    }
+
+    @FXML
+    void upgradeBMouseEntered(MouseEvent event) {
+
+    }
+
+    @FXML
+    void upgradeBMouseExited(MouseEvent event) {
+
     }
 	
 	@Override
@@ -165,6 +191,12 @@ public class IDCardController implements Initializable {
     		checkCost();
     	});
     	updateUpgradeLabel();
+    	String path = Entities.getData(this.type).getPath();
+    	String name = path.substring(path.indexOf('.') + 1);
+    	System.out.println(name);
+    	this.upgradeAImage.setImage(new Image(Controller.imgPath("models", name + "_a.png")));
+    	this.upgradeBImage.setImage(new Image(Controller.imgPath("models", name + "_b.png")));
+    	System.out.println(this.upgradeButton);
 	}
 	
 	public static int parseInt(String str, int def, int min, int max) {
@@ -209,7 +241,7 @@ public class IDCardController implements Initializable {
 			this.upgradeCostLabel.setText("Niveau max");
 			this.upgradeBeforeLabel.setText("");
 			this.upgradeAfterLabel.setText("");
-//			this.upgradeButton.setDisable(true);
+			this.upgradeButton.setDisable(true);
 		}
 		else {
 			this.upgradeBeforeLabel.setText(data.getTier().toString());
