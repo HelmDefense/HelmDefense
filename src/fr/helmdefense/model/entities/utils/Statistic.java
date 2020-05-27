@@ -60,6 +60,10 @@ public class Statistic {
 	public final int getUnlock() {
 		return this.unlock;
 	}
+
+	public double getAttr(Attribute attr) {
+		return attr.get(this);
+	}
 	
 	@Override
 	public String toString() {

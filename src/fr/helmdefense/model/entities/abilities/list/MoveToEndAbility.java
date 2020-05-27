@@ -5,6 +5,7 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.entities.utils.coords.Vector;
@@ -33,7 +34,7 @@ public class MoveToEndAbility extends Ability {
 		Location loc = this.entity.getLoc(), l = this.movingTo.getLoc().center();
 		Vector v = new Vector(loc, l);
 		double d = l.distance(loc);
-		v.multiply(this.entity.data().getStats().getMvtSpd() / GameLoop.TPS / d);
+		v.multiply(this.entity.stat(Attribute.MVT_SPD) / GameLoop.TPS / d);
 		this.entity.teleport(loc.add(v));
 		if (v.length() >= d)
 			this.movingTo = this.movingTo.getNext();

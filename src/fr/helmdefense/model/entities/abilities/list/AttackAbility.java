@@ -8,6 +8,7 @@ import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.attackers.Attacker;
 import fr.helmdefense.model.entities.defenders.Defender;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public abstract class AttackAbility extends Ability {
@@ -36,7 +37,7 @@ public abstract class AttackAbility extends Ability {
 
         if (enemy != null
                 && enemy.getLoc().distance(this.entity.getLoc()) < this.range + 0.5
-                && action.getTicks() - this.lastAtk > 10 / this.entity.data().getStats().getAtkSpd()) {
+                && action.getTicks() - this.lastAtk > 10 / this.entity.stat(Attribute.ATK_SPD)) {
             this.lastAtk = action.getTicks();
             this.attack(enemy);
         }
