@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox onMouseClicked="#upgradeAMouseClicked" onMouseEntered="#upgradeAMouseEntered" onMouseExited="#upgradeAMouseExited" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Label fx:id="entityNameLabel" text="Nom de l'entité">
 			<font>

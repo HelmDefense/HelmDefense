@@ -149,7 +149,9 @@ public class IDCardController implements Initializable {
     
     @FXML
     void upgradeAMouseClicked(MouseEvent event) {
-    	
+    	this.main.upgradeNameLabel.setText(null);
+    	this.main.upgradeImage.setImage(this.upgradeAImage.getImage());
+		this.main.upgradeVBox.setVisible(true);
     }
 
     @FXML
@@ -164,7 +166,9 @@ public class IDCardController implements Initializable {
     
     @FXML
     void upgradeBMouseClicked(MouseEvent event) {
-    	
+    	this.main.upgradeNameLabel.setText(null);
+    	this.main.upgradeImage.setImage(this.upgradeBImage.getImage());
+    	this.main.upgradeVBox.setVisible(true);
     }
 
     @FXML
@@ -193,10 +197,8 @@ public class IDCardController implements Initializable {
     	updateUpgradeLabel();
     	String path = Entities.getData(this.type).getPath();
     	String name = path.substring(path.indexOf('.') + 1);
-    	System.out.println(name);
     	this.upgradeAImage.setImage(new Image(Controller.imgPath("models", name + "_a.png")));
     	this.upgradeBImage.setImage(new Image(Controller.imgPath("models", name + "_b.png")));
-    	System.out.println(this.upgradeButton);
 	}
 	
 	public static int parseInt(String str, int def, int min, int max) {
@@ -246,7 +248,7 @@ public class IDCardController implements Initializable {
 		else {
 			this.upgradeBeforeLabel.setText(data.getTier().toString());
 			this.upgradeAfterLabel.setText(next + "");
-			this.upgradeCostLabel.setText(data.getStats(next).getUnlock() + "");
+			this.upgradeCostLabel.setText("Coût : " + data.getStats(next).getUnlock());
 		}	
 	}
 }

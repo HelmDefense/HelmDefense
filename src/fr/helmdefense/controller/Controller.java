@@ -149,6 +149,16 @@ public class Controller implements Initializable {
     TextFlow entityDescText;
     @FXML
     VBox upgradeVBox;
+    @FXML
+    Label upgradeNameLabel;
+    @FXML
+    ImageView upgradeImage;
+    @FXML
+    TextFlow upgradeDescText;
+    @FXML
+    Button returnUpgradeButton;
+    @FXML
+    Button unlockUpgradeButton;
     
     // Inventory
     @FXML
@@ -191,6 +201,8 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.level = Level.load("troll");
+		this.upgradeVBox.setVisible(false);
+		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
 		
 		setupStats();
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
