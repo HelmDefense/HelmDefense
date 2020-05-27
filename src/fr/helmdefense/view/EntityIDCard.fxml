@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox onMouseClicked="#upgradeAMouseClicked" onMouseEntered="#upgradeAMouseEntered" onMouseExited="#upgradeAMouseExited" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<Label fx:id="entityNameLabel" text="Nom de l'entité">
 			<font>
@@ -89,10 +90,21 @@
 			</VBox.margin>
 		</TextFlow>
 		<HBox fx:id="chooseUpgradeBox" alignment="CENTER" spacing="25.0">
-			<children>
-				<Button mnemonicParsing="false" onAction="#tierAAction" text="A" />
-				<Button mnemonicParsing="false" onAction="#tierBAction" text="B" />
-			</children>
+         <children>
+            <ImageView fx:id="upgradeAImage" fitHeight="48.0" fitWidth="48.0" onMouseClicked="#upgradeAMouseClicked" onMouseEntered="#upgradeAMouseEntered" onMouseExited="#upgradeAMouseExited" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fx:id="upgradeBImage" fitHeight="48.0" fitWidth="48.0" onMouseClicked="#upgradeBMouseClicked" onMouseEntered="#upgradeBMouseEntered" onMouseExited="#upgradeBMouseExited" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
 		</HBox>
 	</children>
 	<padding>
