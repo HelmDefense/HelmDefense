@@ -48,7 +48,7 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
-		this.setDifficulty(Difficulty.EASY);
+		this.setDifficulty(Difficulty.DEFAULT);
 	}
 	
 	public void startLoop() {
@@ -142,7 +142,7 @@ public class Level implements ActionListener {
 	}
 	
 	public void setDifficulty(Difficulty difficulty) {
-		this.difficulty = difficulty;
+		this.difficulty = difficulty == null ? Difficulty.DEFAULT : difficulty;
 		Entities.forEachEntity((type, data) -> {
 			if (Attacker.class.isAssignableFrom(type))
 				data.setTier(this.difficulty.getTier());

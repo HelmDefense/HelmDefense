@@ -15,6 +15,7 @@ public class EntityData {
 	private Map<Tier, Statistic> stats;
 	private Map<Class<? extends Ability>, List<Object>> abilities;
 	private Tier tier;
+	private Tier.Specification tierSpecification;
 	
 	public EntityData(String name, String path, Size size, Map<Tier, Statistic> stats, Map<Class<? extends Ability>, List<Object>> abilities) {
 		this.name = name;
@@ -22,7 +23,8 @@ public class EntityData {
 		this.size = size;
 		this.stats = stats;
 		this.abilities = abilities;
-		this.tier = Tier.TIER_1;
+		this.tier = Tier.DEFAULT;
+		this.tierSpecification = Tier.Specification.DEFAULT;
 	}
 	
 	public final String getName() {
@@ -75,6 +77,15 @@ public class EntityData {
 
 	public void setTier(Tier tier) {
 		this.tier = tier;
+	}
+	
+	public Tier.Specification getTierSpecification() {
+		return this.tierSpecification;
+	}
+	
+	public void setTierSpecification(Tier.Specification tierSpecification) {
+		if (this.tier.hasSpecification())
+			this.tierSpecification = tierSpecification;
 	}
 
 	@Override
