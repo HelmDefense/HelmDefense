@@ -9,6 +9,8 @@ public enum Difficulty {
 	
 	private Tier tier;
 	
+	public static final Difficulty DEFAULT = EASY;
+	
 	private Difficulty(Tier tier) {
 		this.tier = tier;
 	}

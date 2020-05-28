@@ -148,6 +148,18 @@ public class Controller implements Initializable {
     // Description & Abilities
     @FXML
     TextFlow entityDescText;
+    @FXML
+    VBox upgradeVBox;
+    @FXML
+    Label upgradeNameLabel;
+    @FXML
+    ImageView upgradeImage;
+    @FXML
+    TextFlow upgradeDescText;
+    @FXML
+    Button returnUpgradeButton;
+    @FXML
+    Button unlockUpgradeButton;
     
     // Inventory
     @FXML
@@ -190,6 +202,8 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.level = Level.load("troll");
+		this.upgradeVBox.setVisible(false);
+		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
 		
 		setupStats();
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
@@ -292,10 +306,14 @@ public class Controller implements Initializable {
 	}
 	
 	private static ImageView getImg(String... paths) {
-		return new ImageView(Paths.get(
+		return new ImageView(imgPath(paths));
+	}
+	
+	public static String imgPath(String... paths) {
+		return Paths.get(
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
-		).toUri().toString());
+		).toUri().toString();
 	}
 	
 	Level getLvl() {
