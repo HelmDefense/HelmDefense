@@ -27,9 +27,9 @@
 	<left>
 		<AnchorPane>
 			<children>
-				<TabPane tabClosingPolicy="UNAVAILABLE">
+				<TabPane fx:id="leftPane" tabClosingPolicy="UNAVAILABLE">
 					<tabs>
-						<Tab text="Stats">
+						<Tab fx:id="statsTab" text="Statistiques">
 							<content>
 								<VBox alignment="TOP_CENTER" spacing="10.0"
 									BorderPane.alignment="CENTER">
@@ -215,7 +215,7 @@
 								</VBox>
 							</content>
 						</Tab>
-						<Tab text="Inventaire">
+						<Tab fx:id="inventoryTab" text="Inventaire">
 							<content>
 								<InventoryView fx:id="inventory">
 									<padding>
@@ -287,7 +287,7 @@
 			<right>
 				<Label fx:id="buyInfoLabel" alignment="CENTER_RIGHT"
 					contentDisplay="RIGHT" prefWidth="500.0"
-					text="Unité xN - Clic gauche pour placer" textAlignment="RIGHT"
+					text="Sélectionnez une entité dans l'inventaire pour la placer" textAlignment="RIGHT"
 					BorderPane.alignment="CENTER">
 					<font>
 						<Font size="18.0" />

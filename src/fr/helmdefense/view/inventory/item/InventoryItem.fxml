@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root type="StackPane" prefHeight="48.0" prefWidth="48.0"
+<fx:root prefHeight="48.0" prefWidth="48.0" type="StackPane"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<ImageView fx:id="imageView" fitHeight="32.0"
@@ -19,5 +19,12 @@
 				<Font name="System Bold" size="18.0" />
 			</font>
 		</Label>
+		<ImageView fx:id="checkMark" fitHeight="16.0"
+			fitWidth="16.0" pickOnBounds="true" preserveRatio="true"
+			StackPane.alignment="BOTTOM_LEFT">
+			<image>
+				<Image url="@../../../../../../assets/models/check-mark.png" />
+			</image>
+		</ImageView>
 	</children>
 </fx:root>

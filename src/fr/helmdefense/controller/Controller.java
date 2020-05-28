@@ -2,6 +2,7 @@ package fr.helmdefense.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
@@ -17,6 +18,8 @@ import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Hitbox;
+import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.inventory.InventoryView;
@@ -24,6 +27,7 @@ import fr.helmdefense.view.inventory.item.InventoryItem;
 import fr.helmdefense.view.statbar.StatBar;
 import fr.helmdefense.view.statbar.StatBar.DisplayStyle;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
 import javafx.event.ActionEvent;
@@ -33,6 +37,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
@@ -47,105 +53,113 @@ public class Controller implements Initializable {
 	private Level level;
 	private Circle atkRange;
 	private Circle shootRange;
-	
+	private IntegerProperty selectedAmountProperty;
+
 	/* Header */
 	// Controls buttons
-    @FXML
-    Button optionButton;
-    @FXML
-    Button pauseButton;
-    @FXML
-    Button speedButton;
-    
-    // Title
-    @FXML
-    Label levelNameLabel;
-    
-    // Money
-    @FXML
-    Label moneyLabel;
-    @FXML
-    ImageView moneyImage;
-    
-    
-    /* Left Entity Infos */
-    // Title
-    @FXML
-    Label entityNameLabel;
-    
-    // Health bar
-    @FXML
-    Label entityHealthPercentLabel;
-    @FXML
-    StatBar entityHealthBar;
-    @FXML
-    Label entityHealthBonusLabel;
-    
-    // Hp bar
-    @FXML
-    Label entityHpLabel;
-    @FXML
-    StatBar entityHpBar;
-    @FXML
-    Label entityHpBonusLabel;
-    
-    // Dmg bar
-    @FXML
-    Label entityDmgLabel;
-    @FXML
-    StatBar entityDmgBar;
-    @FXML
-    Label entityDmgBonusLabel;
-    
-    // Mvt spd bar
-    @FXML
-    Label entityMvtSpdLabel;
-    @FXML
-    StatBar entityMvtSpdBar;
-    @FXML
-    Label entityMvtSpdBonusLabel;
-    
-    // Atk spd bar
-    @FXML
-    Label entityAtkSpdLabel;
-    @FXML
-    StatBar entityAtkSpdBar;
-    @FXML
-    Label entityAtkSpdBonusLabel;
-    
-    // Atk range bar
-    @FXML
-    Label entityAtkRangeLabel;
-    @FXML
-    StatBar entityAtkRangeBar;
-    @FXML
-    Label entityAtkRangeBonusLabel;
-    
-    // Dist range bar
-    @FXML
-    Label entityDistRangeLabel;
-    @FXML
-    StatBar entityDistRangeBar;
-    @FXML
-    Label entityDistRangeBonusLabel;
-    
-    // Cost bar
-    @FXML
-    Label entityCostLabel;
-    @FXML
-    StatBar entityCostBar;
-    @FXML
-    ImageView entityCostCoin;
-    
-    // Reward bar
-    @FXML
-    Label entityRewardLabel;
-    @FXML
-    StatBar entityRewardBar;
-    @FXML
-    ImageView entityRewardCoin;
-    
-    // Description & Abilities
+	@FXML
+	Button optionButton;
+	@FXML
+	Button pauseButton;
+	@FXML
+	Button speedButton;
+
+	// Title
+	@FXML
+	Label levelNameLabel;
+
+	// Money
+	@FXML
+	Label moneyLabel;
+	@FXML
+	ImageView moneyImage;
+
+
+	/* Left Entity Infos */
+	@FXML
+	TabPane leftPane;
+	@FXML
+	Tab statsTab;
+	@FXML
+	Tab inventoryTab;
+
+	// Title
+	@FXML
+	Label entityNameLabel;
+
+	// Health bar
+	@FXML
+	Label entityHealthPercentLabel;
+	@FXML
+	StatBar entityHealthBar;
+	@FXML
+	Label entityHealthBonusLabel;
+
+	// Hp bar
+	@FXML
+	Label entityHpLabel;
+	@FXML
+	StatBar entityHpBar;
+	@FXML
+	Label entityHpBonusLabel;
+
+	// Dmg bar
+	@FXML
+	Label entityDmgLabel;
+	@FXML
+	StatBar entityDmgBar;
+	@FXML
+	Label entityDmgBonusLabel;
+
+	// Mvt spd bar
+	@FXML
+	Label entityMvtSpdLabel;
+	@FXML
+	StatBar entityMvtSpdBar;
+	@FXML
+	Label entityMvtSpdBonusLabel;
+
+	// Atk spd bar
+	@FXML
+	Label entityAtkSpdLabel;
+	@FXML
+	StatBar entityAtkSpdBar;
+	@FXML
+	Label entityAtkSpdBonusLabel;
+
+	// Atk range bar
+	@FXML
+	Label entityAtkRangeLabel;
+	@FXML
+	StatBar entityAtkRangeBar;
+	@FXML
+	Label entityAtkRangeBonusLabel;
+
+	// Dist range bar
+	@FXML
+	Label entityDistRangeLabel;
+	@FXML
+	StatBar entityDistRangeBar;
+	@FXML
+	Label entityDistRangeBonusLabel;
+
+	// Cost bar
+	@FXML
+	Label entityCostLabel;
+	@FXML
+	StatBar entityCostBar;
+	@FXML
+	ImageView entityCostCoin;
+
+	// Reward bar
+	@FXML
+	Label entityRewardLabel;
+	@FXML
+	StatBar entityRewardBar;
+	@FXML
+	ImageView entityRewardCoin;
+
+	// Description & Abilities
     @FXML
     TextFlow entityDescText;
     @FXML
@@ -160,66 +174,67 @@ public class Controller implements Initializable {
     Button returnUpgradeButton;
     @FXML
     Button unlockUpgradeButton;
-    
-    // Inventory
-    @FXML
-    InventoryView inventory;
-    
-    /* Center */
-    // Board
-    @FXML
-    Pane levelPane;
-    
-    // Map
-    @FXML
-    TilePane mapPane;
-    
-    /* Right Entity Infos */
-    // Entity list
-    @FXML
-    VBox entityIDCardList;
-    
-    /* Footer */
-    // Right text
-    @FXML
-    Label buyInfoLabel;
 
-    @FXML
-    void optionButtonAction(ActionEvent event) {
-    	System.out.println("Options");
-    }
+	// Inventory
+	@FXML
+	InventoryView inventory;
 
-    @FXML
-    void pauseButtonAction(ActionEvent event) {
-    	System.out.println("Pause");
-    }
+	/* Center */
+	// Board
+	@FXML
+	Pane levelPane;
 
-    @FXML
-    void speedButtonAction(ActionEvent event) {
-    	System.out.println("Vitesse");
-    }
-	
+	// Map
+	@FXML
+	TilePane mapPane;
+
+	/* Right Entity Infos */
+	// Entity list
+	@FXML
+	VBox entityIDCardList;
+
+	/* Footer */
+	// Right text
+	@FXML
+	Label buyInfoLabel;
+
+	@FXML
+	void optionButtonAction(ActionEvent event) {
+		System.out.println("Options");
+	}
+
+	@FXML
+	void pauseButtonAction(ActionEvent event) {
+		System.out.println("Pause");
+	}
+
+	@FXML
+	void speedButtonAction(ActionEvent event) {
+		System.out.println("Vitesse");
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.selectedAmountProperty = new SimpleIntegerProperty();
 		this.level = Level.load("troll");
 		this.upgradeVBox.setVisible(false);
 		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
-		
 		setupStats();
+
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
 		this.levelPane.setClip(clip);
-		
+
 		this.addIDCard(HumanWarrior.class);
 		this.addIDCard(Archer.class);
 		this.addIDCard(ElvenShooter.class);
 		this.addIDCard(Catapult.class);
-		
+
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
 		for (int y = 0; y < GameMap.HEIGHT; y++)
 			for (int x = 0; x < GameMap.WIDTH; x++)
 				this.mapPane.getChildren().add(getImg("maptiles", this.level.getMap().getTile(x, y) + ".png"));
-		
+
 		ListChangeListener<Entity> lcl = c -> {
 			while (c.next()) {
 				if (c.wasAdded()) {
@@ -228,7 +243,7 @@ public class Controller implements Initializable {
 						img.setId(e.getId());
 						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
-						if (e instanceof LivingEntity)
+						if (e instanceof LivingEntity) 
 							img.setOnMouseClicked(i -> displayStats((LivingEntity) e));
 						else if (e instanceof Projectile)
 							img.setRotate(((Projectile) e).angle() + 45);
@@ -243,21 +258,60 @@ public class Controller implements Initializable {
 			}
 		};
 		this.level.getEntities().addListener(lcl);
-		
+
 		MapChangeListener<Class<? extends Entity>, IntegerProperty> mcl = c -> {
-			if(c.wasRemoved()) {
-				inventory.getItems().remove(inventory.getItem(Entities.getData(c.getKey()).getPath()));
+			if (c.wasRemoved()) {
+				this.inventory.getItems().remove(this.inventory.getItem(Entities.getData(c.getKey()).getPath()));
+				this.inventory.getToggleGroup().selectToggle(null);
 			}
-			if(c.wasAdded()) {
+			if (c.wasAdded()) {
 				InventoryItem item = new InventoryItem(Entities.getData(c.getKey()).getPath(), 0);
 				item.amountProperty().bind(c.getValueAdded());
+				item.setValue(c.getKey());
 				item.setOnMouseClicked(e -> {
-					this.level.getInv().removeEntity(c.getKey());
+					if (item.isSelected())
+						this.inventory.getToggleGroup().selectToggle(null);
+					else
+						this.inventory.getToggleGroup().selectToggle(item);
 				});
-				inventory.getItems().add(item);
+				this.inventory.getItems().add(item);
 			}
 		};
 		this.level.getInv().getContent().addListener(mcl);
+
+		this.levelPane.setOnMouseClicked(event -> {
+			InventoryItem item = (InventoryItem) this.inventory.getToggleGroup().getSelectedToggle();
+			if ( item != null ) {
+				Class<? extends Entity> entity = item.getValue();
+				Location loc = new Location(event.getX() / GameMap.TILE_SIZE, event.getY() / GameMap.TILE_SIZE);
+				Hitbox hitbox = new Hitbox(loc, Entities.getData(entity).getSize());
+				for (Entity e : this.level.getEntities()) 
+					if (e.getHitbox().overlaps(hitbox)) 
+						return;
+				try {	
+					entity.getConstructor(Location.class).newInstance(loc).spawn(this.level);
+					this.level.getInv().removeEntity(entity);
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}	
+			}
+		});
+		
+		this.inventory.getToggleGroup().selectedToggleProperty().addListener((obs, o, n) -> {
+			if ( n != null) {
+				InventoryItem item = (InventoryItem) n;
+				updateBuyInfoLabel(item.getAmount(), Entities.getData(item.getValue()).getName());
+				this.selectedAmountProperty.bind(item.amountProperty());
+			}
+			else 
+				this.buyInfoLabel.setText("Sélectionnez une entité dans l'inventaire pour la placer");
+		});
+
+		this.selectedAmountProperty.addListener((obs, o, n) -> {
+			updateBuyInfoLabel(n.intValue(), Entities.getData(((InventoryItem)this.inventory.getToggleGroup().getSelectedToggle()).getValue()).getName());
+		});
+
 		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.level.startLoop();
 
@@ -265,7 +319,11 @@ public class Controller implements Initializable {
 		new Archer(10.5, 7.5).spawn(this.level);
 		new ElvenShooter(8.5, 2.5).spawn(this.level);
 	}
-	
+
+	public void updateBuyInfoLabel(int amount, String entityName) {
+		this.buyInfoLabel.setText(entityName + " x" + amount + " - Clic gauche pour placer");
+	}
+
 	private void setupStats() {
 		this.atkRange = new Circle();
 		this.shootRange = new Circle();
@@ -277,7 +335,7 @@ public class Controller implements Initializable {
 		setupStat(this.entityDistRangeLabel, this.entityDistRangeBar, this.entityDistRangeBonusLabel, this.shootRange);
 		setupStat(this.entityCostLabel, this.entityCostBar, this.entityCostCoin);
 		setupStat(this.entityRewardLabel, this.entityRewardBar, this.entityRewardCoin);
-		
+
 		this.atkRange.setStroke(Color.RED);
 		this.atkRange.setFill(RadialGradient.valueOf("radial-gradient(center 50% 50%, radius 100%, transparent 25%, red 100%)"));
 		this.shootRange.setStroke(Color.AQUA);
@@ -285,7 +343,7 @@ public class Controller implements Initializable {
 		this.levelPane.getChildren().add(this.atkRange);
 		this.levelPane.getChildren().add(this.shootRange);
 	}
-	
+
 	private static void setupStat(Node... nodes) {
 		for (int i = 0; i < nodes.length; i++) {
 			nodes[i].managedProperty().bind(nodes[i].visibleProperty());
@@ -293,7 +351,7 @@ public class Controller implements Initializable {
 				nodes[i].visibleProperty().bind(nodes[i - 1].visibleProperty());
 		}
 	}
-	
+
 	private void addIDCard(Class<? extends Entity> type) {
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
@@ -304,7 +362,7 @@ public class Controller implements Initializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static ImageView getImg(String... paths) {
 		return new ImageView(imgPath(paths));
 	}
@@ -315,21 +373,21 @@ public class Controller implements Initializable {
 				paths
 		).toUri().toString();
 	}
-	
+
 	Level getLvl() {
 		return this.level;
 	}
-	
+
 	private void displayStats(LivingEntity e) {
 		// Current HP
 		EntityData entityData = e.data();
 		int entityMaxHp = (int) e.stat(Attribute.HP);
 		entityNameLabel.setText(entityData.getName());
 		entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
-		
+
 		entityHealthBar.setDisplayStyle(DisplayStyle.FULL_ROUND)
-				.setMax(entityMaxHp)
-				.valueProperty().bind(e.hpProperty());
+		.setMax(entityMaxHp)
+		.valueProperty().bind(e.hpProperty());
 		entityHealthBonusLabel.setText("+ " + e.getShield());
 		e.shieldProperty().addListener((obs, o, n) -> entityHealthBonusLabel.setText("+ " + n));
 		
@@ -424,5 +482,7 @@ public class Controller implements Initializable {
 			this.entityRewardLabel.setVisible(false);
 		else
 			this.entityRewardLabel.setVisible(true);
+		
+		this.leftPane.getSelectionModel().select(this.statsTab);
 	}
 }

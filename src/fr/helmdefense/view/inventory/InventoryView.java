@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
@@ -27,6 +28,7 @@ public class InventoryView extends VBox implements Initializable {
 	private ObjectProperty<SortOrder> sortOrderProperty;
 	private ObjectProperty<SortCriterion> sortCriterionProperty;
 	private ObservableList<InventoryItem> items;
+	private ToggleGroup toggleGroup;
 	
 	@FXML
 	private TextField search;
@@ -49,6 +51,7 @@ public class InventoryView extends VBox implements Initializable {
 		this.sortOrderProperty = new SimpleObjectProperty<SortOrder>(SortOrder.DESC);
 		this.sortCriterionProperty = new SimpleObjectProperty<SortCriterion>(SortCriterion.NUMBER);
 		this.items = FXCollections.observableArrayList();
+		this.toggleGroup = new ToggleGroup();
 
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("InventoryView.fxml"));
 		loader.setRoot(this);
@@ -87,12 +90,14 @@ public class InventoryView extends VBox implements Initializable {
 			while (c.next()) {
 				if (c.wasAdded())
 					for (InventoryItem item : c.getAddedSubList()) {
+						item.setToggleGroup(this.toggleGroup);
 						item.amountProperty().addListener(cl);
 						item.imgProperty().addListener(cl);
 						this.inventory.getChildren().add(item);
 					}
 				if (c.wasRemoved())
 					for (InventoryItem item : c.getRemoved()) {
+						item.setToggleGroup(null);
 						item.amountProperty().removeListener(cl);
 						item.imgProperty().removeListener(cl);
 						this.inventory.getChildren().remove(item);
@@ -162,6 +167,10 @@ public class InventoryView extends VBox implements Initializable {
 				.filter(item -> item.getImg().equalsIgnoreCase(img))
 				.findAny()
 				.orElse(null);
+	}
+	
+	public final ToggleGroup getToggleGroup() {
+		return this.toggleGroup;
 	}
 	
 	public enum SortCriterion {

@@ -99,40 +99,49 @@ public class IDCardController implements Initializable {
 	}
 
 	// Buy actions
-	@FXML
-	void buyOneAction(ActionEvent event) {
-		if (buyEntity(1))
-			this.main.getLvl().getInv().addEntity(type);
-	}
+    @FXML
+    void buyOneAction(ActionEvent event) {
+        if (buyEntity(1)) {
+        	this.main.getLvl().getInv().addEntity(type);
+        	this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+        }
+    }
 
-	@FXML
-	void buyTwoAction(ActionEvent event) {
-		if (buyEntity(2))
-			this.main.getLvl().getInv().addEntity(type, 2);
-	}
+    @FXML
+    void buyTwoAction(ActionEvent event) {
+        if (buyEntity(2)) {
+        	this.main.getLvl().getInv().addEntity(type, 2);
+        	this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+        	
+        }
+    }
 
-	@FXML
-	void buyFiveAction(ActionEvent event) {
-		if (buyEntity(5))
-			this.main.getLvl().getInv().addEntity(type, 5);
-	}
+    @FXML
+    void buyFiveAction(ActionEvent event) {
+    	if (buyEntity(5)) {
+    		this.main.getLvl().getInv().addEntity(type, 5);
+    		this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+    	}
+    }
 
-	@FXML
-	void buyNAction(ActionEvent event) {
-		int n = parseInt(this.buyAmountField.getText(), 0, 50);
-		updateCost(n);
-		if (buyEntity(n))
-			this.main.getLvl().getInv().addEntity(type, n);
-		this.buyAmountField.clear();
-	}
-
-	public boolean buyEntity(int quantity) {
-		return this.main.getLvl().debit(Entities.getData(type).getStats().getCost() * quantity);
-	}
+    @FXML
+    void buyNAction(ActionEvent event) {
+    	int n = parseInt(this.buyAmountField.getText(), 0, 50);
+    	updateCost(n);
+    	if (n != 0 && buyEntity(n)) {
+    		this.main.getLvl().getInv().addEntity(type, n);
+    		this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+    	}
+    	this.buyAmountField.clear();
+    }
+    
+    public boolean buyEntity(int quantity) {
+    	return this.main.getLvl().debit(Entities.getData(type).getStats().getCost() * quantity);
+    }
 
 	// Upgrade actions
 	@FXML
-	void upgradeAction(ActionEvent event) {
+	private void upgradeAction(ActionEvent event) {
 		EntityData data = Entities.getData(this.type);
 		Tier next = data.getTier().next();
 		if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
@@ -149,15 +158,15 @@ public class IDCardController implements Initializable {
 	}
 
 	@FXML
-	void upgradeAMouseClicked(MouseEvent event) {
-		if(!this.main.upgradeVBox.isVisible()) {
+	private void upgradeAMouseClicked(MouseEvent event) {
+		if (! this.main.upgradeVBox.isVisible()) {
 			this.selectedImage = 0;
 			this.main.upgradeNameLabel.setText(null);
 			this.main.upgradeImage.setImage(this.upgradeAImage.getImage());
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
 
-			if(Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
+			if (Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					Entities.getData(type).setTierSpecification(Tier.Specification.A);
 					this.main.unlockUpgradeButton.setDisable(true);
@@ -168,28 +177,28 @@ public class IDCardController implements Initializable {
 	}
 
 	@FXML
-	void upgradeAMouseEntered(MouseEvent event) {
-		if(!this.main.upgradeVBox.isVisible()) {
+	private void upgradeAMouseEntered(MouseEvent event) {
+		if(! this.main.upgradeVBox.isVisible()) {
 			manageImage(52, 32);
 			Tooltip.install(this.upgradeAImage, new Tooltip(Entities.getData(this.type).getName() + " upgrade A"));
 		}
 	}
 
 	@FXML
-	void upgradeAMouseExited(MouseEvent event) {
+	private void upgradeAMouseExited(MouseEvent event) {
 		restoreSelected();
 	}
 
 	@FXML
-	void upgradeBMouseClicked(MouseEvent event) {
-		if(!this.main.upgradeVBox.isVisible()) {
+	private void upgradeBMouseClicked(MouseEvent event) {
+		if (! this.main.upgradeVBox.isVisible()) {
 			this.selectedImage = 1;
 			this.main.upgradeNameLabel.setText(null);
 			this.main.upgradeImage.setImage(this.upgradeBImage.getImage());
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
 
-			if(Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
+			if (Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					Entities.getData(type).setTierSpecification(Tier.Specification.B);
 					this.main.unlockUpgradeButton.setDisable(true);
@@ -200,18 +209,18 @@ public class IDCardController implements Initializable {
 	}
 
 	@FXML
-	void upgradeBMouseEntered(MouseEvent event) {
-		if(!this.main.upgradeVBox.isVisible()) {
+	private void upgradeBMouseEntered(MouseEvent event) {
+		if (! this.main.upgradeVBox.isVisible()) {
 			manageImage(32, 52);
 			Tooltip.install(this.upgradeBImage, new Tooltip(Entities.getData(this.type).getName() + " upgrade B"));
 		}
 	}
 
 	@FXML
-	void upgradeBMouseExited(MouseEvent event) {
+	private void upgradeBMouseExited(MouseEvent event) {
 		restoreSelected();
 	}
-
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.selectedImage = -1;
