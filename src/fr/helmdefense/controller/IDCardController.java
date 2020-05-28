@@ -156,7 +156,7 @@ public class IDCardController implements Initializable {
 			this.main.upgradeImage.setImage(this.upgradeAImage.getImage());
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
-			
+
 			if(Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					Entities.getData(type).setTierSpecification(Tier.Specification.A);
@@ -188,7 +188,7 @@ public class IDCardController implements Initializable {
 			this.main.upgradeImage.setImage(this.upgradeBImage.getImage());
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
-			
+
 			if(Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					Entities.getData(type).setTierSpecification(Tier.Specification.B);
@@ -222,7 +222,7 @@ public class IDCardController implements Initializable {
 		this.chooseUpgradeBox.setVisible(false);
 
 		this.buyAmountField.textProperty()
-				.addListener((obs, oldValue, newValue) -> updateCost(parseInt(this.buyAmountField.getText(), 0, 50)));
+		.addListener((obs, oldValue, newValue) -> updateCost(parseInt(this.buyAmountField.getText(), 0, 50)));
 
 		this.main.getLvl().purseProperty().addListener((obs, oldVal, newVal) -> {
 			checkCost();
@@ -309,7 +309,7 @@ public class IDCardController implements Initializable {
 		this.upgradeBImage.setOpacity(1);
 		this.upgradeAImage.setOpacity(1);
 	}
-	
+
 	private void restoreSelected() {
 		switch(this.selectedImage) {
 		case 0:
