@@ -26,7 +26,7 @@
 	<left>
 		<TabPane fx:id="leftPane" tabClosingPolicy="UNAVAILABLE">
 			<tabs>
-				<Tab text="Stats">
+				<Tab fx:id="statsTab" text="Stats">
 					<content>
 						<VBox alignment="TOP_CENTER" spacing="10.0"
 							BorderPane.alignment="CENTER">
@@ -207,7 +207,7 @@
 						</VBox>
 					</content>
 				</Tab>
-				<Tab text="Inventaire">
+				<Tab fx:id="inventoryTab" text="Inventaire">
 					<content>
 						<InventoryView fx:id="inventory">
 							<padding>

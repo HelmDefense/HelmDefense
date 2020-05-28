@@ -1,6 +1,7 @@
 package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class DirectAttackAbility extends AttackAbility {
@@ -15,6 +16,6 @@ public class DirectAttackAbility extends AttackAbility {
 	
 	@Override
 	protected void init() {
-		this.range = this.entity.data().getStats(Tier.TIER_1).getAtkRange();
+		this.range = this.entity.stat(Attribute.ATK_RANGE);
 	}
 }

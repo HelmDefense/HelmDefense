@@ -13,7 +13,7 @@ public class BountyHuntingAbility extends Ability {
 	
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
-		action.getEntity().getLevel().earnCoins(action.getVictim().data().getStats(Tier.TIER_1).getReward());
+		action.getEntity().getLevel().earnCoins(action.getVictim().data().getStats().getReward());
 	}
 
 }

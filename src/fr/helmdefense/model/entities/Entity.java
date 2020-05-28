@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,9 +9,10 @@ import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
 import fr.helmdefense.model.actions.entity.EntityMoveAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.Attribute;
+import fr.helmdefense.model.entities.utils.AttributeModifier;
 import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
@@ -21,6 +23,7 @@ public abstract class Entity {
 	private Location loc;
 	private Hitbox hitbox;
 	private Level level;
+	private List<AttributeModifier> modifiers;
 	protected List<Ability> abilities;
 	
 	private static int ids = 0;
@@ -30,6 +33,7 @@ public abstract class Entity {
 		this.loc = loc;
 		this.hitbox = new Hitbox(this.loc, this.data().getSize());
 		this.hitbox.lockLocation();
+		this.modifiers = new ArrayList<AttributeModifier>();
 		this.abilities = this.data().instanciateAbilities();
 		Actions.registerListeners(this.abilities);
 		this.level = null;
@@ -49,7 +53,7 @@ public abstract class Entity {
 	public void attack(LivingEntity victim) {
 		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
 		
-		victim.looseHp(this.data().getStats(Tier.TIER_1).getDmg(), this);
+		victim.looseHp((int) this.stat(Attribute.DMG), this);
 		
 		this.triggerAbilities(attack);
 	}
@@ -95,17 +99,32 @@ public abstract class Entity {
 		return this.hitbox;
 	}
 	
+	public Level getLevel() {
+		return this.level;
+	}
+	
+	public List<AttributeModifier> getModifiers() {
+		return this.modifiers;
+	}
+	
+	public AttributeModifier getModifier(int id) {
+		return this.modifiers.stream()
+				.filter(mod -> mod.getId() == id)
+				.findAny()
+				.orElse(null);
+	}
+	
 	public EntityData data() {
 		return Entities.getData(this.getClass());
 	}
 	
-	public Level getLevel() {
-		return level;
+	public double stat(Attribute attr) {
+		return AttributeModifier.calculate(this.data().getStats().getAttr(attr), attr, this.modifiers);
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [id=" + id + ", hitbox=" + hitbox + ", abilities="
-				+ abilities + "]";
+		return getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hitbox=" + hitbox + ", modifiers="
+				+ modifiers + ", abilities=" + abilities + "]";
 	}
 }

@@ -99,7 +99,7 @@ public class Wave implements ActionListener {
 	
 	public class WaveDeathCountAbility extends Ability {
 		public WaveDeathCountAbility() {
-			super(Tier.TIER_0);
+			super(Tier.TIER_1);
 		}
 		
 		@ActionHandler

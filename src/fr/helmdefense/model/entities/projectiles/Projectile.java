@@ -14,8 +14,8 @@ import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.attackers.Attacker;
 import fr.helmdefense.model.entities.defenders.Defender;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Statistic;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.entities.utils.coords.Vector;
 import fr.helmdefense.model.level.GameLoop;
@@ -59,7 +59,7 @@ public class Projectile extends Entity implements ActionListener {
 	public void attack(LivingEntity victim) {
 		ProjectileEntityAttackAction attack = new ProjectileEntityAttackAction(this, victim, victim.getHp());
 		
-		victim.looseHp((int) (this.source.data().getStats(Tier.TIER_1).getDmg() * Statistic.SHOOT_FACTOR), this.source);
+		victim.looseHp((int) (this.source.stat(Attribute.DMG) * Statistic.SHOOT_FACTOR), this.source);
 		
 		this.source.triggerAbilities(attack);
 		
@@ -87,7 +87,7 @@ public class Projectile extends Entity implements ActionListener {
 	@ActionHandler
 	public void move(GameTickAction action) {
 		Location loc = this.getLoc().add(this.vector.copy().multiply(this.speed / GameLoop.TPS));
-		if (! loc.isInMap() || loc.distance(this.source.getLoc()) > this.source.data().getStats(Tier.TIER_1).getShootRange() + 0.5)
+		if (! loc.isInMap() || loc.distance(this.source.getLoc()) > this.source.stat(Attribute.SHOOT_RANGE) + 0.5)
 			this.fail();
 		else
 			this.teleport(loc);
