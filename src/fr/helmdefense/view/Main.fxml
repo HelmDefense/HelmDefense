@@ -24,7 +24,7 @@
 		</Pane>
 	</center>
 	<left>
-		<TabPane tabClosingPolicy="UNAVAILABLE">
+		<TabPane fx:id="leftPane" tabClosingPolicy="UNAVAILABLE">
 			<tabs>
 				<Tab text="Stats">
 					<content>
