@@ -53,6 +53,7 @@ public class Controller implements Initializable {
 	private Level level;
 	private Circle atkRange;
 	private Circle shootRange;
+	private IntegerProperty selectedAmountProperty;
 
 	/* Header */
 	// Controls buttons
@@ -81,6 +82,7 @@ public class Controller implements Initializable {
 	Tab statsTab;
 	@FXML
 	Tab inventoryTab;
+
 	// Title
 	@FXML
 	Label entityNameLabel;
@@ -158,8 +160,20 @@ public class Controller implements Initializable {
 	ImageView entityRewardCoin;
 
 	// Description & Abilities
-	@FXML
-	TextFlow entityDescText;
+    @FXML
+    TextFlow entityDescText;
+    @FXML
+    VBox upgradeVBox;
+    @FXML
+    Label upgradeNameLabel;
+    @FXML
+    ImageView upgradeImage;
+    @FXML
+    TextFlow upgradeDescText;
+    @FXML
+    Button returnUpgradeButton;
+    @FXML
+    Button unlockUpgradeButton;
 
 	// Inventory
 	@FXML
@@ -183,7 +197,6 @@ public class Controller implements Initializable {
 	// Right text
 	@FXML
 	Label buyInfoLabel;
-	IntegerProperty selectedAmountProperty;
 
 	@FXML
 	void optionButtonAction(ActionEvent event) {
@@ -204,6 +217,8 @@ public class Controller implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.selectedAmountProperty = new SimpleIntegerProperty();
 		this.level = Level.load("troll");
+		this.upgradeVBox.setVisible(false);
+		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
 		setupStats();
 
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
@@ -349,10 +364,14 @@ public class Controller implements Initializable {
 	}
 
 	private static ImageView getImg(String... paths) {
-		return new ImageView(Paths.get(
+		return new ImageView(imgPath(paths));
+	}
+	
+	public static String imgPath(String... paths) {
+		return Paths.get(
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
-				).toUri().toString());
+		).toUri().toString();
 	}
 
 	Level getLvl() {
