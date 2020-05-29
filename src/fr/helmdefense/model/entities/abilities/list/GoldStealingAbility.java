@@ -1,17 +1,27 @@
 package fr.helmdefense.model.entities.abilities.list;
 
+import java.util.ArrayList;
+
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntityKillAction;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class GoldStealingAbility extends Ability {
-	public GoldStealingAbility(Tier unlock) {
+	private ArrayList<Integer> list;
+	
+	public GoldStealingAbility(Tier unlock, Integer costTier1, Integer costTier2, Integer costTier3) {
 		super(unlock);
+		this.list = new ArrayList<>();
+		this.list.add(costTier1);
+		this.list.add(costTier2);
+		this.list.add(costTier3);
 	}
 	
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
-		action.getEntity().getLevel().debit(3);
+		int entityTier = action.getEntity().data().getTier().getNumberTier();
+		if(entityTier > 0 || entityTier < 3)
+			action.getEntity().getLevel().debit(this.list.get(entityTier - 1));
 	}
 }
