@@ -24,6 +24,8 @@ public class Projectile extends Entity implements ActionListener {
 	private LivingEntity source;
 	private Vector vector;
 	private double speed;
+	private Location target;
+	private double angle;
 	
 	public Projectile(LivingEntity source, Location target, double angle, double speed) {
 		super(source.getLoc());
@@ -34,7 +36,7 @@ public class Projectile extends Entity implements ActionListener {
 		a += Math.toRadians(angle);
 		this.vector = new Vector(Math.cos(a), Math.sin(a));
 		
-		this.init(source, speed);
+		this.init(source, speed, target, angle);
 	}
 	
 	public Projectile(LivingEntity source, Location target, double speed) {
@@ -42,19 +44,21 @@ public class Projectile extends Entity implements ActionListener {
 		Location loc = source.getLoc();
 		this.vector = new Vector(loc, target).divide(target.distance(loc));
 		
-		this.init(source, speed);
+		this.init(source, speed, target, 0);
 	}
 	
-	private void init(LivingEntity source, double speed) {
+	private void init(LivingEntity source, double speed, Location target, double angle) {
 		this.source = source;
 		this.speed = speed;
+		this.target = target;
+		this.angle = angle;
 		
 		Actions.registerListeners(this);
 		
 		ProjectileEntityShootAction action = new ProjectileEntityShootAction(this);
 		source.triggerAbilities(action);
 	}
-	
+
 	@Override
 	public void attack(LivingEntity victim) {
 		ProjectileEntityAttackAction attack = new ProjectileEntityAttackAction(this, victim, victim.getHp());
@@ -103,6 +107,18 @@ public class Projectile extends Entity implements ActionListener {
 	
 	public LivingEntity getSource() {
 		return this.source;
+	}
+	
+	public double getSpeed() {
+		return this.speed;
+	}
+
+	public Location getTarget() {
+		return this.target;
+	}
+
+	public double getAngle() {
+		return this.angle;
 	}
 
 	@Override
