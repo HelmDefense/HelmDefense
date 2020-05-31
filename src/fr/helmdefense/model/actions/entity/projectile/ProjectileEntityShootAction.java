@@ -1,8 +1,8 @@
 package fr.helmdefense.model.actions.entity.projectile;
 
 import fr.helmdefense.model.actions.ActionHandler;
-import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.projectile.Projectile;
 
 /**
  * Action triggered when a projectile is shot by an entity.

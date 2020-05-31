@@ -2,20 +2,15 @@ package fr.helmdefense.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.defenders.Archer;
-import fr.helmdefense.model.entities.defenders.Catapult;
-import fr.helmdefense.model.entities.defenders.ElvenShooter;
-import fr.helmdefense.model.entities.defenders.HumanWarrior;
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
@@ -224,10 +219,10 @@ public class Controller implements Initializable {
 		Rectangle clip = new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE);
 		this.levelPane.setClip(clip);
 
-		this.addIDCard(HumanWarrior.class);
-		this.addIDCard(Archer.class);
-		this.addIDCard(ElvenShooter.class);
-		this.addIDCard(Catapult.class);
+		this.addIDCard(LivingEntityType.HUMAN_WARRIOR);
+		this.addIDCard(LivingEntityType.ARCHER);
+		this.addIDCard(LivingEntityType.ELVEN);
+		this.addIDCard(LivingEntityType.CATAPULT);
 
 		this.mapPane.setPrefColumns(GameMap.WIDTH);
 		this.mapPane.setPrefRows(GameMap.HEIGHT);
@@ -259,13 +254,13 @@ public class Controller implements Initializable {
 		};
 		this.level.getEntities().addListener(lcl);
 
-		MapChangeListener<Class<? extends Entity>, IntegerProperty> mcl = c -> {
+		MapChangeListener<LivingEntityType, IntegerProperty> mcl = c -> {
 			if (c.wasRemoved()) {
-				this.inventory.getItems().remove(this.inventory.getItem(Entities.getData(c.getKey()).getPath()));
+				this.inventory.getItems().remove(this.inventory.getItem(c.getKey().getData().getPath()));
 				this.inventory.getToggleGroup().selectToggle(null);
 			}
 			if (c.wasAdded()) {
-				InventoryItem item = new InventoryItem(Entities.getData(c.getKey()).getPath(), 0);
+				InventoryItem item = new InventoryItem(c.getKey().getData().getPath(), 0);
 				item.amountProperty().bind(c.getValueAdded());
 				item.setValue(c.getKey());
 				item.setOnMouseClicked(e -> {
@@ -282,26 +277,21 @@ public class Controller implements Initializable {
 		this.levelPane.setOnMouseClicked(event -> {
 			InventoryItem item = (InventoryItem) this.inventory.getToggleGroup().getSelectedToggle();
 			if ( item != null ) {
-				Class<? extends Entity> entity = item.getValue();
+				LivingEntityType entity = item.getValue();
 				Location loc = new Location(event.getX() / GameMap.TILE_SIZE, event.getY() / GameMap.TILE_SIZE);
-				Hitbox hitbox = new Hitbox(loc, Entities.getData(entity).getSize());
+				Hitbox hitbox = new Hitbox(loc, entity.getData().getSize());
 				for (Entity e : this.level.getEntities()) 
 					if (e.getHitbox().overlaps(hitbox)) 
 						return;
-				try {	
-					entity.getConstructor(Location.class).newInstance(loc).spawn(this.level);
-					this.level.getInv().removeEntity(entity);
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-					e.printStackTrace();
-				}	
+				new LivingEntity(entity, loc).spawn(this.level);
+				this.level.getInv().removeEntity(entity);
 			}
 		});
 		
 		this.inventory.getToggleGroup().selectedToggleProperty().addListener((obs, o, n) -> {
 			if ( n != null) {
 				InventoryItem item = (InventoryItem) n;
-				updateBuyInfoLabel(item.getAmount(), Entities.getData(item.getValue()).getName());
+				updateBuyInfoLabel(item.getAmount(), item.getValue().getData().getName());
 				this.selectedAmountProperty.bind(item.amountProperty());
 			}
 			else 
@@ -309,15 +299,15 @@ public class Controller implements Initializable {
 		});
 
 		this.selectedAmountProperty.addListener((obs, o, n) -> {
-			updateBuyInfoLabel(n.intValue(), Entities.getData(((InventoryItem)this.inventory.getToggleGroup().getSelectedToggle()).getValue()).getName());
+			updateBuyInfoLabel(n.intValue(), ((InventoryItem)this.inventory.getToggleGroup().getSelectedToggle()).getValue().getData().getName());
 		});
 
 		this.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.level.startLoop();
 
-		new HumanWarrior(2.5, 4.5).spawn(this.level);
-		new Archer(10.5, 7.5).spawn(this.level);
-		new ElvenShooter(8.5, 2.5).spawn(this.level);
+		new LivingEntity(LivingEntityType.HUMAN_WARRIOR, 2.5, 4.5).spawn(this.level);
+		new LivingEntity(LivingEntityType.ARCHER, 10.5, 7.5).spawn(this.level);
+		new LivingEntity(LivingEntityType.ELVEN, 8.5, 2.5).spawn(this.level);
 	}
 
 	public void updateBuyInfoLabel(int amount, String entityName) {
@@ -352,7 +342,7 @@ public class Controller implements Initializable {
 		}
 	}
 
-	private void addIDCard(Class<? extends Entity> type) {
+	private void addIDCard(LivingEntityType type) {
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
 			loader.setController(new IDCardController(type, this));

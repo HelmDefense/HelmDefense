@@ -1,9 +1,8 @@
 # Defender statistics
 defenders:
   # Basic defenders
-  human-warrior:
+  HUMAN_WARRIOR:
     name: "Guerrier Humain"
-    class: fr.helmdefense.model.entities.defenders.HumanWarrior
     abilities:
       BountyHuntingAbility:
         # Tier
@@ -37,9 +36,8 @@ defenders:
       atk-range: 1
       cost: 500
       unlock: 1000
-  archer:
+  ARCHER:
     name: "Archer"
-    class: fr.helmdefense.model.entities.defenders.Archer
     abilities:
       BountyHuntingAbility:
         # Tier
@@ -71,9 +69,8 @@ defenders:
       dist-range: 7
       cost: 750
       unlock: 1200
-  elven:
+  ELVEN:
     name: "Elfe"
-    class: fr.helmdefense.model.entities.defenders.ElvenShooter
     abilities:
       BountyHuntingAbility:
         # Tier
@@ -111,9 +108,8 @@ defenders:
       dist-range: 8
       cost: 2500
       unlock: 3000
-  catapult:
+  CATAPULT:
     name: "Trébuchet"
-    class: fr.helmdefense.model.entities.defenders.Catapult
     abilities:
       BountyHuntingAbility:
         # Tier
@@ -144,9 +140,8 @@ defenders:
       unlock: 5000
   # Heros default stats
   heros:
-    aragorn:
+    ARAGORN:
       name: "Aragorn"
-      class: fr.helmdefense.model.entities.defenders.heros.Aragorn
       abilities:
         BountyHuntingAbility:
           # Tier
@@ -160,9 +155,8 @@ defenders:
       atk-spd: 0.9
       atk-range: 3
       dist-range: 8
-    legolas:
+    LEGOLAS:
       name: "Legolas"
-      class: fr.helmdefense.model.entities.defenders.heros.Legolas
       abilities:
         BountyHuntingAbility:
           # Tier
@@ -176,9 +170,8 @@ defenders:
       atk-spd: 1.1
       atk-range: 2
       dist-range: 10
-    gimli:
+    GIMLI:
       name: "Gimli"
-      class: fr.helmdefense.model.entities.defenders.heros.Gimli
       abilities:
         BountyHuntingAbility:
           # Tier
@@ -193,9 +186,8 @@ defenders:
       atk-range: 3
       dist-range: 6
 attackers:
-  orc-warrior:
+  ORC_WARRIOR:
     name: "Guerrier Orc"
-    class: fr.helmdefense.model.entities.attackers.OrcWarrior
     abilities:
       MoveToEndAbility:
         # Tier
@@ -226,9 +218,8 @@ attackers:
       atk-spd: 1
       atk-range: 1
       reward: 60
-  orc-bomber:
+  ORC_BOMBER:
     name: "Orc Kamikaze"
-    class: fr.helmdefense.model.entities.attackers.OrcBomber
     abilities:
       MoveToEndAbility:
         # Tier
@@ -257,9 +248,8 @@ attackers:
       atk-spd: 1
       atk-range: 1
       reward: 70
-  goblin:
+  GOBLIN:
     name: "Gobelin"
-    class: fr.helmdefense.model.entities.attackers.Goblin
     abilities:
       MoveToEndAbility:
         # Tier
@@ -293,9 +283,8 @@ attackers:
       atk-range: 1
       dist-range: 6
       reward: 50
-  troll:
+  TROLL:
     name: "Troll"
-    class: fr.helmdefense.model.entities.attackers.Troll
     abilities:
       MoveToEndAbility:
         # Tier
@@ -324,9 +313,8 @@ attackers:
       atk-spd: 0.5
       atk-range: 2
       reward: 250
-  uruk-hai:
+  URUK_HAI:
     name: "Uruk-Haï"
-    class: fr.helmdefense.model.entities.attackers.UrukHai
     abilities:
       MoveToEndAbility:
         # Tier
@@ -356,28 +344,21 @@ attackers:
       atk-range: 2
       reward: 150
   bosses:
-    isengard-tower:
+    ISENGARD_TOWER:
       name: "Tour d'Isengard"
-      class: fr.helmdefense.model.entities.attackers.bosses.IsengardTower
-    mordor-tower:
+    MORDOR_TOWER:
       name: "Tour du Mordor"
-      class: fr.helmdefense.model.entities.attackers.bosses.MordorTower
-    grond:
+    GROND:
       name: "Tête de Loup (Grond)"
-      class: fr.helmdefense.model.entities.attackers.bosses.Grond
-    saruman:
+    SARUMAN:
       name: "Saroumane"
-      class: fr.helmdefense.model.entities.attackers.bosses.Saruman
-    angmar-witch-king:
+    ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
-      class: fr.helmdefense.model.entities.attackers.bosses.AngmarWitchKing
-    nazgul:
+    NAZGUL:
       name: "Nazgûl"
-      class: fr.helmdefense.model.entities.attackers.bosses.Nazgul
 projectiles:
-  arrow:
+  ARROW:
     name: "Flèche"
-    class: fr.helmdefense.model.entities.projectiles.Projectile
     size:
       width: 0.25
       height: 0.25
