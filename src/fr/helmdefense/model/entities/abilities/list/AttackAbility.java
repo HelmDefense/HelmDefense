@@ -45,12 +45,15 @@ public abstract class AttackAbility extends Ability {
 
     private LivingEntity getClosestEnemy() {
         LivingEntity closest = null;
+        boolean taunt = false;
         double dMax = Double.MAX_VALUE, d;
         for (Entity entity : this.entity.getLevel().getEntities()) {
             if ((this.entity instanceof Defender ? entity instanceof Attacker : entity instanceof Defender)
-                    && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax) {
+                    && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax
+                    && (!taunt || ((LivingEntity) entity).isTaunting())) {
                 dMax = d;
                 closest = (LivingEntity) entity;
+                taunt = ((LivingEntity) entity).isTaunting();
             }
         }
         return closest;

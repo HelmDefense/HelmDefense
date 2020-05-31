@@ -51,6 +51,10 @@ public enum Tier {
 		return "Tier " + this.n;
 	}
 	
+	public int getNumberTier() {
+		return this.n;
+	}
+	
 	public static enum Specification {
 		NO_SPECIFICATION,
 		A,
