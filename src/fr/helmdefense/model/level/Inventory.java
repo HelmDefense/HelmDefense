@@ -1,30 +1,30 @@
 package fr.helmdefense.model.level;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.living.LivingEntityType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 public class Inventory {
-	private ObservableMap<Class<? extends Entity>, IntegerProperty> content;
+	private ObservableMap<LivingEntityType, IntegerProperty> content;
 	
 	public Inventory() {
 		this.content = FXCollections.observableHashMap();
 	}
 	
-	public void addEntity(Class<? extends Entity> ent, int amount) {
+	public void addEntity(LivingEntityType ent, int amount) {
 		if (this.content.containsKey(ent))
 			this.content.get(ent).set(this.content.get(ent).get() + amount);
 		else
 			this.content.put(ent, new SimpleIntegerProperty(amount));
 	}
 	
-	public void addEntity(Class<? extends Entity> ent) {
+	public void addEntity(LivingEntityType ent) {
 		this.addEntity(ent, 1);
 	}
 	
-	public boolean removeEntity(Class<? extends Entity> ent) {
+	public boolean removeEntity(LivingEntityType ent) {
 		if (this.content.containsKey(ent))
 			this.content.get(ent).set(this.content.get(ent).get() - 1);
 		
@@ -34,11 +34,11 @@ public class Inventory {
 		return false;
 	}
 
-	public boolean hasEntity(Class<? extends Entity> ent) {
+	public boolean hasEntity(LivingEntityType ent) {
 		return this.content.containsKey(ent) ? this.content.get(ent).get() > 0 : false;
 	}
 
-	public ObservableMap<Class<? extends Entity>, IntegerProperty> getContent() {
+	public ObservableMap<LivingEntityType, IntegerProperty> getContent() {
 		return this.content;
 	}
 	

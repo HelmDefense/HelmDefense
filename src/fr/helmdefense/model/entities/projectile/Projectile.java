@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.projectiles;
+package fr.helmdefense.model.entities.projectile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,7 @@ import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityShootActio
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.attackers.Attacker;
-import fr.helmdefense.model.entities.defenders.Defender;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -25,8 +23,8 @@ public class Projectile extends Entity implements ActionListener {
 	private Vector vector;
 	private double speed;
 	
-	public Projectile(LivingEntity source, Location target, double angle, double speed) {
-		super(source.getLoc());
+	public Projectile(ProjectileType type, LivingEntity source, Location target, double angle, double speed) {
+		super(type, source.getLoc());
 		Location loc = source.getLoc();
 		double d = target.distance(loc), a = Math.acos((target.getX() - loc.getX()) / d);
 		if (Math.asin((target.getY() - loc.getY()) / d) < 0)
@@ -37,8 +35,8 @@ public class Projectile extends Entity implements ActionListener {
 		this.init(source, speed);
 	}
 	
-	public Projectile(LivingEntity source, Location target, double speed) {
-		super(source.getLoc());
+	public Projectile(ProjectileType type, LivingEntity source, Location target, double speed) {
+		super(type, source.getLoc());
 		Location loc = source.getLoc();
 		this.vector = new Vector(loc, target).divide(target.distance(loc));
 		
@@ -94,7 +92,8 @@ public class Projectile extends Entity implements ActionListener {
 		
 		List<Entity> list = new ArrayList<Entity>(this.getLevel().getEntities());
 		for (Entity e : list)
-			if ((this.source instanceof Defender ? e instanceof Attacker : e instanceof Defender)
+			if (e instanceof LivingEntity
+					&& this.source.isEnemy((LivingEntity) e)
 					&& this.getHitbox().overlaps(e.getHitbox())) {
 				this.attack((LivingEntity) e);
 				break;
@@ -103,6 +102,11 @@ public class Projectile extends Entity implements ActionListener {
 	
 	public LivingEntity getSource() {
 		return this.source;
+	}
+
+	@Override
+	public ProjectileType getType() {
+		return (ProjectileType) super.getType();
 	}
 
 	@Override

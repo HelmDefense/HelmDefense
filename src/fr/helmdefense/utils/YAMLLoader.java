@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Statistic;
@@ -59,34 +59,30 @@ public class YAMLLoader {
 				.collect(Collectors.toList());
 	}
 	
-	public static Map<Class<? extends Entity>, EntityData> loadEntityData() {
-		Map<Class<? extends Entity>, EntityData> map = new HashMap<Class<? extends Entity>, EntityData>();
+	public static void loadEntityData() {
 		YAMLData data = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
 		
-		parseEntityData(map, data, "defenders", "heros");
-		parseEntityData(map, data, "attackers", "bosses");
-		parseEntityData(map, data, "projectiles", null);
-		
-		return map;
+		parseEntityData(data, "defenders", "heros");
+		parseEntityData(data, "attackers", "bosses");
+		parseEntityData(data, "projectiles", null);
 	}
 
-	private static void parseEntityData(Map<Class<? extends Entity>, EntityData> map, YAMLData data, String section, String subsection) {
+	private static void parseEntityData(YAMLData data, String section, String subsection) {
 		YAMLData d = data.getData(section);
 		for (String path : d.getPaths()) {
 			if (! path.equals(subsection)) {
-				constructEntityData(map, section + "." + path, d.getData(path), subsection != null);
+				constructEntityData(section, path, d.getData(path), subsection != null);
 			}
 		}
 		if (subsection != null) {
 			d = d.getData(subsection);
 			for (String path : d.getPaths()) {
-				constructEntityData(map, section + "." + subsection + "." + path, d.getData(path), false);
+				constructEntityData(section + "." + subsection, path, d.getData(path), false);
 			}
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	private static void constructEntityData(Map<Class<? extends Entity>, EntityData> map, String path, YAMLData data, boolean tiers) {
+	private static void constructEntityData(String path, String name, YAMLData data, boolean tiers) {
 		Map<Tier, Statistic> stats = new HashMap<Tier, Statistic>();
 		
 		if (tiers) {
@@ -97,20 +93,13 @@ public class YAMLLoader {
 		else
 			constructStats(stats, Tier.TIER_1, data);
 		
-		try {
-			map.put(
-					(Class<? extends Entity>) Class.forName(data.getString("class")),
-					new EntityData(
-							data.getString("name"),
-							path,
-							new Size(data.getDouble("size.width"), data.getDouble("size.height")),
-							stats,
-							abilities(data)
-					)
-			);
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
+		EntityType.getFromName(name).setData(new EntityData(
+				data.getString("name"),
+				path + "." + name,
+				new Size(data.getDouble("size.width"), data.getDouble("size.height")),
+				stats,
+				abilities(data)
+		));
 	}
 	
 	private static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {

@@ -3,8 +3,7 @@ package fr.helmdefense.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import javafx.beans.property.IntegerProperty;
@@ -24,7 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextFlow;
 
 public class IDCardController implements Initializable {
-	private Class<? extends Entity> type;
+	private LivingEntityType type;
 	private Controller main;
 	private IntegerProperty costProperty;
 	private int selectedImage;
@@ -57,7 +56,7 @@ public class IDCardController implements Initializable {
 	@FXML
 	private HBox chooseUpgradeBox;
 
-	public IDCardController(Class<? extends Entity> type, Controller main) {
+	public IDCardController(LivingEntityType type, Controller main) {
 		this.type = type;
 		this.main = main;
 		this.costProperty = new SimpleIntegerProperty();
@@ -136,13 +135,13 @@ public class IDCardController implements Initializable {
     }
     
     public boolean buyEntity(int quantity) {
-    	return this.main.getLvl().debit(Entities.getData(type).getStats().getCost() * quantity);
+    	return this.main.getLvl().debit(type.getData().getStats().getCost() * quantity);
     }
 
 	// Upgrade actions
 	@FXML
 	private void upgradeAction(ActionEvent event) {
-		EntityData data = Entities.getData(this.type);
+		EntityData data = this.type.getData();
 		Tier next = data.getTier().next();
 		if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
 			data.setTier(next);
@@ -166,9 +165,9 @@ public class IDCardController implements Initializable {
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
 
-			if (Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
+			if (this.type.getData().getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
-					Entities.getData(type).setTierSpecification(Tier.Specification.A);
+					this.type.getData().setTierSpecification(Tier.Specification.A);
 					this.main.unlockUpgradeButton.setDisable(true);
 				});
 			else
@@ -180,7 +179,7 @@ public class IDCardController implements Initializable {
 	private void upgradeAMouseEntered(MouseEvent event) {
 		if(! this.main.upgradeVBox.isVisible()) {
 			manageImage(52, 32);
-			Tooltip.install(this.upgradeAImage, new Tooltip(Entities.getData(this.type).getName() + " upgrade A"));
+			Tooltip.install(this.upgradeAImage, new Tooltip(this.type.getData().getName() + " upgrade A"));
 		}
 	}
 
@@ -198,9 +197,9 @@ public class IDCardController implements Initializable {
 			this.main.upgradeVBox.setVisible(true);
 			this.main.unlockUpgradeButton.setDisable(false);
 
-			if (Entities.getData(type).getTierSpecification() == Tier.Specification.DEFAULT)
+			if (this.type.getData().getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
-					Entities.getData(type).setTierSpecification(Tier.Specification.B);
+					this.type.getData().setTierSpecification(Tier.Specification.B);
 					this.main.unlockUpgradeButton.setDisable(true);
 				});
 			else
@@ -212,7 +211,7 @@ public class IDCardController implements Initializable {
 	private void upgradeBMouseEntered(MouseEvent event) {
 		if (! this.main.upgradeVBox.isVisible()) {
 			manageImage(32, 52);
-			Tooltip.install(this.upgradeBImage, new Tooltip(Entities.getData(this.type).getName() + " upgrade B"));
+			Tooltip.install(this.upgradeBImage, new Tooltip(this.type.getData().getName() + " upgrade B"));
 		}
 	}
 
@@ -224,7 +223,7 @@ public class IDCardController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.selectedImage = -1;
-		this.entityNameLabel.setText(Entities.getData(this.type).getName());
+		this.entityNameLabel.setText(this.type.getData().getName());
 		updateCost(1);
 
 		this.chooseUpgradeBox.managedProperty().bind(this.chooseUpgradeBox.visibleProperty());
@@ -237,7 +236,7 @@ public class IDCardController implements Initializable {
 			checkCost();
 		});
 		updateUpgradeLabel();
-		String path = Entities.getData(this.type).getPath();
+		String path = this.type.getData().getPath();
 		String name = path.substring(path.indexOf('.') + 1);
 		this.upgradeAImage.setImage(new Image(Controller.imgPath("models", name + "_a.png")));
 		this.upgradeBImage.setImage(new Image(Controller.imgPath("models", name + "_b.png")));
@@ -272,7 +271,7 @@ public class IDCardController implements Initializable {
 	}
 
 	private void updateCost(int n) {
-		this.costProperty.set(Entities.getData(type).getStats().getCost() * n);
+		this.costProperty.set(this.type.getData().getStats().getCost() * n);
 	}
 
 	public void checkCost() {
@@ -283,7 +282,7 @@ public class IDCardController implements Initializable {
 	}
 
 	public void updateUpgradeLabel() {
-		EntityData data = Entities.getData(this.type);
+		EntityData data = this.type.getData();
 		Tier next = data.getTier().next();
 		if (next == null) {
 			this.upgradeCostLabel.setText("Niveau max");
