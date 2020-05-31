@@ -135,7 +135,17 @@ public class YAMLLoader {
 	
 	private static List<Object> abilitiesParams(List<?> data) {
 		List<Object> list = new ArrayList<Object>(data);
-		list.set(0, Tier.valueOf((String) list.get(0)));
+		if (list.size() > 0) {
+			try {
+				Tier tier = Tier.valueOf(list.get(0).toString());
+				list.set(0, tier);
+				
+				if (list.size() > 1) {
+					Tier.Specification specification = Tier.Specification.valueOf(list.get(1).toString());
+					list.set(1, specification);
+				}
+			} catch (IllegalArgumentException e) {}
+		}
 		
 		return list;
 	}

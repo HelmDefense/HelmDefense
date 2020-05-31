@@ -10,8 +10,7 @@ public class ProjectileAttackAbility extends AttackAbility {
 	private double speed;
 	
 	public ProjectileAttackAbility(Tier unlock) {
-		super(unlock);
-		this.speed = -1;
+		this(unlock, -1d);
 	}
 	
 	public ProjectileAttackAbility(Tier unlock, Double speed) {
