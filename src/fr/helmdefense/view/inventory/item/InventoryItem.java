@@ -6,7 +6,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.living.LivingEntityType;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -28,7 +28,7 @@ import javafx.scene.layout.StackPane;
 public class InventoryItem extends StackPane implements Initializable, Toggle {
 	private StringProperty imgProperty;
 	private IntegerProperty amountProperty;
-	private ObjectProperty<Class<? extends Entity>> valueProperty;
+	private ObjectProperty<LivingEntityType> valueProperty;
 	private ObjectProperty<ToggleGroup> toggleGroupProperty;
 	private BooleanProperty selectedProperty;
 	
@@ -42,7 +42,7 @@ public class InventoryItem extends StackPane implements Initializable, Toggle {
 	public InventoryItem(String img, int amount) {
 		this.imgProperty = new SimpleStringProperty();
 		this.amountProperty = new SimpleIntegerProperty();
-		this.valueProperty = new SimpleObjectProperty<Class<? extends Entity>>();
+		this.valueProperty = new SimpleObjectProperty<LivingEntityType>();
 		this.toggleGroupProperty = new SimpleObjectProperty<ToggleGroup>();
 		this.selectedProperty = new SimpleBooleanProperty();
 
@@ -111,15 +111,15 @@ public class InventoryItem extends StackPane implements Initializable, Toggle {
 		return this.amountProperty;
 	}
 	
-	public final Class<? extends Entity> getValue() {
+	public final LivingEntityType getValue() {
 		return this.valueProperty.get();
 	}
 	
-	public final void setValue(Class<? extends Entity> value) {
+	public final void setValue(LivingEntityType value) {
 		this.valueProperty.set(value);
 	}
 	
-	public final ObjectProperty<Class<? extends Entity>> valueProperty() {
+	public final ObjectProperty<LivingEntityType> valueProperty() {
 		return this.valueProperty;
 	}
 

@@ -9,17 +9,19 @@ import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
 import fr.helmdefense.model.actions.entity.EntityMoveAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
+import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 
 public abstract class Entity {
 	private String id;
+	private EntityType type;
 	private Location loc;
 	private Hitbox hitbox;
 	private Level level;
@@ -28,8 +30,13 @@ public abstract class Entity {
 	
 	private static int ids = 0;
 	
-	public Entity(Location loc) {
+	static {
+		YAMLLoader.loadEntityData();
+	}
+	
+	public Entity(EntityType type, Location loc) {
 		this.id = "E" + (++ids);
+		this.type = type;
 		this.loc = loc;
 		this.hitbox = new Hitbox(this.loc, this.data().getSize());
 		this.hitbox.lockLocation();
@@ -39,8 +46,8 @@ public abstract class Entity {
 		this.level = null;
 	}
 	
-	public Entity(double x, double y) {
-		this(new Location(x, y));
+	public Entity(EntityType type, double x, double y) {
+		this(type, new Location(x, y));
 	}
 	
 	public void spawn(Level lvl) {
@@ -115,16 +122,20 @@ public abstract class Entity {
 	}
 	
 	public EntityData data() {
-		return Entities.getData(this.getClass());
+		return this.type.getData();
 	}
 	
 	public double stat(Attribute attr) {
 		return AttributeModifier.calculate(this.data().getStats().getAttr(attr), attr, this.modifiers);
 	}
 	
+	public EntityType getType() {
+		return this.type;
+	}
+	
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [id=" + id + ", loc=" + loc + ", hitbox=" + hitbox + ", modifiers="
-				+ modifiers + ", abilities=" + abilities + "]";
+		return getClass().getSimpleName() + " [id=" + id + ", type=" + type + ", loc=" + loc + ", hitbox=" + hitbox
+				+ ", modifiers=" + modifiers + ", abilities=" + abilities + "]";
 	}
 }

@@ -1,6 +1,6 @@
 package fr.helmdefense.model.actions.entity.projectile;
 
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.projectile.Projectile;
 
 /**
  * Action triggered when a projectile fails.

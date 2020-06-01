@@ -1,9 +1,9 @@
 package fr.helmdefense.model.entities.abilities.list;
 
-import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.projectile.Projectile;
+import fr.helmdefense.model.entities.projectile.ProjectileType;
 import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class ProjectileAttackAbility extends AttackAbility {
@@ -20,13 +20,13 @@ public class ProjectileAttackAbility extends AttackAbility {
 
 	@Override
 	protected void attack(LivingEntity enemy) {
-		new Projectile(this.entity, enemy.getLoc(), this.speed).spawn(this.entity.getLevel());
+		new Projectile(ProjectileType.ARROW, this.entity, enemy.getLoc(), this.speed).spawn(this.entity.getLevel());
 	}
 	
 	@Override
 	protected void init() {
 		this.range = this.entity.stat(Attribute.SHOOT_RANGE);
 		if (this.speed == -1)
-			this.speed = Entities.getData(Projectile.class).getStats().getMvtSpd();
+			this.speed = ProjectileType.ARROW.getData().getStats().getMvtSpd();
 	}
 }

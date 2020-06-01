@@ -3,7 +3,7 @@ package fr.helmdefense.model.entities.abilities.list;
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityShootAction;
 import fr.helmdefense.model.entities.abilities.SpecifiedAbility;
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class MultishotAbility extends SpecifiedAbility {
@@ -25,8 +25,8 @@ public class MultishotAbility extends SpecifiedAbility {
 			return;
 		shooting = false;
 		Projectile p = action.getEntity();
-		new Projectile(p.getSource(), p.getTarget(), this.angle, p.getSpeed());
-		new Projectile(p.getSource(), p.getTarget(), - this.angle, p.getSpeed());
+		new Projectile(p.getType(), p.getSource(), p.getTarget(), this.angle, p.getSpeed());
+		new Projectile(p.getType(), p.getSource(), p.getTarget(), - this.angle, p.getSpeed());
 		shooting = true;
 	}
 }
