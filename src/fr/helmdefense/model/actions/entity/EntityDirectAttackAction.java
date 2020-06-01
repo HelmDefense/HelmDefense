@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity;
 
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.living.LivingEntity;
 
 /**
  * Action triggered when an entity attacks a living entity.

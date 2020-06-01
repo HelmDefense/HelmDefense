@@ -4,10 +4,8 @@ import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.LivingEntity;
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.attackers.Attacker;
-import fr.helmdefense.model.entities.defenders.Defender;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
@@ -44,13 +42,17 @@ public abstract class AttackAbility extends Ability {
     }
 
     private LivingEntity getClosestEnemy() {
-        LivingEntity closest = null;
+        LivingEntity closest = null, testing;
+        boolean taunt = false;
         double dMax = Double.MAX_VALUE, d;
         for (Entity entity : this.entity.getLevel().getEntities()) {
-            if ((this.entity instanceof Defender ? entity instanceof Attacker : entity instanceof Defender)
-                    && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax) {
+            if (entity instanceof LivingEntity
+            		&& this.entity.isEnemy(testing = (LivingEntity) entity)
+                    && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax
+                    && (! taunt || testing.isTaunting())) {
                 dMax = d;
-                closest = (LivingEntity) entity;
+                closest = testing;
+                taunt = testing.isTaunting();
             }
         }
         return closest;

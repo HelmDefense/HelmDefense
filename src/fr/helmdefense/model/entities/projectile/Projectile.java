@@ -1,4 +1,4 @@
-package fr.helmdefense.model.entities.projectiles;
+package fr.helmdefense.model.entities.projectile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,7 @@ import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityShootActio
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.LivingEntity;
-import fr.helmdefense.model.entities.attackers.Attacker;
-import fr.helmdefense.model.entities.defenders.Defender;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -24,9 +22,11 @@ public class Projectile extends Entity implements ActionListener {
 	private LivingEntity source;
 	private Vector vector;
 	private double speed;
+	private Location target;
+	private double angle;
 	
-	public Projectile(LivingEntity source, Location target, double angle, double speed) {
-		super(source.getLoc());
+	public Projectile(ProjectileType type, LivingEntity source, Location target, double angle, double speed) {
+		super(type, source.getLoc());
 		Location loc = source.getLoc();
 		double d = target.distance(loc), a = Math.acos((target.getX() - loc.getX()) / d);
 		if (Math.asin((target.getY() - loc.getY()) / d) < 0)
@@ -34,27 +34,29 @@ public class Projectile extends Entity implements ActionListener {
 		a += Math.toRadians(angle);
 		this.vector = new Vector(Math.cos(a), Math.sin(a));
 		
-		this.init(source, speed);
+		this.init(source, speed, target, angle);
 	}
 	
-	public Projectile(LivingEntity source, Location target, double speed) {
-		super(source.getLoc());
+	public Projectile(ProjectileType type, LivingEntity source, Location target, double speed) {
+		super(type, source.getLoc());
 		Location loc = source.getLoc();
 		this.vector = new Vector(loc, target).divide(target.distance(loc));
 		
-		this.init(source, speed);
+		this.init(source, speed, target, 0);
 	}
 	
-	private void init(LivingEntity source, double speed) {
+	private void init(LivingEntity source, double speed, Location target, double angle) {
 		this.source = source;
 		this.speed = speed;
+		this.target = target;
+		this.angle = angle;
 		
 		Actions.registerListeners(this);
 		
 		ProjectileEntityShootAction action = new ProjectileEntityShootAction(this);
 		source.triggerAbilities(action);
 	}
-	
+
 	@Override
 	public void attack(LivingEntity victim) {
 		ProjectileEntityAttackAction attack = new ProjectileEntityAttackAction(this, victim, victim.getHp());
@@ -94,7 +96,8 @@ public class Projectile extends Entity implements ActionListener {
 		
 		List<Entity> list = new ArrayList<Entity>(this.getLevel().getEntities());
 		for (Entity e : list)
-			if ((this.source instanceof Defender ? e instanceof Attacker : e instanceof Defender)
+			if (e instanceof LivingEntity
+					&& this.source.isEnemy((LivingEntity) e)
 					&& this.getHitbox().overlaps(e.getHitbox())) {
 				this.attack((LivingEntity) e);
 				break;
@@ -103,6 +106,23 @@ public class Projectile extends Entity implements ActionListener {
 	
 	public LivingEntity getSource() {
 		return this.source;
+	}
+	
+	public double getSpeed() {
+		return this.speed;
+	}
+
+	public Location getTarget() {
+		return this.target;
+	}
+
+	public double getAngle() {
+		return this.angle;
+	}
+
+	@Override
+	public ProjectileType getType() {
+		return (ProjectileType) super.getType();
 	}
 
 	@Override

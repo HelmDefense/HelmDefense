@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.entities.utils.Entities;
 import fr.helmdefense.view.inventory.item.InventoryItem;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -176,8 +175,8 @@ public class InventoryView extends VBox implements Initializable {
 	public enum SortCriterion {
 		NAME(Comparator.comparing(node -> ((InventoryItem) node).getImg())),
 		NUMBER(Comparator.comparing(node -> ((InventoryItem) node).getAmount())),
-		STAT_HP(Comparator.comparing(node -> Entities.getData(((InventoryItem) node).getImg()).getStats().getHp())),
-		STAT_DMG(Comparator.comparing(node -> Entities.getData(((InventoryItem) node).getImg()).getStats().getDmg()));
+		STAT_HP(Comparator.comparing(node -> ((InventoryItem) node).getValue().getData().getStats().getHp())),
+		STAT_DMG(Comparator.comparing(node -> ((InventoryItem) node).getValue().getData().getStats().getDmg()));
 		
 		private Comparator<Node> comparator;
 		

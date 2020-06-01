@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity.living;
 
 import fr.helmdefense.model.actions.entity.EntityAction;
-import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.living.LivingEntity;
 
 /**
  * Super-type for all living entity-related actions.

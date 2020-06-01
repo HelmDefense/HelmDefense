@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity.projectile;
 
 import fr.helmdefense.model.actions.entity.EntityAction;
-import fr.helmdefense.model.entities.projectiles.Projectile;
+import fr.helmdefense.model.entities.projectile.Projectile;
 
 /**
  * Super-type for all projectile-related actions.

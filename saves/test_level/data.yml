@@ -21,15 +21,15 @@ start-money: 999999
 waves:
   - reward: 500
     entities:
-      0: orc-warrior
-      20: orc-warrior
-      50: orc-warrior
-      75: orc-warrior
-      100: orc-warrior
+      0: ORC_WARRIOR
+      20: ORC_WARRIOR
+      50: ORC_WARRIOR
+      75: ORC_WARRIOR
+      100: ORC_WARRIOR
   - reward: 1000
     entities:
-      0: orc-warrior
-      20: goblin
-      50: troll
-      75: uruk-hai
-      100: orc-bomber
+      0: ORC_WARRIOR
+      20: GOBLIN
+      50: TROLL
+      75: URUK_HAI
+      100: ORC_BOMBER

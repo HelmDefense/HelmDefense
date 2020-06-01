@@ -1,6 +1,6 @@
 package fr.helmdefense.model.entities.abilities.list;
 
-import fr.helmdefense.model.entities.LivingEntity;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 

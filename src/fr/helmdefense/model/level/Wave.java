@@ -1,6 +1,5 @@
 package fr.helmdefense.model.level;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -10,8 +9,10 @@ import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class Wave implements ActionListener {
@@ -31,15 +32,9 @@ public class Wave implements ActionListener {
 				.collect(Collectors.toMap(
 						e -> ((Number) e.getKey()).longValue(),
 						e -> {
-							try {
-								Entity entity = Entities.getClass("attackers." + e.getValue()).getConstructor(double.class, double.class).newInstance(0, 0);
-								entity.addAbilities(new WaveDeathCountAbility());
-								return entity;
-							} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-									| InvocationTargetException | NoSuchMethodException | SecurityException e1) {
-								e1.printStackTrace();
-								return null;
-							}
+							Entity entity = new LivingEntity((LivingEntityType) EntityType.getFromName(e.getValue()), 0, 0);
+							entity.addAbilities(new WaveDeathCountAbility());
+							return entity;
 						}
 				));
 		this.entityCount = this.entities.size();

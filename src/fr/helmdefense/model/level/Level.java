@@ -9,8 +9,8 @@ import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.attackers.Attacker;
-import fr.helmdefense.model.entities.utils.Entities;
+import fr.helmdefense.model.entities.EntitySide;
+import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -143,10 +143,9 @@ public class Level implements ActionListener {
 	
 	public void setDifficulty(Difficulty difficulty) {
 		this.difficulty = difficulty == null ? Difficulty.DEFAULT : difficulty;
-		Entities.forEachEntity((type, data) -> {
-			if (Attacker.class.isAssignableFrom(type))
-				data.setTier(this.difficulty.getTier());
-		});
+		for (LivingEntityType type : LivingEntityType.values())
+			if (type.getSide() == EntitySide.ATTACKER)
+				type.getData().setTier(this.difficulty.getTier());
 	}
 	
 	@Override
