@@ -10,12 +10,18 @@ import javafx.util.Duration;
 
 public class GameLoop {
 	private Timeline tl;
+	private Loop loop;
 	
 	public static final double TPS = 10;
 	
 	public GameLoop(Consumer<Long> action) {
-		this.tl = new Timeline(new KeyFrame(Duration.seconds(1 / TPS), new Loop(action)));
+		this.loop = new Loop(action);
+		this.tl = new Timeline(new KeyFrame(Duration.seconds(1 / TPS), this.loop));
 		this.tl.setCycleCount(Timeline.INDEFINITE);
+	}
+	
+	public long getTicks() {
+		return this.loop.getTicks();
 	}
 	
 	public void start() {
@@ -29,6 +35,10 @@ public class GameLoop {
 		public Loop(Consumer<Long> action) {
 			this.action = action;
 			this.ticks = 0;
+		}
+		
+		public long getTicks() {
+			return this.ticks;
 		}
 		
 		@Override
