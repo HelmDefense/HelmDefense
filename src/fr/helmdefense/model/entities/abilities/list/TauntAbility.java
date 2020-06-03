@@ -8,8 +8,8 @@ import fr.helmdefense.model.entities.utils.Tier;
 
 public class TauntAbility extends Ability {
 
-	public TauntAbility(Tier unlock) {
-		super(unlock);
+	public TauntAbility(Tier unlock, Tier.Specification tierSpecification) {
+		super(unlock, tierSpecification);
 	}
 
 	@ActionHandler

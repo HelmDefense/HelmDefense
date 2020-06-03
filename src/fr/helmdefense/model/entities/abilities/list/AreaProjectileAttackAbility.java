@@ -3,12 +3,12 @@ package fr.helmdefense.model.entities.abilities.list;
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityAttackAction;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.abilities.SpecifiedAbility;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 
-public class AreaProjectileAttackAbility extends SpecifiedAbility {
+public class AreaProjectileAttackAbility extends Ability {
 	private double radius;
 	private boolean shooting;
 	

@@ -397,8 +397,8 @@ public class Controller implements Initializable {
 	protected void manageStats(EntityData entityData) {
 		// HP
 		this.entityHpBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-			.setValue(entityData.getStats().getHp())
-			.setMax(entityData.getStats(Tier.TIER_3).getHp());
+			.setValue(entityData.getStats().get(Attribute.HP))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.HP));
 		this.entityHpBonusLabel.setText("");
 		if (this.entityHpBar.getValue() == -1)
 			this.entityHpLabel.setVisible(false);
@@ -407,8 +407,8 @@ public class Controller implements Initializable {
 
 		// Damages
 		this.entityDmgBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-			.setValue(entityData.getStats().getDmg())
-			.setMax(entityData.getStats(Tier.TIER_3).getDmg());
+			.setValue(entityData.getStats().get(Attribute.DMG))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.DMG));
 		this.entityDmgBonusLabel.setText("");
 		if (this.entityDmgBar.getValue() == -1)
 			this.entityDmgLabel.setVisible(false);
@@ -417,8 +417,8 @@ public class Controller implements Initializable {
 
 		// Movement speed
 		this.entityMvtSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-			.setValue(entityData.getStats().getMvtSpd())
-			.setMax(entityData.getStats(Tier.TIER_3).getMvtSpd());
+			.setValue(entityData.getStats().get(Attribute.MVT_SPD))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.MVT_SPD));
 		this.entityMvtSpdBonusLabel.setText("");
 		if (this.entityMvtSpdBar.getValue() == -1)
 			this.entityMvtSpdLabel.setVisible(false);
@@ -427,8 +427,8 @@ public class Controller implements Initializable {
 
 		// attack speed
 		this.entityAtkSpdBar.setDisplayStyle(DisplayStyle.VALUE)
-			.setValue(entityData.getStats().getAtkSpd())
-			.setMax(entityData.getStats(Tier.TIER_3).getAtkSpd());
+			.setValue(entityData.getStats().get(Attribute.ATK_SPD))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.ATK_SPD));
 		this.entityAtkSpdBonusLabel.setText("");
 		if (this.entityAtkSpdBar.getValue() == -1)
 			this.entityAtkSpdLabel.setVisible(false);
@@ -437,8 +437,8 @@ public class Controller implements Initializable {
 
 		// attack range
 		this.entityAtkRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-			.setValue(entityData.getStats().getAtkRange())
-			.setMax(entityData.getStats(Tier.TIER_3).getAtkRange());
+			.setValue(entityData.getStats().get(Attribute.ATK_RANGE))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.ATK_RANGE));
 		this.entityAtkRangeBonusLabel.setText("");
 		if (this.entityAtkRangeBar.getValue() == -1)
 			this.entityAtkRangeLabel.setVisible(false);
@@ -447,8 +447,8 @@ public class Controller implements Initializable {
 
 		// distance range
 		this.entityDistRangeBar.setDisplayStyle(DisplayStyle.VALUE)
-			.setValue(entityData.getStats().getShootRange())
-			.setMax(entityData.getStats(Tier.TIER_3).getShootRange());
+			.setValue(entityData.getStats().get(Attribute.SHOOT_RANGE))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.SHOOT_RANGE));
 		this.entityDistRangeBonusLabel.setText("");
 		if (this.entityDistRangeBar.getValue() == -1)
 			this.entityDistRangeLabel.setVisible(false);
@@ -457,8 +457,8 @@ public class Controller implements Initializable {
 
 		// cost ( for defenders )
 		this.entityCostBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-			.setValue(entityData.getStats().getCost())
-			.setMax(entityData.getStats(Tier.TIER_3).getCost());
+			.setValue(entityData.getStats().get(Attribute.COST))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.COST));
 		if (this.entityCostBar.getValue() == -1)
 			this.entityCostLabel.setVisible(false);
 		else
@@ -466,8 +466,8 @@ public class Controller implements Initializable {
 
 		//reward ( for attacker )
 		this.entityRewardBar.setDisplayStyle(DisplayStyle.VALUE_ROUND)
-			.setValue(entityData.getStats().getReward())
-			.setMax(entityData.getStats(Tier.TIER_3).getReward());
+			.setValue(entityData.getStats().get(Attribute.REWARD))
+			.setMax(entityData.getStats(Tier.TIER_3).get(Attribute.REWARD));
 		if (this.entityRewardBar.getValue() == -1)
 			this.entityRewardLabel.setVisible(false);
 		else

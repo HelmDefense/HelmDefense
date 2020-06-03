@@ -3,7 +3,6 @@ package fr.helmdefense.model.entities.living;
 import fr.helmdefense.model.actions.entity.EntityKillAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDamagedAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
-import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -50,9 +49,6 @@ public class LivingEntity extends Entity {
 		if (! this.isAlive()) {
 			EntityKillAction kill = new EntityKillAction(cause, this);
 			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
-			
-			this.getLevel().getEntities().remove(this);
-			Actions.unregisterListeners(this.abilities);
 			
 			cause.triggerAbilities(kill);
 			this.triggerAbilities(death);

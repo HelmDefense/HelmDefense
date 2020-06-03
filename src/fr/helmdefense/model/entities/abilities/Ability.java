@@ -5,21 +5,23 @@ import fr.helmdefense.model.entities.utils.Tier;
 
 public abstract class Ability implements ActionListener {
 	private Tier unlock;
+	private Tier.Specification tierSpecification;
 	
-	public Ability(Tier unlock) {
+	public Ability(Tier unlock, Tier.Specification tierSpecification) {
 		this.unlock = unlock;
+		this.tierSpecification = tierSpecification;
 	}
 	
 	public Tier getUnlock() {
 		return this.unlock;
 	}
 	
-	public boolean isUnlocked(Tier actual) {
-		return this.unlock.compareTo(actual) <= 0;
+	public boolean isUnlocked(Tier actual, Tier.Specification actualSpecification) {
+		return this.unlock.compareTo(actual) <= 0 && this.tierSpecification == actualSpecification;
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [unlock=" + unlock + "]";
+		return getClass().getSimpleName() + " [unlock=" + unlock + ", tierSpecification=" + tierSpecification + "]";
 	}
 }

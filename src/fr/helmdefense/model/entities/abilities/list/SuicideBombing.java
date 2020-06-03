@@ -7,8 +7,8 @@ import fr.helmdefense.model.entities.utils.Tier;
 
 public class SuicideBombing extends Ability {
 
-	public SuicideBombing() {
-		super(Tier.TIER_1);
+	public SuicideBombing(Tier unlock, Tier.Specification tierSpecification) {
+		super(unlock, tierSpecification);
 	}
 	
 	@ActionHandler

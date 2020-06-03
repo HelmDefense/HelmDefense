@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Tier;
 import javafx.beans.property.IntegerProperty;
@@ -135,7 +136,7 @@ public class IDCardController implements Initializable {
     }
     
     public boolean buyEntity(int quantity) {
-    	return this.main.getLvl().debit(type.getData().getStats().getCost() * quantity);
+    	return this.main.getLvl().debit((int) (type.getData().getStats().get(Attribute.COST) * quantity));
     }
 
 	// Upgrade actions
@@ -143,7 +144,7 @@ public class IDCardController implements Initializable {
 	private void upgradeAction(ActionEvent event) {
 		EntityData data = this.type.getData();
 		Tier next = data.getTier().next();
-		if (this.main.getLvl().debit(data.getStats(next).getUnlock())) {
+		if (this.main.getLvl().debit((int) data.getStats(next).get(Attribute.UNLOCK))) {
 			data.setTier(next);
 			this.main.manageStats(data);
 			updateUpgradeLabel();
@@ -271,7 +272,7 @@ public class IDCardController implements Initializable {
 	}
 
 	private void updateCost(int n) {
-		this.costProperty.set(this.type.getData().getStats().getCost() * n);
+		this.costProperty.set((int) (this.type.getData().getStats().get(Attribute.COST) * n));
 	}
 
 	public void checkCost() {
@@ -293,7 +294,7 @@ public class IDCardController implements Initializable {
 		} else {
 			this.upgradeBeforeLabel.setText(data.getTier().toString());
 			this.upgradeAfterLabel.setText(next + "");
-			this.upgradeCostLabel.setText("Coût : " + data.getStats(next).getUnlock());
+			this.upgradeCostLabel.setText("Coût : " + data.getStats(next).get(Attribute.UNLOCK));
 		}
 	}
 

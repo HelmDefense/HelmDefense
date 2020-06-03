@@ -14,8 +14,8 @@ public class OppressionAbility extends Ability {
 	private double value;
 	private int id;
 	
-	public OppressionAbility(Tier unlock, /*Integer duration, */Double value) {
-		super(unlock);
+	public OppressionAbility(Tier unlock, Tier.Specification tierSpecification, /*Integer duration, */Double value) {
+		super(unlock, tierSpecification);
 		//this.duration = duration;
 		this.value = value;
 	}

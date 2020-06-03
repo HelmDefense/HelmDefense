@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.helmdefense.model.actions.Action;
+import fr.helmdefense.model.actions.ActionHandler;
+import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
 import fr.helmdefense.model.actions.entity.EntityMoveAction;
+import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
@@ -19,14 +22,14 @@ import fr.helmdefense.model.level.Level;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 
-public abstract class Entity {
+public abstract class Entity implements ActionListener {
 	private String id;
 	private EntityType type;
 	private Location loc;
 	private Hitbox hitbox;
 	private Level level;
 	private List<AttributeModifier> modifiers;
-	protected List<Ability> abilities;
+	private List<Ability> abilities;
 	
 	private static int ids = 0;
 	
@@ -43,6 +46,7 @@ public abstract class Entity {
 		this.modifiers = new ArrayList<AttributeModifier>();
 		this.abilities = this.data().instanciateAbilities();
 		Actions.registerListeners(this.abilities);
+		Actions.registerListeners(this);
 		this.level = null;
 	}
 	
@@ -72,6 +76,12 @@ public abstract class Entity {
 	
 	public void triggerAbilities(Action action) {
 		Actions.trigger(action, this.abilities);
+	}
+	
+	protected void delete() {
+		this.getLevel().getEntities().remove(this);
+		Actions.unregisterListeners(this.abilities);
+		Actions.unregisterListeners(this);
 	}
 	
 	public String getId() {
@@ -121,12 +131,27 @@ public abstract class Entity {
 				.orElse(null);
 	}
 	
+	public AttributeModifier getModifier(String name) {
+		return this.modifiers.stream()
+				.filter(mod -> mod.getName().equals(name))
+				.findAny()
+				.orElse(null);
+	}
+	
+	@ActionHandler
+	public void onTick(GameTickAction action) {
+		this.modifiers.removeIf(mod -> {
+			long end = mod.getStart() + mod.getDuration();
+			return end >= 0 && end < action.getTicks();
+		});
+	}
+	
 	public EntityData data() {
 		return this.type.getData();
 	}
 	
 	public double stat(Attribute attr) {
-		return AttributeModifier.calculate(this.data().getStats().getAttr(attr), attr, this.modifiers);
+		return AttributeModifier.calculate(this.data().getStats().get(attr), attr, this.modifiers);
 	}
 	
 	public EntityType getType() {

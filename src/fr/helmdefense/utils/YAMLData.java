@@ -140,4 +140,9 @@ public class YAMLData {
 	public Set<String> getPaths() {
 		return (Set<String>) this.data.keySet();
 	}
+	
+	@Override
+	public String toString() {
+		return this.data.toString();
+	}
 }

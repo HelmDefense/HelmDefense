@@ -94,7 +94,7 @@ public class Wave implements ActionListener {
 	
 	public class WaveDeathCountAbility extends Ability {
 		public WaveDeathCountAbility() {
-			super(Tier.TIER_1);
+			super(Tier.DEFAULT, Tier.Specification.DEFAULT);
 		}
 		
 		@ActionHandler

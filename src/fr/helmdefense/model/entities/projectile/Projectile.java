@@ -76,12 +76,6 @@ public class Projectile extends Entity implements ActionListener {
 		this.delete();
 	}
 	
-	private void delete() {
-		this.getLevel().getEntities().remove(this);
-		Actions.unregisterListeners(this.abilities);
-		Actions.unregisterListeners(this);
-	}
-	
 	public double angle() {
 		return this.vector.angle(true);
 	}

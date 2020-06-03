@@ -9,12 +9,12 @@ import fr.helmdefense.model.entities.utils.Tier;
 public class ProjectileAttackAbility extends AttackAbility {
 	private double speed;
 	
-	public ProjectileAttackAbility(Tier unlock) {
-		this(unlock, -1d);
+	public ProjectileAttackAbility(Tier unlock, Tier.Specification tierSpecification) {
+		this(unlock, tierSpecification, -1d);
 	}
 	
-	public ProjectileAttackAbility(Tier unlock, Double speed) {
-		super(unlock);
+	public ProjectileAttackAbility(Tier unlock, Tier.Specification tierSpecification, Double speed) {
+		super(unlock, tierSpecification);
 		this.speed = speed;
 	}
 
@@ -27,6 +27,6 @@ public class ProjectileAttackAbility extends AttackAbility {
 	protected void init() {
 		this.range = this.entity.stat(Attribute.SHOOT_RANGE);
 		if (this.speed == -1)
-			this.speed = ProjectileType.ARROW.getData().getStats().getMvtSpd();
+			this.speed = ProjectileType.ARROW.getData().getStats().get(Attribute.MVT_SPD);
 	}
 }
