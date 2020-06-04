@@ -7,8 +7,8 @@ import fr.helmdefense.model.entities.utils.Tier;
 
 public class BurnAbility extends Ability {
 
-	public BurnAbility(Tier unlock) {
-		super(unlock);
+	public BurnAbility(Tier unlock, Tier.Specification tierSpecification) {
+		super(unlock, tierSpecification);
 	}
 	
 	@ActionHandler
