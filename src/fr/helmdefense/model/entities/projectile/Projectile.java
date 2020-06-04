@@ -20,36 +20,50 @@ import fr.helmdefense.model.level.GameLoop;
 
 public class Projectile extends Entity implements ActionListener {
 	private LivingEntity source;
+	private Location spawn;
 	private Vector vector;
 	private double speed;
 	private Location target;
+	private boolean deleteOnHit;
 	private double angle;
+	private List<LivingEntity> hits;
 	
 	public Projectile(ProjectileType type, LivingEntity source, Location target, double angle, double speed) {
+		this(type, source, target, true, angle, speed);
+	}
+	
+	public Projectile(ProjectileType type, LivingEntity source, Location target, double speed) {
+		this(type, source, target, true, speed);
+	}
+	
+	public Projectile(ProjectileType type, LivingEntity source, Location target, boolean deleteOnHit, double angle, double speed) {
 		super(type, source.getLoc());
 		Location loc = source.getLoc();
 		double d = target.distance(loc), a = Math.acos((target.getX() - loc.getX()) / d);
 		if (Math.asin((target.getY() - loc.getY()) / d) < 0)
 			a += (Math.PI - a) * 2;
 		a += Math.toRadians(angle);
-		this.vector = new Vector(Math.cos(a), Math.sin(a));
+		this.vector = new Vector(Math.cos(a), Math.sin(a)).multiply(this.speed / GameLoop.TPS);
 		
-		this.init(source, speed, target, angle);
+		this.init(source, loc, speed, target, deleteOnHit, angle);
 	}
 	
-	public Projectile(ProjectileType type, LivingEntity source, Location target, double speed) {
+	public Projectile(ProjectileType type, LivingEntity source, Location target, boolean deleteOnHit, double speed) {
 		super(type, source.getLoc());
 		Location loc = source.getLoc();
-		this.vector = new Vector(loc, target).divide(target.distance(loc));
+		this.vector = new Vector(loc, target).divide(target.distance(loc)).multiply(this.speed / GameLoop.TPS);
 		
-		this.init(source, speed, target, 0);
+		this.init(source, loc, speed, target, deleteOnHit, 0);
 	}
 	
-	private void init(LivingEntity source, double speed, Location target, double angle) {
+	private void init(LivingEntity source, Location spawn, double speed, Location target, boolean deleteOnHit, double angle) {
 		this.source = source;
+		this.spawn = spawn;
 		this.speed = speed;
 		this.target = target;
+		this.deleteOnHit = deleteOnHit;
 		this.angle = angle;
+		this.hits = new ArrayList<LivingEntity>();
 		
 		Actions.registerListeners(this);
 		
@@ -59,13 +73,18 @@ public class Projectile extends Entity implements ActionListener {
 
 	@Override
 	public void attack(LivingEntity victim) {
+		if (this.hits.contains(victim))
+			return;
+		
 		ProjectileEntityAttackAction attack = new ProjectileEntityAttackAction(this, victim, victim.getHp());
 		
 		victim.looseHp((int) (this.source.stat(Attribute.DMG) * Statistic.SHOOT_FACTOR), this.source);
+		this.hits.add(victim);
 		
 		this.source.triggerAbilities(attack);
 		
-		this.delete();
+		if (this.deleteOnHit)
+			this.delete();
 	}
 	
 	public void fail() {
@@ -82,8 +101,8 @@ public class Projectile extends Entity implements ActionListener {
 	
 	@ActionHandler
 	public void move(GameTickAction action) {
-		Location loc = this.getLoc().add(this.vector.copy().multiply(this.speed / GameLoop.TPS));
-		if (! loc.isInMap() || loc.distance(this.source.getLoc()) > this.source.stat(Attribute.SHOOT_RANGE) + 0.5)
+		Location loc = this.getLoc().add(this.vector);
+		if (! loc.isInMap() || loc.distance(this.spawn) > this.source.stat(Attribute.SHOOT_RANGE))
 			this.fail();
 		else
 			this.teleport(loc);
@@ -94,7 +113,8 @@ public class Projectile extends Entity implements ActionListener {
 					&& this.source.isEnemy((LivingEntity) e)
 					&& this.getHitbox().overlaps(e.getHitbox())) {
 				this.attack((LivingEntity) e);
-				break;
+				if (this.deleteOnHit)
+					break;
 			}
 	}
 	
@@ -108,6 +128,14 @@ public class Projectile extends Entity implements ActionListener {
 
 	public Location getTarget() {
 		return this.target;
+	}
+	
+	public boolean isDeleteOnHit() {
+		return this.deleteOnHit;
+	}
+	
+	public void setDeleteOnHit(boolean deleteOnHit) {
+		this.deleteOnHit = deleteOnHit;
 	}
 
 	public double getAngle() {
