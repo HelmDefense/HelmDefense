@@ -14,8 +14,8 @@ public abstract class AttackAbility extends Ability {
     protected LivingEntity entity;
     protected double range;
 
-    public AttackAbility(Tier unlock) {
-        super(unlock);
+    public AttackAbility(Tier unlock, Tier.Specification tierSpecification) {
+        super(unlock, tierSpecification);
         this.lastAtk = 0;
         this.range = 0;
     }
@@ -49,10 +49,10 @@ public abstract class AttackAbility extends Ability {
             if (entity instanceof LivingEntity
             		&& this.entity.isEnemy(testing = (LivingEntity) entity)
                     && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax
-                    && (! taunt || testing.isTaunting())) {
+                    && (! taunt || testing.testFlags(LivingEntity.TAUNT))) {
                 dMax = d;
                 closest = testing;
-                taunt = testing.isTaunting();
+                taunt = testing.testFlags(LivingEntity.TAUNT);
             }
         }
         return closest;

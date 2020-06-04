@@ -16,8 +16,8 @@ public class MoveToEndAbility extends Ability {
 	private Entity entity;
 	private Cell movingTo;
 	
-	public MoveToEndAbility(Tier unlock) {
-		super(unlock);
+	public MoveToEndAbility(Tier unlock, Tier.Specification tierSpecification) {
+		super(unlock, tierSpecification);
 	}
 	
 	@ActionHandler

@@ -5,8 +5,8 @@ import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class DirectAttackAbility extends AttackAbility {
-	public DirectAttackAbility(Tier unlock) {
-		super(unlock);
+	public DirectAttackAbility(Tier unlock, Tier.Specification tierSpecification) {
+		super(unlock, tierSpecification);
 	}
 	
 	@Override

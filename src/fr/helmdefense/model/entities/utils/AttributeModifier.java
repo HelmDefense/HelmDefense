@@ -5,21 +5,46 @@ import java.util.function.BiFunction;
 
 public class AttributeModifier {
 	private int id;
+	private String name;
 	private Attribute attr;
 	private Operation op;
 	private double val;
+	private long start;
+	private int duration;
 	
 	private static int ids = 0;
 	
 	public AttributeModifier(Attribute attr, Operation op, double val) {
+		this(null, attr, op, val);
+	}
+	
+	public AttributeModifier(String name, Attribute attr, Operation op, double val) {
+		this(name, attr, op, val, -1, -1);
+	}
+	
+	public AttributeModifier(Attribute attr, Operation op, double val, long start, int duration) {
+		this(null, attr, op, val, start, duration);
+	}
+	
+	public AttributeModifier(String name, Attribute attr, Operation op, double val, long start, int duration) {
 		this.id = ++ids;
+		if (name == null)
+			this.name = "M" + this.id;
+		else
+			this.name = name;
 		this.attr = attr;
 		this.op = op;
 		this.val = val;
+		this.start = start;
+		this.duration = duration;
 	}
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public Attribute getAttr() {
@@ -32,6 +57,18 @@ public class AttributeModifier {
 	
 	public double getVal() {
 		return this.val;
+	}
+	
+	public long getStart() {
+		return this.start;
+	}
+	
+	public void setStart(long start) {
+		this.start = start;
+	}
+	
+	public int getDuration() {
+		return this.duration;
 	}
 	
 	public double apply(double base) {

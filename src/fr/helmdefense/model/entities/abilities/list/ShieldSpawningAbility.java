@@ -10,8 +10,8 @@ import fr.helmdefense.model.entities.utils.Tier;
 public class ShieldSpawningAbility extends Ability {
 	private int factor;
 
-	public ShieldSpawningAbility(Tier unlock, Integer factor) {
-		super(unlock);
+	public ShieldSpawningAbility(Tier unlock, Tier.Specification tierSpecification, Integer factor) {
+		super(unlock, tierSpecification);
 		this.factor = factor;
 	}
 	

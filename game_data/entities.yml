@@ -13,29 +13,29 @@ defenders:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 2000
-      dmg: 250
-      mvt-spd: 1
-      atk-spd: 0.75
-      atk-range: 1
-      cost: 50
-      unlock: 0
+      HP: 2000
+      DMG: 250
+      MVT_SPD: 1
+      ATK_SPD: 0.75
+      ATK_RANGE: 1
+      COST: 50
+      UNLOCK: 0
     tier2:
-      hp: 3000
-      dmg: 500
-      mvt-spd: 1
-      atk-spd: 0.85
-      atk-range: 1
-      cost: 200
-      unlock: 500
+      HP: 3000
+      DMG: 500
+      MVT_SPD: 1
+      ATK_SPD: 0.85
+      ATK_RANGE: 1
+      COST: 200
+      UNLOCK: 500
     tier3:
-      hp: 4500
-      dmg: 650
-      mvt-spd: 1
-      atk-spd: 0.85
-      atk-range: 1
-      cost: 500
-      unlock: 1000
+      HP: 4500
+      DMG: 650
+      MVT_SPD: 1
+      ATK_SPD: 0.85
+      ATK_RANGE: 1
+      COST: 500
+      UNLOCK: 1000
   ARCHER:
     name: "Archer"
     abilities:
@@ -49,26 +49,26 @@ defenders:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 1500
-      dmg: 350
-      atk-spd: 0.9
-      dist-range: 6
-      cost: 125
-      unlock: 0
+      HP: 1500
+      DMG: 350
+      ATK_SPD: 0.9
+      SHOOT_RANGE: 6
+      COST: 125
+      UNLOCK: 0
     tier2:
-      hp: 2000
-      dmg: 600
-      atk-spd: 0.9
-      dist-range: 7
-      cost: 350
-      unlock: 700
+      HP: 2000
+      DMG: 600
+      ATK_SPD: 0.9
+      SHOOT_RANGE: 7
+      COST: 350
+      UNLOCK: 700
     tier3:
-      hp: 3000
-      dmg: 950
-      atk-spd: 0.9
-      dist-range: 7
-      cost: 750
-      unlock: 1200
+      HP: 3000
+      DMG: 950
+      ATK_SPD: 0.9
+      SHOOT_RANGE: 7
+      COST: 750
+      UNLOCK: 1200
   ELVEN:
     name: "Elfe"
     abilities:
@@ -82,32 +82,32 @@ defenders:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 2500
-      dmg: 450
-      mvt-spd: 1
-      atk-spd: 1.2
-      atk-range: 1
-      dist-range: 8
-      cost: 700
-      unlock: 0
+      HP: 2500
+      DMG: 450
+      MVT_SPD: 1
+      ATK_SPD: 1.2
+      ATK_RANGE: 1
+      SHOOT_RANGE: 8
+      COST: 700
+      UNLOCK: 0
     tier2:
-      hp: 3000
-      dmg: 650
-      mvt-spd: 1
-      atk-spd: 1.35
-      atk-range: 1
-      dist-range: 8
-      cost: 1200
-      unlock: 1500
+      HP: 3000
+      DMG: 650
+      MVT_SPD: 1
+      ATK_SPD: 1.35
+      ATK_RANGE: 1
+      SHOOT_RANGE: 8
+      COST: 1200
+      UNLOCK: 1500
     tier3:
-      hp: 3750
-      dmg: 1050
-      mvt-spd: 1
-      atk-spd: 1.35
-      atk-range: 1
-      dist-range: 8
-      cost: 2500
-      unlock: 3000
+      HP: 3750
+      DMG: 1050
+      MVT_SPD: 1
+      ATK_SPD: 1.35
+      ATK_RANGE: 1
+      SHOOT_RANGE: 8
+      COST: 2500
+      UNLOCK: 3000
   CATAPULT:
     name: "Trébuchet"
     abilities:
@@ -118,26 +118,26 @@ defenders:
       width: 1.5
       height: 1.5
     tier1:
-      hp: 5000
-      dmg: 2000
-      atk-spd: 0.25
-      dist-range: 12
-      cost: 1500
-      unlock: 0
+      HP: 5000
+      DMG: 2000
+      ATK_SPD: 0.25
+      SHOOT_RANGE: 12
+      COST: 1500
+      UNLOCK: 0
     tier2:
-      hp: 7500
-      dmg: 3000
-      atk-spd: 0.25
-      dist-range: 12
-      cost: 2500
-      unlock: 3000
+      HP: 7500
+      DMG: 3000
+      ATK_SPD: 0.25
+      SHOOT_RANGE: 12
+      COST: 2500
+      UNLOCK: 3000
     tier3:
-      hp: 10000
-      dmg: 4500
-      atk-spd: 0.25
-      dist-range: 12
-      cost: 4000
-      unlock: 5000
+      HP: 10000
+      DMG: 4500
+      ATK_SPD: 0.25
+      SHOOT_RANGE: 12
+      COST: 4000
+      UNLOCK: 5000
   # Heros default stats
   heros:
     ARAGORN:
@@ -149,12 +149,13 @@ defenders:
       size:
         width: 1
         height: 1
-      hp: 7500
-      dmg: 700
-      mvt-spd: 1.1
-      atk-spd: 0.9
-      atk-range: 3
-      dist-range: 8
+      stats:
+        HP: 7500
+        DMG: 700
+        MVT_SPD: 1.1
+        ATK_SPD: 0.9
+        ATK_RANGE: 3
+        SHOOT_RANGE: 8
     LEGOLAS:
       name: "Legolas"
       abilities:
@@ -164,12 +165,13 @@ defenders:
       size:
         width: 1
         height: 1
-      hp: 4500
-      dmg: 1100
-      mvt-spd: 1.3
-      atk-spd: 1.1
-      atk-range: 2
-      dist-range: 10
+      stats:
+        HP: 4500
+        DMG: 1100
+        MVT_SPD: 1.3
+        ATK_SPD: 1.1
+        ATK_RANGE: 2
+        SHOOT_RANGE: 10
     GIMLI:
       name: "Gimli"
       abilities:
@@ -179,12 +181,13 @@ defenders:
       size:
         width: 1
         height: 1
-      hp: 12500
-      dmg: 850
-      mvt-spd: 0.75
-      atk-spd: 0.6
-      atk-range: 3
-      dist-range: 6
+      stats:
+        HP: 12500
+        DMG: 850
+        MVT_SPD: 0.75
+        ATK_SPD: 0.6
+        ATK_RANGE: 3
+        SHOOT_RANGE: 6
 attackers:
   ORC_WARRIOR:
     name: "Guerrier Orc"
@@ -198,26 +201,26 @@ attackers:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 1000
-      dmg: 150
-      mvt-spd: 1
-      atk-spd: 0.75
-      atk-range: 1
-      reward: 25
+      HP: 1000
+      DMG: 150
+      MVT_SPD: 1
+      ATK_SPD: 0.75
+      ATK_RANGE: 1
+      REWARD: 25
     tier2:
-      hp: 1250
-      dmg: 250
-      mvt-spd: 1
-      atk-spd: 1
-      atk-range: 1
-      reward: 40
+      HP: 1250
+      DMG: 250
+      MVT_SPD: 1
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 40
     tier3:
-      hp: 1500
-      dmg: 350
-      mvt-spd: 1
-      atk-spd: 1
-      atk-range: 1
-      reward: 60
+      HP: 1500
+      DMG: 350
+      MVT_SPD: 1
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 60
   ORC_BOMBER:
     name: "Orc Kamikaze"
     abilities:
@@ -228,26 +231,26 @@ attackers:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 700
-      dmg: 1000
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      reward: 30
+      HP: 700
+      DMG: 1000
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 30
     tier2:
-      hp: 950
-      dmg: 1250
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      reward: 45
+      HP: 950
+      DMG: 1250
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 45
     tier3:
-      hp: 1200
-      dmg: 1500
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      reward: 70
+      HP: 1200
+      DMG: 1500
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 70
   GOBLIN:
     name: "Gobelin"
     abilities:
@@ -260,29 +263,29 @@ attackers:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 700
-      dmg: 100
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      dist-range: 5
-      reward: 20
+      HP: 700
+      DMG: 100
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      SHOOT_RANGE: 5
+      REWARD: 20
     tier2:
-      hp: 900
-      dmg: 175
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      dist-range: 6
-      reward: 30
+      HP: 900
+      DMG: 175
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      SHOOT_RANGE: 6
+      REWARD: 30
     tier3:
-      hp: 1100
-      dmg: 220
-      mvt-spd: 1.5
-      atk-spd: 1
-      atk-range: 1
-      dist-range: 6
-      reward: 50
+      HP: 1100
+      DMG: 220
+      MVT_SPD: 1.5
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      SHOOT_RANGE: 6
+      REWARD: 50
   TROLL:
     name: "Troll"
     abilities:
@@ -293,26 +296,26 @@ attackers:
       width: 0.75
       height: 0.75
     tier1:
-      hp: 5000
-      dmg: 400
-      mvt-spd: 0.4
-      atk-spd: 0.5
-      atk-range: 2
-      reward: 125
+      HP: 5000
+      DMG: 400
+      MVT_SPD: 0.4
+      ATK_SPD: 0.5
+      ATK_RANGE: 2
+      REWARD: 125
     tier2:
-      hp: 7500
-      dmg: 500
-      mvt-spd: 0.4
-      atk-spd: 0.5
-      atk-range: 2
-      reward: 175
+      HP: 7500
+      DMG: 500
+      MVT_SPD: 0.4
+      ATK_SPD: 0.5
+      ATK_RANGE: 2
+      REWARD: 175
     tier3:
-      hp: 8500
-      dmg: 600
-      mvt-spd: 0.4
-      atk-spd: 0.5
-      atk-range: 2
-      reward: 250
+      HP: 8500
+      DMG: 600
+      MVT_SPD: 0.4
+      ATK_SPD: 0.5
+      ATK_RANGE: 2
+      REWARD: 250
   URUK_HAI:
     name: "Uruk-Haï"
     abilities:
@@ -323,43 +326,50 @@ attackers:
       width: 0.5
       height: 0.5
     tier1:
-      hp: 1500
-      dmg: 250
-      mvt-spd: 1
-      atk-spd: 1
-      atk-range: 1
-      reward: 75
+      HP: 1500
+      DMG: 250
+      MVT_SPD: 1
+      ATK_SPD: 1
+      ATK_RANGE: 1
+      REWARD: 75
     tier2:
-      hp: 1750
-      dmg: 475
-      mvt-spd: 1
-      atk-spd: 1
-      atk-range: 2
-      reward: 100
+      HP: 1750
+      DMG: 475
+      MVT_SPD: 1
+      ATK_SPD: 1
+      ATK_RANGE: 2
+      REWARD: 100
     tier3:
-      hp: 2000
-      dmg: 600
-      mvt-spd: 1
-      atk-spd: 1
-      atk-range: 2
-      reward: 150
+      HP: 2000
+      DMG: 600
+      MVT_SPD: 1
+      ATK_SPD: 1
+      ATK_RANGE: 2
+      REWARD: 150
   bosses:
     ISENGARD_TOWER:
       name: "Tour d'Isengard"
+      stats:
     MORDOR_TOWER:
       name: "Tour du Mordor"
+      stats:
     GROND:
       name: "Tête de Loup (Grond)"
+      stats:
     SARUMAN:
       name: "Saroumane"
+      stats:
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
+      stats:
     NAZGUL:
       name: "Nazgûl"
+      stats:
 projectiles:
   ARROW:
     name: "Flèche"
     size:
       width: 0.25
       height: 0.25
-    mvt-spd: 2
+    stats:
+      MVT_SPD: 2

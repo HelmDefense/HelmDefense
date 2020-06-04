@@ -2,11 +2,11 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityShootAction;
-import fr.helmdefense.model.entities.abilities.SpecifiedAbility;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class MultishotAbility extends SpecifiedAbility {
+public class MultishotAbility extends Ability {
 	private boolean shooting;
 	private double angle;
 	public MultishotAbility(Tier unlock, Tier.Specification tierSpecification) {

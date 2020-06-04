@@ -104,6 +104,10 @@ public class Level implements ActionListener {
 		return this.waves;
 	}
 	
+	public long getTicks() {
+		return this.gameloop.getTicks();
+	}
+	
 	public Inventory getInv() {
 		return this.inv;
 	}

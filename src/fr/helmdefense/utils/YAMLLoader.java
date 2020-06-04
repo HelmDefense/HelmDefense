@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.Tier;
@@ -91,7 +92,7 @@ public class YAMLLoader {
 			constructStats(stats, Tier.TIER_3, data.getData("tier3"));
 		}
 		else
-			constructStats(stats, Tier.TIER_1, data);
+			constructStats(stats, Tier.TIER_1, data.getData("stats"));
 		
 		EntityType.getFromName(name).setData(new EntityData(
 				data.getString("name"),
@@ -103,17 +104,17 @@ public class YAMLLoader {
 	}
 	
 	private static void constructStats(Map<Tier, Statistic> stats, Tier tier, YAMLData data) {
-		stats.put(tier, new Statistic(
-				data.getInt("hp"),
-				data.getInt("dmg"),
-				data.getDouble("mvt-spd"),
-				data.getDouble("atk-spd"),
-				data.getDouble("atk-range"),
-				data.getDouble("dist-range"),
-				data.getInt("cost"),
-				data.getInt("reward"),
-				data.getInt("unlock")
-		));
+		Statistic stat = new Statistic();
+		
+		if (data != null) {
+			for (String path : data.getPaths()) {
+				try {
+					stat.register(Attribute.valueOf(path.toUpperCase()), data.getDouble(path));
+				} catch (IllegalArgumentException e) {}
+			}
+		}
+		
+		stats.put(tier, stat);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -135,16 +136,17 @@ public class YAMLLoader {
 	
 	private static List<Object> abilitiesParams(List<?> data) {
 		List<Object> list = new ArrayList<Object>(data);
-		if (list.size() > 0) {
-			try {
-				Tier tier = Tier.valueOf(list.get(0).toString());
-				list.set(0, tier);
-				
-				if (list.size() > 1) {
-					Tier.Specification specification = Tier.Specification.valueOf(list.get(1).toString());
-					list.set(1, specification);
-				}
-			} catch (IllegalArgumentException e) {}
+		
+		try {
+			list.set(0, Tier.valueOf(list.get(0).toString().toUpperCase()));
+		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+			list.add(0, Tier.DEFAULT);
+		}
+		
+		try {
+			list.set(1, Tier.Specification.valueOf(list.get(1).toString().toUpperCase()));
+		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+			list.add(1, Tier.Specification.DEFAULT);
 		}
 		
 		return list;
