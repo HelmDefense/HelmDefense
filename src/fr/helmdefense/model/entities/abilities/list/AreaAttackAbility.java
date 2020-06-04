@@ -15,7 +15,7 @@ public abstract class AreaAttackAbility extends Ability {
 		this.attacking = false;
 	}
 
-	public void areaAttackAbility(Location center, Entity attacker, double radius, EntitySide attackingSide, LivingEntity... immunes) {
+	protected void areaAttackAbility(Location center, Entity attacker, double radius, EntitySide attackingSide, LivingEntity... immunes) {
 		if (this.attacking)
 			return;
 		
@@ -33,7 +33,7 @@ public abstract class AreaAttackAbility extends Ability {
 		this.attacking = false;
 	}
 
-	public boolean contains(LivingEntity[] immunes, LivingEntity target) {
+	private boolean contains(LivingEntity[] immunes, LivingEntity target) {
 		for (LivingEntity entity : immunes) {
 			if (entity == target)
 				return true;

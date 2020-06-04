@@ -2,10 +2,11 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntityDirectAttackAction;
-import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class SuicideBombing extends Ability {
+public class SuicideBombing extends AreaAttackAbility {
 
 	public SuicideBombing(Tier unlock, Tier.Specification tierSpecification) {
 		super(unlock, tierSpecification);
@@ -13,7 +14,9 @@ public class SuicideBombing extends Ability {
 	
 	@ActionHandler
 	public void onDirectAttackAction(EntityDirectAttackAction action) {
-		// action.getEntity().die();
+		LivingEntity source = (LivingEntity) action.getEntity();
+		this.areaAttackAbility(source.getLoc(), source, source.stat(Attribute.SHOOT_RANGE), source.getType().getSide(), action.getVictim());
+		source.looseHp(source.getHp() + source.getShield(), source);
 	}
 
 }
