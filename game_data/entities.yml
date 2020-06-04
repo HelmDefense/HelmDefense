@@ -7,8 +7,16 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_1
+        - DEFAULT
       DirectAttackAbility:
         - TIER_1
+        - DEFAULT
+      AttackRangeBonusAbility:
+        - TIER_3
+        - A
+      AreaDirectAttackAbility:
+        - TIER_3
+        - B
     size:
       width: 0.5
       height: 0.5
@@ -42,9 +50,17 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_1
+        - DEFAULT
       ProjectileAttackAbility:
         - TIER_1
+        - DEFAULT
         - 4.0
+      MultiShotAbility:
+        - TIER_3
+        - A
+      PiercingAbility:
+        - TIER_3
+        - B
     size:
       width: 0.5
       height: 0.5
@@ -75,9 +91,17 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_1
+        - DEFAULT
       ProjectileAttackAbility:
         - TIER_1
+        - DEFAULT
         - 6.0
+      TickDamageProjectileAbility:
+        - TIER_3
+        - A
+      SlowingProjectileAbility:
+        - TIER_3
+        - B
     size:
       width: 0.5
       height: 0.5
@@ -114,6 +138,21 @@ defenders:
       BountyHuntingAbility:
         # Tier
         - TIER_1
+        - DEFAULT
+      ProjectileAttackAbility:
+        - TIER_1
+        - DEFAULT
+        - 4.0
+      AreaProjectileAttackAbility:
+        - TIER_1
+        - DEFAULT
+      ShootRangeBonusAbility:
+        - TIER_3
+        - A
+      DamageIncreaseOnTickDamageAbility:
+        - TIER_3
+        - B
+        - 2.0
     size:
       width: 1.5
       height: 1.5
@@ -146,6 +185,7 @@ defenders:
         BountyHuntingAbility:
           # Tier
           - TIER_1
+          - DEFAULT
       size:
         width: 1
         height: 1
@@ -162,6 +202,7 @@ defenders:
         BountyHuntingAbility:
           # Tier
           - TIER_1
+          - DEFAULT
       size:
         width: 1
         height: 1
@@ -178,6 +219,7 @@ defenders:
         BountyHuntingAbility:
           # Tier
           - TIER_1
+          - DEFAULT
       size:
         width: 1
         height: 1
@@ -195,8 +237,13 @@ attackers:
       MoveToEndAbility:
         # Tier
         - TIER_1
+        - DEFAULT
       DirectAttackAbility:
         - TIER_1
+        - DEFAULT
+      OppressionAbility:
+        - TIER_3
+        - DEFAULT
     size:
       width: 0.5
       height: 0.5
@@ -227,6 +274,16 @@ attackers:
       MoveToEndAbility:
         # Tier
         - TIER_1
+        - DEFAULT
+      DirectAttackAbility:
+        - TIER_1
+        - DEFAULT
+      SuicideBombingAbility:
+        - TIER_1
+        - DEFAULT
+      BombExplodeOnDeathAbility:
+        - TIER_3
+        - DEFAULT
     size:
       width: 0.5
       height: 0.5
@@ -257,8 +314,20 @@ attackers:
       MoveToEndAbility:
         # Tier
         - TIER_1
+        - DEFAULT
       ProjectileAttackAbility:
         - TIER_1
+        - DEFAULT
+      DirectAttackAbility:
+        - TIER_1
+        - DEFAULT
+      GoldStealingAbility:
+        - TIER_1
+        - DEFAULT
+        - [30,60,100]
+      TickDamageProjectileAbility:
+        - TIER_3
+        - DEFAULT
     size:
       width: 0.5
       height: 0.5
@@ -292,6 +361,13 @@ attackers:
       MoveToEndAbility:
         # Tier
         - TIER_1
+        - DEFAULT
+      DirectAttackAbility:
+        - TIER_1
+        - DEFAULT
+      TauntAbility:
+        - TIER_3
+        - DEFAULT
     size:
       width: 0.75
       height: 0.75
@@ -322,6 +398,17 @@ attackers:
       MoveToEndAbility:
         # Tier
         - TIER_1
+        - DEFAULT
+      DirectAttackAbility:
+        - TIER_1
+        - DEFAULT
+      AreaDirectAttackAbility:
+        - TIER_1
+        - DEFAULT
+      ShieldSpawningAbility:
+        - TIER_3
+        - DEFAULT
+        - 1000
     size:
       width: 0.5
       height: 0.5
