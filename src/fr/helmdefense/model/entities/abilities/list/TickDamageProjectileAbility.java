@@ -52,7 +52,7 @@ public class TickDamageProjectileAbility extends Ability {
 				entry.getKey().removeFlags(LivingEntity.FIRE);
 				it.remove();
 			}
-			if ( time % freq == 0 ) 
+			else if ( time % freq == 0 ) 
 				entry.getKey().looseHp((int)(this.entity.stat(Attribute.DMG)*0.2),this.entity);
 		}
 	}
