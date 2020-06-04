@@ -43,7 +43,7 @@ public class Projectile extends Entity implements ActionListener {
 		if (Math.asin((target.getY() - loc.getY()) / d) < 0)
 			a += (Math.PI - a) * 2;
 		a += Math.toRadians(angle);
-		this.vector = new Vector(Math.cos(a), Math.sin(a)).multiply(this.speed / GameLoop.TPS);
+		this.vector = new Vector(Math.cos(a), Math.sin(a));
 		
 		this.init(source, loc, speed, target, deleteOnHit, angle);
 	}
@@ -51,7 +51,7 @@ public class Projectile extends Entity implements ActionListener {
 	public Projectile(ProjectileType type, LivingEntity source, Location target, boolean deleteOnHit, double speed) {
 		super(type, source.getLoc());
 		Location loc = source.getLoc();
-		this.vector = new Vector(loc, target).divide(target.distance(loc)).multiply(this.speed / GameLoop.TPS);
+		this.vector = new Vector(loc, target).divide(target.distance(loc));
 		
 		this.init(source, loc, speed, target, deleteOnHit, 0);
 	}
@@ -64,6 +64,7 @@ public class Projectile extends Entity implements ActionListener {
 		this.deleteOnHit = deleteOnHit;
 		this.angle = angle;
 		this.hits = new ArrayList<LivingEntity>();
+		this.vector.multiply(this.speed / GameLoop.TPS);
 		
 		Actions.registerListeners(this);
 		

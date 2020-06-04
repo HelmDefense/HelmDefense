@@ -50,6 +50,8 @@ public class LivingEntity extends Entity {
 			EntityKillAction kill = new EntityKillAction(cause, this);
 			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
 			
+			this.delete();
+			
 			cause.triggerAbilities(kill);
 			this.triggerAbilities(death);
 		}
