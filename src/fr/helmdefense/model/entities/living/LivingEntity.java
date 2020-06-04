@@ -12,13 +12,17 @@ import javafx.beans.property.ReadOnlyIntegerWrapper;
 public class LivingEntity extends Entity {
 	private ReadOnlyIntegerWrapper hpProperty;
 	private ReadOnlyIntegerWrapper shieldProperty;
-	private boolean taunt;
+	private int flags;
+	
+	public static final int TAUNT = 1;
+	public static final int FIRE = 2;
+	public static final int POISON = 4;
 	
 	public LivingEntity(LivingEntityType type, Location loc) {
 		super(type, loc);
 		this.hpProperty = new ReadOnlyIntegerWrapper((int) this.stat(Attribute.HP));
 		this.shieldProperty = new ReadOnlyIntegerWrapper(0);
-		this.taunt = false;
+		this.flags = 0;
 	}
 	
 	public LivingEntity(LivingEntityType type, double x, double y) {
@@ -78,12 +82,24 @@ public class LivingEntity extends Entity {
 		return this.hpProperty.getReadOnlyProperty();
 	}
 	
-	public void setTaunt(boolean taunt) {
-		this.taunt = taunt;
+	public int getFlags() {
+		return this.flags;
 	}
 	
-	public boolean isTaunting() {
-		return this.taunt;
+	public void addFlags(int flags) {
+		this.flags |= flags;
+	}
+	
+	public void removeFlags(int flags) {
+		this.flags &= ~flags;
+	}
+	
+	public void reverseFlags(int flags) {
+		this.flags ^= flags;
+	}
+	
+	public boolean testFlags(int flags) {
+		return (this.flags & flags) != 0;
 	}
 	
 	public boolean isAlive() {

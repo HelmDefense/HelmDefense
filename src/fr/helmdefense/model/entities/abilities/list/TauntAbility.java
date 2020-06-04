@@ -15,7 +15,7 @@ public class TauntAbility extends Ability {
 	@ActionHandler
 	public void onEntitySpawnAction(EntitySpawnAction action) {
 		if (action.getEntity() instanceof LivingEntity) {
-			((LivingEntity) action.getEntity()).setTaunt(true);
+			((LivingEntity) action.getEntity()).addFlags(LivingEntity.TAUNT);
 		}
 	}
 }

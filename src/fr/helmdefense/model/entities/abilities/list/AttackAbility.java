@@ -49,10 +49,10 @@ public abstract class AttackAbility extends Ability {
             if (entity instanceof LivingEntity
             		&& this.entity.isEnemy(testing = (LivingEntity) entity)
                     && (d = entity.getLoc().distance(this.entity.getLoc())) < dMax
-                    && (! taunt || testing.isTaunting())) {
+                    && (! taunt || testing.testFlags(LivingEntity.TAUNT))) {
                 dMax = d;
                 closest = testing;
-                taunt = testing.isTaunting();
+                taunt = testing.testFlags(LivingEntity.TAUNT);
             }
         }
         return closest;
