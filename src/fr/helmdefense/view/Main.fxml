@@ -17,8 +17,8 @@
 	<bottom>
 		<BorderPane BorderPane.alignment="CENTER">
 			<left>
-				<Label prefWidth="500.0" text="IUT de Montreuil, projet S2"
-					BorderPane.alignment="CENTER">
+				<Label fx:id="creditsLabel" prefWidth="500.0"
+					text="IUT de Montreuil, projet S2" BorderPane.alignment="CENTER">
 					<font>
 						<Font size="14.0" />
 					</font>
@@ -35,8 +35,8 @@
 			<right>
 				<Label fx:id="buyInfoLabel" alignment="CENTER_RIGHT"
 					contentDisplay="RIGHT" prefWidth="500.0"
-					text="Sélectionnez une entité dans l'inventaire pour la placer" textAlignment="RIGHT"
-					BorderPane.alignment="CENTER">
+					text="Sélectionnez une entité dans l'inventaire pour la placer"
+					textAlignment="RIGHT" BorderPane.alignment="CENTER">
 					<font>
 						<Font size="18.0" />
 					</font>

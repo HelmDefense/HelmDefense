@@ -7,14 +7,12 @@ import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class BountyHuntingAbility extends Ability {
-
 	public BountyHuntingAbility(Tier unlock, Tier.Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}
 	
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
-		action.getEntity().getLevel().earnCoins((int) action.getVictim().data().getStats().get(Attribute.REWARD));
+		action.getEntity().getLevel().earnCoins((int) action.getVictim().stat(Attribute.REWARD));
 	}
-
 }

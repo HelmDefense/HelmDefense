@@ -12,10 +12,12 @@ import fr.helmdefense.model.entities.projectile.Projectile;
 public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	private LivingEntity victim;
 	private int hpBefore;
+	private int dmg;
 	
-	public ProjectileEntityAttackAction(Projectile projectile, LivingEntity victim, int hpBefore) {
+	public ProjectileEntityAttackAction(Projectile projectile, LivingEntity victim, int hpBefore, int dmg) {
 		super(projectile);
 		this.victim = victim;
+		this.dmg = dmg;
 	}
 	
 	/**
@@ -51,10 +53,9 @@ public class ProjectileEntityAttackAction extends ProjectileEntityAction {
 	 * be {@code 0} even if the projectile dealt damages to
 	 * the victim if the shield absorbed all damages.
 	 * 
-	 * @return	The difference between {@link LivingEntity}'s
-	 * 			actual HP and old HP value.
+	 * @return	The damage dealt by the attacker to the victim.
 	 */
 	public int getDmg() {
-		return this.victim.getHp() - this.hpBefore;
+		return this.dmg;
 	}
 }

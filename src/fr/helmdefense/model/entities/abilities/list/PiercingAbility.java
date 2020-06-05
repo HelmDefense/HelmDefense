@@ -7,7 +7,6 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class PiercingAbility extends Ability {
-
 	public PiercingAbility(Tier unlock, Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}

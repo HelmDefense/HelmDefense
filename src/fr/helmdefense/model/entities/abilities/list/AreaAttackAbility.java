@@ -1,5 +1,8 @@
 package fr.helmdefense.model.entities.abilities.list;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.abilities.Ability;
@@ -22,7 +25,8 @@ public abstract class AreaAttackAbility extends Ability {
 		this.attacking = true;
 		LivingEntity testing;
 		
-		for (Entity target : attacker.getLevel().getEntities())
+		List<Entity> list = new ArrayList<Entity>(attacker.getLevel().getEntities());
+		for (Entity target : list)
 			if (target instanceof LivingEntity
 					&& (testing = (LivingEntity) target) != attacker
 					&& ! contains(immunes, testing)

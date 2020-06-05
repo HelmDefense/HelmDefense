@@ -80,7 +80,7 @@ public class Wave implements ActionListener {
 	}
 	
 	public boolean isEnded() {
-		return this.entityCount == 0;
+		return this.entityCount <= 0;
 	}
 	
 	public long getEndTick() {

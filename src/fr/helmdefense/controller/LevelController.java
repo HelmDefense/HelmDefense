@@ -350,11 +350,11 @@ public class LevelController implements Initializable {
 		manageStats(data, e);
 
 		// Display range
-		this.atkRange.setRadius((entityAtkRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
+		this.atkRange.setRadius(e.stat(Attribute.ATK_RANGE) * GameMap.TILE_SIZE);
 		this.atkRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
 		this.atkRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
 		
-		this.shootRange.setRadius((entityDistRangeBar.getValue() + 0.5) * GameMap.TILE_SIZE);
+		this.shootRange.setRadius(e.stat(Attribute.SHOOT_RANGE) * GameMap.TILE_SIZE);
 		this.shootRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
 		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));	
 	}

@@ -13,9 +13,9 @@ public class DirectAttackAbility extends AttackAbility {
 	protected void attack(LivingEntity enemy) {
 		this.entity.attack(enemy);	
 	}
-	
+
 	@Override
-	protected void init() {
-		this.range = this.entity.stat(Attribute.ATK_RANGE);
+	protected boolean canAttack(LivingEntity enemy) {
+		return enemy.getLoc().distance(this.entity.getLoc()) < this.entity.stat(Attribute.ATK_RANGE);
 	}
 }

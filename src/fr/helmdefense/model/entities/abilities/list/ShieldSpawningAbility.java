@@ -8,9 +8,13 @@ import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class ShieldSpawningAbility extends Ability {
-	private int factor;
+	private double factor;
 
-	public ShieldSpawningAbility(Tier unlock, Tier.Specification tierSpecification, Integer factor) {
+	public ShieldSpawningAbility(Tier unlock, Tier.Specification tierSpecification) {
+		this(unlock, tierSpecification, 0.5d);
+	}
+	
+	public ShieldSpawningAbility(Tier unlock, Tier.Specification tierSpecification, Double factor) {
 		super(unlock, tierSpecification);
 		this.factor = factor;
 	}
@@ -19,7 +23,7 @@ public class ShieldSpawningAbility extends Ability {
 	public void onSpawnAction(EntitySpawnAction action) {
 		LivingEntity source = (LivingEntity) action.getEntity();
 		if (! source.hasShield()) {
-			source.gainHp((int) action.getEntity().stat(Attribute.HP) / this.factor, false);
+			source.gainHp((int) (action.getEntity().stat(Attribute.HP) * this.factor), false);
 		}
 	}
 }

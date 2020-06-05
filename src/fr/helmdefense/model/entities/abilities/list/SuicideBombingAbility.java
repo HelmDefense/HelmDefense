@@ -18,5 +18,4 @@ public class SuicideBombingAbility extends AreaAttackAbility {
 		this.areaAttackAbility(source.getLoc(), source, source.stat(Attribute.SHOOT_RANGE), source.getType().getSide(), action.getVictim());
 		source.looseHp(source.getHp() + source.getShield(), source);
 	}
-
 }

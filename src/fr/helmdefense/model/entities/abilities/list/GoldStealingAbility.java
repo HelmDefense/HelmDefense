@@ -9,17 +9,17 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class GoldStealingAbility extends Ability {
-	private List<Integer> list;
+	private List<Integer> costs;
 	
 	public GoldStealingAbility(Tier unlock, Tier.Specification tierSpecification, ArrayList<Integer> costs) {
 		super(unlock, tierSpecification);
-		this.list = costs;
+		this.costs = costs;
 	}
 	
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
 		int entityTier = action.getEntity().data().getTier().getNumberTier();
 		if (entityTier > 0 || entityTier < 3)
-			action.getEntity().getLevel().debit(this.list.get(entityTier - 1));
+			action.getEntity().getLevel().debit(this.costs.get(entityTier - 1));
 	}
 }

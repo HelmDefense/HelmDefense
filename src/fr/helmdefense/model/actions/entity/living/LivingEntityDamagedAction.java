@@ -12,11 +12,13 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 public class LivingEntityDamagedAction extends LivingEntityAction {
 	private Entity attacker;
 	private int hpBefore;
+	private int dmg;
 	
-	public LivingEntityDamagedAction(LivingEntity entity, Entity attacker, int hpBefore) {
+	public LivingEntityDamagedAction(LivingEntity entity, Entity attacker, int hpBefore, int dmg) {
 		super(entity);
 		this.attacker = attacker;
 		this.hpBefore = hpBefore;
+		this.dmg = dmg;
 	}
 	
 	/**
@@ -53,10 +55,9 @@ public class LivingEntityDamagedAction extends LivingEntityAction {
 	 * be {@code 0} even if the attacker dealt damage to
 	 * the victim if the shield absorbed all damages.
 	 * 
-	 * @return	The difference between {@link LivingEntity}'s
-	 * 			actual HP and old HP value.
+	 * @return	The damage dealt by the attacker to the victim.
 	 */
 	public int getDmg() {
-		return this.getEntity().getHp() - this.hpBefore;
+		return this.dmg;
 	}
 }
