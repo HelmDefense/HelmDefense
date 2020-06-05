@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities.abilities.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.helmdefense.model.actions.ActionHandler;
@@ -10,7 +11,7 @@ import fr.helmdefense.model.entities.utils.Tier;
 public class GoldStealingAbility extends Ability {
 	private List<Integer> list;
 	
-	public GoldStealingAbility(Tier unlock, Tier.Specification tierSpecification, List<Integer> costs) {
+	public GoldStealingAbility(Tier unlock, Tier.Specification tierSpecification, ArrayList<Integer> costs) {
 		super(unlock, tierSpecification);
 		this.list = costs;
 	}
