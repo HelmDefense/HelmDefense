@@ -6,9 +6,9 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class SuicideBombing extends AreaAttackAbility {
+public class SuicideBombingAbility extends AreaAttackAbility {
 
-	public SuicideBombing(Tier unlock, Tier.Specification tierSpecification) {
+	public SuicideBombingAbility(Tier unlock, Tier.Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}
 	

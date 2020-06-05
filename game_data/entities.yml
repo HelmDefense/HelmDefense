@@ -51,7 +51,7 @@ defenders:
       ProjectileAttackAbility:
         - TIER_1
         - 4.0
-      MultiShotAbility:
+      MultishotAbility:
         - TIER_3
         - A
       PiercingAbility:
@@ -140,7 +140,7 @@ defenders:
       ShootRangeBonusAbility:
         - TIER_3
         - A
-      DamageIncreaseOnTickDamageAbility:
+      DamageIncreaseOnTickDamagedAbility:
         - TIER_3
         - B
         - 2.0
@@ -229,7 +229,7 @@ attackers:
         - TIER_1
       OppressionAbility:
         - TIER_3
-        - DEFAULT
+        - NO_SPECIFICATION
     size:
       width: 0.5
       height: 0.5
@@ -266,7 +266,7 @@ attackers:
         - TIER_1
       BombExplodeOnDeathAbility:
         - TIER_3
-        - DEFAULT
+        - NO_SPECIFICATION
     size:
       width: 0.5
       height: 0.5
@@ -276,6 +276,7 @@ attackers:
       MVT_SPD: 1.5
       ATK_SPD: 1
       ATK_RANGE: 1
+      SHOOT_RANGE: 1
       REWARD: 30
     tier2:
       HP: 950
@@ -283,6 +284,7 @@ attackers:
       MVT_SPD: 1.5
       ATK_SPD: 1
       ATK_RANGE: 1
+      SHOOT_RANGE: 1
       REWARD: 45
     tier3:
       HP: 1200
@@ -290,6 +292,7 @@ attackers:
       MVT_SPD: 1.5
       ATK_SPD: 1
       ATK_RANGE: 1
+      SHOOT_RANGE: 1
       REWARD: 70
   GOBLIN:
     name: "Gobelin"
@@ -306,6 +309,7 @@ attackers:
         - [30,60,100]
       TickDamageProjectileAbility:
         - TIER_3
+        - NO_SPECIFICATION
     size:
       width: 0.5
       height: 0.5
@@ -343,7 +347,7 @@ attackers:
         - TIER_1
       TauntAbility:
         - TIER_3
-        - DEFAULT
+        - NO_SPECIFICATION
     size:
       width: 0.75
       height: 0.75
@@ -380,7 +384,7 @@ attackers:
         - TIER_1
       ShieldSpawningAbility:
         - TIER_3
-        - DEFAULT
+        - NO_SPECIFICATION
         - 1000
     size:
       width: 0.5
