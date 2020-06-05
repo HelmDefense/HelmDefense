@@ -36,10 +36,10 @@ public class OppressionAbility extends Ability {
 		Entity source = action.getEntity();
 		AttributeModifier modifier = source.getModifier(this.getClass().getSimpleName());
 		if (modifier == null) {
-			modifier = new AttributeModifier(this.getClass().getSimpleName(), Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getTicks(), this.duration);
+			modifier = new AttributeModifier(this.getClass().getSimpleName(), Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration);
 			source.getModifiers().add(modifier);
 		}
 		else
-			modifier.setStart(source.getLevel().getTicks());
+			modifier.setStart(source.getLevel().getGameloop().getTicks());
 	}
 }

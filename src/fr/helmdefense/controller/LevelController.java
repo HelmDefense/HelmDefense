@@ -3,8 +3,6 @@ package fr.helmdefense.controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.Entity;
@@ -390,9 +388,6 @@ public class LevelController implements Initializable {
 	
 	public void stop() {
 		this.level.end();
-		List<Entity> list = new ArrayList<Entity>(this.level.getEntities());
-		for (Entity e : list)
-			e.dispawn();
 		this.level = null;
 	}
 

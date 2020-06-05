@@ -36,11 +36,11 @@ public class SlowingProjectileAbility extends Ability {
 		LivingEntity victim = action.getVictim();
 		AttributeModifier attribute = victim.getModifier(this.getClass().getSimpleName());
 		if (attribute == null) {
-			attribute = new AttributeModifier(this.getClass().getSimpleName(), Attribute.MVT_SPD, Operation.MULTIPLY, this.value, victim.getLevel().getTicks(), this.duration);
+			attribute = new AttributeModifier(this.getClass().getSimpleName(), Attribute.MVT_SPD, Operation.MULTIPLY, this.value, victim.getLevel().getGameloop().getTicks(), this.duration);
 			victim.getModifiers().add(attribute);
 		}
 		else
-			attribute.setStart(victim.getLevel().getTicks());
+			attribute.setStart(victim.getLevel().getGameloop().getTicks());
 	}
 }
 	

@@ -24,6 +24,22 @@ public class GameLoop {
 		return this.loop.getTicks();
 	}
 	
+	public boolean isPaused() {
+		return this.loop.isPaused();
+	}
+	
+	public void pause() {
+		this.loop.setPaused(true);
+	}
+	
+	public void resume() {
+		this.loop.setPaused(false);
+	}
+	
+	public void togglePause() {
+		this.loop.setPaused(! this.loop.isPaused());
+	}
+	
 	public void start() {
 		this.tl.play();
 	}
@@ -35,19 +51,30 @@ public class GameLoop {
 	private class Loop implements EventHandler<ActionEvent> {
 		private Consumer<Long> action;
 		private long ticks;
+		private boolean paused;
 		
 		public Loop(Consumer<Long> action) {
 			this.action = action;
 			this.ticks = 0;
+			this.paused = false;
 		}
 		
 		public long getTicks() {
 			return this.ticks;
 		}
 		
+		public boolean isPaused() {
+			return this.paused;
+		}
+		
+		public void setPaused(boolean paused) {
+			this.paused = paused;
+		}
+		
 		@Override
 		public void handle(ActionEvent event) {
-			action.accept(++this.ticks);
+			if (! this.isPaused())
+				this.action.accept(++this.ticks);
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.level.GameLoop;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -61,7 +62,17 @@ public class Controller implements Initializable {
 
 	@FXML
 	void pauseButtonAction(ActionEvent event) {
-		
+		if (this.level != null) {
+			GameLoop loop = this.level.getLvl().getGameloop();
+			if (loop.isPaused()) {
+				loop.resume();
+				this.pauseButton.setText("Pause");
+			}
+			else {
+				loop.pause();
+				this.pauseButton.setText("Play");
+			}
+		}
 	}
 
 	@FXML
