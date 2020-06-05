@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.HelmDefense;
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.view.statbar.StatBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -168,8 +169,8 @@ public class MenuController implements Initializable {
 		this.nextArrow.scaleYProperty().bind(this.nextArrow.scaleXProperty());
 	}
 	
-	private LivingEntityType selectedHero() {
-		return LivingEntityType.HEROES[this.selectedHero];
+	private Hero selectedHero() {
+		return this.game.getHero(LivingEntityType.HEROES[this.selectedHero]);
 	}
 	
 	private String selectedLevel() {
@@ -183,7 +184,7 @@ public class MenuController implements Initializable {
 		else if (this.selectedHero >= LivingEntityType.HEROES.length)
 			this.selectedHero = 0;
 		
-		this.currentLabel.setText(selectedHero().toString());
+		this.currentLabel.setText(selectedHero().getType().toString());
 	}
 	
 	private void selectLevel(int n) {

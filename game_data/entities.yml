@@ -169,8 +169,8 @@ defenders:
       SHOOT_RANGE: 12
       COST: 4000
       UNLOCK: 5000
-  # Heros default stats
-  heros:
+  # Heroes default stats
+  heroes:
     ARAGORN:
       name: "Aragorn"
       abilities:

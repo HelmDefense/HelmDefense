@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.EntityData;
@@ -47,7 +48,7 @@ import javafx.scene.text.TextFlow;
 public class LevelController implements Initializable {
 	private Controller main;
 	private Level level;
-	private LivingEntityType hero;
+	private Hero hero;
 	private Circle atkRange;
 	private Circle shootRange;
 	private IntegerProperty selectedAmountProperty;
@@ -161,7 +162,7 @@ public class LevelController implements Initializable {
 	@FXML
 	InventoryView inventory;
 	
-	public LevelController(Controller main, String levelName, LivingEntityType hero) {
+	public LevelController(Controller main, String levelName, Hero hero) {
 		this.main = main;
 		this.level = Level.load(levelName);
 		this.hero = hero;
@@ -186,7 +187,7 @@ public class LevelController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Level " + levelName + " loaded with hero " + this.hero);
+		System.out.println("Level " + levelName + " loaded with hero " + this.hero.getType());
 	}
 	
 	@Override
@@ -371,8 +372,11 @@ public class LevelController implements Initializable {
 	}
 	
 	private void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
-		bar.setValue(data.getStats().get(attr))
-				.setMax(data.getStats(Tier.TIER_3).get(attr));
+		bar.setValue(data.getStats().get(attr));
+		if (entity == null || entity.getType().isClassic())
+			bar.setMax(data.getStats(Tier.TIER_3).get(attr));
+		else
+			bar.setMax(data.getStats().get(attr));
 		if (bonus != null && entity != null)
 			bonus.setText("+ " + (entity.stat(attr) - bar.getValue()));
 		
@@ -383,6 +387,8 @@ public class LevelController implements Initializable {
 	}
 	
 	public void start() {
+		this.hero.spawn(this.level);
+		
 		this.level.startLoop();
 	}
 	
