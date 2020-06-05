@@ -19,7 +19,6 @@ import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
-import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 
 public abstract class Entity implements ActionListener {
@@ -32,10 +31,6 @@ public abstract class Entity implements ActionListener {
 	private List<Ability> abilities;
 	
 	private static int ids = 0;
-	
-	static {
-		YAMLLoader.loadEntityData();
-	}
 	
 	public Entity(EntityType type, Location loc) {
 		this.id = "E" + (++ids);
@@ -61,6 +56,11 @@ public abstract class Entity implements ActionListener {
 		lvl.getEntities().add(this);
 	}
 	
+	public void dispawn() {
+		this.delete();
+		this.level = null;
+	}
+	
 	public void attack(LivingEntity victim) {
 		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
 		
@@ -79,7 +79,7 @@ public abstract class Entity implements ActionListener {
 	}
 	
 	protected void delete() {
-		this.getLevel().getEntities().remove(this);
+		this.level.getEntities().remove(this);
 		Actions.unregisterListeners(this.abilities);
 		Actions.unregisterListeners(this);
 	}

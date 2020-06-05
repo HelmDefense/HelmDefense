@@ -57,6 +57,12 @@ public class Level implements ActionListener {
 		Actions.registerListeners(this);
 	}
 	
+	public void end() {
+		this.gameloop.stop();
+		
+		Actions.unregisterAllListeners();
+	}
+	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
 		if (this.currentWave != -1) {

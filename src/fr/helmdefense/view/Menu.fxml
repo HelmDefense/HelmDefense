@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import fr.helmdefense.view.statbar.StatBar?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<VBox alignment="CENTER" spacing="20.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<children>
+		<HBox alignment="CENTER" spacing="35.0">
+			<children>
+				<ImageView fx:id="previousArrow"
+					onMouseClicked="#previousArrowClicked"
+					onMouseEntered="#previousArrowEntered"
+					onMouseExited="#previousArrowExited" fitHeight="64.0"
+					fitWidth="64.0" opacity="0.75" pickOnBounds="true"
+					preserveRatio="true">
+					<image>
+						<Image url="@../../../../assets/models/left-arrow.png" />
+					</image>
+				</ImageView>
+				<ImageView fx:id="currentImage" fitHeight="256.0"
+					fitWidth="256.0" pickOnBounds="true" preserveRatio="true" />
+				<VBox spacing="25.0">
+					<children>
+						<Label fx:id="currentLabel" text="Nom du héros">
+							<font>
+								<Font name="System Bold" size="24.0" />
+							</font>
+						</Label>
+						<HBox fx:id="heroInfo" spacing="10.0">
+							<children>
+								<VBox alignment="CENTER_RIGHT" spacing="15.0">
+									<children>
+										<Label prefHeight="32.0" text="PV" />
+										<Label prefHeight="32.0" text="Dégats" />
+									</children>
+								</VBox>
+								<VBox alignment="CENTER" spacing="15.0">
+									<children>
+										<StatBar fx:id="hpBar" color="#FF6A00"
+											displayStyle="VALUE_ROUND" prefHeight="32.0"
+											prefWidth="100.0" />
+										<StatBar fx:id="dmgBar" color="#FF6A00"
+											displayStyle="VALUE_ROUND" prefHeight="32.0"
+											prefWidth="100.0" />
+									</children>
+								</VBox>
+								<VBox alignment="CENTER_LEFT" spacing="15.0">
+									<children>
+										<StackPane fx:id="upgradeHp">
+											<children>
+												<ImageView>
+													<image>
+														<Image url="@../../../../assets/models/star.png" />
+													</image>
+												</ImageView>
+												<ImageView StackPane.alignment="BOTTOM_RIGHT">
+													<image>
+														<Image url="@../../../../assets/models/plus.png" />
+													</image>
+												</ImageView>
+											</children>
+										</StackPane>
+										<StackPane fx:id="upgradeDmg">
+											<children>
+												<ImageView>
+													<image>
+														<Image url="@../../../../assets/models/star.png" />
+													</image>
+												</ImageView>
+												<ImageView StackPane.alignment="BOTTOM_RIGHT">
+													<image>
+														<Image url="@../../../../assets/models/plus.png" />
+													</image>
+												</ImageView>
+											</children>
+										</StackPane>
+									</children>
+								</VBox>
+							</children>
+						</HBox>
+						<HBox fx:id="levelInfo" alignment="CENTER">
+							<children>
+								<Button mnemonicParsing="false" onAction="#playAction"
+									prefWidth="175.0" text="Lancer le niveau">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Button>
+							</children>
+						</HBox>
+					</children>
+				</VBox>
+				<ImageView fx:id="nextArrow"
+					onMouseClicked="#nextArrowClicked"
+					onMouseEntered="#nextArrowEntered" onMouseExited="#nextArrowExited"
+					fitHeight="64.0" fitWidth="64.0" opacity="0.75" pickOnBounds="true"
+					preserveRatio="true">
+					<image>
+						<Image url="@../../../../assets/models/right-arrow.png" />
+					</image>
+				</ImageView>
+			</children>
+		</HBox>
+		<Button fx:id="mainButton" mnemonicParsing="false"
+			onAction="#mainAction" prefWidth="250.0" text="Choisir un niveau">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Button>
+		<Button fx:id="settings" mnemonicParsing="false"
+			onAction="#settingsAction" prefWidth="250.0" text="Paramètres">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Button>
+	</children>
+	<padding>
+		<Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+	</padding>
+</VBox>
