@@ -20,10 +20,7 @@ public class ShootRangeBonusAbility extends Ability {
 	@ActionHandler
 	public void rangeBonus(/* EntityUpgradeAction action */ ) {
 		/*
-		AttributeModifier rangeBonus = action.getEntity().getModifier(this.getClass().getSimpleName());
-		if ( rangeBonus == null)
-			rangeBonus = new AttributeModifier("ShootRangeBonusAbility", Attribute.SHOOT_RANGE, Operation.ADD, this.range);
-		action.getEntity().getModifiers().add(rangeBonus);
+		action.getEntity().getModifiers().add(new AttributeModifier(Attribute.SHOOT_RANGE, Operation.ADD, this.range);
 		*/
 	}
 
