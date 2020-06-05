@@ -14,7 +14,8 @@ public class BombExplodeOnDeathAbility extends AreaAttackAbility {
 	
 	public void onLivingEntityDeathAction(LivingEntityDeathAction action) {
 		LivingEntity source = (LivingEntity) action.getEntity();
-		this.areaAttackAbility(source.getLoc(), source, source.stat(Attribute.SHOOT_RANGE), source.getType().getSide());
+		if (action.getAttacker() != action.getEntity())
+			this.areaAttackAbility(source.getLoc(), source, source.stat(Attribute.SHOOT_RANGE), source.getType().getSide());
 	}
 
 }
