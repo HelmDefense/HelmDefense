@@ -11,6 +11,7 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.projectile.ProjectileType;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -59,6 +60,11 @@ public class Level implements ActionListener {
 	
 	public void end() {
 		this.gameloop.stop();
+		
+		for (LivingEntityType type : LivingEntityType.values())
+			type.getData().resetTiers();
+		for (ProjectileType type : ProjectileType.values())
+			type.getData().resetTiers();
 		
 		Actions.unregisterAllListeners();
 	}

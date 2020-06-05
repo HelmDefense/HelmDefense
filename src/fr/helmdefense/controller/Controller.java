@@ -4,7 +4,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +75,7 @@ public class Controller implements Initializable {
 		this.menu = new MenuController(this);
 	}
 	
-	void startLevel(String name, LivingEntityType hero) {
+	void startLevel(String name, Hero hero) {
 		this.level = new LevelController(this, name, hero);
 		this.level.start();
 	}
