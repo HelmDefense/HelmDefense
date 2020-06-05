@@ -1,11 +1,8 @@
 package fr.helmdefense.model.entities.abilities.list;
 
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.entities.abilities.Ability;
-import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.model.entities.utils.AttributeModifier;
 import fr.helmdefense.model.entities.utils.Tier;
-import fr.helmdefense.model.entities.utils.AttributeModifier.Operation;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class ShootRangeBonusAbility extends Ability {
@@ -20,10 +17,14 @@ public class ShootRangeBonusAbility extends Ability {
 		this.range = range;
 	}
 	
-	public void rangeBonus(Entity entity) {
-		AttributeModifier rangeBonus = entity.getModifier(this.getClass().getSimpleName());
+	@ActionHandler
+	public void rangeBonus(/* EntityUpgradeAction action */ ) {
+		/*
+		AttributeModifier rangeBonus = action.getEntity().getModifier(this.getClass().getSimpleName());
 		if ( rangeBonus == null)
-			rangeBonus = new AttributeModifier(Attribute.SHOOT_RANGE, Operation.ADD, this.range);
+			rangeBonus = new AttributeModifier("ShootRangeBonusAbility", Attribute.SHOOT_RANGE, Operation.ADD, this.range);
+		action.getEntity().getModifiers().add(rangeBonus);
+		*/
 	}
 
 }
