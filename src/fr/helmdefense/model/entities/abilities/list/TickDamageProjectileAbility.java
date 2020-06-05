@@ -40,8 +40,10 @@ public class TickDamageProjectileAbility extends Ability {
 	@ActionHandler
 	public void onAttack(ProjectileEntityAttackAction action) {
 		LivingEntity victim = action.getVictim();
-		this.map.put(victim, victim.getLevel().getTicks());
-		victim.addFlags(LivingEntity.FIRE);
+		if ( ! victim.testFlags(LivingEntity.FIRE)) {
+			this.map.put(victim, victim.getLevel().getTicks());
+			victim.addFlags(LivingEntity.FIRE);
+		}
 	}
 	
 	@ActionHandler
