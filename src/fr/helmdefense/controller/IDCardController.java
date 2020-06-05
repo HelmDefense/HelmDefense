@@ -25,7 +25,7 @@ import javafx.scene.text.TextFlow;
 
 public class IDCardController implements Initializable {
 	private LivingEntityType type;
-	private Controller main;
+	private LevelController main;
 	private IntegerProperty costProperty;
 	private int selectedImage;
 
@@ -57,7 +57,7 @@ public class IDCardController implements Initializable {
 	@FXML
 	private HBox chooseUpgradeBox;
 
-	public IDCardController(LivingEntityType type, Controller main) {
+	public IDCardController(LivingEntityType type, LevelController main) {
 		this.type = type;
 		this.main = main;
 		this.costProperty = new SimpleIntegerProperty();
@@ -146,7 +146,7 @@ public class IDCardController implements Initializable {
 		Tier next = data.getTier().next();
 		if (this.main.getLvl().debit((int) data.getStats(next).get(Attribute.UNLOCK))) {
 			data.setTier(next);
-			this.main.manageStats(data);
+			this.main.manageStats(data, null);
 			updateUpgradeLabel();
 			updateCost(1);
 		}
