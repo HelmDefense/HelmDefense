@@ -140,10 +140,11 @@ defenders:
       ShootRangeBonusAbility:
         - TIER_3
         - A
+        - 20.0
       DamageIncreaseOnTickDamagedAbility:
         - TIER_3
         - B
-        - 2.0
+        - 0.5
     size:
       width: 1.5
       height: 1.5
@@ -306,7 +307,7 @@ attackers:
         - TIER_1
       GoldStealingAbility:
         - TIER_1
-        - [30,60,100]
+        - [30, 60, 100]
       TickDamageProjectileAbility:
         - TIER_3
         - NO_SPECIFICATION
@@ -385,7 +386,7 @@ attackers:
       ShieldSpawningAbility:
         - TIER_3
         - NO_SPECIFICATION
-        - 1000
+        - 0.5
     size:
       width: 0.5
       height: 0.5

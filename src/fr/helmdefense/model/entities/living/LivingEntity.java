@@ -33,8 +33,9 @@ public class LivingEntity extends Entity {
 		return this.hpProperty.get();
 	}
 	
-	public void looseHp(int amount, Entity cause, boolean ignoreShield) {
-		LivingEntityDamagedAction damage = new LivingEntityDamagedAction(this, cause, this.getHp());
+	public int looseHp(int amount, Entity cause, boolean ignoreShield) {
+		if (! this.isAlive())
+			return -1;
 		
 		if (! ignoreShield) {
 			int shield = this.getShield();
@@ -46,7 +47,10 @@ public class LivingEntity extends Entity {
 				amount -= shield;
 			}
 		}
+		LivingEntityDamagedAction damage = new LivingEntityDamagedAction(this, cause, this.getHp(), amount);
+		
 		this.hpProperty.set(this.getHp() - amount);
+		// System.out.println("Entity #" + this.getId() + " (" + this.getType() + "): " + amount + " dmg from Entity #" + cause.getId() + " (" + cause.getType() + ")");
 		
 		this.triggerAbilities(damage);
 		
@@ -59,13 +63,18 @@ public class LivingEntity extends Entity {
 			cause.triggerAbilities(kill);
 			this.triggerAbilities(death);
 		}
+		
+		return amount;
 	}
 	
-	public void looseHp(int amount, Entity cause) {
-		this.looseHp(amount, cause, false);
+	public int looseHp(int amount, Entity cause) {
+		return this.looseHp(amount, cause, false);
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
+		if (! this.isAlive())
+			return;
+		
 		this.hpProperty.set(this.getHp() + amount);
 		if (this.getHp() > this.stat(Attribute.HP)) {
 			if (! ignoreShield)

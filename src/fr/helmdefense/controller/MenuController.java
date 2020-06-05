@@ -201,5 +201,7 @@ public class MenuController implements Initializable {
 		
 		this.main.moneyLabel.textProperty().bind(this.game.starsProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "star.png"));
+		
+		this.main.creditsLabel.setOnMouseClicked(event -> this.main.startLevel("troll", this.selectedHero()));
 	}
 }

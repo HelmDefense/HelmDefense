@@ -7,10 +7,11 @@ import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class MultishotAbility extends Ability {
-	private boolean shooting;
 	private double angle;
+	private boolean shooting;
+	
 	public MultishotAbility(Tier unlock, Tier.Specification tierSpecification) {
-		this(unlock, tierSpecification, 20d);
+		this(unlock, tierSpecification, 15d);
 	}
 	
 	public MultishotAbility(Tier unlock, Tier.Specification tierSpecification, Double angle) {
@@ -21,12 +22,13 @@ public class MultishotAbility extends Ability {
 	
 	@ActionHandler
 	public void multishotAbility(ProjectileEntityShootAction action) {
-		if ( shooting )
+		if (this.shooting)
 			return;
-		shooting = false;
+		
+		this.shooting = true;
 		Projectile p = action.getEntity();
-		new Projectile(p.getType(), p.getSource(), p.getTarget(), this.angle, p.getSpeed());
-		new Projectile(p.getType(), p.getSource(), p.getTarget(), - this.angle, p.getSpeed());
-		shooting = true;
+		new Projectile(p.getType(), p.getSource(), p.getTarget(), this.angle, p.getSpeed()).spawn(p.getSource().getLevel());
+		new Projectile(p.getType(), p.getSource(), p.getTarget(), - this.angle, p.getSpeed()).spawn(p.getSource().getLevel());
+		this.shooting = false;
 	}
 }

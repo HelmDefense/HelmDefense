@@ -18,7 +18,7 @@ public class TickDamageProjectileAbility extends Ability {
 	private int freq;
 	private int damages;
 	private Entity entity;
-	private Map<LivingEntity, Long> map;
+	private Map<Long, LivingEntity> map;
 	
 	public TickDamageProjectileAbility(Tier unlock, Tier.Specification tierSpecification) {
 		this(unlock, tierSpecification, 30, 5, 100);
@@ -29,7 +29,7 @@ public class TickDamageProjectileAbility extends Ability {
 		this.duration = duration; 
 		this.freq = freq;
 		this.damages = damages;
-		map = new HashMap<>();
+		this.map = new HashMap<Long, LivingEntity>();
 	}
 
 	@ActionHandler
@@ -40,8 +40,8 @@ public class TickDamageProjectileAbility extends Ability {
 	@ActionHandler
 	public void onAttack(ProjectileEntityAttackAction action) {
 		LivingEntity victim = action.getVictim();
-		if ( ! victim.testFlags(LivingEntity.FIRE)) {
-			this.map.put(victim, victim.getLevel().getTicks());
+		if (! victim.testFlags(LivingEntity.FIRE)) {
+			this.map.put(victim.getLevel().getTicks(), victim);
 			victim.addFlags(LivingEntity.FIRE);
 		}
 	}
@@ -49,16 +49,16 @@ public class TickDamageProjectileAbility extends Ability {
 	@ActionHandler
 	public void hitOnTick(GameTickAction action) {
 		long time;
-		Iterator<Map.Entry<LivingEntity, Long>> it = map.entrySet().iterator();
-		while ( it.hasNext()) {
-			Map.Entry<LivingEntity, Long> entry = it.next();
-			time = action.getTicks() - entry.getValue();
-			if ( time > this.duration ) {
-				entry.getKey().removeFlags(LivingEntity.FIRE);
+		Iterator<Map.Entry<Long, LivingEntity>> it = this.map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Long, LivingEntity> entry = it.next();
+			time = action.getTicks() - entry.getKey();
+			if (time > this.duration) {
+				entry.getValue().removeFlags(LivingEntity.FIRE);
 				it.remove();
 			}
-			else if ( time % freq == 0 ) 
-				entry.getKey().looseHp(this.damages,this.entity);
+			else if (time % this.freq == 0) 
+				entry.getValue().looseHp(this.damages, this.entity, true);
 		}
 	}
 }

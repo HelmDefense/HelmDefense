@@ -51,6 +51,8 @@ public class Controller implements Initializable {
 	// Right text
 	@FXML
 	Label buyInfoLabel;
+	@FXML
+	Label creditsLabel;
 
 	@FXML
 	void optionButtonAction(ActionEvent event) {

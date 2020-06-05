@@ -7,7 +7,6 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class BombExplodeOnDeathAbility extends AreaAttackAbility {
-
 	public BombExplodeOnDeathAbility(Tier unlock, Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}
@@ -17,5 +16,4 @@ public class BombExplodeOnDeathAbility extends AreaAttackAbility {
 		if (action.getAttacker() != action.getEntity())
 			this.areaAttackAbility(source.getLoc(), source, source.stat(Attribute.SHOOT_RANGE), source.getType().getSide());
 	}
-
 }

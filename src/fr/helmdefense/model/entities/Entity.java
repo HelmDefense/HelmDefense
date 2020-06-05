@@ -3,6 +3,7 @@ package fr.helmdefense.model.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.helmdefense.model.actions.Action;
 import fr.helmdefense.model.actions.ActionHandler;
@@ -62,9 +63,10 @@ public abstract class Entity implements ActionListener {
 	}
 	
 	public void attack(LivingEntity victim) {
-		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
+		int hpBefore = victim.getHp();
+		int dmg = victim.looseHp((int) this.stat(Attribute.DMG), this);
 		
-		victim.looseHp((int) this.stat(Attribute.DMG), this);
+		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, hpBefore, dmg);
 		
 		this.triggerAbilities(attack);
 	}
@@ -75,7 +77,9 @@ public abstract class Entity implements ActionListener {
 	}
 	
 	public void triggerAbilities(Action action) {
-		Actions.trigger(action, this.abilities);
+		Actions.trigger(action, this.abilities.stream()
+				.filter(ability -> ability.isUnlocked(this.data().getTier(), this.data().getTierSpecification()))
+				.collect(Collectors.toList()));
 	}
 	
 	protected void delete() {
