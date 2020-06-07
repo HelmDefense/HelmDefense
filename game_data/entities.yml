@@ -413,10 +413,20 @@ attackers:
       REWARD: 150
   bosses:
     ISENGARD_TOWER:
-      name: "Tour d'Isengard"
+      name: "Tour de l'Isengard"
       abilities:
         MoveToEndAbility:
           - TIER_1
+        EntitySummoningAbility:
+          - TIER_1
+          - NO_SPECIFICATION
+          - ORC_WARRIOR
+          - 20
+        HealingAbility:
+          - TIER_1
+          - 0.05
+          - 10
+          - [3, 3.5, 4]
       size:
         width: 1
         height: 1
@@ -446,6 +456,16 @@ attackers:
       abilities:
         MoveToEndAbility:
           - TIER_1
+        EntitySummoningAbility:
+          - TIER_1
+          - NO_SPECIFICATION
+          - URUK_HAI
+          - 20
+        HealingAbility:
+          - TIER_1
+          - 0.05
+          - 10
+          - [3, 3.5, 4]
       size:
         width: 1
         height: 1
