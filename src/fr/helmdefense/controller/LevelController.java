@@ -1,10 +1,16 @@
 package fr.helmdefense.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import fr.helmdefense.model.actions.ActionHandler;
+import fr.helmdefense.model.actions.ActionListener;
+import fr.helmdefense.model.actions.game.GameNewWaveAction;
+import fr.helmdefense.model.actions.game.GameTickAction;
+import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
@@ -16,10 +22,12 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
+import fr.helmdefense.model.map.Dir;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.view.inventory.InventoryView;
 import fr.helmdefense.view.inventory.item.InventoryItem;
 import fr.helmdefense.view.statbar.StatBar;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ListChangeListener;
@@ -36,6 +44,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -45,13 +54,14 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextFlow;
 
-public class LevelController implements Initializable {
+public class LevelController implements Initializable, ActionListener {
 	private Controller main;
 	private Level level;
 	private Hero hero;
 	private Circle atkRange;
 	private Circle shootRange;
 	private IntegerProperty selectedAmountProperty;
+	private Set<Controls> controlsPressed;
 	
 	Pane levelPane;
 	TilePane mapPane;
@@ -167,6 +177,7 @@ public class LevelController implements Initializable {
 		this.level = Level.load(levelName);
 		this.hero = hero;
 		this.selectedAmountProperty = new SimpleIntegerProperty();
+		this.controlsPressed = new HashSet<Controls>();
 		
 		this.mapPane = new TilePane();
 		this.levelPane = new Pane(this.mapPane);
@@ -190,11 +201,38 @@ public class LevelController implements Initializable {
 		System.out.println("Level " + levelName + " loaded with hero " + this.hero.getType());
 	}
 	
+	@ActionHandler
+	public void onTick(GameTickAction action) {
+		if (this.controlsPressed.contains(Controls.HERO_UP))
+			this.hero.move(Dir.N);
+		if (this.controlsPressed.contains(Controls.HERO_DOWN))
+			this.hero.move(Dir.S);
+		if (this.controlsPressed.contains(Controls.HERO_LEFT))
+			this.hero.move(Dir.W);
+		if (this.controlsPressed.contains(Controls.HERO_RIGHT))
+			this.hero.move(Dir.E);
+	}
+	
+	@ActionHandler
+	public void onNewWave(GameNewWaveAction action) {
+		String waveName = "Terminé";
+		if (action.getNewWave() != null) {
+			waveName = action.getNewWave().getName();
+		}
+		this.main.levelNameLabel.setText(this.level.getName() + " - " + waveName);
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// Component initialization
 		this.upgradeVBox.setVisible(false);
 		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
+		this.main.controlButtons.setVisible(true);
+		this.main.levelNameLabel.setText(this.level.getName());
+		this.main.primaryStage.setTitle(this.level.getName() + " - Helm Defense");
+		this.main.buyInfoLabel.setVisible(true);
+		this.main.buyInfoLabel.setText("Sélectionnez une entité dans l'inventaire pour la placer");
+		this.level.getGameloop().speednessProperty().bind(this.main.speedness.valueProperty());
 		this.setup();
 		
 		// Board view
@@ -220,7 +258,7 @@ public class LevelController implements Initializable {
 			while (c.next()) {
 				if (c.wasAdded()) {
 					for (Entity e : c.getAddedSubList()) {
-						ImageView img = Controller.getImgView("entities", e.data().getPath().replace('.', File.separatorChar) + ".png");
+						ImageView img = Controller.getImgView("entities", Controller.pathToImgPath(e.data().getPath()));
 						img.setId(e.getId());
 						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
@@ -289,6 +327,31 @@ public class LevelController implements Initializable {
 		this.selectedAmountProperty.addListener((obs, o, n) -> {
 			updateBuyInfoLabel(n.intValue(), ((InventoryItem) this.inventory.getToggleGroup().getSelectedToggle()).getValue().getData().getName());
 		});
+		
+		// Controls listener
+		this.main.main.addEventFilter(KeyEvent.ANY, event -> {
+			Controls control = Controls.fromKeyCode(event.getCode());
+			boolean pressed = event.getEventType() == KeyEvent.KEY_PRESSED;
+			
+			if (pressed) {
+				if (this.controlsPressed.add(control)) {
+					switch (control) {
+					case TOGGLE_PAUSE:
+						this.main.togglePause();
+						break;
+					case HERO_POWER:
+						this.hero.usePower();
+						break;
+					default:
+						break;
+					}
+				}
+			}
+			else
+				this.controlsPressed.remove(control);
+			
+			event.consume();
+		});
 	}
 
 	private void setup() {
@@ -342,8 +405,7 @@ public class LevelController implements Initializable {
 		this.entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
 
 		this.entityHealthBar.setMax(entityMaxHp).valueProperty().bind(e.hpProperty());
-		this.entityHealthBonusLabel.setText("+ " + e.getShield());
-		e.shieldProperty().addListener((obs, o, n) -> this.entityHealthBonusLabel.setText("+ " + n.intValue()));
+		this.entityHealthBonusLabel.textProperty().bind(Bindings.concat("+ ", e.shieldProperty()));
 		
 		// Statistics
 		manageStats(data, e);
@@ -371,14 +433,21 @@ public class LevelController implements Initializable {
 		this.leftPane.getSelectionModel().select(this.statsTab);
 	}
 	
-	private void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
+	private static void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
 		bar.setValue(data.getStats().get(attr));
 		if (entity == null || entity.getType().isClassic())
 			bar.setMax(data.getStats(Tier.TIER_3).get(attr));
 		else
 			bar.setMax(data.getStats().get(attr));
-		if (bonus != null && entity != null)
-			bonus.setText("+ " + (entity.stat(attr) - bar.getValue()));
+		if (bonus != null && entity != null) {
+			int bonusValue = (int) Math.round((entity.stat(attr) - bar.getValue()) * 100 / bar.getValue());
+			String bonusTxt = null;
+			if (bonusValue < 0)
+				bonusTxt = "- " + (- bonusValue) + "%";
+			else if (bonusValue > 0)
+				bonusTxt = "+ " + bonusValue + "%";
+			bonus.setText(bonusTxt);
+		}
 		
 		if (bar.getValue() == -1)
 			label.setVisible(false);
@@ -388,6 +457,7 @@ public class LevelController implements Initializable {
 	
 	public void start() {
 		this.hero.spawn(this.level);
+		Actions.registerListeners(this);
 		
 		this.level.startLoop();
 	}

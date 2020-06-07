@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
@@ -24,20 +25,20 @@ public class GameLoop {
 		return this.loop.getTicks();
 	}
 	
-	public boolean isPaused() {
-		return this.loop.isPaused();
+	public boolean isPlaying() {
+		return this.loop.isPlaying();
 	}
 	
 	public void pause() {
-		this.loop.setPaused(true);
+		this.loop.setPlaying(false);
 	}
 	
 	public void resume() {
-		this.loop.setPaused(false);
+		this.loop.setPlaying(true);
 	}
 	
 	public void togglePause() {
-		this.loop.setPaused(! this.loop.isPaused());
+		this.loop.setPlaying(! this.loop.isPlaying());
 	}
 	
 	public void start() {
@@ -48,33 +49,53 @@ public class GameLoop {
 		this.tl.stop();
 	}
 	
+	public final double getSpeedness() {
+		return this.tl.getRate();
+	}
+	
+	public final void setSpeedness(double speedness) {
+		this.tl.setRate(speedness);
+	}
+	
+	public final DoubleProperty speednessProperty() {
+		return this.tl.rateProperty();
+	}
+	
+	public void step() {
+		this.loop.step();
+	}
+	
 	private class Loop implements EventHandler<ActionEvent> {
 		private Consumer<Long> action;
 		private long ticks;
-		private boolean paused;
+		private boolean playing;
 		
 		public Loop(Consumer<Long> action) {
 			this.action = action;
 			this.ticks = 0;
-			this.paused = false;
+			this.playing = true;
 		}
 		
 		public long getTicks() {
 			return this.ticks;
 		}
 		
-		public boolean isPaused() {
-			return this.paused;
+		public boolean isPlaying() {
+			return this.playing;
 		}
 		
-		public void setPaused(boolean paused) {
-			this.paused = paused;
+		public void setPlaying(boolean playing) {
+			this.playing = playing;
 		}
 		
 		@Override
 		public void handle(ActionEvent event) {
-			if (! this.isPaused())
-				this.action.accept(++this.ticks);
+			if (this.isPlaying())
+				this.step();
+		}
+		
+		public void step() {
+			this.action.accept(++this.ticks);
 		}
 	}
 }

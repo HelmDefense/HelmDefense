@@ -24,8 +24,8 @@ public class ProjectileAttackAbility extends AttackAbility {
 	}
 	
 	@Override
-	protected boolean canAttack(LivingEntity enemy) {
-		return enemy.getLoc().distance(this.entity.getLoc()) < this.entity.stat(Attribute.SHOOT_RANGE);
+	protected boolean canAttack(LivingEntity enemy, double distance) {
+		return distance < this.entity.stat(Attribute.SHOOT_RANGE);
 	}
 	
 	@Override

@@ -10,10 +10,12 @@
 <?import fr.helmdefense.view.statbar.StatBar?>
 <?import fr.helmdefense.view.inventory.InventoryView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="main" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="fr.helmdefense.controller.Controller">
+	xmlns:fx="http://javafx.com/fxml/1">
 	<bottom>
 		<BorderPane BorderPane.alignment="CENTER">
 			<left>
@@ -50,15 +52,28 @@
 	<top>
 		<BorderPane BorderPane.alignment="CENTER">
 			<left>
-				<HBox alignment="CENTER_LEFT" prefWidth="500.0" spacing="10.0"
-					BorderPane.alignment="CENTER">
+				<HBox fx:id="controlButtons" alignment="CENTER_LEFT"
+					prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
 					<children>
 						<Button fx:id="optionButton" mnemonicParsing="false"
 							onAction="#optionButtonAction" text="Options" />
 						<Button fx:id="pauseButton" mnemonicParsing="false"
 							onAction="#pauseButtonAction" text="Pause" />
-						<Button fx:id="speedButton" mnemonicParsing="false"
-							onAction="#speedButtonAction" text="Rapide" />
+						<VBox alignment="CENTER" spacing="5.0">
+							<children>
+								<Label text="Multiplicateur de vitesse">
+									<font>
+										<Font size="18.0" />
+									</font>
+								</Label>
+								<Slider fx:id="speedness" prefWidth="250.0"
+									blockIncrement="0.25" majorTickUnit="0.25" min="0.25" max="3.0"
+									minorTickCount="0" showTickLabels="true" showTickMarks="true"
+									snapToTicks="true" value="1.0" />
+							</children>
+						</VBox>
+						<Button fx:id="stepButton" onAction="#stepButtonAction"
+							text="Tick" disable="true" />
 					</children>
 				</HBox>
 			</left>

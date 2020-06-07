@@ -34,10 +34,10 @@ public class OppressionAbility extends Ability {
 	@ActionHandler
 	public void onDirectAttack(EntityDirectAttackAction action) {
 		Entity source = action.getEntity();
-		AttributeModifier modifier = source.getModifier(this.getClass().getSimpleName());
+		AttributeModifier modifier = action.getVictim().getModifier(this.getClass().getSimpleName());
 		if (modifier == null) {
 			modifier = new AttributeModifier(this.getClass().getSimpleName(), Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration);
-			source.getModifiers().add(modifier);
+			action.getVictim().getModifiers().add(modifier);
 		}
 		else
 			modifier.setStart(source.getLevel().getGameloop().getTicks());

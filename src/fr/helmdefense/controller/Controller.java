@@ -1,5 +1,6 @@
 package fr.helmdefense.controller;
 
+import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
@@ -12,14 +13,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class Controller implements Initializable {
 	private LevelController level;
 	private MenuController menu;
+	
+	Stage primaryStage;
 	
 	@FXML
 	BorderPane main;
@@ -27,11 +33,15 @@ public class Controller implements Initializable {
 	/* Header */
 	// Controls buttons
 	@FXML
+	HBox controlButtons;
+	@FXML
 	Button optionButton;
 	@FXML
 	Button pauseButton;
 	@FXML
-	Button speedButton;
+	Slider speedness;
+	@FXML
+	Button stepButton;
 
 	// Title
 	@FXML
@@ -54,36 +64,51 @@ public class Controller implements Initializable {
 	Label buyInfoLabel;
 	@FXML
 	Label creditsLabel;
+	
+	public Controller(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
 
 	@FXML
 	void optionButtonAction(ActionEvent event) {
-		this.returnToMenu();
+		if (this.level != null)
+			this.returnToMenu();
 	}
 
 	@FXML
 	void pauseButtonAction(ActionEvent event) {
-		if (this.level != null) {
-			GameLoop loop = this.level.getLvl().getGameloop();
-			if (loop.isPaused()) {
-				loop.resume();
-				this.pauseButton.setText("Pause");
-			}
-			else {
-				loop.pause();
-				this.pauseButton.setText("Play");
-			}
-		}
+		this.togglePause();
 	}
-
+	
 	@FXML
-	void speedButtonAction(ActionEvent event) {
-		
+	void stepButtonAction(ActionEvent event) {
+		if (this.level != null)
+			this.level.getLvl().getGameloop().step();
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		YAMLLoader.loadEntityData();
+		this.primaryStage.setTitle("Helm Defense");
+		this.primaryStage.getIcons().add(getImg("models", "icon.png"));
+		this.primaryStage.setMaximized(true);
 		this.menu = new MenuController(this);
+	}
+	
+	void togglePause() {
+		if (this.level != null) {
+			GameLoop loop = this.level.getLvl().getGameloop();
+			if (loop.isPlaying()) {
+				loop.pause();
+				this.pauseButton.setText("Play");
+				this.stepButton.setDisable(false);
+			}
+			else {
+				loop.resume();
+				this.pauseButton.setText("Pause");
+				this.stepButton.setDisable(true);
+			}
+		}
 	}
 	
 	void startLevel(String name, Hero hero) {
@@ -97,6 +122,10 @@ public class Controller implements Initializable {
 		this.menu.show();
 		this.main.getLeft().setVisible(false);
 		this.main.getRight().setVisible(false);
+	}
+	
+	static String pathToImgPath(String path) {
+		return path.replace('.', File.separatorChar) + ".png";
 	}
 
 	static ImageView getImgView(String... paths) {
@@ -112,5 +141,9 @@ public class Controller implements Initializable {
 				Paths.get(System.getProperty("user.dir"), "assets").toString(),
 				paths
 		).toUri().toString();
+	}
+	
+	static String path(String... paths) {
+		return Paths.get(System.getProperty("user.dir"), paths).toUri().toString();
 	}
 }

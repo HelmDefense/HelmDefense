@@ -50,7 +50,7 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
-		this.setDifficulty(Difficulty.DEFAULT);
+		this.setDifficulty(Difficulty.HARD);
 	}
 	
 	public void startLoop() {
