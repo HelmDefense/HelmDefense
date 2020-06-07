@@ -12,12 +12,10 @@ import fr.helmdefense.model.entities.utils.Tier;
 public abstract class AttackAbility extends Ability {
     private long lastAtk;
     protected LivingEntity entity;
-    protected double range;
 
     public AttackAbility(Tier unlock, Tier.Specification tierSpecification) {
         super(unlock, tierSpecification);
         this.lastAtk = 0;
-        this.range = 0;
     }
 
     @ActionHandler
@@ -34,10 +32,11 @@ public abstract class AttackAbility extends Ability {
         LivingEntity enemy = this.getClosestEnemy();
 
         if (enemy != null
-                && enemy.getLoc().distance(this.entity.getLoc()) < this.range + 0.5
                 && action.getTicks() - this.lastAtk > 10 / this.entity.stat(Attribute.ATK_SPD)) {
-            this.lastAtk = action.getTicks();
-            this.attack(enemy);
+        	if (this.canAttack(enemy)) {
+	            this.lastAtk = action.getTicks();
+	            this.attack(enemy);
+        	}
         }
     }
 
@@ -59,6 +58,8 @@ public abstract class AttackAbility extends Ability {
     }
 
     protected abstract void attack(LivingEntity enemy);
+    
+    protected abstract boolean canAttack(LivingEntity enemy);
 
     protected void init() {}
 }

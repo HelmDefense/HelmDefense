@@ -114,4 +114,8 @@ public class Actions {
 	public static void unregisterListeners(List<? extends ActionListener> listeners) {
 		registeredListeners.removeAll(listeners);
 	}
+	
+	public static void unregisterAllListeners() {
+		registeredListeners.clear();
+	}
 }

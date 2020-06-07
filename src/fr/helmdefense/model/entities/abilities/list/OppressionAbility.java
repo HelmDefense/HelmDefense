@@ -18,7 +18,7 @@ public class OppressionAbility extends Ability {
 	}
 	
 	public OppressionAbility(Tier unlock, Tier.Specification tierSpecification, Integer duration) {
-		this(unlock, tierSpecification, duration, 0.8);
+		this(unlock, tierSpecification, duration, -0.5d);
 	}
 	
 	public OppressionAbility(Tier unlock, Tier.Specification tierSpecification, Double value) {
@@ -39,8 +39,7 @@ public class OppressionAbility extends Ability {
 			modifier = new AttributeModifier(this.getClass().getSimpleName(), Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getTicks(), this.duration);
 			source.getModifiers().add(modifier);
 		}
-		else {
+		else
 			modifier.setStart(source.getLevel().getTicks());
-		}
 	}
 }

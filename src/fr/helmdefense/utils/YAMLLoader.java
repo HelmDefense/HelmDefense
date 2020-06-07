@@ -63,7 +63,7 @@ public class YAMLLoader {
 	public static void loadEntityData() {
 		YAMLData data = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
 		
-		parseEntityData(data, "defenders", "heros");
+		parseEntityData(data, "defenders", "heroes");
 		parseEntityData(data, "attackers", "bosses");
 		parseEntityData(data, "projectiles", null);
 	}
@@ -86,11 +86,9 @@ public class YAMLLoader {
 	private static void constructEntityData(String path, String name, YAMLData data, boolean tiers) {
 		Map<Tier, Statistic> stats = new HashMap<Tier, Statistic>();
 		
-		if (tiers) {
-			constructStats(stats, Tier.TIER_1, data.getData("tier1"));
-			constructStats(stats, Tier.TIER_2, data.getData("tier2"));
-			constructStats(stats, Tier.TIER_3, data.getData("tier3"));
-		}
+		if (tiers)
+			for (Tier tier : Tier.values())
+				constructStats(stats, tier, data.getData("tier" + tier.getNumberTier()));
 		else
 			constructStats(stats, Tier.TIER_1, data.getData("stats"));
 		

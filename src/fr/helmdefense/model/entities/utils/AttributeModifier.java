@@ -86,7 +86,8 @@ public class AttributeModifier {
 	
 	@Override
 	public String toString() {
-		return "AttributeModifier [id=" + id + ", attr=" + attr + ", op=" + op + ", val=" + val + "]";
+		return "AttributeModifier [id=" + id + ", name=" + name + ", attr=" + attr + ", op=" + op + ", val=" + val
+				+ ", start=" + start + ", duration=" + duration + "]";
 	}
 
 	public enum Operation {

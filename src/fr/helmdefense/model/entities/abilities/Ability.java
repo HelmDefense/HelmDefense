@@ -17,7 +17,8 @@ public abstract class Ability implements ActionListener {
 	}
 	
 	public boolean isUnlocked(Tier actual, Tier.Specification actualSpecification) {
-		return this.unlock.compareTo(actual) <= 0 && this.tierSpecification == actualSpecification;
+		return this.unlock.compareTo(actual) <= 0
+				&& (this.tierSpecification == Tier.Specification.DEFAULT || this.tierSpecification == actualSpecification);
 	}
 
 	@Override

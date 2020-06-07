@@ -14,6 +14,7 @@ public class LivingEntity extends Entity {
 	private ReadOnlyIntegerWrapper shieldProperty;
 	private int flags;
 	
+	public static final int ALL = Integer.MAX_VALUE;
 	public static final int TAUNT = 1;
 	public static final int FIRE = 2;
 	public static final int POISON = 4;
@@ -33,20 +34,24 @@ public class LivingEntity extends Entity {
 		return this.hpProperty.get();
 	}
 	
-	public void looseHp(int amount, Entity cause, boolean ignoreShield) {
-		LivingEntityDamagedAction damage = new LivingEntityDamagedAction(this, cause, this.getHp());
+	public int looseHp(int amount, Entity cause, boolean ignoreShield) {
+		if (! this.isAlive())
+			return -1;
 		
 		if (! ignoreShield) {
 			int shield = this.getShield();
-			this.shieldProperty.set(shield - amount);
+			this.setShield(shield - amount);
 			if (this.hasShield())
 				amount = 0;
 			else {
-				this.shieldProperty.set(0);
+				this.setShield(0);
 				amount -= shield;
 			}
 		}
-		this.hpProperty.set(this.getHp() - amount);
+		LivingEntityDamagedAction damage = new LivingEntityDamagedAction(this, cause, this.getHp(), amount);
+		
+		this.setHp(this.getHp() - amount);
+		// System.out.println("Entity #" + this.getId() + " (" + this.getType() + "): " + amount + " dmg from Entity #" + cause.getId() + " (" + cause.getType() + ")");
 		
 		this.triggerAbilities(damage);
 		
@@ -59,18 +64,23 @@ public class LivingEntity extends Entity {
 			cause.triggerAbilities(kill);
 			this.triggerAbilities(death);
 		}
+		
+		return amount;
 	}
 	
-	public void looseHp(int amount, Entity cause) {
-		this.looseHp(amount, cause, false);
+	public int looseHp(int amount, Entity cause) {
+		return this.looseHp(amount, cause, false);
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
-		this.hpProperty.set(this.getHp() + amount);
+		if (! this.isAlive())
+			return;
+		
+		this.setHp(this.getHp() + amount);
 		if (this.getHp() > this.stat(Attribute.HP)) {
 			if (! ignoreShield)
-				this.shieldProperty.set(this.getShield() + this.getHp() - (int) this.stat(Attribute.HP));
-			this.hpProperty.set((int) this.stat(Attribute.HP));
+				this.setShield(this.getShield() + this.getHp() - (int) this.stat(Attribute.HP));
+			this.setHp((int) this.stat(Attribute.HP));
 		}
 	}
 	
@@ -78,8 +88,32 @@ public class LivingEntity extends Entity {
 		this.gainHp(amount, true);
 	}
 	
+	protected final void setHp(int hp) {
+		this.hpProperty.set(hp);
+	}
+	
 	public ReadOnlyIntegerProperty hpProperty() {
 		return this.hpProperty.getReadOnlyProperty();
+	}
+	
+	public boolean isAlive() {
+		return this.getHp() > 0;
+	}
+	
+	public boolean hasShield() {
+		return this.getShield() > 0;
+	}
+	
+	public int getShield() {
+		return this.shieldProperty.get();
+	}
+	
+	protected final void setShield(int shield) {
+		this.shieldProperty.set(shield);
+	}
+	
+	public ReadOnlyIntegerProperty shieldProperty() {
+		return this.shieldProperty.getReadOnlyProperty();
 	}
 	
 	public int getFlags() {
@@ -100,22 +134,6 @@ public class LivingEntity extends Entity {
 	
 	public boolean testFlags(int flags) {
 		return (this.flags & flags) != 0;
-	}
-	
-	public boolean isAlive() {
-		return this.getHp() > 0;
-	}
-	
-	public boolean hasShield() {
-		return this.getShield() > 0;
-	}
-	
-	public int getShield() {
-		return this.shieldProperty.get();
-	}
-	
-	public ReadOnlyIntegerProperty shieldProperty() {
-		return this.shieldProperty.getReadOnlyProperty();
 	}
 
 	@Override

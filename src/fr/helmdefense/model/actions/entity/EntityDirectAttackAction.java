@@ -12,8 +12,9 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 public class EntityDirectAttackAction extends EntityAction {
 	private LivingEntity victim;
 	private int hpBefore;
+	private int dmg;
 	
-	public EntityDirectAttackAction(Entity entity, LivingEntity victim, int hpBefore) {
+	public EntityDirectAttackAction(Entity entity, LivingEntity victim, int hpBefore, int dmg) {
 		super(entity);
 		this.victim = victim;
 		this.hpBefore = hpBefore;
@@ -52,10 +53,9 @@ public class EntityDirectAttackAction extends EntityAction {
 	 * be {@code 0} even if the attacker dealt damage to
 	 * the victim if the shield absorbed all damages.
 	 * 
-	 * @return	The difference between {@link LivingEntity}'s
-	 * 			actual HP and old HP value.
+	 * @return	The damage dealt by the attacker to the victim.
 	 */
 	public int getDmg() {
-		return this.victim.getHp() - this.hpBefore;
+		return this.dmg;
 	}
 }

@@ -3,6 +3,7 @@ package fr.helmdefense.model.entities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import fr.helmdefense.model.actions.Action;
 import fr.helmdefense.model.actions.ActionHandler;
@@ -19,7 +20,6 @@ import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
-import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 
 public abstract class Entity implements ActionListener {
@@ -32,10 +32,6 @@ public abstract class Entity implements ActionListener {
 	private List<Ability> abilities;
 	
 	private static int ids = 0;
-	
-	static {
-		YAMLLoader.loadEntityData();
-	}
 	
 	public Entity(EntityType type, Location loc) {
 		this.id = "E" + (++ids);
@@ -61,10 +57,16 @@ public abstract class Entity implements ActionListener {
 		lvl.getEntities().add(this);
 	}
 	
+	public void dispawn() {
+		this.delete();
+		this.level = null;
+	}
+	
 	public void attack(LivingEntity victim) {
-		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, victim.getHp());
+		int hpBefore = victim.getHp();
+		int dmg = victim.looseHp((int) this.stat(Attribute.DMG), this);
 		
-		victim.looseHp((int) this.stat(Attribute.DMG), this);
+		EntityDirectAttackAction attack = new EntityDirectAttackAction(this, victim, hpBefore, dmg);
 		
 		this.triggerAbilities(attack);
 	}
@@ -75,11 +77,13 @@ public abstract class Entity implements ActionListener {
 	}
 	
 	public void triggerAbilities(Action action) {
-		Actions.trigger(action, this.abilities);
+		Actions.trigger(action, this.abilities.stream()
+				.filter(ability -> ability.isUnlocked(this.data().getTier(), this.data().getTierSpecification()))
+				.collect(Collectors.toList()));
 	}
 	
 	protected void delete() {
-		this.getLevel().getEntities().remove(this);
+		this.level.getEntities().remove(this);
 		Actions.unregisterListeners(this.abilities);
 		Actions.unregisterListeners(this);
 	}

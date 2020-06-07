@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities.abilities.list;
 
+import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityAttackAction;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
@@ -14,10 +15,9 @@ public class DamageIncreaseOnTickDamagedAbility extends Ability {
 		this.value = value;
 	}
 	
+	@ActionHandler
 	public void onProjectileEntityAttackAction(ProjectileEntityAttackAction action) {
-		if(action.getVictim().testFlags(LivingEntity.FIRE)) {
-			action.getVictim().looseHp((int) (action.getDmg() * value), action.getEntity());
-		}
+		if (action.getVictim().testFlags(LivingEntity.FIRE))
+			action.getVictim().looseHp((int) (action.getDmg() * this.value), action.getEntity().getSource());
 	}
-
 }

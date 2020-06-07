@@ -88,6 +88,11 @@ public class EntityData {
 			this.tierSpecification = tierSpecification;
 	}
 
+	public void resetTiers() {
+		this.tier = Tier.DEFAULT;
+		this.tierSpecification = Tier.Specification.DEFAULT;
+	}
+
 	@Override
 	public String toString() {
 		return "EntityData [name=" + name + ", path=" + path + ", stats=" + stats + ", abilities=" + abilities + "]";

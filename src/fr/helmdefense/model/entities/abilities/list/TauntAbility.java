@@ -7,15 +7,13 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class TauntAbility extends Ability {
-
 	public TauntAbility(Tier unlock, Tier.Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}
 
 	@ActionHandler
 	public void onEntitySpawnAction(EntitySpawnAction action) {
-		if (action.getEntity() instanceof LivingEntity) {
+		if (action.getEntity() instanceof LivingEntity)
 			((LivingEntity) action.getEntity()).addFlags(LivingEntity.TAUNT);
-		}
 	}
 }

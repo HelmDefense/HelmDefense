@@ -28,6 +28,10 @@ public class GameLoop {
 		this.tl.play();
 	}
 	
+	public void stop() {
+		this.tl.stop();
+	}
+	
 	private class Loop implements EventHandler<ActionEvent> {
 		private Consumer<Long> action;
 		private long ticks;

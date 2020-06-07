@@ -24,8 +24,12 @@ public class ProjectileAttackAbility extends AttackAbility {
 	}
 	
 	@Override
+	protected boolean canAttack(LivingEntity enemy) {
+		return enemy.getLoc().distance(this.entity.getLoc()) < this.entity.stat(Attribute.SHOOT_RANGE);
+	}
+	
+	@Override
 	protected void init() {
-		this.range = this.entity.stat(Attribute.SHOOT_RANGE);
 		if (this.speed == -1)
 			this.speed = ProjectileType.ARROW.getData().getStats().get(Attribute.MVT_SPD);
 	}
