@@ -465,7 +465,7 @@ attackers:
       REWARD: 4000
     GROND:
       name: "Tête de Loup (Grond)"
-       abilities:
+      abilities:
       MoveToEndAbility:
         # Tier
         - TIER_1
@@ -503,6 +503,10 @@ attackers:
       MoveToEndAbility:
         - TIER_1
       ProjectileAttackAbility:
+        - TIER_1
+      ProjectileImmunityAbility:
+        - TIER_1
+      DebuffImmunityAbility:
         - TIER_1
       size:
         width: 1
