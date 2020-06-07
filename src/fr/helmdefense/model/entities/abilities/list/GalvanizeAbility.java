@@ -2,52 +2,40 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.living.LivingEntityHeroPowerAction;
-import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
-import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.AttributeModifier.Operation;
+import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class GalvanizeAbility extends Ability {
-	private long startTick;
-	private String modifierNameDmg;
-	private String modifierNameAtkSpd;
+	private int duration;
+	private double effectRange;
+	private double value;
 	
-	private static final int POWER_DELAY = 500;
-
 	public GalvanizeAbility(Tier unlock, Specification tierSpecification) {
+		this(unlock, tierSpecification, 15, 6d, 0.05d);
+	}
+
+	public GalvanizeAbility(Tier unlock, Specification tierSpecification, Integer duration, Double effectRange, Double value) {
 		super(unlock, tierSpecification);
-		this.modifierNameDmg = "PowerDamage";
-		this.modifierNameAtkSpd = "PowerAtkSpd";
+		this.duration = duration;
+		this.effectRange = effectRange;
+		this.value = value;
 	}
 	
 	@ActionHandler
-	public void onLivingEntityHeroPowerAction(LivingEntityHeroPowerAction action) {
-		for (Entity entity : action.getEntity().getLevel().getEntities()) {
-			if(((LivingEntity) entity).getType().getSide() == EntitySide.DEFENDER) {
-				entity.getModifiers().add(new AttributeModifier(this.modifierNameDmg, Attribute.DMG, Operation.ADD, entity.stat(Attribute.DMG) * 2));
-				entity.getModifiers().add(new AttributeModifier(this.modifierNameAtkSpd, Attribute.ATK_SPD, Operation.ADD, entity.stat(Attribute.ATK_SPD) * 2));
-			}
-		}
-		this.startTick = action.getEntity().getLevel().getTicks();
-	}
-	
-	@ActionHandler
-	public void onTick(GameTickAction action) {
-		if (action.getTicks() - this.startTick > POWER_DELAY) {
-			for (Entity entity : action.getLvl().getEntities()) {
-				if(((LivingEntity) entity).getType().getSide() == EntitySide.DEFENDER) {
-					for(AttributeModifier mod : entity.getModifiers()) {
-						if(mod.getName().equals(this.modifierNameDmg) || mod.getName().equals(this.modifierNameAtkSpd)) {
-							entity.getModifiers().remove(mod);
-						}
-					}
-				}
+	public void onLivingEntityHeroPower(LivingEntityHeroPowerAction action) {
+		LivingEntity source = action.getEntity();
+		for (Entity entity : source.getLevel().getEntities()) {
+			if(entity instanceof LivingEntity
+					&& ((LivingEntity) entity).getType().getSide() == source.getType().getSide()
+					&& entity.getLoc().distance(source.getLoc()) < this.effectRange) {
+				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "Dmg", Attribute.DMG, Operation.MULTIPLY, this.value, source.getLevel().getTicks(), this.duration));
+				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "AtkSpd", Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getTicks(), this.duration));
 			}
 		}
 	}

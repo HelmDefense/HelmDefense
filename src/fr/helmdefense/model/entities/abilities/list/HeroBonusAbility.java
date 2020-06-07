@@ -3,51 +3,55 @@ package fr.helmdefense.model.entities.abilities.list;
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
+import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
-import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.AttributeModifier.Operation;
-import fr.helmdefense.model.entities.utils.Tier.Specification;
+import fr.helmdefense.model.entities.utils.Tier;
 
 public class HeroBonusAbility extends Ability {
 	private Attribute attr;
-	private int pourcentValue;
-	private String modifierName;
+	private double pourcentValue;
+	private EntitySide entitySide;
 
-	public HeroBonusAbility(Tier unlock, Specification tierSpecification, Attribute attr) {
-		this(unlock, tierSpecification, attr, 5);
+	public HeroBonusAbility(Tier unlock, Tier.Specification tierSpecification, String attr) {
+		this(unlock, tierSpecification, attr, 0.05);
 	}
 	
-	public HeroBonusAbility(Tier unlock, Specification tierSpecification, Attribute attr, int pourcentValue) {
+	public HeroBonusAbility(Tier unlock, Tier.Specification tierSpecification, String attr, Double pourcentValue) {
 		super(unlock, tierSpecification);
-		this.attr = attr;
+		this.attr = Attribute.valueOf(attr.toUpperCase());
 		this.pourcentValue = pourcentValue;
-		this.modifierName = "Bonus";
 	}
 	
 	@ActionHandler
-	public void onEntitySpawnAction(EntitySpawnAction action) {
-		for (Entity entity : action.getEntity().getLevel().getEntities()) {
-			if(((LivingEntity) entity).getType().getSide() == EntitySide.DEFENDER) {
-				entity.getModifiers().add(new AttributeModifier(this.modifierName, attr, Operation.ADD, (entity.stat(attr) * pourcentValue) / 100));
+	public void onTick(GameTickAction action) {
+		if(this.entitySide != null) {
+			for (Entity entity : action.getLvl().getEntities()) {
+				if(entity instanceof LivingEntity 
+						&& ((LivingEntity) entity).getType().getSide() == this.entitySide
+						&& entity.getModifier(this.getClass().getSimpleName()) == null) {
+					entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), this.attr, Operation.MULTIPLY, this.pourcentValue));
+				}
 			}
 		}
 	}
 	
+	public void onEntitySpawn(EntitySpawnAction action) {
+		if(action.getEntity() instanceof LivingEntity)
+			this.entitySide = ((LivingEntity) action.getEntity()).getType().getSide();
+	}
+	
 	@ActionHandler
-	public void onLivingEntityDeathAction(LivingEntityDeathAction action) {
+	public void onLivingEntityDeath(LivingEntityDeathAction action) {
+		AttributeModifier mod;
 		for (Entity entity : action.getEntity().getLevel().getEntities()) {
-			if(((LivingEntity) entity).getType().getSide() == EntitySide.DEFENDER) {
-				for(AttributeModifier mod : entity.getModifiers()) {
-					if(mod.getName().equals(this.modifierName)) {
-						entity.getModifiers().remove(mod);
-					}
-				}
-			}
+			if ((mod = entity.getModifier(this.getClass().getSimpleName())) != null)
+				entity.getModifiers().remove(mod);
 		}
 	}
 }
