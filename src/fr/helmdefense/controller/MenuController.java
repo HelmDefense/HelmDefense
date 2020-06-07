@@ -209,6 +209,8 @@ public class MenuController implements Initializable {
 	
 	void show() {
 		this.main.main.setCenter(this.root);
+
+		this.main.primaryStage.setTitle("Helm Defense");
 		
 		this.main.controlButtons.setVisible(false);
 		this.main.levelNameLabel.setText("Lancez un niveau pour jouer !");

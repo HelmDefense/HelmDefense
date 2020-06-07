@@ -220,6 +220,7 @@ public class LevelController implements Initializable, ActionListener {
 			waveName = action.getNewWave().getName();
 		}
 		this.main.levelNameLabel.setText(this.level.getName() + " - " + waveName);
+		this.main.primaryStage.setTitle(waveName + " - " + this.level.getName() + " - Helm Defense");
 	}
 	
 	@Override
