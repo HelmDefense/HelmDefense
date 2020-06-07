@@ -414,6 +414,9 @@ attackers:
   bosses:
     ISENGARD_TOWER:
       name: "Tour d'Isengard"
+      abilities:
+        MoveToEndAbility:
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -440,6 +443,9 @@ attackers:
       REWARD: 2000
     MORDOR_TOWER:
       name: "Tour du Mordor"
+      abilities:
+        MoveToEndAbility:
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -467,13 +473,12 @@ attackers:
     GROND:
       name: "Tête de Loup (Grond)"
       abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
-      AreaDirectAttackAbility:
-        - TIER_1
+        MoveToEndAbility:
+          - TIER_1
+        DirectAttackAbility:
+          - TIER_1
+        AreaDirectAttackAbility:
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -501,14 +506,14 @@ attackers:
     SARUMAN:
       name: "Saroumane"
       abilities:
-      MoveToEndAbility:
-        - TIER_1
-      ProjectileAttackAbility:
-        - TIER_1
-      ProjectileImmunityAbility:
-        - TIER_1
-      DebuffImmunityAbility:
-        - TIER_1
+        MoveToEndAbility:
+          - TIER_1
+        ProjectileAttackAbility:
+          - TIER_1
+        ProjectileImmunityAbility:
+          - TIER_1
+        DebuffImmunityAbility:
+          - TIER_1
       size:
         width: 1
         height: 1

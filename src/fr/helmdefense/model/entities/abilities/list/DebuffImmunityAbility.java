@@ -18,12 +18,10 @@ public class DebuffImmunityAbility extends Ability {
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
 		this.entity = (LivingEntity) action.getEntity();
-		
 	}
 	
 	@ActionHandler
 	public void disableDebuff(GameTickAction action) {
-		if ( this.entity.getFlags() != 0 )
-			this.entity.removeFlags(this.entity.getFlags());
+		this.entity.getModifiers().removeIf(m -> m.getVal() < 0);
 	}
 }

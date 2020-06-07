@@ -14,6 +14,6 @@ public class ProjectileImmunityAbility extends Ability {
 	
 	@ActionHandler
 	public void recoverHealth(ProjectileEntityAttackAction action) {
-		action.getVictim().gainHp(action.getHpBefore());
+		action.getVictim().gainHp(action.getDmg());
 	}
 }
