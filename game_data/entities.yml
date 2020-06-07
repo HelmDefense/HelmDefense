@@ -500,7 +500,7 @@ attackers:
       REWARD: 4000
     SARUMAN:
       name: "Saroumane"
-       abilities:
+      abilities:
       MoveToEndAbility:
         - TIER_1
       ProjectileAttackAbility:
@@ -532,7 +532,7 @@ attackers:
       MVT_SPD: 0.8
       ATK_SPD: 1
       ATK_RANGE: 0
-      REWARD: 4000:
+      REWARD: 4000
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
       stats:
