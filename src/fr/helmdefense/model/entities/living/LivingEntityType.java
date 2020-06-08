@@ -21,6 +21,9 @@ public enum LivingEntityType implements EntityType {
 	LEGOLAS(EntitySide.DEFENDER, false),
 	GIMLI(EntitySide.DEFENDER, false),
 	
+	//Door
+	DOOR(EntitySide.DEFENDER),
+	
 	/*** Attackers ***/
 	// Classic
 	ORC_WARRIOR(EntitySide.ATTACKER),
