@@ -135,7 +135,7 @@ public class MenuController implements Initializable {
 	
 	@FXML
 	void settingsAction(ActionEvent event) {
-		
+		this.main.getOptions().show();
 	}
 	
 	@Override
@@ -212,10 +212,10 @@ public class MenuController implements Initializable {
 
 		this.main.primaryStage.setTitle("Helm Defense");
 		
-		this.main.controlButtons.setVisible(false);
+		Controller.setNodesVisibility(false, this.main.controlButtons, this.main.buyInfoLabel);
 		this.main.levelNameLabel.setText("Lancez un niveau pour jouer !");
-		this.main.buyInfoLabel.setVisible(false);
 		
+		this.main.moneyBox.setVisible(true);
 		this.main.moneyLabel.textProperty().bind(this.game.starsProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "star.png"));
 		

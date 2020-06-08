@@ -41,10 +41,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -57,20 +59,23 @@ import javafx.scene.text.TextFlow;
 public class LevelController implements Initializable, ActionListener {
 	private Controller main;
 	private Level level;
+	private String levelName;
 	private Hero hero;
 	private Circle atkRange;
 	private Circle shootRange;
 	private IntegerProperty selectedAmountProperty;
 	private Set<Controls> controlsPressed;
 	
+	boolean inOptions;
 	Pane levelPane;
 	TilePane mapPane;
 	ScrollPane rightPane;
 	VBox entityIDCardList;
+	AnchorPane leftPane;
 	
 	/* Left Entity Infos */
 	@FXML
-	TabPane leftPane;
+	TabPane tabPane;
 	@FXML
 	Tab statsTab;
 	@FXML
@@ -174,7 +179,7 @@ public class LevelController implements Initializable, ActionListener {
 	
 	public LevelController(Controller main, String levelName, Hero hero) {
 		this.main = main;
-		this.level = Level.load(levelName);
+		this.level = Level.load(this.levelName = levelName);
 		this.hero = hero;
 		this.selectedAmountProperty = new SimpleIntegerProperty();
 		this.controlsPressed = new HashSet<Controls>();
@@ -182,22 +187,26 @@ public class LevelController implements Initializable, ActionListener {
 		this.mapPane = new TilePane();
 		this.levelPane = new Pane(this.mapPane);
 		this.levelPane.setPrefSize(1024, 704);
-		this.main.main.setCenter(this.levelPane);
 		
 		this.entityIDCardList = new VBox(25);
 		this.entityIDCardList.setAlignment(Pos.TOP_CENTER);
 		this.entityIDCardList.setPadding(new Insets(15));
 		this.rightPane = new ScrollPane(this.entityIDCardList);
+		this.rightPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		this.rightPane.managedProperty().bind(this.rightPane.visibleProperty());
 		this.main.main.setRight(this.rightPane);
 		
 		try {
 			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/LeftPane.fxml"));
 			loader.setController(this);
-			this.main.main.setLeft(loader.load());
+			this.main.main.setLeft(this.leftPane = loader.load());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		this.leftPane.managedProperty().bind(this.leftPane.visibleProperty());
+		this.show();
+
 		System.out.println("Level " + levelName + " loaded with hero " + this.hero.getType());
 	}
 	
@@ -225,7 +234,7 @@ public class LevelController implements Initializable, ActionListener {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// Component initialization
+		// Component & window initialization
 		this.upgradeVBox.setVisible(false);
 		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
 		this.main.controlButtons.setVisible(true);
@@ -240,6 +249,7 @@ public class LevelController implements Initializable, ActionListener {
 		this.levelPane.setClip(new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE));
 		
 		// Money loading
+		this.main.moneyBox.setVisible(true);
 		this.main.moneyLabel.textProperty().bind(this.level.purseProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "coin.png"));
 		
@@ -418,7 +428,7 @@ public class LevelController implements Initializable, ActionListener {
 		
 		this.shootRange.setRadius(e.stat(Attribute.SHOOT_RANGE) * GameMap.TILE_SIZE);
 		this.shootRange.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE));
-		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));	
+		this.shootRange.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE));
 	}
 	
 	protected void manageStats(EntityData data, LivingEntity entity) {
@@ -431,7 +441,7 @@ public class LevelController implements Initializable, ActionListener {
 		dispStat(this.entityCostBar, this.entityCostLabel, null, Attribute.COST, data, entity);
 		dispStat(this.entityRewardBar, this.entityRewardLabel, null, Attribute.REWARD, data, entity);
 
-		this.leftPane.getSelectionModel().select(this.statsTab);
+		this.tabPane.getSelectionModel().select(this.statsTab);
 	}
 	
 	private static void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
@@ -456,7 +466,14 @@ public class LevelController implements Initializable, ActionListener {
 			label.setVisible(true);
 	}
 	
+	void show() {
+		this.main.main.setCenter(this.levelPane);
+		Controller.setNodesVisibility(true, this.main.main.getRight(), this.main.main.getLeft(), this.main.buyInfoLabel,
+				this.main.moneyBox, this.main.pauseButton, this.main.speedBox, this.main.stepButton);
+	}
+	
 	public void start() {
+		this.hero.teleport(GameMap.WIDTH / 2, GameMap.HEIGHT / 2);
 		this.hero.spawn(this.level);
 		Actions.registerListeners(this);
 		
@@ -470,5 +487,13 @@ public class LevelController implements Initializable, ActionListener {
 
 	Level getLvl() {
 		return this.level;
+	}
+	
+	String getLevelName() {
+		return this.levelName;
+	}
+	
+	Hero getHero() {
+		return this.hero;
 	}
 }

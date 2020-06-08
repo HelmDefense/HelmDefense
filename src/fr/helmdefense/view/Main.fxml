@@ -14,8 +14,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="main" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="main" stylesheets="@style.css"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<bottom>
 		<BorderPane BorderPane.alignment="CENTER">
 			<left>
@@ -59,14 +59,14 @@
 							onAction="#optionButtonAction" text="Options" />
 						<Button fx:id="pauseButton" mnemonicParsing="false"
 							onAction="#pauseButtonAction" text="Pause" />
-						<VBox alignment="CENTER" spacing="5.0">
+						<VBox fx:id="speedBox" alignment="CENTER" spacing="5.0">
 							<children>
 								<Label text="Multiplicateur de vitesse">
 									<font>
 										<Font size="18.0" />
 									</font>
 								</Label>
-								<Slider fx:id="speedness" prefWidth="250.0"
+								<Slider fx:id="speedness" prefWidth="300.0"
 									blockIncrement="0.25" majorTickUnit="0.25" min="0.25" max="3.0"
 									minorTickCount="0" showTickLabels="true" showTickMarks="true"
 									snapToTicks="true" value="1.0" />
@@ -78,8 +78,8 @@
 				</HBox>
 			</left>
 			<right>
-				<HBox alignment="CENTER_RIGHT" prefWidth="500.0" spacing="10.0"
-					BorderPane.alignment="CENTER">
+				<HBox fx:id="moneyBox" alignment="CENTER_RIGHT"
+					prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
 					<children>
 						<Label fx:id="moneyLabel" text="0">
 							<font>

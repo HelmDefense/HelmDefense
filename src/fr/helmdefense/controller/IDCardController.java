@@ -103,7 +103,7 @@ public class IDCardController implements Initializable {
     void buyOneAction(ActionEvent event) {
         if (buyEntity(1)) {
         	this.main.getLvl().getInv().addEntity(type);
-        	this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+        	this.main.tabPane.getSelectionModel().select(this.main.inventoryTab);
         }
     }
 
@@ -111,7 +111,7 @@ public class IDCardController implements Initializable {
     void buyTwoAction(ActionEvent event) {
         if (buyEntity(2)) {
         	this.main.getLvl().getInv().addEntity(type, 2);
-        	this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+        	this.main.tabPane.getSelectionModel().select(this.main.inventoryTab);
         	
         }
     }
@@ -120,7 +120,7 @@ public class IDCardController implements Initializable {
     void buyFiveAction(ActionEvent event) {
     	if (buyEntity(5)) {
     		this.main.getLvl().getInv().addEntity(type, 5);
-    		this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+    		this.main.tabPane.getSelectionModel().select(this.main.inventoryTab);
     	}
     }
 
@@ -130,7 +130,7 @@ public class IDCardController implements Initializable {
     	updateCost(n);
     	if (n != 0 && buyEntity(n)) {
     		this.main.getLvl().getInv().addEntity(type, n);
-    		this.main.leftPane.getSelectionModel().select(this.main.inventoryTab);
+    		this.main.tabPane.getSelectionModel().select(this.main.inventoryTab);
     	}
     	this.buyAmountField.clear();
     }

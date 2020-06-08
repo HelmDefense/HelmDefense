@@ -11,6 +11,7 @@ import fr.helmdefense.utils.YAMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 public class Controller implements Initializable {
 	private LevelController level;
 	private MenuController menu;
+	private OptionsController options;
 	
 	Stage primaryStage;
 	
@@ -39,6 +41,8 @@ public class Controller implements Initializable {
 	@FXML
 	Button pauseButton;
 	@FXML
+	VBox speedBox;
+	@FXML
 	Slider speedness;
 	@FXML
 	Button stepButton;
@@ -48,6 +52,8 @@ public class Controller implements Initializable {
 	Label levelNameLabel;
 
 	// Money
+	@FXML
+	HBox moneyBox;
 	@FXML
 	Label moneyLabel;
 	@FXML
@@ -71,8 +77,17 @@ public class Controller implements Initializable {
 
 	@FXML
 	void optionButtonAction(ActionEvent event) {
-		if (this.level != null)
-			this.returnToMenu();
+		if (this.level != null) {
+			if (this.level.inOptions)
+				this.level.show();
+			else {
+				this.options.show();
+				if (this.level.getLvl().getGameloop().isPlaying())
+					this.togglePause();
+			}
+			
+			this.level.inOptions = ! this.level.inOptions;
+		}
 	}
 
 	@FXML
@@ -92,6 +107,7 @@ public class Controller implements Initializable {
 		this.primaryStage.setTitle("Helm Defense");
 		this.primaryStage.getIcons().add(getImg("models", "icon.png"));
 		this.primaryStage.setMaximized(true);
+		this.options = new OptionsController(this);
 		this.menu = new MenuController(this);
 	}
 	
@@ -116,12 +132,34 @@ public class Controller implements Initializable {
 		this.level.start();
 	}
 	
+	void stopLevel() {
+		if (this.level != null) {
+			this.level.stop();
+			this.level = null;
+		}
+	}
+	
+	void restartLevel() {
+		String name = this.level.getLevelName();
+		Hero hero = this.level.getHero();
+		this.stopLevel();
+		this.startLevel(name, hero);
+	}
+	
 	void returnToMenu() {
-		this.level.stop();
-		this.level = null;
+		this.stopLevel();
 		this.menu.show();
-		this.main.getLeft().setVisible(false);
-		this.main.getRight().setVisible(false);
+		setNodesVisibility(false, this.main.getLeft(), this.main.getRight());
+	}
+	
+	static void setNodesVisibility(boolean visibility, Node... nodes) {
+		for (Node node : nodes)
+			if (node != null)
+				node.setVisible(visibility);
+	}
+	
+	OptionsController getOptions() {
+		return this.options;
 	}
 	
 	static String pathToImgPath(String path) {
