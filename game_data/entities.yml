@@ -528,6 +528,7 @@ attackers:
           - TIER_1
         GroundAttackAbility:
           - TIER_1
+          - 5
           - 30
           - [2, 3, 4]
           - [2, 2, 2.5]

@@ -12,9 +12,6 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
-import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.model.entities.utils.AttributeModifier;
-import fr.helmdefense.model.entities.utils.AttributeModifier.Operation;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class GroundAttackAbility extends AreaAttackAbility {
@@ -26,14 +23,18 @@ public class GroundAttackAbility extends AreaAttackAbility {
 	private ArrayList<Double> radiusList;
 	private List<LivingEntity> goblinsList;
 	private Map<LivingEntity, Long > map;
+	private long lastAttack;
+	private int attackReloadingTime;
 	
-	public GroundAttackAbility(Tier unlock, Tier.Specification tierSpecification, Integer fireDuration, ArrayList<Integer> numberOfGoblinsList, ArrayList<Double> radiusList) {
+	public GroundAttackAbility(Tier unlock, Tier.Specification tierSpecification, Integer attackReloadingTime, Integer fireDuration, ArrayList<Integer> numberOfGoblinsList, ArrayList<Double> radiusList) {
 		super(unlock, tierSpecification);
 		this.radius = -1.5d;
 		this.radiusList = new ArrayList<Double>(radiusList);
 		this.numberOfGoblinsList = new ArrayList<Integer>(numberOfGoblinsList);
 		this.map = new HashMap<LivingEntity, Long>();
 		this.fireDuration = fireDuration;
+		this.lastAttack = -1;
+		this.attackReloadingTime = attackReloadingTime;
 	}
 	
 	@ActionHandler
@@ -61,10 +62,8 @@ public class GroundAttackAbility extends AreaAttackAbility {
 	@ActionHandler
 	public void OnAttack(EntityDirectAttackAction action) {
 		long ticks = this.entity.getLevel().getTicks();
-		if ( this.entity.getModifier(this.getClass().getSimpleName()) != null)
-			this.entity.getModifier(this.getClass().getSimpleName()).setStart(ticks);
-		else
-			this.entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), Attribute.MVT_SPD, Operation.MULTIPLY, -1, ticks, 5));
+		this.entity.addFlags(LivingEntity.IMMOBILE);
+		this.lastAttack = ticks;
 		
 		LivingEntity victim = action.getVictim();
 		this.areaAttackAbility(victim.getLoc(), this.entity, this.radius, this.entity.getType().getSide(), e -> {
@@ -72,6 +71,8 @@ public class GroundAttackAbility extends AreaAttackAbility {
 			map.put(e, ticks);
 		}, victim);
 		
+		if ( ticks == lastAttack + this.attackReloadingTime )
+			this.entity.removeFlags(LivingEntity.IMMOBILE);
 		map.entrySet().removeIf(e -> e.getValue() == this.fireDuration);
 	}
 	
