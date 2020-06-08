@@ -2,6 +2,7 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
@@ -19,6 +20,10 @@ public abstract class AreaAttackAbility extends Ability {
 	}
 
 	protected void areaAttackAbility(Location center, Entity attacker, double radius, EntitySide attackingSide, LivingEntity... immunes) {
+		this.areaAttackAbility(center, attacker, radius, attackingSide, null, immunes);
+	}
+	
+	protected void areaAttackAbility(Location center, Entity attacker, double radius, EntitySide attackingSide, Consumer<LivingEntity> afterAttack, LivingEntity... immunes) {
 		if (this.attacking)
 			return;
 		
@@ -26,14 +31,17 @@ public abstract class AreaAttackAbility extends Ability {
 		LivingEntity testing;
 		
 		List<Entity> list = new ArrayList<Entity>(attacker.getLevel().getEntities());
-		for (Entity target : list)
+		for (Entity target : list) {
 			if (target instanceof LivingEntity
 					&& (testing = (LivingEntity) target) != attacker
 					&& ! contains(immunes, testing)
 					&& attackingSide.isEnemy(testing.getType().getSide())
-					&& testing.getLoc().distance(center) <= radius)
+					&& testing.getLoc().distance(center) <= radius) {
 				attacker.attack(testing);
-		
+				if ( afterAttack != null)
+					afterAttack.accept(testing);
+			}
+		}
 		this.attacking = false;
 	}
 
