@@ -432,26 +432,26 @@ attackers:
         width: 1
         height: 1
       tier1:
-      HP: 10000
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.5
-      ATK_RANGE: 3
-      REWARD: 1500
-    tier2:
-      HP: 12500
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.6
-      ATK_RANGE: 3.5
-      REWARD: 1750
-    tier3:
-      HP: 16250
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.7
-      ATK_RANGE: 4
-      REWARD: 2000
+        HP: 10000
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.5
+        ATK_RANGE: 3
+        REWARD: 1500
+      tier2:
+        HP: 12500
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.6
+        ATK_RANGE: 3.5
+        REWARD: 1750
+      tier3:
+        HP: 16250
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.7
+        ATK_RANGE: 4
+        REWARD: 2000
     MORDOR_TOWER:
       name: "Tour du Mordor"
       abilities:
@@ -464,6 +464,7 @@ attackers:
           - 20
         SlowingAbility:
           - TIER_1
+          - NO_SPECIFICATION
           - 0.2
           - 30
           - [3, 3.5, 4]
@@ -471,26 +472,26 @@ attackers:
         width: 1
         height: 1
       tier1:
-      HP: 20000
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.5
-      ATK_RANGE: 3
-      REWARD: 3000
-    tier2:
-      HP: 25000
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.6
-      ATK_RANGE: 3.5
-      REWARD: 3500
-    tier3:
-      HP: 32500
-      DMG: 0
-      MVT_SPD: 0
-      ATK_SPD: 0.7
-      ATK_RANGE: 4
-      REWARD: 4000
+        HP: 20000
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.5
+        ATK_RANGE: 3
+        REWARD: 3000
+      tier2:
+        HP: 25000
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.6
+        ATK_RANGE: 3.5
+        REWARD: 3500
+      tier3:
+        HP: 32500
+        DMG: 0
+        MVT_SPD: 0
+        ATK_SPD: 0.7
+        ATK_RANGE: 4
+        REWARD: 4000
     GROND:
       name: "Tête de Loup (Grond)"
       abilities:
@@ -504,26 +505,26 @@ attackers:
         width: 1
         height: 1
       tier1:
-      HP: 25000
-      DMG: 2000
-      MVT_SPD: 0.3
-      ATK_SPD: 0.4
-      ATK_RANGE: 2
-      REWARD: 3000
-    tier2:
-      HP: 30000
-      DMG: 2750
-      MVT_SPD: 0.4
-      ATK_SPD: 0.6
-      ATK_RANGE: 2
-      REWARD: 3500
-    tier3:
-      HP: 37500
-      DMG: 3500
-      MVT_SPD: 0.5
-      ATK_SPD: 0.6
-      ATK_RANGE: 2.5
-      REWARD: 4000
+        HP: 25000
+        DMG: 2000
+        MVT_SPD: 0.3
+        ATK_SPD: 0.4
+        ATK_RANGE: 2
+        REWARD: 3000
+      tier2:
+        HP: 30000
+        DMG: 2750
+        MVT_SPD: 0.4
+        ATK_SPD: 0.6
+        ATK_RANGE: 2
+        REWARD: 3500
+      tier3:
+        HP: 37500
+        DMG: 3500
+        MVT_SPD: 0.5
+        ATK_SPD: 0.6
+        ATK_RANGE: 2.5
+        REWARD: 4000
     SARUMAN:
       name: "Saroumane"
       abilities:
@@ -539,26 +540,26 @@ attackers:
         width: 1
         height: 1
       tier1:
-      HP: 8000
-      DMG: 800
-      MVT_SPD: 0.6
-      ATK_SPD: 0.8
-      ATK_RANGE: 0
-      REWARD: 3000
-    tier2:
-      HP: 11000
-      DMG: 1000
-      MVT_SPD: 0.7
-      ATK_SPD: 0.9
-      ATK_RANGE: 0
-      REWARD: 3500
-    tier3:
-      HP: 14000
-      DMG: 1200
-      MVT_SPD: 0.8
-      ATK_SPD: 1
-      ATK_RANGE: 0
-      REWARD: 4000
+        HP: 8000
+        DMG: 800
+        MVT_SPD: 0.6
+        ATK_SPD: 0.8
+        ATK_RANGE: 0
+        REWARD: 3000
+      tier2:
+        HP: 11000
+        DMG: 1000
+        MVT_SPD: 0.7
+        ATK_SPD: 0.9
+        ATK_RANGE: 0
+        REWARD: 3500
+      tier3:
+        HP: 14000
+        DMG: 1200
+        MVT_SPD: 0.8
+        ATK_SPD: 1
+        ATK_RANGE: 0
+        REWARD: 4000
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
       stats:
