@@ -23,10 +23,10 @@ public class SlowingAbility extends Ability {
 	private int effectDuration;
 	
 	public SlowingAbility(Tier unlock, Tier.Specification tierSpecification, ArrayList<Double> radius) {
-		this(unlock, tierSpecification, radius, 0.2d, 3);
+		this(unlock, tierSpecification, 0.2d, 30, radius);
 	}
 	
-	public SlowingAbility(Tier unlock, Tier.Specification tierSpecification, ArrayList<Double> radius, Double slowingPercentage, Integer effectDuration) {
+	public SlowingAbility(Tier unlock, Tier.Specification tierSpecification, Double slowingPercentage, Integer effectDuration, ArrayList<Double> radius) {
 		super(unlock, tierSpecification);
 	this.radius = new ArrayList<Double>(radius);
 	this.slowingPercentage = slowingPercentage;
