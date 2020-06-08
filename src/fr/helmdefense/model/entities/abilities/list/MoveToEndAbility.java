@@ -29,7 +29,7 @@ public class MoveToEndAbility extends Ability {
 	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if (this.entity == null || this.movingTo == null || this.entity instanceof LivingEntity && ((LivingEntity)this.entity).testFlags(LivingEntity.IMMOBILE))
+		if (this.entity == null || this.movingTo == null || (this.entity instanceof LivingEntity && ((LivingEntity) this.entity).testFlags(LivingEntity.IMMOBILE)))
 			return;
 		
 		Location loc = this.entity.getLoc(), l = this.movingTo.getLoc().center();

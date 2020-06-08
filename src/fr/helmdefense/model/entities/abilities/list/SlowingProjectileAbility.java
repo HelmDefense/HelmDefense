@@ -21,6 +21,7 @@ public class SlowingProjectileAbility extends Ability {
 	public SlowingProjectileAbility(Tier unlock, Specification tierSpecification, Integer duration) {
 		this(unlock, tierSpecification, duration, -0.5d);
 	}
+	
 	public SlowingProjectileAbility(Tier unlock, Specification tierSpecification, Double value) {
 		this(unlock, tierSpecification, 30, value);
 	}
@@ -43,4 +44,3 @@ public class SlowingProjectileAbility extends Ability {
 			attribute.setStart(victim.getLevel().getGameloop().getTicks());
 	}
 }
-	

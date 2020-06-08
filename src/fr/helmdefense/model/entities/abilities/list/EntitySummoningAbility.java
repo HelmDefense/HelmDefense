@@ -32,19 +32,18 @@ public class EntitySummoningAbility extends Ability {
 	
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
-		if ( action.getEntity() instanceof LivingEntity) {
+		if (action.getEntity() instanceof LivingEntity) {
 			this.entity = (LivingEntity)action.getEntity();
-			this.start = this.entity.getLevel().getTicks();
-			}
+			this.start = this.entity.getLevel().getGameloop().getTicks();
 		}
+	}
 	
 	@ActionHandler
 	public void onDeath(LivingEntityDeathAction action) {
 		Location loc = action.getEntity().getLoc();
 		Level lvl = action.getEntity().getLevel();
-		for (int i = 0; i < this.numberOfEntitySpawnedOnDeath; i++) {
+		for (int i = 0; i < this.numberOfEntitySpawnedOnDeath; i++)
 			new LivingEntity(this.type, loc).spawn(lvl);
-		}
 	}
 	
 	@ActionHandler

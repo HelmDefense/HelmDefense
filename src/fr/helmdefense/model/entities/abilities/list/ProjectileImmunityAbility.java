@@ -7,7 +7,6 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class ProjectileImmunityAbility extends Ability {
-
 	public ProjectileImmunityAbility(Tier unlock, Specification tierSpecification) {
 		super(unlock, tierSpecification);
 	}

@@ -4,7 +4,8 @@ import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.utils.EntityData;
 
 public enum ProjectileType implements EntityType {
-	ARROW;
+	ARROW,
+	ROCKBALL;
 	
 	private EntityData data;
 	
