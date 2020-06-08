@@ -1,5 +1,6 @@
 package fr.helmdefense.model.level;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.helmdefense.model.actions.ActionHandler;
@@ -49,7 +50,7 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
-		this.setDifficulty(Difficulty.DEFAULT);
+		this.setDifficulty(Difficulty.HARD);
 	}
 	
 	public void startLoop() {
@@ -60,6 +61,9 @@ public class Level implements ActionListener {
 	
 	public void end() {
 		this.gameloop.stop();
+		List<Entity> list = new ArrayList<Entity>(this.entities);
+		for (Entity e : list)
+			e.dispawn();
 		
 		for (LivingEntityType type : LivingEntityType.values())
 			type.getData().resetTiers();
@@ -116,8 +120,8 @@ public class Level implements ActionListener {
 		return this.waves;
 	}
 	
-	public long getTicks() {
-		return this.gameloop.getTicks();
+	public GameLoop getGameloop() {
+		return this.gameloop;
 	}
 	
 	public Inventory getInv() {

@@ -1,6 +1,5 @@
 package fr.helmdefense.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -9,6 +8,8 @@ import java.util.ResourceBundle;
 import fr.helmdefense.model.HelmDefense;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Hero;
+import fr.helmdefense.model.entities.utils.Attribute;
+import fr.helmdefense.utils.YAMLLoader;
 import fr.helmdefense.view.statbar.StatBar;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -67,8 +69,7 @@ public class MenuController implements Initializable {
 	public MenuController(Controller main) {
 		this.main = main;
 		this.game = new HelmDefense();
-		File saveDir = Paths.get(System.getProperty("user.dir"), "saves").toFile();
-		this.levels = saveDir.list();
+		this.levels = Paths.get(System.getProperty("user.dir"), YAMLLoader.SAVES_FOLDER).toFile().list();
 		this.selectedLevel = 0;
 		this.selectedHero = 0;
 		this.selectionMode = HERO_MODE;
@@ -98,16 +99,6 @@ public class MenuController implements Initializable {
 	}
 	
 	@FXML
-	void previousArrowEntered(MouseEvent event) {
-		this.previousArrow.setScaleX(1.15);
-	}
-	
-	@FXML
-	void previousArrowExited(MouseEvent event) {
-		this.previousArrow.setScaleX(1);
-	}
-	
-	@FXML
 	void nextArrowClicked(MouseEvent event) {
 		switch (this.selectionMode) {
 		case HERO_MODE:
@@ -117,16 +108,6 @@ public class MenuController implements Initializable {
 			this.selectLevel(1);
 			break;
 		}
-	}
-	
-	@FXML
-	void nextArrowEntered(MouseEvent event) {
-		this.nextArrow.setScaleX(1.15);
-	}
-	
-	@FXML
-	void nextArrowExited(MouseEvent event) {
-		this.nextArrow.setScaleX(1);
 	}
 	
 	@FXML
@@ -154,19 +135,41 @@ public class MenuController implements Initializable {
 	
 	@FXML
 	void settingsAction(ActionEvent event) {
-		
+		this.main.getOptions().show();
 	}
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// Center initialization
 		this.heroInfo.managedProperty().bind(this.heroInfo.visibleProperty());
 		this.heroInfo.visibleProperty().addListener((obs, o, n) -> this.levelInfo.setVisible(! n.booleanValue()));
 		this.levelInfo.managedProperty().bind(this.levelInfo.visibleProperty());
 		this.levelInfo.visibleProperty().addListener((obs, o, n) -> this.heroInfo.setVisible(! n.booleanValue()));
 		this.levelInfo.setVisible(false);
 		
+		// Arrows initialization
 		this.previousArrow.scaleYProperty().bind(this.previousArrow.scaleXProperty());
+		this.previousArrow.setOnMouseEntered(event -> this.previousArrow.setScaleX(1.2));
+		this.previousArrow.setOnMouseExited(event -> this.previousArrow.setScaleX(1));
+		
 		this.nextArrow.scaleYProperty().bind(this.nextArrow.scaleXProperty());
+		this.nextArrow.setOnMouseEntered(event -> this.nextArrow.setScaleX(1.2));
+		this.nextArrow.setOnMouseExited(event -> this.nextArrow.setScaleX(1));
+		
+		// Upgrades initialization
+		this.upgradeHp.setOnMouseClicked(event -> {
+			if (this.game.removeStar())
+				this.selectedHero().upgradeHp();
+		});
+		this.upgradeHp.setOnMouseEntered(event -> this.upgradeHp.setOpacity(1));
+		this.upgradeHp.setOnMouseExited(event -> this.upgradeHp.setOpacity(0.75));
+		
+		this.upgradeDmg.setOnMouseClicked(event -> {
+			if (this.game.removeStar())
+				this.selectedHero().upgradeDmg();
+		});
+		this.upgradeDmg.setOnMouseEntered(event -> this.upgradeDmg.setOpacity(1));
+		this.upgradeDmg.setOnMouseExited(event -> this.upgradeDmg.setOpacity(0.75));
 	}
 	
 	private Hero selectedHero() {
@@ -184,7 +187,13 @@ public class MenuController implements Initializable {
 		else if (this.selectedHero >= LivingEntityType.HEROES.length)
 			this.selectedHero = 0;
 		
-		this.currentLabel.setText(selectedHero().getType().toString());
+		this.currentLabel.setText(this.selectedHero().getType().toString());
+		this.currentImage.setImage(Controller.getImg("entities", Controller.pathToImgPath(this.selectedHero().data().getPath())));
+		
+		this.hpBar.valueProperty().bind(this.selectedHero().hpUpgradeProperty().add(1).multiply(this.selectedHero().stat(Attribute.HP)));
+		this.hpBar.setMax(this.selectedHero().stat(Attribute.HP) * (1 + Hero.MAXIMUM_UPGRADE));
+		this.dmgBar.valueProperty().bind(this.selectedHero().dmgUpgradeProperty().add(1).multiply(this.selectedHero().stat(Attribute.DMG)));
+		this.dmgBar.setMax(this.selectedHero().stat(Attribute.DMG) * (1 + Hero.MAXIMUM_UPGRADE));
 	}
 	
 	private void selectLevel(int n) {
@@ -194,12 +203,19 @@ public class MenuController implements Initializable {
 		else if (this.selectedLevel >= this.levels.length)
 			this.selectedLevel = 0;
 		
-		this.currentLabel.setText(selectedLevel());
+		this.currentLabel.setText(this.selectedLevel());
+		this.currentImage.setImage(new Image(Controller.path(YAMLLoader.SAVES_FOLDER, this.selectedLevel(), "icon.png")));
 	}
 	
 	void show() {
 		this.main.main.setCenter(this.root);
+
+		this.main.primaryStage.setTitle("Helm Defense");
 		
+		Controller.setNodesVisibility(false, this.main.controlButtons, this.main.buyInfoLabel);
+		this.main.levelNameLabel.setText("Lancez un niveau pour jouer !");
+		
+		this.main.moneyBox.setVisible(true);
 		this.main.moneyLabel.textProperty().bind(this.game.starsProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "star.png"));
 		

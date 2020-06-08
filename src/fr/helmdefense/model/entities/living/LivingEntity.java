@@ -128,7 +128,7 @@ public class LivingEntity extends Entity {
 		this.flags &= ~flags;
 	}
 	
-	public void reverseFlags(int flags) {
+	public void toggleFlags(int flags) {
 		this.flags ^= flags;
 	}
 	
