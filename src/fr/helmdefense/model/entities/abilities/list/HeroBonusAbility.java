@@ -41,6 +41,7 @@ public class HeroBonusAbility extends Ability {
 		}
 	}
 	
+	@ActionHandler
 	public void onEntitySpawn(EntitySpawnAction action) {
 		if(action.getEntity() instanceof LivingEntity)
 			this.entitySide = ((LivingEntity) action.getEntity()).getType().getSide();
