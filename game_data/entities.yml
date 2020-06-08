@@ -177,6 +177,15 @@ defenders:
         BountyHuntingAbility:
           # Tier
           - TIER_1
+        HeroBonusAbility:
+          - TIER_1
+          - DMG
+        DirectAttackAbility:
+          - TIER_1
+        ProjectileAttackAbility:
+          - TIER_1
+        GalvanizeAbility:
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -193,6 +202,15 @@ defenders:
         BountyHuntingAbility:
           # Tier
           - TIER_1
+        HeroBonusAbility:
+          - TIER_1
+          - ATK_SPD
+        DirectAttackAbility:
+          - TIER_1
+        ProjectileAttackAbility:
+          - TIER_1
+        EyesOfElvenAbility:
+          - TIER_1
       size:
         width: 1
         height: 1
@@ -208,6 +226,15 @@ defenders:
       abilities:
         BountyHuntingAbility:
           # Tier
+          - TIER_1
+        HeroBonusAbility:
+          - TIER_1
+          - HP
+        DirectAttackAbility:
+          - TIER_1
+        ProjectileAttackAbility:
+          - TIER_1
+        KillingSpreeHealingAbility:
           - TIER_1
       size:
         width: 1
