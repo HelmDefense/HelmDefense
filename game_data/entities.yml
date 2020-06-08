@@ -424,6 +424,7 @@ attackers:
           - 20
         HealingAbility:
           - TIER_1
+          - NO_SPECIFICATION
           - 0.05
           - 10
           - [3, 3.5, 4]
@@ -461,10 +462,10 @@ attackers:
           - NO_SPECIFICATION
           - URUK_HAI
           - 20
-        HealingAbility:
+        SlowingAbility:
           - TIER_1
-          - 0.05
-          - 10
+          - 0.2
+          - 30
           - [3, 3.5, 4]
       size:
         width: 1
