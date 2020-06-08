@@ -6,10 +6,11 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityHeroPowerAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class KillingSpreeHealingAbility {
+public class KillingSpreeHealingAbility extends Ability {
 	private LivingEntity entity;
 	private int killed;
 	private long killingSpreeStart;
@@ -22,6 +23,7 @@ public class KillingSpreeHealingAbility {
 	}
 
 	public KillingSpreeHealingAbility(Tier unlock, Tier.Specification tierSpecification, Integer healPerKill, Integer duration, Double radius) {
+		super(unlock, tierSpecification);
 		this.healPerKill = healPerKill;
 		this.duration = duration;
 	  	this.killingSpreeStart = -1;
