@@ -9,7 +9,7 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
 public class DebuffImmunityAbility extends Ability {
-	LivingEntity entity;
+	private LivingEntity entity;
 	
 	public DebuffImmunityAbility(Tier unlock, Specification tierSpecification) {
 		super(unlock, tierSpecification);
@@ -17,11 +17,13 @@ public class DebuffImmunityAbility extends Ability {
 	
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
-		this.entity = (LivingEntity) action.getEntity();
+		if (action.getEntity() instanceof LivingEntity)
+			this.entity = (LivingEntity) action.getEntity();
 	}
 	
 	@ActionHandler
 	public void disableDebuff(GameTickAction action) {
-		this.entity.getModifiers().removeIf(m -> m.getVal() < 0);
+		if (this.entity != null)
+			this.entity.getModifiers().removeIf(m -> m.getVal() < 0);
 	}
 }

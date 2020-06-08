@@ -20,14 +20,14 @@ public class EyesOfElvenAbility extends Ability {
 	}
 	
 	public EyesOfElvenAbility(Tier unlock, Tier.Specification tierSpecification, Integer duration) {
-		this(unlock, tierSpecification, duration, 2d, 10d);
+		this(unlock, tierSpecification, duration, 10d, 2d);
 	}
 	
 	public EyesOfElvenAbility(Tier unlock, Tier.Specification tierSpecification, Double value) {
-		this(unlock, tierSpecification, 150, value, 10d);
+		this(unlock, tierSpecification, 150, 10d, value);
 	}
 	
-	public EyesOfElvenAbility(Tier unlock, Tier.Specification tierSpecification, Integer duration, Double value, Double effectRange) {
+	public EyesOfElvenAbility(Tier unlock, Tier.Specification tierSpecification, Integer duration, Double effectRange, Double value) {
 		super(unlock, tierSpecification);
 		this.duration = duration;
 		this.value = value;
@@ -37,15 +37,10 @@ public class EyesOfElvenAbility extends Ability {
 	@ActionHandler
 	public void onLivingEntityHeroPower(LivingEntityHeroPowerAction action) {
 		LivingEntity source = action.getEntity();
-		for (Entity entity : source.getLevel().getEntities()) {
-			if(entity instanceof LivingEntity
+		for (Entity entity : source.getLevel().getEntities())
+			if (entity instanceof LivingEntity
 					&& ((LivingEntity) entity).getType().getSide() == source.getType().getSide()
-					&& entity.getLoc().distance(source.getLoc()) < this.effectRange) {
-				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), Attribute.SHOOT_RANGE, Operation.MULTIPLY, this.value, source.getLevel().getTicks(), this.duration));
-			}
-		}
+					&& entity.getLoc().distance(source.getLoc()) < this.effectRange)
+				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), Attribute.SHOOT_RANGE, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration));
 	}
-	
-	
-
 }

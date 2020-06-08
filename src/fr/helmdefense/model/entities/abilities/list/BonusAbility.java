@@ -9,20 +9,20 @@ import fr.helmdefense.model.entities.utils.AttributeModifier.Operation;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.Tier.Specification;
 
-public class AttackRangeBonusAbility extends Ability {
-	private double range;
+public class BonusAbility extends Ability {
+	private Attribute attr;
+	private Operation op;
+	private double val;
 	
-	public AttackRangeBonusAbility(Tier unlock, Specification tierSpecification) {
-		this(unlock, tierSpecification, 0.5d);
-	}
-	
-	public AttackRangeBonusAbility(Tier unlock, Specification tierSpecification, Double range) {
+	public BonusAbility(Tier unlock, Specification tierSpecification, String attr, String op, Double val) {
 		super(unlock, tierSpecification);
-		this.range = range;
+		this.attr = Attribute.valueOf(attr.toUpperCase());
+		this.op = Operation.valueOf(op.toUpperCase());
+		this.val = val;
 	}
 	
 	@ActionHandler
 	public void rangeBonus(EntitySpawnAction action) {
-		action.getEntity().getModifiers().add(new AttributeModifier(Attribute.ATK_RANGE, Operation.ADD, this.range));
+		action.getEntity().getModifiers().add(new AttributeModifier(this.attr, this.op, this.val));
 	}
 }

@@ -38,7 +38,7 @@ public abstract class AreaAttackAbility extends Ability {
 					&& attackingSide.isEnemy(testing.getType().getSide())
 					&& testing.getLoc().distance(center) <= radius) {
 				attacker.attack(testing);
-				if ( afterAttack != null)
+				if (afterAttack != null)
 					afterAttack.accept(testing);
 			}
 		}

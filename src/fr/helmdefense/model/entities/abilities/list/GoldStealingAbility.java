@@ -19,7 +19,7 @@ public class GoldStealingAbility extends Ability {
 	@ActionHandler
 	public void onEntityKillAction(EntityKillAction action) {
 		int entityTier = action.getEntity().data().getTier().getNumberTier();
-		if (entityTier > 0 || entityTier < 3)
+		if (entityTier > 0 || entityTier <= 3)
 			action.getEntity().getLevel().debit(this.costs.get(entityTier - 1));
 	}
 }

@@ -8,6 +8,7 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.level.GameLoop;
 
 public abstract class AttackAbility extends Ability {
 	private long lastAtk;
@@ -20,8 +21,10 @@ public abstract class AttackAbility extends Ability {
 
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
-		this.entity = (LivingEntity) action.getEntity();
-		this.init();
+		if (action.getEntity() instanceof LivingEntity) {
+			this.entity = (LivingEntity) action.getEntity();
+			this.init();
+		}
 	}
 
 	@ActionHandler
@@ -32,7 +35,7 @@ public abstract class AttackAbility extends Ability {
 		LivingEntity enemy = this.getClosestEnemy();
 
 		if (enemy != null
-				&& action.getTicks() - this.lastAtk > 10 / this.entity.stat(Attribute.ATK_SPD)) {
+				&& action.getTicks() - this.lastAtk > GameLoop.TPS / this.entity.stat(Attribute.ATK_SPD)) {
 			this.lastAtk = action.getTicks();
 			this.attack(enemy);
 		}
