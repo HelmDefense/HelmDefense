@@ -16,18 +16,19 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class SlowingAbility extends Ability {
-	ArrayList<Double> radius;
-	double slowingPercentage;
-	private long start;
-	private LivingEntity entity;
 	private int effectDuration;
+	private double slowingPercentage;
+	private long start;
+	ArrayList<Double> radius;
+	private LivingEntity entity;
+	
 	
 	public SlowingAbility(Tier unlock, Tier.Specification tierSpecification, ArrayList<Double> radius) {
 		this(unlock, tierSpecification, 0.2d, 30, radius);
 	}
 	
 	public SlowingAbility(Tier unlock, Tier.Specification tierSpecification, Double slowingPercentage, Integer effectDuration, ArrayList<Double> radius) {
-		super(unlock, tierSpecification);
+	super(unlock, tierSpecification);
 	this.radius = new ArrayList<Double>(radius);
 	this.slowingPercentage = slowingPercentage;
 	this.start = -1;
@@ -55,13 +56,12 @@ public class SlowingAbility extends Ability {
 		EntitySide side = this.entity.getType().getSide();
 		
 		for (Entity target : action.getLvl().getEntities().filtered(e -> e instanceof LivingEntity)) {
-				if ( this.start != -1 && ((LivingEntity)target).getType().getSide().isEnemy(side) && loc.distance(target.getLoc()) <= radius  )
+				if ( this.start != -1 && ((LivingEntity)target).getType().getSide().isEnemy(side) && loc.distance(target.getLoc()) <= radius )
 					if ( target.getModifier(this.getClass().getSimpleName()) != null )
 						target.getModifier(this.getClass().getSimpleName()).setStart(action.getTicks());
 					else
 						target.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), Attribute.MVT_SPD,
-								Operation.MULTIPLY, this.slowingPercentage, action.getTicks(), this.effectDuration));	
+								Operation.MULTIPLY, - this.slowingPercentage, action.getTicks(), this.effectDuration));	
 		}
 	}
-
 }
