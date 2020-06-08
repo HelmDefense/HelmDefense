@@ -526,29 +526,33 @@ attackers:
           - TIER_1
         DirectAttackAbility:
           - TIER_1
-        AreaDirectAttackAbility:
+        GroundAttackAbility:
           - TIER_1
+          - 5
+          - 30
+          - [2, 3, 4]
+          - [2, 2, 2.5]
       size:
         width: 1
         height: 1
       tier1:
         HP: 25000
         DMG: 2000
-        MVT_SPD: 0.3
+        MVT_SPD: 0.2
         ATK_SPD: 0.4
         ATK_RANGE: 2
         REWARD: 3000
       tier2:
         HP: 30000
         DMG: 2750
-        MVT_SPD: 0.4
+        MVT_SPD: 0.3
         ATK_SPD: 0.6
         ATK_RANGE: 2
         REWARD: 3500
       tier3:
         HP: 37500
         DMG: 3500
-        MVT_SPD: 0.5
+        MVT_SPD: 0.35
         ATK_SPD: 0.6
         ATK_RANGE: 2.5
         REWARD: 4000

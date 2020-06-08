@@ -17,7 +17,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<TabPane fx:id="leftPane" tabClosingPolicy="UNAVAILABLE">
+		<TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
 			<tabs>
 				<Tab fx:id="statsTab" text="Statistiques">
 					<content>
@@ -39,7 +39,7 @@
 										<StatBar fx:id="entityHealthBar" prefHeight="35.0"
 											prefWidth="125.0" color="#ff3333" value="1" max="1"
 											displayStyle="FULL_ROUND" />
-										<Label fx:id="entityHealthBonusLabel" text="+0">
+										<Label fx:id="entityHealthBonusLabel" text="+ 0">
 											<font>
 												<Font size="18.0" />
 											</font>
@@ -118,27 +118,34 @@
 									<VBox>
 										<children>
 											<StatBar fx:id="entityHpBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE_ROUND" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE_ROUND" />
 											<StatBar fx:id="entityDmgBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE_ROUND" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE_ROUND" />
 											<StatBar fx:id="entityMvtSpdBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE" />
 											<StatBar fx:id="entityAtkSpdBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE" />
 											<StatBar fx:id="entityAtkRangeBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE" />
 											<StatBar fx:id="entityDistRangeBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE" />
 											<StatBar fx:id="entityCostBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE_ROUND" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE_ROUND" />
 											<StatBar fx:id="entityRewardBar" prefHeight="35.0"
-												prefWidth="100.0" color="#4db8ff" displayStyle="VALUE_ROUND" />
+												prefWidth="100.0" color="#4db8ff" value="1" max="1"
+												displayStyle="VALUE_ROUND" />
 										</children>
 									</VBox>
 									<VBox alignment="CENTER_LEFT">
 										<children>
-											<Label fx:id="entityHpBonusLabel" prefHeight="35.0"
-												text="+10%">
+											<Label fx:id="entityHpBonusLabel" prefHeight="35.0">
 												<font>
 													<Font size="18.0" />
 												</font>
@@ -148,8 +155,7 @@
 													<Font size="18.0" />
 												</font>
 											</Label>
-											<Label fx:id="entityMvtSpdBonusLabel" prefHeight="35.0"
-												text="+5%">
+											<Label fx:id="entityMvtSpdBonusLabel" prefHeight="35.0">
 												<font>
 													<Font size="18.0" />
 												</font>
@@ -166,7 +172,7 @@
 												</font>
 											</Label>
 											<Label fx:id="entityDistRangeBonusLabel"
-												prefHeight="35.0" text="+25%">
+												prefHeight="35.0">
 												<font>
 													<Font size="18.0" />
 												</font>

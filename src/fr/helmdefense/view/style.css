@@ -1,0 +1,43 @@
+.button:focused,
+.menu-button:focused,
+.slider:focused .thumb {
+	-fx-color: -fx-base;
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+}
+
+.text-field:focused {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-text-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0 0 -1 0, 0, 1.4, 2;
+    -fx-background-radius: 3, 2, 2;
+}
+
+.button:focused:hover,
+.menu-button:focused:hover,
+.slider:focused:hover .thumb {
+    -fx-color: -fx-hover-base;
+}
+ 
+.button:focused:armed,
+.menu-button:focused:armed,
+.slider:focused:armed .thumb {
+    -fx-color: -fx-pressed-base;
+}
+
+.scroll-pane {
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-pane:focused {
+    -fx-background-insets: 0;
+}
+
+.scroll-pane .corner {
+    -fx-background-insets: 0;
+}
+
+.tab {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}

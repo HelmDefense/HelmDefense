@@ -5,6 +5,7 @@ import fr.helmdefense.model.actions.entity.EntitySpawnAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -28,7 +29,7 @@ public class MoveToEndAbility extends Ability {
 	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if (this.entity == null || this.movingTo == null)
+		if (this.entity == null || this.movingTo == null || this.entity instanceof LivingEntity && ((LivingEntity)this.entity).testFlags(LivingEntity.IMMOBILE))
 			return;
 		
 		Location loc = this.entity.getLoc(), l = this.movingTo.getLoc().center();

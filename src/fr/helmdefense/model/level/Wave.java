@@ -16,6 +16,7 @@ import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.utils.Tier;
 
 public class Wave implements ActionListener {
+	private String name;
 	private int reward;
 	private Map<Long, Entity> entities;
 	private int entityCount;
@@ -26,7 +27,8 @@ public class Wave implements ActionListener {
 	public static final long TICKS_BEFORE_FIRST_WAVE = 100;
 	public static final long TICKS_BETWEEN_EACH_WAVE = 50;
 	
-	public Wave(int reward, Map<Integer, String> entities) {
+	public Wave(String name, int reward, Map<Integer, String> entities) {
+		this.name = name;
 		this.reward = reward;
 		this.entities = entities.entrySet().stream()
 				.collect(Collectors.toMap(
@@ -73,6 +75,10 @@ public class Wave implements ActionListener {
 			
 			Actions.unregisterListeners(this);
 		}
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public int getReward() {
