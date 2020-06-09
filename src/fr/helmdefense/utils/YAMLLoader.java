@@ -78,7 +78,7 @@ public class YAMLLoader {
 		if (subsection != null) {
 			d = d.getData(subsection);
 			for (String path : d.getPaths()) {
-				constructEntityData(section + "." + subsection, path, d.getData(path), false);
+				constructEntityData(section + "." + subsection, path, d.getData(path), ! subsection.equals("heroes"));
 			}
 		}
 	}
