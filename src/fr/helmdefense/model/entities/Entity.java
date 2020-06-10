@@ -60,6 +60,10 @@ public abstract class Entity implements ActionListener {
 		Actions.registerListeners(this);
 		
 		this.level = lvl;
+		
+		Actions.registerListeners(this.abilities);
+		Actions.registerListeners(this);
+		
 		lvl.getEntities().add(this);
 	}
 	
