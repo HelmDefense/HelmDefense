@@ -14,6 +14,7 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.living.LivingEntityType.SubType;
 import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Attribute;
@@ -446,7 +447,7 @@ public class LevelController implements Initializable, ActionListener {
 	
 	private static void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
 		bar.setValue(data.getStats().get(attr));
-		if (entity == null || entity.getType().isClassic())
+		if (entity == null || entity.getType().getSubType() == SubType.CLASSIC)
 			bar.setMax(data.getStats(Tier.TIER_3).get(attr));
 		else
 			bar.setMax(data.getStats().get(attr));

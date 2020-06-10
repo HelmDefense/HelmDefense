@@ -41,8 +41,7 @@ public abstract class Entity implements ActionListener {
 		this.hitbox.lockLocation();
 		this.modifiers = new ArrayList<AttributeModifier>();
 		this.abilities = this.data().instanciateAbilities();
-		Actions.registerListeners(this.abilities);
-		Actions.registerListeners(this);
+		
 		this.level = null;
 	}
 	
@@ -54,6 +53,10 @@ public abstract class Entity implements ActionListener {
 		if (this.level != null || lvl.getEntities().contains(this))
 			return;
 		this.level = lvl;
+		
+		Actions.registerListeners(this.abilities);
+		Actions.registerListeners(this);
+		
 		lvl.getEntities().add(this);
 	}
 	
