@@ -67,6 +67,7 @@ public class LevelController implements Initializable, ActionListener {
 	private Set<Controls> controlsPressed;
 	
 	boolean inOptions;
+	LivingEntity selectedEntity;
 	Pane levelPane;
 	TilePane mapPane;
 	ScrollPane rightPane;
@@ -271,6 +272,7 @@ public class LevelController implements Initializable, ActionListener {
 					for (Entity e : c.getAddedSubList()) {
 						ImageView img = Controller.getImgView("entities", Controller.pathToImgPath(e.data().getPath()));
 						img.setId(e.getId());
+						img.visibleProperty().bind(e.visibleProperty());
 						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
 						if (e instanceof LivingEntity) 
@@ -407,8 +409,17 @@ public class LevelController implements Initializable, ActionListener {
 	private void updateBuyInfoLabel(int amount, String entityName) {
 		this.main.buyInfoLabel.setText(entityName + " x" + amount + " - Clic gauche pour placer");
 	}
+	
+	protected void displayStats(EntityData data, LivingEntity entity) {
+		if (entity == null)
+			this.manageStats(data, null);
+		else
+			this.displayStats(entity);
+	}
 
 	private void displayStats(LivingEntity e) {
+		this.selectedEntity = e;
+		
 		// Current HP
 		EntityData data = e.data();
 		int entityMaxHp = (int) e.stat(Attribute.HP);

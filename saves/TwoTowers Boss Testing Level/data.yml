@@ -1,0 +1,61 @@
+map:
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 9, 10, 10, 3, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [10, 10, 10, 10, 6, 0, 0, 12, 3, 0, 0, 9, 10, 10, 10, 10]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 5, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 10, 6, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+spawns:
+  - x: 0.5
+    y: 5.5
+target:
+  x: 15.5
+  y: 5.5
+name: "Niveau de test"
+start-money: 999999
+waves:
+  - name: "Vague 1"
+    reward: 500
+    entities:
+      0: ORC_WARRIOR
+      20: ORC_WARRIOR
+      50: ORC_WARRIOR
+      75: ORC_WARRIOR
+      100: ORC_WARRIOR
+  - name: "Vague 2"
+    reward: 1000
+    entities:
+      0: ORC_WARRIOR
+      20: GOBLIN
+      50: TROLL
+      75: URUK_HAI
+      100: ORC_BOMBER
+  - name: "Vague de boss partie 1"
+    reward: 1250
+    entities:
+      0: TROLL
+      20: ORC_WARRIOR
+      25: ORC_WARRIOR
+      30: ORC_WARRIOR
+      35: ORC_WARRIOR
+      50: ISENGARD_TOWER
+      60: URUK_HAI
+      75: GOBLIN
+      85: GOBLIN
+  - name: "Vague de boss partie 2"
+    reward: 1250
+    entities:
+      0: TROLL
+      20: URUK_HAI
+      25: URUK_HAI
+      30: URUK_HAI
+      35: URUK_HAI
+      50: MORDOR_TOWER
+      60: ORC_BOMBER
+      75: GOBLIN
+      85: ORC_BOMBER

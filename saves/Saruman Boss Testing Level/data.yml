@@ -16,18 +16,10 @@ spawns:
 target:
   x: 15.5
   y: 5.5
-name: "Niveau de test"
+name: "Niveau de test de Saroumane"
 start-money: 999999
 waves:
   - name: "Vague 1"
-    reward: 500
-    entities:
-      0: ORC_WARRIOR
-      20: ORC_WARRIOR
-      50: ORC_WARRIOR
-      75: ORC_WARRIOR
-      100: ORC_WARRIOR
-  - name: "Vague 2"
     reward: 1000
     entities:
       0: ORC_WARRIOR
@@ -35,3 +27,15 @@ waves:
       50: TROLL
       75: URUK_HAI
       100: ORC_BOMBER
+  - name: "Vague de boss"
+    reward: 1250
+    entities:
+      0: TROLL
+      20: URUK_HAI
+      25: URUK_HAI
+      30: URUK_HAI
+      35: URUK_HAI
+      50: SARUMAN
+      60: ORC_BOMBER
+      75: GOBLIN
+      85: ORC_BOMBER

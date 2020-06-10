@@ -79,8 +79,9 @@ public class Hero extends LivingEntity {
 	}
 	
 	public void respawn() {
-		this.getLevel().getEntities().add(this);
-		this.spawn();
+		Level lvl = this.getLevel();
+		this.dispawn();
+		this.spawn(lvl);
 	}
 	
 	private void spawn() {

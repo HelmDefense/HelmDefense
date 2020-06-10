@@ -26,7 +26,7 @@ public class Graph {
 	
 	public Cell getCellAt(Location loc) {
 		return this.cells.stream()
-				.filter(cell -> cell.getLoc().equals(loc.copy().round()))
+				.filter(cell -> cell.getLoc().equalsCenter(loc))
 				.findAny()
 				.orElse(null);
 	}

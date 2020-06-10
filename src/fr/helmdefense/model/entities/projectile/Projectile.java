@@ -78,7 +78,7 @@ public class Projectile extends Entity implements ActionListener {
 			return;
 		
 		int hpBefore = victim.getHp();
-		int dmg = victim.looseHp((int) (this.source.stat(Attribute.DMG) * Statistic.SHOOT_FACTOR), this.source);
+		int dmg = victim.looseHp((int) (this.source.stat(Attribute.DMG) * Statistic.SHOOT_FACTOR), this);
 		this.hits.add(victim);
 		
 		ProjectileEntityAttackAction attack = new ProjectileEntityAttackAction(this, victim, hpBefore, dmg);

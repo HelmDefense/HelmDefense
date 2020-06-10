@@ -67,6 +67,7 @@ public class OptionsController implements Initializable {
 	@FXML
 	void restartLevelAction(ActionEvent event) {
 		this.main.restartLevel();
+		this.main.pauseButton.setText("Pause");
 	}
 
 	@FXML

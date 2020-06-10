@@ -16,7 +16,7 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.utils.Tier;
 
-public class GroundAttackAbility extends AreaAttackAbility {
+public class GrondAttackAbility extends AreaAttackAbility {
 	private int numberOfGoblins;
 	private int fireDuration;
 	private double radius;
@@ -27,8 +27,9 @@ public class GroundAttackAbility extends AreaAttackAbility {
 	private Map<LivingEntity, Long> map;
 	private long lastAttack;
 	private int attackReloadingTime;
+	private boolean spawingGoblins;
 	
-	public GroundAttackAbility(Tier unlock, Tier.Specification tierSpecification, Integer attackReloadingTime, Integer fireDuration, ArrayList<Integer> numberOfGoblinsList, ArrayList<Double> radiusList) {
+	public GrondAttackAbility(Tier unlock, Tier.Specification tierSpecification, Integer attackReloadingTime, Integer fireDuration, ArrayList<Integer> numberOfGoblinsList, ArrayList<Double> radiusList) {
 		super(unlock, tierSpecification);
 		this.radius = -1;
 		this.radiusList = radiusList;
@@ -38,23 +39,36 @@ public class GroundAttackAbility extends AreaAttackAbility {
 		this.fireDuration = fireDuration;
 		this.lastAttack = -1;
 		this.attackReloadingTime = attackReloadingTime;
+		this.spawingGoblins = false;
 	}
 	
 	@ActionHandler
-	private void onSpawn(EntitySpawnAction action) {
-		if (action.getEntity() instanceof LivingEntity) {
-			this.entity = (LivingEntity) action.getEntity();
-			int tier = this.entity.data().getTier().getNumberTier();
-			this.radius = radiusList.get(tier - 1);
-			this.numberOfGoblins = this.numberOfGoblinsList.get(tier - 1);
-			
-			for (int i = 0; i < this.numberOfGoblins; i++) {
-				LivingEntity e = new LivingEntity(LivingEntityType.GOBLIN, action.getSpawn());
-				e.addFlags(LivingEntity.IMMOBILE);
-				e.spawn(this.entity.getLevel());
-				this.goblinsList.add(e);
-			}
+	public void onSpawn(EntitySpawnAction action) {
+		System.out.println("onSpawn() Grond");
+		if (this.spawingGoblins || ! (action.getEntity() instanceof LivingEntity))
+			return;
+
+		System.out.println("onSpawn() Grond - this.spawningGoblins false");
+		
+		this.spawingGoblins = true;
+		this.entity = (LivingEntity) action.getEntity();
+		int tier = this.entity.data().getTier().getNumberTier();
+		this.radius = radiusList.get(tier - 1);
+		this.numberOfGoblins = this.numberOfGoblinsList.get(tier - 1);
+		
+		System.out.println("onSpawn() Grond - spawning goblins");
+		for (int i = 0; i < this.numberOfGoblins; i++) {
+			System.out.println("onSpawn() Grond - spawning goblins - spawn");
+			LivingEntity e = new LivingEntity(LivingEntityType.GOBLIN, action.getSpawn());
+			this.entity.getLevel().getCurrentWave().addAlreadySpawnedEntity(e);
+			e.addFlags(LivingEntity.IMMOBILE);
+			e.setVisible(false);
+			e.spawn(this.entity.getLevel());
+			this.goblinsList.add(e);
 		}
+		this.spawingGoblins = false;
+		
+		System.out.println("onSpawn() Grond - end");
 	}
 	
 	@ActionHandler
@@ -94,6 +108,7 @@ public class GroundAttackAbility extends AreaAttackAbility {
 	public void onDeath(LivingEntityDeathAction action) {
 		this.goblinsList.forEach(e -> {
 			e.removeFlags(LivingEntity.IMMOBILE);
+			e.setVisible(true);
 		});
 	}
 }

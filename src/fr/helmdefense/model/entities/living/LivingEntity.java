@@ -9,6 +9,7 @@ import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.coords.Location;
+import fr.helmdefense.model.level.Level;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 
@@ -32,6 +33,13 @@ public class LivingEntity extends Entity {
 	
 	public LivingEntity(LivingEntityType type, double x, double y) {
 		this(type, new Location(x, y));
+	}
+	
+	@Override
+	public void spawn(Level lvl) {
+		this.setHp((int) this.stat(Attribute.HP));
+		super.spawn(lvl);
+		this.setHp((int) this.stat(Attribute.HP));
 	}
 	
 	public final int getHp() {
@@ -63,6 +71,7 @@ public class LivingEntity extends Entity {
 			EntityKillAction kill = new EntityKillAction(cause, this);
 			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
 			
+			System.out.println("Entity #" + this.getId() + " (" + this.getType() + ") died");
 			this.delete();
 			
 			cause.triggerAbilities(kill);
@@ -146,9 +155,9 @@ public class LivingEntity extends Entity {
 	}
 	
 	@ActionHandler
-	public void burn(GameTickAction action) {
-		if (this.testFlags(FIRE) && action.getTicks() % Statistic.FIRE_FREQUENCE == 0)
-			this.looseHp(Statistic.FIRE_DAMAGE, this);	
+	public void tickDamage(GameTickAction action) {
+		if (this.testFlags(FIRE | POISON) && action.getTicks() % Statistic.TICK_DAMAGE_FREQUENCE == 0)
+			this.looseHp(Statistic.TICK_DAMAGE, this);	
 	}
 	
 	public boolean isEnemy(LivingEntity other) {

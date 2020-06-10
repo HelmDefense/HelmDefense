@@ -20,7 +20,9 @@ import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public abstract class Entity implements ActionListener {
 	private String id;
@@ -30,6 +32,7 @@ public abstract class Entity implements ActionListener {
 	private Level level;
 	private List<AttributeModifier> modifiers;
 	private List<Ability> abilities;
+	private BooleanProperty visibleProperty;
 	
 	private static int ids = 0;
 	
@@ -41,8 +44,7 @@ public abstract class Entity implements ActionListener {
 		this.hitbox.lockLocation();
 		this.modifiers = new ArrayList<AttributeModifier>();
 		this.abilities = this.data().instanciateAbilities();
-		Actions.registerListeners(this.abilities);
-		Actions.registerListeners(this);
+		this.visibleProperty = new SimpleBooleanProperty(true);
 		this.level = null;
 	}
 	
@@ -53,6 +55,10 @@ public abstract class Entity implements ActionListener {
 	public void spawn(Level lvl) {
 		if (this.level != null || lvl.getEntities().contains(this))
 			return;
+		
+		Actions.registerListeners(this.abilities);
+		Actions.registerListeners(this);
+		
 		this.level = lvl;
 		lvl.getEntities().add(this);
 	}
@@ -140,6 +146,18 @@ public abstract class Entity implements ActionListener {
 				.filter(mod -> mod.getName().equals(name))
 				.findAny()
 				.orElse(null);
+	}
+	
+	public final boolean isVisible() {
+		return this.visibleProperty.get();
+	}
+	
+	public final void setVisible(boolean visible) {
+		this.visibleProperty.set(visible);
+	}
+	
+	public final BooleanProperty visibleProperty() {
+		return this.visibleProperty;
 	}
 	
 	@ActionHandler

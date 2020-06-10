@@ -39,8 +39,10 @@ public class Level implements ActionListener {
 		ListChangeListener<Entity> lcl = c -> {
 			while (c.next())
 				if (c.wasAdded())
-					for (Entity e : c.getAddedSubList())
+					for (Entity e : c.getAddedSubList()) {
 						e.triggerAbilities(new EntitySpawnAction(e));
+						System.out.println("Spawning entity #" + e.getId() + " (" + e.getType() + ")");
+					}
 		};
 		this.entities.addListener(lcl);
 		this.waves = waves;
@@ -50,7 +52,7 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
-		this.setDifficulty(Difficulty.HARD);
+		this.setDifficulty(Difficulty.DEFAULT);
 	}
 	
 	public void startLoop() {
@@ -120,6 +122,10 @@ public class Level implements ActionListener {
 		return this.waves;
 	}
 	
+	public Wave getCurrentWave() {
+		return this.currentWave < 0 || this.currentWave >= this.waves.size() ? null : this.waves.get(this.currentWave);
+	}
+	
 	public GameLoop getGameloop() {
 		return this.gameloop;
 	}
@@ -165,7 +171,7 @@ public class Level implements ActionListener {
 		this.difficulty = difficulty == null ? Difficulty.DEFAULT : difficulty;
 		for (LivingEntityType type : LivingEntityType.values())
 			if (type.getSide() == EntitySide.ATTACKER)
-				type.getData().setTier(this.difficulty.getTier());
+				type.getData().setTier(this.difficulty.getTier(), this);
 	}
 	
 	@Override
