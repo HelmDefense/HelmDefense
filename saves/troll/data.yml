@@ -25,6 +25,7 @@ waves:
     50: ORC_WARRIOR
     75: ORC_WARRIOR
     100: ORC_WARRIOR
+  name: "Vague 1"
   reward: 500
 - entities:
     0: ORC_WARRIOR
@@ -32,4 +33,5 @@ waves:
     50: TROLL
     75: URUK_HAI
     100: ORC_BOMBER
+  name: "Vague 2"
   reward: 1000

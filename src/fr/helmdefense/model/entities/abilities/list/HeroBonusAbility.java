@@ -30,29 +30,27 @@ public class HeroBonusAbility extends Ability {
 	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if(this.entitySide != null) {
-			for (Entity entity : action.getLvl().getEntities()) {
-				if(entity instanceof LivingEntity 
-						&& ((LivingEntity) entity).getType().getSide() == this.entitySide
-						&& entity.getModifier(this.getClass().getSimpleName()) == null) {
-					entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), this.attr, Operation.MULTIPLY, this.pourcentValue));
-				}
-			}
-		}
+		if (this.entitySide == null)
+			return;
+			
+		for (Entity entity : action.getLvl().getEntities())
+			if (entity instanceof LivingEntity 
+					&& ((LivingEntity) entity).getType().getSide() == this.entitySide
+					&& entity.getModifier(this.getClass().getSimpleName()) == null)
+				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), this.attr, Operation.MULTIPLY, this.pourcentValue));
 	}
 	
 	@ActionHandler
 	public void onEntitySpawn(EntitySpawnAction action) {
-		if(action.getEntity() instanceof LivingEntity)
+		if (action.getEntity() instanceof LivingEntity)
 			this.entitySide = ((LivingEntity) action.getEntity()).getType().getSide();
 	}
 	
 	@ActionHandler
 	public void onLivingEntityDeath(LivingEntityDeathAction action) {
 		AttributeModifier mod;
-		for (Entity entity : action.getEntity().getLevel().getEntities()) {
+		for (Entity entity : action.getEntity().getLevel().getEntities())
 			if ((mod = entity.getModifier(this.getClass().getSimpleName())) != null)
 				entity.getModifiers().remove(mod);
-		}
 	}
 }

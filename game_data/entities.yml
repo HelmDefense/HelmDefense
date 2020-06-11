@@ -1,35 +1,73 @@
-# Defender statistics
+# Document structure:
+# defenders:
+#   # Classic defenders
+#   heroes:
+#     # Heroes
+# attackers:
+#   # Classic attackers
+#   bosses:
+#     # Bosses
+# projectiles:
+#   # Projectiles
+
+# Entity description format:
+# ENTITY_NAME:
+#   name: "Entity display name"
+#   abilities: # list of abilities
+#     ExampleAbility:
+#       - Param1 # Param1 should be the ability unlock Tier.
+#                # If omitted, Tier.DEFAULT is used.
+#       - Param2 # Param2 should be the tier specification
+#                # If omitted, Tier.Specification.DEFAULT is used.
+#       - ...
+#       - ParamN
+#     OtherAbility:
+#       - OtherParam1
+#       - ...
+#     size:
+#       width: entity's Hitbox width
+#       height: entity's Hitbox height
+#     # If tier-sensitive stats:
+#     tier1:
+#       ATTRIBUTE1: value1
+#       ATTRIBUTE2: value2
+#       ...
+#     # If single stats:
+#     stats:
+#       ATTRIBUTE1: value1
+#       ATTRIBUTE2: value2
+#       ...
+
+# Defenders statistics
 defenders:
   # Basic defenders
   HUMAN_WARRIOR:
     name: "Guerrier Humain"
     abilities:
-      BountyHuntingAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
-      AttackRangeBonusAbility:
+      BountyHuntingAbility: []
+      DirectAttackAbility: []
+      BonusAbility:
         - TIER_3
         - A
+        - ATK_RANGE
+        - ADD
+        - 0.5
       AreaDirectAttackAbility:
         - TIER_3
         - B
+        - 0.75
     size:
       width: 0.5
       height: 0.5
     tier1:
       HP: 2000
       DMG: 250
-      MVT_SPD: 1
       ATK_SPD: 0.75
       ATK_RANGE: 1
       COST: 50
-      UNLOCK: 0
     tier2:
       HP: 3000
       DMG: 500
-      MVT_SPD: 1
       ATK_SPD: 0.85
       ATK_RANGE: 1
       COST: 200
@@ -37,7 +75,6 @@ defenders:
     tier3:
       HP: 4500
       DMG: 650
-      MVT_SPD: 1
       ATK_SPD: 0.85
       ATK_RANGE: 1
       COST: 500
@@ -45,15 +82,14 @@ defenders:
   ARCHER:
     name: "Archer"
     abilities:
-      BountyHuntingAbility:
-        # Tier
-        - TIER_1
+      BountyHuntingAbility: []
       ProjectileAttackAbility:
-        - TIER_1
+        - ARROW
         - 4.0
       MultishotAbility:
         - TIER_3
         - A
+        - 15.0
       PiercingAbility:
         - TIER_3
         - B
@@ -66,7 +102,6 @@ defenders:
       ATK_SPD: 0.9
       SHOOT_RANGE: 6
       COST: 125
-      UNLOCK: 0
     tier2:
       HP: 2000
       DMG: 600
@@ -84,34 +119,34 @@ defenders:
   ELVEN:
     name: "Elfe"
     abilities:
-      BountyHuntingAbility:
-        # Tier
-        - TIER_1
+      BountyHuntingAbility: []
+      DirectAttackAbility: []
       ProjectileAttackAbility:
-        - TIER_1
+        - ARROW
         - 6.0
       TickDamageProjectileAbility:
         - TIER_3
         - A
+        - FIRE
+        - 25
       SlowingProjectileAbility:
         - TIER_3
         - B
+        - 25
+        - -0.35
     size:
       width: 0.5
       height: 0.5
     tier1:
       HP: 2500
       DMG: 450
-      MVT_SPD: 1
       ATK_SPD: 1.2
       ATK_RANGE: 1
       SHOOT_RANGE: 8
       COST: 700
-      UNLOCK: 0
     tier2:
       HP: 3000
       DMG: 650
-      MVT_SPD: 1
       ATK_SPD: 1.35
       ATK_RANGE: 1
       SHOOT_RANGE: 8
@@ -120,7 +155,6 @@ defenders:
     tier3:
       HP: 3750
       DMG: 1050
-      MVT_SPD: 1
       ATK_SPD: 1.35
       ATK_RANGE: 1
       SHOOT_RANGE: 8
@@ -129,21 +163,26 @@ defenders:
   CATAPULT:
     name: "Trébuchet"
     abilities:
-      BountyHuntingAbility:
-        # Tier
-        - TIER_1
+      BountyHuntingAbility: []
       ProjectileAttackAbility:
-        - TIER_1
-        - 4.0
+        - ROCKBALL
+        - 2.5
       AreaProjectileAttackAbility:
-        - TIER_1
-      ShootRangeBonusAbility:
+        - 1.0
+      TickDamageProjectileAbility:
+        - TIER_2
+        - FIRE
+        - 25
+      BonusAbility:
         - TIER_3
         - A
+        - SHOOT_RANGE
+        - ADD
         - 20.0
       DamageIncreaseOnTickDamagedAbility:
         - TIER_3
         - B
+        - FIRE
         - 0.5
     size:
       width: 1.5
@@ -154,7 +193,6 @@ defenders:
       ATK_SPD: 0.25
       SHOOT_RANGE: 12
       COST: 1500
-      UNLOCK: 0
     tier2:
       HP: 7500
       DMG: 3000
@@ -174,18 +212,16 @@ defenders:
     ARAGORN:
       name: "Aragorn"
       abilities:
-        BountyHuntingAbility:
-          # Tier
-          - TIER_1
+        BountyHuntingAbility: []
         HeroBonusAbility:
-          - TIER_1
           - DMG
-        DirectAttackAbility:
-          - TIER_1
-        ProjectileAttackAbility:
-          - TIER_1
+          - 0.15
+        DirectAttackAbility: []
+        ProjectileAttackAbility: []
         GalvanizeAbility:
-          - TIER_1
+          - 150
+          - 5.0
+          - 1.0
       size:
         width: 1
         height: 1
@@ -199,18 +235,16 @@ defenders:
     LEGOLAS:
       name: "Legolas"
       abilities:
-        BountyHuntingAbility:
-          # Tier
-          - TIER_1
+        BountyHuntingAbility: []
         HeroBonusAbility:
-          - TIER_1
           - ATK_SPD
-        DirectAttackAbility:
-          - TIER_1
-        ProjectileAttackAbility:
-          - TIER_1
+          - 0.20
+        DirectAttackAbility: []
+        ProjectileAttackAbility: []
         EyesOfElvenAbility:
-          - TIER_1
+          - 150
+          - 5.0
+          - 0.75
       size:
         width: 1
         height: 1
@@ -224,18 +258,16 @@ defenders:
     GIMLI:
       name: "Gimli"
       abilities:
-        BountyHuntingAbility:
-          # Tier
-          - TIER_1
+        BountyHuntingAbility: []
         HeroBonusAbility:
-          - TIER_1
           - HP
-        DirectAttackAbility:
-          - TIER_1
-        ProjectileAttackAbility:
-          - TIER_1
+          - 0.25
+        DirectAttackAbility: []
+        ProjectileAttackAbility: []
         KillingSpreeHealingAbility:
-          - TIER_1
+          - 100
+          - 150
+          - 5.0
       size:
         width: 1
         height: 1
@@ -246,18 +278,18 @@ defenders:
         ATK_SPD: 0.6
         ATK_RANGE: 3
         SHOOT_RANGE: 6
+# Attackers statistics
 attackers:
+  # Basic attackers
   ORC_WARRIOR:
     name: "Guerrier Orc"
     abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
+      MoveToEndAbility: []
+      DirectAttackAbility: []
       OppressionAbility:
         - TIER_3
-        - NO_SPECIFICATION
+        - 10
+        - -0.35
     size:
       width: 0.5
       height: 0.5
@@ -285,16 +317,11 @@ attackers:
   ORC_BOMBER:
     name: "Orc Kamikaze"
     abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
-      SuicideBombingAbility:
-        - TIER_1
+      MoveToEndAbility: []
+      DirectAttackAbility: []
+      SuicideBombingAbility: []
       BombExplodeOnDeathAbility:
         - TIER_3
-        - NO_SPECIFICATION
     size:
       width: 0.5
       height: 0.5
@@ -303,41 +330,37 @@ attackers:
       DMG: 1000
       MVT_SPD: 1.5
       ATK_SPD: 1
-      ATK_RANGE: 1
-      SHOOT_RANGE: 1
+      ATK_RANGE: 0.75
+      SHOOT_RANGE: 1.5
       REWARD: 30
     tier2:
       HP: 950
       DMG: 1250
       MVT_SPD: 1.5
       ATK_SPD: 1
-      ATK_RANGE: 1
-      SHOOT_RANGE: 1
+      ATK_RANGE: 0.75
+      SHOOT_RANGE: 1.75
       REWARD: 45
     tier3:
       HP: 1200
       DMG: 1500
       MVT_SPD: 1.5
       ATK_SPD: 1
-      ATK_RANGE: 1
-      SHOOT_RANGE: 1
+      ATK_RANGE: 0.75
+      SHOOT_RANGE: 2
       REWARD: 70
   GOBLIN:
     name: "Gobelin"
     abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      ProjectileAttackAbility:
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
+      MoveToEndAbility: []
+      ProjectileAttackAbility: []
+      DirectAttackAbility: []
       GoldStealingAbility:
-        - TIER_1
         - [30, 60, 100]
       TickDamageProjectileAbility:
         - TIER_3
-        - NO_SPECIFICATION
+        - POISON
+        - 35
     size:
       width: 0.5
       height: 0.5
@@ -368,14 +391,10 @@ attackers:
   TROLL:
     name: "Troll"
     abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
+      MoveToEndAbility: []
+      DirectAttackAbility: []
       TauntAbility:
         - TIER_3
-        - NO_SPECIFICATION
     size:
       width: 0.75
       height: 0.75
@@ -403,16 +422,11 @@ attackers:
   URUK_HAI:
     name: "Uruk-Haï"
     abilities:
-      MoveToEndAbility:
-        # Tier
-        - TIER_1
-      DirectAttackAbility:
-        - TIER_1
-      AreaDirectAttackAbility:
-        - TIER_1
+      MoveToEndAbility: []
+      DirectAttackAbility: []
+      AreaDirectAttackAbility: []
       ShieldSpawningAbility:
         - TIER_3
-        - NO_SPECIFICATION
         - 0.5
     size:
       width: 0.5
@@ -438,61 +452,45 @@ attackers:
       ATK_SPD: 1
       ATK_RANGE: 2
       REWARD: 150
+  # Bosses statistics
   bosses:
     ISENGARD_TOWER:
       name: "Tour de l'Isengard"
       abilities:
-        MoveToEndAbility:
-          - TIER_1
+        MoveToEndAbility: []
         EntitySummoningAbility:
-          - TIER_1
-          - NO_SPECIFICATION
+          - 50
           - ORC_WARRIOR
-          - 20
+          - 5
         HealingAbility:
-          - TIER_1
-          - NO_SPECIFICATION
           - 0.05
-          - 10
-          - [3, 3.5, 4]
+          - 25
+          - [3.0, 3.5, 4.0]
       size:
         width: 1
         height: 1
       tier1:
         HP: 10000
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.5
-        ATK_RANGE: 3
+        MVT_SPD: 0.4
         REWARD: 1500
       tier2:
         HP: 12500
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.6
-        ATK_RANGE: 3.5
+        MVT_SPD: 0.4
         REWARD: 1750
       tier3:
         HP: 16250
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.7
-        ATK_RANGE: 4
+        MVT_SPD: 0.4
         REWARD: 2000
     MORDOR_TOWER:
       name: "Tour du Mordor"
       abilities:
-        MoveToEndAbility:
-          - TIER_1
+        MoveToEndAbility: []
         EntitySummoningAbility:
-          - TIER_1
-          - NO_SPECIFICATION
+          - 50
           - URUK_HAI
-          - 20
+          - 5
         SlowingAbility:
-          - TIER_1
-          - NO_SPECIFICATION
-          - 0.2
+          - 0.4
           - 30
           - [3, 3.5, 4]
         MordorLaserAbility:
@@ -507,38 +505,26 @@ attackers:
         height: 1
       tier1:
         HP: 20000
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.5
-        ATK_RANGE: 3
+        MVT_SPD: 0.45
         REWARD: 3000
       tier2:
         HP: 25000
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.6
-        ATK_RANGE: 3.5
+        MVT_SPD: 0.45
         REWARD: 3500
       tier3:
         HP: 32500
-        DMG: 0
-        MVT_SPD: 0
-        ATK_SPD: 0.7
-        ATK_RANGE: 4
+        MVT_SPD: 0.45
         REWARD: 4000
     GROND:
       name: "Tête de Loup (Grond)"
       abilities:
-        MoveToEndAbility:
-          - TIER_1
-        DirectAttackAbility:
-          - TIER_1
+        MoveToEndAbility: []
+        DirectAttackAbility: []
         GroundAttackAbility:
-          - TIER_1
-          - 5
-          - 30
+          - 10
+          - 50
           - [2, 3, 4]
-          - [2, 2, 2.5]
+          - [2.0, 2.0, 2.5]
       size:
         width: 1
         height: 1
@@ -566,14 +552,12 @@ attackers:
     SARUMAN:
       name: "Saroumane"
       abilities:
-        MoveToEndAbility:
-          - TIER_1
+        MoveToEndAbility: []
         ProjectileAttackAbility:
-          - TIER_1
-        ProjectileImmunityAbility:
-          - TIER_1
-        DebuffImmunityAbility:
-          - TIER_1
+          - ROCKBALL
+          - 5.0
+        ProjectileImmunityAbility: []
+        DebuffImmunityAbility: []
       size:
         width: 1
         height: 1
@@ -582,21 +566,21 @@ attackers:
         DMG: 800
         MVT_SPD: 0.6
         ATK_SPD: 0.8
-        ATK_RANGE: 0
+        SHOOT_RANGE: 10
         REWARD: 3000
       tier2:
         HP: 11000
         DMG: 1000
         MVT_SPD: 0.7
         ATK_SPD: 0.9
-        ATK_RANGE: 0
+        SHOOT_RANGE: 10
         REWARD: 3500
       tier3:
         HP: 14000
         DMG: 1200
         MVT_SPD: 0.8
         ATK_SPD: 1
-        ATK_RANGE: 0
+        SHOOT_RANGE: 10
         REWARD: 4000
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
@@ -612,3 +596,10 @@ projectiles:
       height: 0.25
     stats:
       MVT_SPD: 2
+  ROCKBALL:
+    name: "Rocher"
+    size:
+      width: 0.5
+      height: 0.5
+    stats:
+      MVT_SPD: 3.0

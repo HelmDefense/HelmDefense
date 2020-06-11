@@ -132,7 +132,7 @@ public class LivingEntity extends Entity {
 		this.flags &= ~flags;
 	}
 	
-	public void reverseFlags(int flags) {
+	public void toggleFlags(int flags) {
 		this.flags ^= flags;
 	}
 	
@@ -147,7 +147,7 @@ public class LivingEntity extends Entity {
 	
 	@ActionHandler
 	public void burn(GameTickAction action) {
-		if ( action.getTicks() % Statistic.FIRE_FREQUENCE == 0 )
+		if (this.testFlags(FIRE) && action.getTicks() % Statistic.FIRE_FREQUENCE == 0)
 			this.looseHp(Statistic.FIRE_DAMAGE, this);	
 	}
 	

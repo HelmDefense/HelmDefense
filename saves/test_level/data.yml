@@ -19,14 +19,16 @@ target:
 name: "Niveau de test"
 start-money: 999999
 waves:
-  - reward: 500
+  - name: "Vague 1"
+    reward: 500
     entities:
       0: ORC_WARRIOR
       20: ORC_WARRIOR
       50: ORC_WARRIOR
       75: ORC_WARRIOR
       100: ORC_WARRIOR
-  - reward: 1000
+  - name: "Vague 2"
+    reward: 1000
     entities:
       0: ORC_WARRIOR
       20: GOBLIN

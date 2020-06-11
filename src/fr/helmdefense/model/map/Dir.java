@@ -22,7 +22,11 @@ public enum Dir {
 	}
 	
 	public Location n(Location loc) {
-		return loc.copy().add(this.dx, this.dy);
+		return this.n(loc, 1);
+	}
+	
+	public Location n(Location loc, double f) {
+		return loc.copy().add(this.dx * f, this.dy * f);
 	}
 	
 	public int v() {

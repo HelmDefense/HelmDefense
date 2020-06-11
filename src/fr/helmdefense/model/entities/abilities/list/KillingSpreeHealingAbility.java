@@ -9,6 +9,7 @@ import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Tier;
+import fr.helmdefense.model.entities.utils.coords.Location;
 
 public class KillingSpreeHealingAbility extends Ability {
 	private LivingEntity entity;
@@ -44,7 +45,7 @@ public class KillingSpreeHealingAbility extends Ability {
 
 	@ActionHandler
 	public void onLivingEntityHeroPower(LivingEntityHeroPowerAction action) {
-		this.killingSpreeStart = action.getEntity().getLevel().getTicks();
+		this.killingSpreeStart = action.getEntity().getLevel().getGameloop().getTicks();
 		this.killed = 0;
 	}
 
@@ -57,10 +58,11 @@ public class KillingSpreeHealingAbility extends Ability {
 		int heal = this.killed * this.healPerKill;
 
 		LivingEntity ent;
+		Location loc = this.entity.getLoc();
 		for (Entity e : this.entity.getLevel().getEntities())
 			if (e instanceof LivingEntity
 					&& (ent = (LivingEntity) e).getType().getSide() == this.entity.getType().getSide()
-					&& e.getLoc().distance(this.entity.getLoc()) < this.radius)
+					&& e.getLoc().distance(loc) < this.radius)
 				ent.gainHp(heal, false);
 	}
 }

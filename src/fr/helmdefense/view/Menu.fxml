@@ -17,9 +17,7 @@
 		<HBox alignment="CENTER" spacing="35.0">
 			<children>
 				<ImageView fx:id="previousArrow"
-					onMouseClicked="#previousArrowClicked"
-					onMouseEntered="#previousArrowEntered"
-					onMouseExited="#previousArrowExited" fitHeight="64.0"
+					onMouseClicked="#previousArrowClicked" fitHeight="64.0"
 					fitWidth="64.0" opacity="0.75" pickOnBounds="true"
 					preserveRatio="true">
 					<image>
@@ -55,7 +53,7 @@
 								</VBox>
 								<VBox alignment="CENTER_LEFT" spacing="15.0">
 									<children>
-										<StackPane fx:id="upgradeHp">
+										<StackPane fx:id="upgradeHp" opacity="0.75">
 											<children>
 												<ImageView>
 													<image>
@@ -69,7 +67,7 @@
 												</ImageView>
 											</children>
 										</StackPane>
-										<StackPane fx:id="upgradeDmg">
+										<StackPane fx:id="upgradeDmg" opacity="0.75">
 											<children>
 												<ImageView>
 													<image>
@@ -100,10 +98,8 @@
 					</children>
 				</VBox>
 				<ImageView fx:id="nextArrow"
-					onMouseClicked="#nextArrowClicked"
-					onMouseEntered="#nextArrowEntered" onMouseExited="#nextArrowExited"
-					fitHeight="64.0" fitWidth="64.0" opacity="0.75" pickOnBounds="true"
-					preserveRatio="true">
+					onMouseClicked="#nextArrowClicked" fitHeight="64.0" fitWidth="64.0"
+					opacity="0.75" pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../../../../assets/models/right-arrow.png" />
 					</image>

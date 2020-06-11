@@ -3,10 +3,8 @@ package fr.helmdefense.model.entities.abilities.list;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
@@ -43,7 +41,7 @@ public class MordorLaserAbility extends Ability {
 		if( action.getEntity() instanceof LivingEntity) {
 			this.entity = (LivingEntity)action.getEntity();
 			this.radius = this.radiusList.get(this.entity.data().getTier().getNumberTier() - 1);
-			this.lastAttack = action.getEntity().getLevel().getTicks();
+			this.lastAttack = action.getEntity().getLevel().getGameloop().getTicks();
 		}
 	}
 	
@@ -57,8 +55,6 @@ public class MordorLaserAbility extends Ability {
 					.stream().
 					filter(e -> e instanceof LivingEntity && e.getLoc().distance(this.entity.getLoc()) <= this.radius).findFirst().get();
 			attack(victim, ticks);
-			
-		List<Hitbox> hitboxes = new ArrayList<Hitbox>();
 			
 			Hitbox laser = new Hitbox(entity.getLoc(), victim.getLoc());
 			for (Entity entityOnTheLine : action.getLvl().getEntities())

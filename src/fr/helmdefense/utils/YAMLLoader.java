@@ -36,7 +36,7 @@ public class YAMLLoader {
 		return new Level(lvl.getString("name"), loadMap(lvl), loadWaves(lvl), lvl.getInt("start-money"));
 	}
 	
-	private static GameMap loadMap(YAMLData lvl) {
+	public static GameMap loadMap(YAMLData lvl) {
 		List<List<Integer>> map = lvl.get("map");
 		int[][] tiles = new int[map.size()][map.get(0).size()];
 		for (int i = 0; i < map.size(); i++)
@@ -56,7 +56,7 @@ public class YAMLLoader {
 		List<Map<?, ?>> waves = lvl.get("waves");
 		return waves.stream()
 				.map(w -> new YAMLData(w))
-				.map(w -> new Wave(w.getInt("reward"), w.get("entities")))
+				.map(w -> new Wave(w.getString("name"), w.getInt("reward"), w.get("entities")))
 				.collect(Collectors.toList());
 	}
 	
@@ -78,7 +78,7 @@ public class YAMLLoader {
 		if (subsection != null) {
 			d = d.getData(subsection);
 			for (String path : d.getPaths()) {
-				constructEntityData(section + "." + subsection, path, d.getData(path), false);
+				constructEntityData(section + "." + subsection, path, d.getData(path), ! subsection.equals("heroes"));
 			}
 		}
 	}
@@ -154,7 +154,6 @@ public class YAMLLoader {
 		try {
 			return new YAMLData(YAML.load(new FileReader(file)));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			throw new YAMLLoadException("Cannot find file \"" + file + "\"!", e);
 		}
 	}
