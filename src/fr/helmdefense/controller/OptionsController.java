@@ -4,20 +4,33 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.controller.Controls.ControlsGroup;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class OptionsController implements Initializable {
 	private Controller main;
+	private Controls selectedControl;
+	private Button selectedButton;
 	
 	ScrollPane root;
 	
@@ -67,22 +80,71 @@ public class OptionsController implements Initializable {
 	@FXML
 	void restartLevelAction(ActionEvent event) {
 		this.main.restartLevel();
-		this.main.pauseButton.setText("Pause");
 	}
 
 	@FXML
 	void returnToMenuAction(ActionEvent event) {
 		this.main.returnToMenu();
 	}
+	
+	void handleKeyboardInput(KeyEvent event) {
+		if (this.selectedControl != null) {
+			this.selectedControl.setKey(event.getCode());
+			this.cancelControlSelection();
+		}
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.speedness.valueProperty().bindBidirectional(this.main.speedness.valueProperty());
+		
+		for (ControlsGroup group : ControlsGroup.values()) {
+			this.createControlsLine(group.getName(), null);
+			for (Controls control : Controls.inGroup(group))
+				this.createControlsLine(control.getName(), control);
+		}
+	}
+	
+	private void createControlsLine(String name, Controls control) {
+		Label label = new Label(name);
+		Region button;
+		
+		if (control != null) {
+			label.setFont(new Font(18));
+			button = new Button();
+			((Button) button).textProperty().bind(control.keyProperty().asString());
+			button.setOnMouseClicked(event -> {
+				this.cancelControlSelection();
+				this.selectedButton = (Button) button;
+				button.setBorder(new Border(new BorderStroke(Color.AQUA, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(3))));
+				this.selectedControl = control;
+				this.main.main.setOnMouseClicked(e -> this.cancelControlSelection());
+			});
+		}
+		else {
+			label.setFont(new Font("System Bold", 24));
+			button = new Region();
+		}
+		
+		label.setPrefHeight(30);
+		button.setPrefSize(75, 30);
+		this.controlsLabelBox.getChildren().add(label);
+		this.controlsButtonsBox.getChildren().add(button);
+	}
+	
+	private void cancelControlSelection() {
+		this.selectedControl = null;
+		this.main.main.setOnMouseClicked(null);
+		if (this.selectedButton != null) {
+			this.selectedButton.setBorder(null);
+			this.selectedButton = null;
+		}
 	}
 	
 	void show() {
 		this.main.main.setCenter(this.root);
 		Controller.setNodesVisibility(false, this.main.moneyBox, this.main.main.getLeft(), this.main.main.getRight(),
 				this.main.buyInfoLabel, this.main.pauseButton, this.main.speedBox, this.main.stepButton);
+		this.restartLevelButton.setDisable(! this.main.hasLevelLoaded());
 	}
 }

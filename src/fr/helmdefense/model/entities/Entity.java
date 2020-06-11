@@ -16,6 +16,7 @@ import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.AttributeModifier;
+import fr.helmdefense.model.entities.utils.DamageCause;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.coords.Hitbox;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -24,7 +25,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public abstract class Entity implements ActionListener {
+public abstract class Entity implements DamageCause, ActionListener {
 	private String id;
 	private EntityType type;
 	private Location loc;
@@ -55,10 +56,6 @@ public abstract class Entity implements ActionListener {
 	public void spawn(Level lvl) {
 		if (this.level != null || lvl.getEntities().contains(this))
 			return;
-		
-		Actions.registerListeners(this.abilities);
-		Actions.registerListeners(this);
-		
 		this.level = lvl;
 		
 		Actions.registerListeners(this.abilities);
@@ -72,6 +69,7 @@ public abstract class Entity implements ActionListener {
 		this.level = null;
 	}
 	
+	@Override
 	public void attack(LivingEntity victim) {
 		int hpBefore = victim.getHp();
 		int dmg = victim.looseHp((int) this.stat(Attribute.DMG), this);

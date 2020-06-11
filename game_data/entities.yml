@@ -207,6 +207,15 @@ defenders:
       SHOOT_RANGE: 12
       COST: 4000
       UNLOCK: 5000
+  DOOR:
+    name: "Porte fortifiée"
+    abilities:
+      # No abilities for doors
+    size:
+      width: 0.75
+      height: 0.75
+    stats:
+      # No stats for doors
   # Heroes default stats
   heroes:
     ARAGORN:
@@ -587,9 +596,11 @@ attackers:
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
       stats:
+        # Boss not yet implemented
     NAZGUL:
       name: "Nazgûl"
       stats:
+        # Boss not yet implemented
 projectiles:
   ARROW:
     name: "Flèche"

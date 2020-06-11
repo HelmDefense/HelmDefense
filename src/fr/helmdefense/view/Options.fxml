@@ -9,15 +9,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.BorderPane?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 	<content>
-		<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+		<VBox alignment="CENTER" maxHeight="1.7976931348623157E308"
+			maxWidth="1.7976931348623157E308">
 			<children>
-				<VBox alignment="CENTER" maxWidth="500.0" prefWidth="500.0" spacing="15.0">
+				<VBox alignment="CENTER" maxWidth="500.0" prefWidth="500.0"
+					spacing="15.0">
 					<children>
 						<BorderPane>
 							<left>
-								<VBox alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER">
+								<VBox alignment="CENTER_LEFT" spacing="10.0"
+									BorderPane.alignment="CENTER">
 									<children>
 										<Label prefHeight="45.0" text="Difficulté">
 											<font>
@@ -38,34 +42,48 @@
 								</VBox>
 							</left>
 							<right>
-								<VBox alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER">
+								<VBox alignment="CENTER_RIGHT" spacing="10.0"
+									BorderPane.alignment="CENTER">
 									<children>
-										<MenuButton fx:id="difficultyButton" mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
+										<MenuButton fx:id="difficultyButton"
+											mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
 											<items>
-												<RadioMenuItem fx:id="easyDifficulty" mnemonicParsing="false" selected="true" text="Facile">
+												<RadioMenuItem fx:id="easyDifficulty"
+													mnemonicParsing="false" selected="true" text="Facile">
 													<toggleGroup>
 														<ToggleGroup fx:id="difficulty" />
 													</toggleGroup>
 												</RadioMenuItem>
-												<RadioMenuItem fx:id="normalDifficulty" mnemonicParsing="false" text="Normal" toggleGroup="$difficulty" />
-												<RadioMenuItem fx:id="hardDifficulty" mnemonicParsing="false" text="Difficile" toggleGroup="$difficulty" />
+												<RadioMenuItem fx:id="normalDifficulty"
+													mnemonicParsing="false" text="Normal"
+													toggleGroup="$difficulty" />
+												<RadioMenuItem fx:id="hardDifficulty"
+													mnemonicParsing="false" text="Difficile"
+													toggleGroup="$difficulty" />
 											</items>
 											<font>
 												<Font size="20.0" />
 											</font>
 										</MenuButton>
-										<Slider fx:id="speedness" blockIncrement="0.25" majorTickUnit="0.25" max="3.0" min="0.25" minorTickCount="0" prefHeight="45.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-										<MenuButton fx:id="gamemodeButton" mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
+										<Slider fx:id="speedness" blockIncrement="0.25"
+											majorTickUnit="0.25" max="3.0" min="0.25" minorTickCount="0"
+											prefHeight="45.0" prefWidth="300.0" showTickLabels="true"
+											showTickMarks="true" snapToTicks="true" value="1.0" />
+										<MenuButton fx:id="gamemodeButton"
+											mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
 											<font>
 												<Font size="20.0" />
 											</font>
 											<items>
-												<RadioMenuItem fx:id="normalGamemode" mnemonicParsing="false" selected="true" text="Mode normal">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="gamemode" />
-                                       </toggleGroup>
+												<RadioMenuItem fx:id="normalGamemode"
+													mnemonicParsing="false" selected="true" text="Mode normal">
+													<toggleGroup>
+														<ToggleGroup fx:id="gamemode" />
+													</toggleGroup>
 												</RadioMenuItem>
-												<RadioMenuItem fx:id="demoGamemode" mnemonicParsing="false" text="Mode démonstration" toggleGroup="$gamemode" />
+												<RadioMenuItem fx:id="demoGamemode"
+													mnemonicParsing="false" text="Mode démonstration"
+													toggleGroup="$gamemode" />
 											</items>
 										</MenuButton>
 									</children>
@@ -85,10 +103,12 @@
 						<Line endX="450.0" strokeWidth="3.0" />
 						<BorderPane>
 							<left>
-								<VBox fx:id="controlsLabelBox" alignment="CENTER_LEFT" spacing="10.0" BorderPane.alignment="CENTER" />
+								<VBox fx:id="controlsLabelBox" alignment="CENTER_LEFT"
+									spacing="10.0" BorderPane.alignment="CENTER" />
 							</left>
 							<right>
-								<VBox fx:id="controlsButtonsBox" alignment="CENTER_RIGHT" spacing="10.0" BorderPane.alignment="CENTER" />
+								<VBox fx:id="controlsButtonsBox" alignment="CENTER_RIGHT"
+									spacing="10.0" BorderPane.alignment="CENTER" />
 							</right>
 							<top>
 								<Label text="Contrôles" BorderPane.alignment="CENTER">
@@ -110,12 +130,16 @@
 								<Insets bottom="15.0" />
 							</VBox.margin>
 						</Label>
-						<Button fx:id="restartLevelButton" mnemonicParsing="false" onAction="#restartLevelAction" prefHeight="45.0" prefWidth="250.0" text="Recommencer le niveau">
+						<Button fx:id="restartLevelButton" mnemonicParsing="false"
+							onAction="#restartLevelAction" prefHeight="45.0"
+							prefWidth="250.0" text="Recommencer le niveau">
 							<font>
 								<Font size="20.0" />
 							</font>
 						</Button>
-						<Button mnemonicParsing="false" onAction="#returnToMenuAction" prefHeight="45.0" prefWidth="250.0" text="Retour au menu">
+						<Button mnemonicParsing="false"
+							onAction="#returnToMenuAction" prefHeight="45.0"
+							prefWidth="250.0" text="Retour au menu">
 							<font>
 								<Font size="20.0" />
 							</font>

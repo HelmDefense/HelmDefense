@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity.living;
 
-import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.utils.DamageCause;
 
 /**
  * Action triggered when a living entity dies.
@@ -10,9 +10,9 @@ import fr.helmdefense.model.entities.living.LivingEntity;
  * @see		LivingEntityAction
  */
 public class LivingEntityDeathAction extends LivingEntityAction {
-	private Entity killer;
+	private DamageCause killer;
 	
-	public LivingEntityDeathAction(LivingEntity entity, Entity killer) {
+	public LivingEntityDeathAction(LivingEntity entity, DamageCause killer) {
 		super(entity);
 		this.killer = killer;
 	}
@@ -20,11 +20,11 @@ public class LivingEntityDeathAction extends LivingEntityAction {
 	/**
 	 * Return the killer.
 	 * 
-	 * @return	The {@link Entity} that killed the
+	 * @return	The {@link DamageCause} that killed the
 	 * 			{@link LivingEntity} involved in this
 	 * 			action.
 	 */
-	public Entity getAttacker() {
+	public DamageCause getAttacker() {
 		return this.killer;
 	}
 }

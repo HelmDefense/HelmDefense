@@ -1,7 +1,7 @@
 package fr.helmdefense.model.actions.entity.living;
 
-import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
+import fr.helmdefense.model.entities.utils.DamageCause;
 
 /**
  * Action triggered when a living entity receive damage.
@@ -10,11 +10,11 @@ import fr.helmdefense.model.entities.living.LivingEntity;
  * @see		LivingEntityAction
  */
 public class LivingEntityDamagedAction extends LivingEntityAction {
-	private Entity attacker;
+	private DamageCause attacker;
 	private int hpBefore;
 	private int dmg;
 	
-	public LivingEntityDamagedAction(LivingEntity entity, Entity attacker, int hpBefore, int dmg) {
+	public LivingEntityDamagedAction(LivingEntity entity, DamageCause attacker, int hpBefore, int dmg) {
 		super(entity);
 		this.attacker = attacker;
 		this.hpBefore = hpBefore;
@@ -24,11 +24,11 @@ public class LivingEntityDamagedAction extends LivingEntityAction {
 	/**
 	 * Return the attacker.
 	 * 
-	 * @return	The {@link Entity} that inflict damage
+	 * @return	The {@link DamageCause} that inflict damage
 	 * 			to the {@link LivingEntity} involved in
 	 * 			this action.
 	 */
-	public Entity getAttacker() {
+	public DamageCause getAttacker() {
 		return this.attacker;
 	}
 	

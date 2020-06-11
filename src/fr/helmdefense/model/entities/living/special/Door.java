@@ -18,17 +18,26 @@ import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 
 public class Door extends LivingEntity {
+	private int initialHp;
 	private boolean isFinalDoor;
 	private List<LivingEntity> entityMarked;
 
-	public Door(LivingEntityType type, Location loc, int hp, Level lvl, boolean isFinalDoor) {
-		super(type, loc);
-		this.setHp(hp);
+	public Door(Location loc, int hp, boolean isFinalDoor) {
+		super(LivingEntityType.DOOR, loc);
+		this.initialHp = hp;
 		this.isFinalDoor = isFinalDoor;
 		this.entityMarked = new ArrayList<LivingEntity>();
-		this.addAbilities(new DeathAbility());
-		
-		this.spawn(lvl);
+		this.addAbilities(new DoorDestructedAbility());
+	}
+	
+	public Door(double x, double y, int hp, boolean isFinalDoor) {
+		this(new Location(x, y), hp, isFinalDoor);
+	}
+	
+	@Override
+	public void spawn(Level lvl) {
+		super.spawn(lvl);
+		this.setHp(this.initialHp);
 	}
 	
 	@ActionHandler
@@ -37,14 +46,17 @@ public class Door extends LivingEntity {
 			if (entity instanceof LivingEntity
 					&& entity.getHitbox().overlaps(this.getHitbox())) {
 				((LivingEntity) entity).addFlags(LivingEntity.IMMOBILE);
-				entityMarked.add((LivingEntity) entity);
+				this.entityMarked.add((LivingEntity) entity);
 			}
 		}
 	}
 	
-	public class DeathAbility extends Ability {
-		
-		public DeathAbility() {
+	public int getInitialHp() {
+		return this.initialHp;
+	}
+	
+	public class DoorDestructedAbility extends Ability {
+		public DoorDestructedAbility() {
 			super(Tier.DEFAULT, Tier.Specification.DEFAULT);
 		}
 
@@ -59,12 +71,8 @@ public class Door extends LivingEntity {
 			if (isFinalDoor) {
 				GameLooseAction looseAction = new GameLooseAction(getLevel());
 				
-				getLevel().end();
-				
 				Actions.trigger(looseAction);
 			}
 		}
-		
 	}
-	
 }

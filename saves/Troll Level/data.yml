@@ -18,6 +18,15 @@ start-money: 999999
 target:
   x: 15.5
   y: 5.5
+doors:
+- x: 11.5
+  y: 6.5
+  hp: 10000
+  final: false
+- x: 15.5
+  y: 5.5
+  hp: 20000
+  final: true
 waves:
 - entities:
     0: ORC_WARRIOR

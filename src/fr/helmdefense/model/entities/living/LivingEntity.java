@@ -7,7 +7,7 @@ import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.model.entities.utils.Statistic;
+import fr.helmdefense.model.entities.utils.DamageCause;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.level.Level;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -46,7 +46,7 @@ public class LivingEntity extends Entity {
 		return this.hpProperty.get();
 	}
 	
-	public int looseHp(int amount, Entity cause, boolean ignoreShield) {
+	public int looseHp(int amount, DamageCause cause, boolean ignoreShield) {
 		if (! this.isAlive())
 			return -1;
 		
@@ -68,20 +68,21 @@ public class LivingEntity extends Entity {
 		this.triggerAbilities(damage);
 		
 		if (! this.isAlive()) {
-			EntityKillAction kill = new EntityKillAction(cause, this);
-			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
-			
-			System.out.println("Entity #" + this.getId() + " (" + this.getType() + ") died");
 			this.delete();
 			
-			cause.triggerAbilities(kill);
+			if (cause instanceof Entity) {
+				EntityKillAction kill = new EntityKillAction((Entity) cause, this);
+				((Entity) cause).triggerAbilities(kill);
+			}
+			
+			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
 			this.triggerAbilities(death);
 		}
 		
 		return amount;
 	}
 	
-	public int looseHp(int amount, Entity cause) {
+	public int looseHp(int amount, DamageCause cause) {
 		return this.looseHp(amount, cause, false);
 	}
 	
@@ -156,11 +157,32 @@ public class LivingEntity extends Entity {
 	
 	@ActionHandler
 	public void tickDamage(GameTickAction action) {
-		if (this.testFlags(FIRE | POISON) && action.getTicks() % Statistic.TICK_DAMAGE_FREQUENCE == 0)
-			this.looseHp(Statistic.TICK_DAMAGE, this);	
+		if (this.testFlags(FIRE | POISON) && action.getTicks() % TickDamageCause.TICK_DAMAGE_FREQUENCE == 0)
+			TickDamageCause.getInstance().attack(this);
 	}
 	
 	public boolean isEnemy(LivingEntity other) {
 		return this.getType().getSide().isEnemy(other.getType().getSide());
+	}
+	
+	public static class TickDamageCause implements DamageCause {
+		private static TickDamageCause instance;
+		
+		public static final int TICK_DAMAGE = 50;
+		public static final double TICK_DAMAGE_FREQUENCE = 5;
+		
+		private TickDamageCause() {}
+		
+		public static TickDamageCause getInstance() {
+			if (instance == null)
+				instance = new TickDamageCause();
+			
+			return instance;
+		}
+		
+		@Override
+		public void attack(LivingEntity victim) {
+			victim.looseHp((int) TICK_DAMAGE, this);
+		}
 	}
 }
