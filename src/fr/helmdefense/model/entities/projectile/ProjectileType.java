@@ -4,12 +4,22 @@ import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.utils.EntityData;
 
 public enum ProjectileType implements EntityType {
-	ARROW,
-	ROCKBALL,
-	THROWING_AXE,
-	SMALL_FIREBALL;
+  // Classic projectiles
+	ARROW(SubType.CLASSIC),
+	ROCKBALL(SubType.CLASSIC),
+	THROWING_AXE(SubType.CLASSIC),
+	SMALL_FIREBALL(SubType.CLASSIC),
+  
+  // Trailing projectiles
+	LASER_BEAM(SubType.TRAILING);
 	
 	private EntityData data;
+	private SubType subType;
+	
+
+	private ProjectileType(SubType subType) {
+		this.subType = subType;
+	}
 	
 	@Override
 	public void setData(EntityData data) {
@@ -20,4 +30,14 @@ public enum ProjectileType implements EntityType {
 	public EntityData getData() {
 		return this.data;
 	}
+	
+	public SubType getSubType() {
+		return subType;
+	}
+
+	public enum SubType {
+		CLASSIC,
+		TRAILING;
+	}
 }
+

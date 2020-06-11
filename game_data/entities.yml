@@ -505,6 +505,12 @@ attackers:
         SlowingAbility:
           - 0.4
           - 30
+          - [3, 3.5, 4]
+        MordorLaserAbility:
+          - 1200
+          - 20
+          - 25
+          - [4, 5, 6]
       size:
         width: 1
         height: 1
@@ -629,4 +635,11 @@ projectiles:
       width: 0.25
       height: 0.25
     stats:
-      MVT_SPD: 5
+      MVT_SPD: 4
+  LASER_BEAM:
+    name: "Laser"
+    size:
+      width: 0.25
+      height: 0.25
+    stats:
+      MVT_SPD: 7
