@@ -603,3 +603,10 @@ projectiles:
       height: 0.5
     stats:
       MVT_SPD: 3.0
+  LASER_BEAM:
+    name: "Laser"
+    size:
+      width: 0.25
+      height: 0.25
+    stats:
+      MVT_SPD: 7
