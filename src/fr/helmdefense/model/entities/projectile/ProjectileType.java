@@ -17,4 +17,10 @@ public enum ProjectileType implements EntityType {
 	public EntityData getData() {
 		return this.data;
 	}
+
+	public enum SubType {
+		CLASSIC,
+		TRAILING;
+	}
 }
+
