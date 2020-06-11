@@ -13,6 +13,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
+import fr.helmdefense.model.entities.living.special.Door;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.EntityData;
 import fr.helmdefense.model.entities.utils.Statistic;
@@ -33,7 +34,7 @@ public class YAMLLoader {
 	
 	public static Level loadLevel(String name) {
 		YAMLData lvl = load(Paths.get(SAVES_FOLDER, name, "data.yml").toString());
-		return new Level(lvl.getString("name"), loadMap(lvl), loadWaves(lvl), lvl.getInt("start-money"));
+		return new Level(lvl.getString("name"), loadMap(lvl), loadDoors(lvl.get("doors")), loadWaves(lvl), lvl.getInt("start-money"));
 	}
 	
 	public static GameMap loadMap(YAMLData lvl) {
@@ -60,6 +61,19 @@ public class YAMLLoader {
 				.collect(Collectors.toList());
 	}
 	
+	private static List<Door> loadDoors(List<Map<String, ?>> doors) {
+		List<Door> doorList = new ArrayList<Door>();
+		for (Map<String, ?> door : doors)
+			doorList.add(new Door(
+					(double) door.get("x"),
+					(double) door.get("y"),
+					(int) door.get("hp"),
+					(boolean) door.get("final")
+			));
+		
+		return doorList;
+	}
+	
 	public static void loadEntityData() {
 		YAMLData data = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
 		
@@ -72,21 +86,21 @@ public class YAMLLoader {
 		YAMLData d = data.getData(section);
 		for (String path : d.getPaths()) {
 			if (! path.equals(subsection)) {
-				constructEntityData(section, path, d.getData(path), subsection != null);
+				constructEntityData(section, path, d.getData(path));
 			}
 		}
 		if (subsection != null) {
 			d = d.getData(subsection);
 			for (String path : d.getPaths()) {
-				constructEntityData(section + "." + subsection, path, d.getData(path), ! subsection.equals("heroes"));
+				constructEntityData(section + "." + subsection, path, d.getData(path));
 			}
 		}
 	}
 	
-	private static void constructEntityData(String path, String name, YAMLData data, boolean tiers) {
+	private static void constructEntityData(String path, String name, YAMLData data) {
 		Map<Tier, Statistic> stats = new HashMap<Tier, Statistic>();
 		
-		if (tiers)
+		if (data.getData("stats") == null)
 			for (Tier tier : Tier.values())
 				constructStats(stats, tier, data.getData("tier" + tier.getNumberTier()));
 		else

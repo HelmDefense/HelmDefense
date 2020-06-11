@@ -41,7 +41,7 @@ public class MordorLaserAbility extends Ability {
 		if( action.getEntity() instanceof LivingEntity) {
 			this.entity = (LivingEntity)action.getEntity();
 			this.radius = this.radiusList.get(this.entity.data().getTier().getNumberTier() - 1);
-			this.lastAttack = action.getEntity().getLevel().getTicks();
+			this.lastAttack = action.getEntity().getLevel().getGameloop().getTicks();
 		}
 	}
 	

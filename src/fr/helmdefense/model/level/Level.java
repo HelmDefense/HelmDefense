@@ -12,19 +12,21 @@ import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.living.LivingEntityType;
+import fr.helmdefense.model.entities.living.special.Door;
 import fr.helmdefense.model.entities.projectile.ProjectileType;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
+import javafx.collections.SetChangeListener;
 
 public class Level implements ActionListener {
 	private String name;
 	private GameMap map;
-	private ObservableList<Entity> entities;
+	private ObservableSet<Entity> entities;
+	private List<Door> doors;
 	private List<Wave> waves;
 	private int currentWave;
 	private GameLoop gameloop;
@@ -32,17 +34,16 @@ public class Level implements ActionListener {
 	private ReadOnlyIntegerWrapper purseProperty;
 	private Difficulty difficulty;
 	
-	public Level(String name, GameMap map, List<Wave> waves, int startMoney) {
+	public Level(String name, GameMap map, List<Door> doors, List<Wave> waves, int startMoney) {
 		this.name = name;
 		this.map = map;
-		this.entities = FXCollections.observableArrayList();
-		ListChangeListener<Entity> lcl = c -> {
-			while (c.next())
-				if (c.wasAdded())
-					for (Entity e : c.getAddedSubList())
-						e.triggerAbilities(new EntitySpawnAction(e));
+		this.entities = FXCollections.observableSet();
+		SetChangeListener<Entity> scl = c -> {
+			if (c.wasAdded())
+				c.getElementAdded().triggerAbilities(new EntitySpawnAction(c.getElementAdded()));
 		};
-		this.entities.addListener(lcl);
+		this.entities.addListener(scl);
+		this.doors = doors;
 		this.waves = waves;
 		this.currentWave = -1;
 		this.gameloop = new GameLoop(ticks -> {
@@ -50,10 +51,13 @@ public class Level implements ActionListener {
 		});
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
-		this.setDifficulty(Difficulty.HARD);
+		this.setDifficulty(Difficulty.DEFAULT);
 	}
 	
 	public void startLoop() {
+		for (Door door : this.doors)
+			door.spawn(this);
+		
 		this.gameloop.start();
 		
 		Actions.registerListeners(this);
@@ -66,9 +70,11 @@ public class Level implements ActionListener {
 			e.dispawn();
 		
 		for (LivingEntityType type : LivingEntityType.values())
-			type.getData().resetTiers();
+			if (type.getData() != null)
+				type.getData().resetTiers();
 		for (ProjectileType type : ProjectileType.values())
-			type.getData().resetTiers();
+			if (type.getData() != null)
+				type.getData().resetTiers();
 		
 		Actions.unregisterAllListeners();
 	}
@@ -112,12 +118,16 @@ public class Level implements ActionListener {
 		return this.map;
 	}
 	
-	public ObservableList<Entity> getEntities() {
+	public ObservableSet<Entity> getEntities() {
 		return this.entities;
 	}
 	
 	public List<Wave> getWaves() {
 		return this.waves;
+	}
+	
+	public Wave getCurrentWave() {
+		return this.currentWave < 0 || this.currentWave >= this.waves.size() ? null : this.waves.get(this.currentWave);
 	}
 	
 	public GameLoop getGameloop() {
@@ -165,7 +175,7 @@ public class Level implements ActionListener {
 		this.difficulty = difficulty == null ? Difficulty.DEFAULT : difficulty;
 		for (LivingEntityType type : LivingEntityType.values())
 			if (type.getSide() == EntitySide.ATTACKER)
-				type.getData().setTier(this.difficulty.getTier());
+				type.getData().setTier(this.difficulty.getTier(), this);
 	}
 	
 	@Override

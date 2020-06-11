@@ -24,13 +24,20 @@ public class MoveToEndAbility extends Ability {
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
 		this.entity = action.getEntity();
-		this.movingTo = this.entity.getLevel().getMap().getGraph().getCellAt(this.entity.getLoc()).getNext();
 	}
 	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if (this.entity == null || this.movingTo == null || (this.entity instanceof LivingEntity && ((LivingEntity) this.entity).testFlags(LivingEntity.IMMOBILE)))
+		if (this.entity == null || (this.entity instanceof LivingEntity && ((LivingEntity) this.entity).testFlags(LivingEntity.IMMOBILE)))
 			return;
+		
+		if (this.movingTo == null) {
+			this.movingTo = this.entity.getLevel().getMap().getGraph().getCellAt(this.entity.getLoc()).getNext();
+			if (this.movingTo == null) {
+				System.out.println("An enemy passed. Call Gandalf to prevent that");
+				return;
+			}
+		}
 		
 		Location loc = this.entity.getLoc(), l = this.movingTo.getLoc().center();
 		Vector v = new Vector(loc, l);

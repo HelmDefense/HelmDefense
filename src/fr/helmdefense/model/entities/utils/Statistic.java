@@ -7,8 +7,6 @@ public class Statistic {
 	private Map<Attribute, Double> stats;
 	
 	public static final double SHOOT_FACTOR = 0.75;
-	public static final int FIRE_DAMAGE = 200;
-	public static final double FIRE_FREQUENCE = 5;
 	
 	public Statistic() {
 		this.stats = new HashMap<Attribute, Double>();

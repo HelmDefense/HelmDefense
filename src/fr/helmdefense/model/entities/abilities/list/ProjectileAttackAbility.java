@@ -3,6 +3,7 @@ package fr.helmdefense.model.entities.abilities.list;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.projectile.ProjectileType;
+import fr.helmdefense.model.entities.projectile.TrailProjectile;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.Tier;
 
@@ -34,7 +35,14 @@ public class ProjectileAttackAbility extends AttackAbility {
 
 	@Override
 	protected void attack(LivingEntity enemy) {
-		new Projectile(this.projectile, this.entity, enemy.getLoc(), this.speed).spawn(this.entity.getLevel());
+		switch ( this.projectile.getSubType()) {
+		case CLASSIC :
+			new Projectile(this.projectile, this.entity, enemy.getLoc(), this.speed).spawn(this.entity.getLevel());
+			break;
+		case TRAILING :
+			new TrailProjectile(this.projectile, this.entity, enemy.getLoc(), this.speed);
+			break;
+		}
 	}
 	
 	@Override

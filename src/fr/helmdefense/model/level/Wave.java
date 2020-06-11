@@ -50,9 +50,14 @@ public class Wave implements ActionListener {
 			return;
 		this.lvl = lvl;
 		
-		System.out.println("A wave started");
+		System.out.println("The wave \"" + this.name + "\" started");
 		
 		Actions.registerListeners(this);
+	}
+	
+	public void addAlreadySpawnedEntity(Entity entity) {
+		this.entityCount++;
+		entity.addAbilities(new WaveDeathCountAbility());
 	}
 	
 	@ActionHandler
@@ -70,8 +75,8 @@ public class Wave implements ActionListener {
 		if (this.isEnded()) {
 			this.lvl.earnCoins(this.reward);
 			this.endTick = action.getTicks();
-			
-			System.out.println("A wave ended");
+
+			System.out.println("The wave \"" + this.name + "\" ended");
 			
 			Actions.unregisterListeners(this);
 		}

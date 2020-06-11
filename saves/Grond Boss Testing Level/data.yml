@@ -16,7 +16,16 @@ spawns:
 target:
   x: 15.5
   y: 5.5
-name: "Niveau de test"
+doors:
+  - x: 11.5
+    y: 6.5
+    hp: 10000
+    final: false
+  - x: 15.5
+    y: 5.5
+    hp: 20000
+    final: true
+name: "Niveau de test de Tête de Loup"
 start-money: 999999
 waves:
   - name: "Vague 1"
@@ -27,11 +36,15 @@ waves:
       50: ORC_WARRIOR
       75: ORC_WARRIOR
       100: ORC_WARRIOR
-  - name: "Vague 2"
-    reward: 1000
+  - name: "Vague de boss"
+    reward: 1250
     entities:
-      0: ORC_WARRIOR
-      20: GOBLIN
-      50: TROLL
-      75: URUK_HAI
-      100: ORC_BOMBER
+      0: TROLL
+      20: URUK_HAI
+      25: URUK_HAI
+      30: URUK_HAI
+      35: URUK_HAI
+      50: GROND
+      60: ORC_BOMBER
+      75: GOBLIN
+      85: ORC_BOMBER

@@ -56,9 +56,9 @@
 					prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
 					<children>
 						<Button fx:id="optionButton" mnemonicParsing="false"
-							onAction="#optionButtonAction" text="Options" />
+							onAction="#optionButtonAction" text="Options" prefWidth="75.0" />
 						<Button fx:id="pauseButton" mnemonicParsing="false"
-							onAction="#pauseButtonAction" text="Pause" />
+							onAction="#pauseButtonAction" text="Pause" prefWidth="75.0" />
 						<VBox fx:id="speedBox" alignment="CENTER" spacing="5.0">
 							<children>
 								<Label text="Multiplicateur de vitesse">
@@ -73,7 +73,7 @@
 							</children>
 						</VBox>
 						<Button fx:id="stepButton" onAction="#stepButtonAction"
-							text="Tick" disable="true" />
+							text="Tick" disable="true" prefWidth="75.0" />
 					</children>
 				</HBox>
 			</left>

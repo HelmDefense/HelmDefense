@@ -11,6 +11,7 @@ import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.utils.YAMLLoader;
 import fr.helmdefense.view.statbar.StatBar;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,11 +66,13 @@ public class MenuController implements Initializable {
 	Button mainButton;
 	@FXML
 	Button settings;
+	@FXML
+	Button quit;
 	
 	public MenuController(Controller main) {
 		this.main = main;
 		this.game = new HelmDefense();
-		this.levels = Paths.get(System.getProperty("user.dir"), YAMLLoader.SAVES_FOLDER).toFile().list();
+		this.levels = Paths.get(System.getProperty("user.dir"), YAMLLoader.SAVES_FOLDER).toFile().list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
 		this.selectedLevel = 0;
 		this.selectedHero = 0;
 		this.selectionMode = HERO_MODE;
@@ -136,6 +139,11 @@ public class MenuController implements Initializable {
 	@FXML
 	void settingsAction(ActionEvent event) {
 		this.main.getOptions().show();
+	}
+	
+	@FXML
+	void quitAction(ActionEvent event) {
+		Platform.exit();
 	}
 	
 	@Override
@@ -219,6 +227,6 @@ public class MenuController implements Initializable {
 		this.main.moneyLabel.textProperty().bind(this.game.starsProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "star.png"));
 		
-		this.main.creditsLabel.setOnMouseClicked(event -> this.main.startLevel("troll", this.selectedHero()));
+		this.main.creditsLabel.setOnMouseClicked(event -> this.main.startLevel("Troll Level", this.selectedHero()));
 	}
 }
