@@ -54,11 +54,7 @@ public class MordorLaserAbility extends Ability {
 			LivingEntity victim = (LivingEntity) action.getLvl().getEntities()
 					.stream().
 					filter(e -> e instanceof LivingEntity && e.getLoc().distance(this.entity.getLoc()) <= this.radius).findFirst().get();
-			
-			victim.looseHp(this.damages, this.entity);
-			victim.addFlags(LivingEntity.FIRE);
-			this.map.put(victim, ticks);
-			this.lastAttack = ticks;
+			attack(victim, ticks);
 			
 			Hitbox laser = new Hitbox(entity.getLoc(), victim.getLoc());
 			for (Entity entityOnTheLine : action.getLvl().getEntities())
@@ -74,6 +70,7 @@ public class MordorLaserAbility extends Ability {
 				it.remove();
 			}
 		}
+		this.lastAttack = ticks;
 	}
 
 	public void attack(LivingEntity victim,  long ticks) {
