@@ -25,7 +25,7 @@ public class MordorLaserAbility extends Ability {
 	private ArrayList<Double> radiusList;
 	private Map<LivingEntity, Long> map;
 	
-	public MordorLaserAbility(Tier unlock, Tier.Specification tierSpecification, Integer damages, Integer ticksBetweenTwoAttacks, ArrayList<Double> radius) {
+	public MordorLaserAbility(Tier unlock, Tier.Specification tierSpecification, Integer damages, Integer ticksBetweenTwoAttacks, Integer fireDuration, ArrayList<Double> radius) {
 		super(unlock, tierSpecification);
 		this.ticksBetweenTwoAttacks = ticksBetweenTwoAttacks;
 		this.map = new HashMap<LivingEntity, Long>();
@@ -33,6 +33,7 @@ public class MordorLaserAbility extends Ability {
 		this.damages = damages;
 		this.lastAttack = -1;
 		this.radius = -1;
+		this.fireDuration = fireDuration;
 	}
 
 	@ActionHandler
