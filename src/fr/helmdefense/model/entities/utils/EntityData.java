@@ -1,12 +1,16 @@
 package fr.helmdefense.model.entities.utils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.utils.coords.Hitbox.Size;
+import fr.helmdefense.model.level.Level;
 
 public class EntityData {
 	private String name;
@@ -75,22 +79,38 @@ public class EntityData {
 		return tier;
 	}
 
-	public void setTier(Tier tier) {
+	public void setTier(Tier tier, Level lvl) {
 		this.tier = tier;
+		this.respawnEntities(lvl);
 	}
 	
 	public Tier.Specification getTierSpecification() {
 		return this.tierSpecification;
 	}
 	
-	public void setTierSpecification(Tier.Specification tierSpecification) {
-		if (this.tier.hasSpecification())
+	public void setTierSpecification(Tier.Specification tierSpecification, Level lvl) {
+		if (this.tier.hasSpecification()) {
 			this.tierSpecification = tierSpecification;
+			this.respawnEntities(lvl);
+		}
 	}
 
 	public void resetTiers() {
 		this.tier = Tier.DEFAULT;
 		this.tierSpecification = Tier.Specification.DEFAULT;
+	}
+	
+	private void respawnEntities(Level level) {
+		Level lvl;
+		EntityType type = EntityType.getFromPath(this.path);
+		List<Entity> list = new ArrayList<Entity>(level.getEntities());
+		for (Entity entity : list)
+			if (entity.getType() == type) {
+				lvl = entity.getLevel();
+				entity.dispawn();
+				if (lvl != null)
+					entity.spawn(lvl);
+			}
 	}
 
 	@Override

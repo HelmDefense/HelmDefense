@@ -33,7 +33,7 @@ public class EntitySummoningAbility extends Ability {
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
 		if (action.getEntity() instanceof LivingEntity) {
-			this.entity = (LivingEntity)action.getEntity();
+			this.entity = (LivingEntity) action.getEntity();
 			this.start = this.entity.getLevel().getGameloop().getTicks();
 		}
 	}
@@ -42,13 +42,19 @@ public class EntitySummoningAbility extends Ability {
 	public void onDeath(LivingEntityDeathAction action) {
 		Location loc = action.getEntity().getLoc();
 		Level lvl = action.getEntity().getLevel();
-		for (int i = 0; i < this.numberOfEntitySpawnedOnDeath; i++)
-			new LivingEntity(this.type, loc).spawn(lvl);
+		for (int i = 0; i < this.numberOfEntitySpawnedOnDeath; i++) {
+			LivingEntity entity = new LivingEntity(this.type, loc);
+			entity.spawn(lvl);
+			lvl.getCurrentWave().addAlreadySpawnedEntity(entity);
+		}
 	}
 	
 	@ActionHandler
 	public void summonEntity(GameTickAction action) {
-		if (this.start != -1 && (action.getTicks() - this.start) % this.timeBetweenSpawn == 0)
-			new LivingEntity(this.type, this.entity.getLoc()).spawn(action.getLvl());
+		if (this.start != -1 && (action.getTicks() - this.start) % this.timeBetweenSpawn == 0) {
+			LivingEntity entity = new LivingEntity(this.type, this.entity.getLoc());
+			entity.spawn(action.getLvl());
+			action.getLvl().getCurrentWave().addAlreadySpawnedEntity(entity);
+		}
 	}
 }

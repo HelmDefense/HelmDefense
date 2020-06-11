@@ -4,8 +4,13 @@ import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.utils.EntityData;
 
 public enum ProjectileType implements EntityType {
+  // Classic projectiles
 	ARROW(SubType.CLASSIC),
 	ROCKBALL(SubType.CLASSIC),
+	THROWING_AXE(SubType.CLASSIC),
+	SMALL_FIREBALL(SubType.CLASSIC),
+  
+  // Trailing projectiles
 	LASER_BEAM(SubType.TRAILING);
 	
 	private EntityData data;

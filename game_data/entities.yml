@@ -207,6 +207,15 @@ defenders:
       SHOOT_RANGE: 12
       COST: 4000
       UNLOCK: 5000
+  DOOR:
+    name: "Porte fortifiée"
+    abilities:
+      # No abilities for doors
+    size:
+      width: 0.75
+      height: 0.75
+    stats:
+      # No stats for doors
   # Heroes default stats
   heroes:
     ARAGORN:
@@ -263,7 +272,9 @@ defenders:
           - HP
           - 0.25
         DirectAttackAbility: []
-        ProjectileAttackAbility: []
+        ProjectileAttackAbility:
+          - THROWING_AXE
+          - 4.0
         KillingSpreeHealingAbility:
           - 100
           - 150
@@ -465,21 +476,23 @@ attackers:
         HealingAbility:
           - 0.05
           - 25
-          - [3.0, 3.5, 4.0]
       size:
         width: 1
         height: 1
       tier1:
         HP: 10000
         MVT_SPD: 0.4
+        SHOOT_RANGE: 3
         REWARD: 1500
       tier2:
         HP: 12500
         MVT_SPD: 0.4
+        SHOOT_RANGE: 3.5
         REWARD: 1750
       tier3:
         HP: 16250
         MVT_SPD: 0.4
+        SHOOT_RANGE: 4
         REWARD: 2000
     MORDOR_TOWER:
       name: "Tour du Mordor"
@@ -494,8 +507,6 @@ attackers:
           - 30
           - [3, 3.5, 4]
         MordorLaserAbility:
-          - TIER_1
-          - NO_SPECIFICATION
           - 1200
           - 20
           - 25
@@ -506,25 +517,28 @@ attackers:
       tier1:
         HP: 20000
         MVT_SPD: 0.45
+        SHOOT_RANGE: 3
         REWARD: 3000
       tier2:
         HP: 25000
         MVT_SPD: 0.45
+        SHOOT_RANGE: 3.5
         REWARD: 3500
       tier3:
         HP: 32500
         MVT_SPD: 0.45
+        SHOOT_RANGE: 4
         REWARD: 4000
     GROND:
       name: "Tête de Loup (Grond)"
       abilities:
         MoveToEndAbility: []
         DirectAttackAbility: []
-        GroundAttackAbility:
-          - 10
+        GrondAttackAbility:
+          - 20
           - 50
-          - [2, 3, 4]
-          - [2.0, 2.0, 2.5]
+          - [4, 6, 8]
+          - [0.75, 1.0, 1.5]
       size:
         width: 1
         height: 1
@@ -532,21 +546,21 @@ attackers:
         HP: 25000
         DMG: 2000
         MVT_SPD: 0.2
-        ATK_SPD: 0.4
+        ATK_SPD: 0.5
         ATK_RANGE: 2
         REWARD: 3000
       tier2:
         HP: 30000
         DMG: 2750
         MVT_SPD: 0.3
-        ATK_SPD: 0.6
+        ATK_SPD: 0.5
         ATK_RANGE: 2
         REWARD: 3500
       tier3:
         HP: 37500
         DMG: 3500
         MVT_SPD: 0.35
-        ATK_SPD: 0.6
+        ATK_SPD: 0.5
         ATK_RANGE: 2.5
         REWARD: 4000
     SARUMAN:
@@ -554,8 +568,11 @@ attackers:
       abilities:
         MoveToEndAbility: []
         ProjectileAttackAbility:
-          - ROCKBALL
+          - SMALL_FIREBALL
           - 5.0
+        TickDamageProjectileAbility:
+          - FIRE
+          - 35
         ProjectileImmunityAbility: []
         DebuffImmunityAbility: []
       size:
@@ -585,9 +602,11 @@ attackers:
     ANGMAR_WITCH_KING:
       name: "Roi Sorcier d'Angmar"
       stats:
+        # Boss not yet implemented
     NAZGUL:
       name: "Nazgûl"
       stats:
+        # Boss not yet implemented
 projectiles:
   ARROW:
     name: "Flèche"
@@ -602,7 +621,21 @@ projectiles:
       width: 0.5
       height: 0.5
     stats:
-      MVT_SPD: 3.0
+      MVT_SPD: 3
+  THROWING_AXE:
+    name: "Hache de lancer"
+    size:
+      width: 0.25
+      height: 0.25
+    stats:
+      MVT_SPD: 4
+  SMALL_FIREBALL:
+    name: "Petite boule de feu"
+    size:
+      width: 0.25
+      height: 0.25
+    stats:
+      MVT_SPD: 4
   LASER_BEAM:
     name: "Laser"
     size:

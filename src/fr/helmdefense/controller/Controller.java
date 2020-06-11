@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.entities.living.special.Hero;
-import fr.helmdefense.model.level.GameLoop;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -77,13 +77,15 @@ public class Controller implements Initializable {
 
 	@FXML
 	void optionButtonAction(ActionEvent event) {
-		if (this.level != null) {
-			if (this.level.inOptions)
+		if (this.hasLevelLoaded()) {
+			if (this.level.inOptions) {
 				this.level.show();
+				this.optionButton.setText("Options");
+			}
 			else {
 				this.options.show();
-				if (this.level.getLvl().getGameloop().isPlaying())
-					this.togglePause();
+				this.optionButton.setText("Retour");
+				this.pause();
 			}
 			
 			this.level.inOptions = ! this.level.inOptions;
@@ -97,7 +99,7 @@ public class Controller implements Initializable {
 	
 	@FXML
 	void stepButtonAction(ActionEvent event) {
-		if (this.level != null)
+		if (this.hasLevelLoaded())
 			this.level.getLvl().getGameloop().step();
 	}
 
@@ -109,47 +111,75 @@ public class Controller implements Initializable {
 		this.primaryStage.setMaximized(true);
 		this.options = new OptionsController(this);
 		this.menu = new MenuController(this);
+		
+		this.main.addEventFilter(KeyEvent.ANY, event -> {
+			if (this.hasLevelLoaded() && ! this.level.inOptions)
+				this.level.handleKeyboardInput(event);
+			else
+				this.options.handleKeyboardInput(event);
+			
+			event.consume();
+		});
 	}
 	
 	void togglePause() {
-		if (this.level != null) {
-			GameLoop loop = this.level.getLvl().getGameloop();
-			if (loop.isPlaying()) {
-				loop.pause();
-				this.pauseButton.setText("Play");
-				this.stepButton.setDisable(false);
+		if (this.hasLevelLoaded()) {
+			if (this.level.getLvl().getGameloop().isPlaying()) {
+				this.pause();
 			}
 			else {
-				loop.resume();
-				this.pauseButton.setText("Pause");
-				this.stepButton.setDisable(true);
+				this.resume();
 			}
+		}
+	}
+	
+	void pause() {
+		if (this.hasLevelLoaded()) {
+			this.level.getLvl().getGameloop().pause();
+			this.pauseButton.setText("Play");
+			this.stepButton.setDisable(false);
+		}
+	}
+	
+	void resume() {
+		if (this.hasLevelLoaded()) {
+			this.level.getLvl().getGameloop().resume();
+			this.pauseButton.setText("Pause");
+			this.stepButton.setDisable(true);
 		}
 	}
 	
 	void startLevel(String name, Hero hero) {
 		this.level = new LevelController(this, name, hero);
 		this.level.start();
+		this.resume();
 	}
 	
 	void stopLevel() {
-		if (this.level != null) {
+		if (this.hasLevelLoaded()) {
 			this.level.stop();
 			this.level = null;
 		}
 	}
 	
 	void restartLevel() {
-		String name = this.level.getLevelName();
-		Hero hero = this.level.getHero();
-		this.stopLevel();
-		this.startLevel(name, hero);
+		if (this.hasLevelLoaded()) {
+			String name = this.level.getLevelName();
+			Hero hero = this.level.getHero();
+			this.stopLevel();
+			this.startLevel(name, hero);
+			this.resume();
+		}
 	}
 	
 	void returnToMenu() {
 		this.stopLevel();
 		this.menu.show();
 		setNodesVisibility(false, this.main.getLeft(), this.main.getRight());
+	}
+	
+	boolean hasLevelLoaded() {
+		return this.level != null;
 	}
 	
 	static void setNodesVisibility(boolean visibility, Node... nodes) {

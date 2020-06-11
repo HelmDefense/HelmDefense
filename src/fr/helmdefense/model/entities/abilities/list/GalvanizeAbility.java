@@ -29,12 +29,14 @@ public class GalvanizeAbility extends Ability {
 	@ActionHandler
 	public void onLivingEntityHeroPower(LivingEntityHeroPowerAction action) {
 		LivingEntity source = action.getEntity();
-		for (Entity entity : source.getLevel().getEntities()) {
-			if (entity instanceof LivingEntity
-					&& ((LivingEntity) entity).getType().getSide() == source.getType().getSide()
-					&& entity.getLoc().distance(source.getLoc()) < this.effectRange) {
-				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "Dmg", Attribute.DMG, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration));
-				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "AtkSpd", Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration));
+		if (source.getLevel() != null) {
+			for (Entity entity : source.getLevel().getEntities()) {
+				if (entity instanceof LivingEntity
+						&& ((LivingEntity) entity).getType().getSide() == source.getType().getSide()
+						&& entity.getLoc().distance(source.getLoc()) < this.effectRange) {
+					entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "Dmg", Attribute.DMG, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration));
+					entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName() + "AtkSpd", Attribute.ATK_SPD, Operation.MULTIPLY, this.value, source.getLevel().getGameloop().getTicks(), this.duration));
+				}
 			}
 		}
 	}

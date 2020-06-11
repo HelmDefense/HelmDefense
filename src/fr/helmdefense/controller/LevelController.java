@@ -8,13 +8,14 @@ import java.util.Set;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.ActionListener;
+import fr.helmdefense.model.actions.game.GameLooseAction;
 import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
-import fr.helmdefense.model.entities.living.LivingEntityType.SubType;
+import fr.helmdefense.model.entities.living.special.Door;
 import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Attribute;
@@ -31,8 +32,8 @@ import fr.helmdefense.view.statbar.StatBar;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ListChangeListener;
 import javafx.collections.MapChangeListener;
+import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -68,6 +69,7 @@ public class LevelController implements Initializable, ActionListener {
 	private Set<Controls> controlsPressed;
 	
 	boolean inOptions;
+	LivingEntity selectedEntity;
 	Pane levelPane;
 	TilePane mapPane;
 	ScrollPane rightPane;
@@ -211,6 +213,28 @@ public class LevelController implements Initializable, ActionListener {
 		System.out.println("Level " + levelName + " loaded with hero " + this.hero.getType());
 	}
 	
+	void handleKeyboardInput(KeyEvent event) {
+		Controls control = Controls.fromKeyCode(event.getCode());
+		boolean pressed = event.getEventType() == KeyEvent.KEY_PRESSED;
+		
+		if (pressed) {
+			if (this.controlsPressed.add(control)) {
+				switch (control) {
+				case TOGGLE_PAUSE:
+					this.main.togglePause();
+					break;
+				case HERO_POWER:
+					this.hero.usePower();
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		else
+			this.controlsPressed.remove(control);
+	}
+	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
 		if (this.controlsPressed.contains(Controls.HERO_UP))
@@ -231,6 +255,12 @@ public class LevelController implements Initializable, ActionListener {
 		}
 		this.main.levelNameLabel.setText(this.level.getName() + " - " + waveName);
 		this.main.primaryStage.setTitle(waveName + " - " + this.level.getName() + " - Helm Defense");
+	}
+	
+	@ActionHandler
+	public void onLoose(GameLooseAction action) {
+		this.main.levelNameLabel.setText(this.level.getName() + " - Défaite");
+		this.main.primaryStage.setTitle("Défaite - " + this.level.getName() + " - Helm Defense");
 	}
 	
 	@Override
@@ -266,29 +296,25 @@ public class LevelController implements Initializable, ActionListener {
 				this.mapPane.getChildren().add(Controller.getImgView("maptiles", this.level.getMap().getTile(x, y) + ".png"));
 		
 		// Entity listener
-		ListChangeListener<Entity> lcl = c -> {
-			while (c.next()) {
-				if (c.wasAdded()) {
-					for (Entity e : c.getAddedSubList()) {
-						ImageView img = Controller.getImgView("entities", Controller.pathToImgPath(e.data().getPath()));
-						img.setId(e.getId());
-						img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
-						img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
-						if (e instanceof LivingEntity) 
-							img.setOnMouseClicked(i -> displayStats((LivingEntity) e));
-						else if (e instanceof Projectile)
-							img.setRotate(((Projectile) e).angle() + 45);
-						this.levelPane.getChildren().add(img);
-					}
-				}
-				if (c.wasRemoved()) {
-					for (Entity e : c.getRemoved()) {
-						this.levelPane.getChildren().remove(this.levelPane.lookup("#" + e.getId()));
-					}
-				}
+		SetChangeListener<Entity> scl = c -> {
+			if (c.wasAdded()) {
+				Entity e = c.getElementAdded();
+				ImageView img = Controller.getImgView("entities", Controller.pathToImgPath(e.data().getPath()));
+				img.setId(e.getId());
+				img.visibleProperty().bind(e.visibleProperty());
+				img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
+				img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
+				if (e instanceof LivingEntity) 
+					img.setOnMouseClicked(i -> displayStats((LivingEntity) e));
+				else if (e instanceof Projectile)
+					img.setRotate(((Projectile) e).angle() + 45);
+				this.levelPane.getChildren().add(img);
+			}
+			if (c.wasRemoved()) {
+				this.levelPane.getChildren().remove(this.levelPane.lookup("#" + c.getElementRemoved().getId()));
 			}
 		};
-		this.level.getEntities().addListener(lcl);
+		this.level.getEntities().addListener(scl);
 		
 		// Inventory listener
 		MapChangeListener<LivingEntityType, IntegerProperty> mcl = c -> {
@@ -339,31 +365,6 @@ public class LevelController implements Initializable, ActionListener {
 		this.selectedAmountProperty.addListener((obs, o, n) -> {
 			updateBuyInfoLabel(n.intValue(), ((InventoryItem) this.inventory.getToggleGroup().getSelectedToggle()).getValue().getData().getName());
 		});
-		
-		// Controls listener
-		this.main.main.addEventFilter(KeyEvent.ANY, event -> {
-			Controls control = Controls.fromKeyCode(event.getCode());
-			boolean pressed = event.getEventType() == KeyEvent.KEY_PRESSED;
-			
-			if (pressed) {
-				if (this.controlsPressed.add(control)) {
-					switch (control) {
-					case TOGGLE_PAUSE:
-						this.main.togglePause();
-						break;
-					case HERO_POWER:
-						this.hero.usePower();
-						break;
-					default:
-						break;
-					}
-				}
-			}
-			else
-				this.controlsPressed.remove(control);
-			
-			event.consume();
-		});
 	}
 
 	private void setup() {
@@ -408,11 +409,22 @@ public class LevelController implements Initializable, ActionListener {
 	private void updateBuyInfoLabel(int amount, String entityName) {
 		this.main.buyInfoLabel.setText(entityName + " x" + amount + " - Clic gauche pour placer");
 	}
+	
+	protected void displayStats(EntityData data, LivingEntity entity) {
+		if (entity == null)
+			this.manageStats(data, null);
+		else
+			this.displayStats(entity);
+	}
 
 	private void displayStats(LivingEntity e) {
+		this.selectedEntity = e;
+		
 		// Current HP
 		EntityData data = e.data();
 		int entityMaxHp = (int) e.stat(Attribute.HP);
+		if (entityMaxHp == -1 && e instanceof Door)
+			entityMaxHp = ((Door) e).getInitialHp();
 		this.entityNameLabel.setText(data.getName());
 		this.entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
 
@@ -447,7 +459,7 @@ public class LevelController implements Initializable, ActionListener {
 	
 	private static void dispStat(StatBar bar, Label label, Label bonus, Attribute attr, EntityData data, LivingEntity entity) {
 		bar.setValue(data.getStats().get(attr));
-		if (entity == null || entity.getType().getSubType() == SubType.CLASSIC)
+		if (data.getStats(Tier.TIER_3) != null)
 			bar.setMax(data.getStats(Tier.TIER_3).get(attr));
 		else
 			bar.setMax(data.getStats().get(attr));
@@ -471,6 +483,8 @@ public class LevelController implements Initializable, ActionListener {
 		this.main.main.setCenter(this.levelPane);
 		Controller.setNodesVisibility(true, this.main.main.getRight(), this.main.main.getLeft(), this.main.buyInfoLabel,
 				this.main.moneyBox, this.main.pauseButton, this.main.speedBox, this.main.stepButton);
+		
+		this.main.creditsLabel.setOnMouseClicked(null);
 	}
 	
 	public void start() {

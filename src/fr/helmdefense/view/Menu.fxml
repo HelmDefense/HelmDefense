@@ -105,6 +105,9 @@
 					</image>
 				</ImageView>
 			</children>
+			<VBox.margin>
+				<Insets bottom="50.0" />
+			</VBox.margin>
 		</HBox>
 		<Button fx:id="mainButton" mnemonicParsing="false"
 			onAction="#mainAction" prefWidth="250.0" text="Choisir un niveau">
@@ -114,6 +117,12 @@
 		</Button>
 		<Button fx:id="settings" mnemonicParsing="false"
 			onAction="#settingsAction" prefWidth="250.0" text="Paramètres">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Button>
+		<Button fx:id="quit" mnemonicParsing="false"
+			onAction="#quitAction" prefWidth="250.0" text="Quitter le jeu">
 			<font>
 				<Font size="24.0" />
 			</font>
