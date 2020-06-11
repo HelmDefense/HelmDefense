@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.controller.Controls.ControlsGroup;
+import fr.helmdefense.model.level.Difficulty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -96,7 +97,12 @@ public class OptionsController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		this.easyDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.EASY));
+		this.normalDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.NORMAL));
+		this.hardDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.HARD));
 		this.speedness.valueProperty().bindBidirectional(this.main.speedness.valueProperty());
+//		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.NORMAL));
+//		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.DEMO));
 		
 		for (ControlsGroup group : ControlsGroup.values()) {
 			this.createControlsLine(group.getName(), null);
@@ -104,6 +110,14 @@ public class OptionsController implements Initializable {
 				this.createControlsLine(control.getName(), control);
 		}
 	}
+	
+	private void setDifficulty(Difficulty difficulty) {
+		
+	}
+	
+//	private void setGamemode(Gamemode mode) {
+//		
+//	}
 	
 	private void createControlsLine(String name, Controls control) {
 		Label label = new Label(name);
@@ -116,7 +130,7 @@ public class OptionsController implements Initializable {
 			button.setOnMouseClicked(event -> {
 				this.cancelControlSelection();
 				this.selectedButton = (Button) button;
-				button.setBorder(new Border(new BorderStroke(Color.AQUA, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(3))));
+				button.setBorder(new Border(new BorderStroke(Color.DODGERBLUE, BorderStrokeStyle.DASHED, CornerRadii.EMPTY, new BorderWidths(3))));
 				this.selectedControl = control;
 				this.main.main.setOnMouseClicked(e -> this.cancelControlSelection());
 			});
