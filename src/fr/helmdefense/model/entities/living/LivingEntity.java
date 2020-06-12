@@ -87,7 +87,7 @@ public class LivingEntity extends Entity {
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
-		if (! this.isAlive())
+		if (! this.isAlive() || amount < 0)
 			return;
 		
 		this.setHp(this.getHp() + amount);
