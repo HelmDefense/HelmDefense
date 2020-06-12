@@ -12,7 +12,7 @@ import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.level.Level;
-import fr.helmdefense.utils.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAMLLoader;
 
 class LivingEntityTest {
 	private static Level level;

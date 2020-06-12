@@ -1,12 +1,13 @@
 package fr.helmdefense.model.level;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.helmdefense.utils.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAMLLoader;
 
 class LevelTest {
 	private static Level level;
