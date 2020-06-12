@@ -68,15 +68,15 @@ public class LivingEntity extends Entity {
 		this.triggerAbilities(damage);
 		
 		if (! this.isAlive()) {
+			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
+			this.triggerAbilities(death);
+			
 			this.delete();
 			
 			if (cause instanceof Entity) {
 				EntityKillAction kill = new EntityKillAction((Entity) cause, this);
 				((Entity) cause).triggerAbilities(kill);
 			}
-			
-			LivingEntityDeathAction death = new LivingEntityDeathAction(this, cause);
-			this.triggerAbilities(death);
 		}
 		
 		return amount;
@@ -158,7 +158,7 @@ public class LivingEntity extends Entity {
 	@ActionHandler
 	public void tickDamage(GameTickAction action) {
 		if (this.testFlags(FIRE | POISON) && action.getTicks() % TickDamageCause.TICK_DAMAGE_FREQUENCE == 0)
-			TickDamageCause.getInstance().attack(this);
+			TickDamageCause.attackWithInstance(this);
 	}
 	
 	public boolean isEnemy(LivingEntity other) {
@@ -182,7 +182,33 @@ public class LivingEntity extends Entity {
 		
 		@Override
 		public void attack(LivingEntity victim) {
-			victim.looseHp((int) TICK_DAMAGE, this);
+			victim.looseHp(TICK_DAMAGE, this);
+		}
+		
+		public static void attackWithInstance(LivingEntity victim) {
+			getInstance().attack(victim);
+		}
+	}
+	
+	public static class DispawnDamageCause implements DamageCause {
+		private static DispawnDamageCause instance;
+		
+		private DispawnDamageCause() {}
+		
+		public static DispawnDamageCause getInstance() {
+			if (instance == null)
+				instance = new DispawnDamageCause();
+			
+			return instance;
+		}
+		
+		@Override
+		public void attack(LivingEntity victim) {
+			victim.looseHp(victim.getHp(), this, true);
+		}
+		
+		public static void attackWithInstance(LivingEntity victim) {
+			getInstance().attack(victim);
 		}
 	}
 }

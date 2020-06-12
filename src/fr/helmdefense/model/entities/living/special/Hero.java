@@ -1,6 +1,7 @@
 package fr.helmdefense.model.entities.living.special;
 
 import fr.helmdefense.model.actions.ActionHandler;
+import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityHeroPowerAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
@@ -91,6 +92,17 @@ public class Hero extends LivingEntity {
 		this.setShield(0);
 	}
 	
+	@Override
+	protected void delete() {
+		super.delete();
+		this.getModifiers().clear();
+		this.removeFlags(LivingEntity.ALL);
+		if (this.deathTick != -1) {
+			Actions.registerListeners(this);
+			System.out.println("Registered respawn");
+		}
+	}
+	
 	private void setupStatUpgradeModifiers() {
 		// Check for old modifiers
 		AttributeModifier hp = this.getModifier("HeroStatUpgradeHp"), dmg = this.getModifier("HeroStatUpgradeDmg");
@@ -106,13 +118,12 @@ public class Hero extends LivingEntity {
 		this.getModifiers().add(new AttributeModifier("HeroStatUpgradeDmg", Attribute.DMG, Operation.MULTIPLY, this.getDmgUpgrade()));
 	}
 	
-	@Override
-	public void delete() {
+	@ActionHandler
+	public void onDeath(LivingEntityDeathAction action) {
 		this.deathTick = this.getLevel().getGameloop().getTicks();
-		super.delete();
-		Actions.registerListeners(this);
 		this.getModifiers().clear();
 		this.removeFlags(LivingEntity.ALL);
+		System.out.println("Hero died");
 	}
 	
 	@ActionHandler
@@ -143,11 +154,5 @@ public class Hero extends LivingEntity {
 	
 	public final ReadOnlyDoubleProperty dmgUpgradeProperty() {
 		return this.dmgUpgradeProperty.getReadOnlyProperty();
-	}
-
-	@Override
-	public String toString() {
-		return "Hero [deathTick=" + deathTick + ", hpUpgrade=" + hpUpgradeProperty + ", dmgUpgrade="
-				+ dmgUpgradeProperty + "]";
 	}
 }

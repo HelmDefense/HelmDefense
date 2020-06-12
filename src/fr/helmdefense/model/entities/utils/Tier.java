@@ -9,6 +9,8 @@ public enum Tier {
 	private boolean specification;
 	
 	public static final Tier DEFAULT = TIER_1;
+	public static final Tier FIRST = TIER_1;
+	public static final Tier LAST = TIER_3;
 	
 	private Tier(int n, boolean specification) {
 		this.n = n;

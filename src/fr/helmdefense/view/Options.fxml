@@ -46,7 +46,8 @@
 									BorderPane.alignment="CENTER">
 									<children>
 										<MenuButton fx:id="difficultyButton"
-											mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
+											mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0"
+											text="Par défaut">
 											<items>
 												<RadioMenuItem fx:id="easyDifficulty"
 													mnemonicParsing="false" selected="true" text="Facile">
@@ -70,7 +71,8 @@
 											prefHeight="45.0" prefWidth="300.0" showTickLabels="true"
 											showTickMarks="true" snapToTicks="true" value="1.0" />
 										<MenuButton fx:id="gamemodeButton"
-											mnemonicParsing="false" prefHeight="45.0" text="Par défaut">
+											mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0"
+											text="Par défaut">
 											<font>
 												<Font size="20.0" />
 											</font>

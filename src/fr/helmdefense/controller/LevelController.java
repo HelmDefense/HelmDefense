@@ -13,6 +13,7 @@ import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.EntitySide;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Door;
@@ -30,10 +31,12 @@ import fr.helmdefense.view.inventory.InventoryView;
 import fr.helmdefense.view.inventory.item.InventoryItem;
 import fr.helmdefense.view.statbar.StatBar;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.MapChangeListener;
 import javafx.collections.SetChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,6 +52,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -67,9 +71,9 @@ public class LevelController implements Initializable, ActionListener {
 	private Circle shootRange;
 	private IntegerProperty selectedAmountProperty;
 	private Set<Controls> controlsPressed;
+	private LivingEntity selectedEntity;
 	
 	boolean inOptions;
-	LivingEntity selectedEntity;
 	Pane levelPane;
 	TilePane mapPane;
 	ScrollPane rightPane;
@@ -87,8 +91,12 @@ public class LevelController implements Initializable, ActionListener {
 	// Title
 	@FXML
 	Label entityNameLabel;
+	@FXML
+	VBox statsBox;
 
 	// Health bar
+	@FXML
+	HBox entityHealthBarBox;
 	@FXML
 	Label entityHealthPercentLabel;
 	@FXML
@@ -159,6 +167,14 @@ public class LevelController implements Initializable, ActionListener {
 	StatBar entityRewardBar;
 	@FXML
 	ImageView entityRewardCoin;
+	
+	// Interaction buttons
+	@FXML
+	HBox interactionBox;
+	@FXML
+	Button sellingButton;
+	@FXML
+	Button pickupButton;
 
 	// Description & Abilities
     @FXML
@@ -211,6 +227,22 @@ public class LevelController implements Initializable, ActionListener {
 		this.show();
 
 		System.out.println("Level " + levelName + " loaded with hero " + this.hero.getType());
+	}
+	
+	@FXML
+	void sellingAction(ActionEvent event) {
+		if (this.selectedEntity != null) {
+			this.level.earnCoins((int) (this.selectedEntity.stat(Attribute.COST) * this.selectedEntity.getHp() / this.selectedEntity.stat(Attribute.HP)));
+			this.selectedEntity.dispawn();
+		}
+	}
+	
+	@FXML
+	void pickupAction(ActionEvent event) {
+		if (this.selectedEntity != null && this.selectedEntity.getHp() == this.selectedEntity.stat(Attribute.HP)) {
+			this.level.getInv().addEntity(this.selectedEntity.getType());
+			this.selectedEntity.dispawn();
+		}
 	}
 	
 	void handleKeyboardInput(KeyEvent event) {
@@ -274,6 +306,7 @@ public class LevelController implements Initializable, ActionListener {
 		this.main.buyInfoLabel.setVisible(true);
 		this.main.buyInfoLabel.setText("Sélectionnez une entité dans l'inventaire pour la placer");
 		this.level.getGameloop().speednessProperty().bind(this.main.speedness.valueProperty());
+		this.stopDisplayStats();
 		this.setup();
 		
 		// Board view
@@ -305,12 +338,19 @@ public class LevelController implements Initializable, ActionListener {
 				img.translateXProperty().bind(e.xProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getWidth() / 2));
 				img.translateYProperty().bind(e.yProperty().multiply(GameMap.TILE_SIZE).subtract(img.getImage().getHeight() / 2));
 				if (e instanceof LivingEntity) 
-					img.setOnMouseClicked(i -> displayStats((LivingEntity) e));
+					img.setOnMouseClicked(event -> {
+						if (this.selectedEntity == e)
+							this.stopDisplayStats();
+						else
+							this.displayStats((LivingEntity) e);
+					});
 				else if (e instanceof Projectile)
 					img.setRotate(((Projectile) e).angle() + 45);
 				this.levelPane.getChildren().add(img);
 			}
 			if (c.wasRemoved()) {
+				if (this.selectedEntity == c.getElementRemoved())
+					this.stopDisplayStats();
 				this.levelPane.getChildren().remove(this.levelPane.lookup("#" + c.getElementRemoved().getId()));
 			}
 		};
@@ -339,6 +379,9 @@ public class LevelController implements Initializable, ActionListener {
 		
 		// Placing listener
 		this.levelPane.setOnMouseClicked(event -> {
+			if (this.main.getGamemode() == Controller.Gamemode.NORMAL && ! this.level.getGameloop().isPlaying())
+				return;
+			
 			InventoryItem item = (InventoryItem) this.inventory.getToggleGroup().getSelectedToggle();
 			if (item != null) {
 				LivingEntityType entity = item.getValue();
@@ -410,11 +453,11 @@ public class LevelController implements Initializable, ActionListener {
 		this.main.buyInfoLabel.setText(entityName + " x" + amount + " - Clic gauche pour placer");
 	}
 	
-	protected void displayStats(EntityData data, LivingEntity entity) {
-		if (entity == null)
+	protected void displayStats(EntityData data) {
+		if (this.selectedEntity == null)
 			this.manageStats(data, null);
 		else
-			this.displayStats(entity);
+			this.displayStats(this.selectedEntity);
 	}
 
 	private void displayStats(LivingEntity e) {
@@ -426,13 +469,18 @@ public class LevelController implements Initializable, ActionListener {
 		if (entityMaxHp == -1 && e instanceof Door)
 			entityMaxHp = ((Door) e).getInitialHp();
 		this.entityNameLabel.setText(data.getName());
-		this.entityHealthPercentLabel.textProperty().bind(e.hpProperty().multiply(100).divide(entityMaxHp).asString().concat("%"));
+		IntegerBinding health = e.hpProperty().multiply(100).divide(entityMaxHp);
+		this.entityHealthPercentLabel.textProperty().bind(health.asString().concat("%"));
 
 		this.entityHealthBar.setMax(entityMaxHp).valueProperty().bind(e.hpProperty());
 		this.entityHealthBonusLabel.textProperty().bind(Bindings.concat("+ ", e.shieldProperty()));
 		
+		this.interactionBox.setVisible(e.getType().getSide() == EntitySide.DEFENDER && e.getType().getSubType() == LivingEntityType.SubType.CLASSIC);
+		this.sellingButton.textProperty().bind(Bindings.concat("Revendre (", e.hpProperty().multiply((int) e.stat(Attribute.COST)).divide(entityMaxHp), ")"));
+		this.pickupButton.disableProperty().bind(health.lessThan(100));
+		
 		// Statistics
-		manageStats(data, e);
+		this.manageStats(data, e);
 
 		// Display range
 		this.atkRange.setRadius(e.stat(Attribute.ATK_RANGE) * GameMap.TILE_SIZE);
@@ -445,6 +493,9 @@ public class LevelController implements Initializable, ActionListener {
 	}
 	
 	protected void manageStats(EntityData data, LivingEntity entity) {
+		Controller.setNodesVisibility(true, this.entityHealthBarBox, this.statsBox, this.entityAtkRangeLabel,
+				this.entityDistRangeLabel);
+		
 		dispStat(this.entityHpBar, this.entityHpLabel, this.entityHpBonusLabel, Attribute.HP, data, entity);
 		dispStat(this.entityDmgBar, this.entityDmgLabel, this.entityDmgBonusLabel, Attribute.DMG, data, entity);
 		dispStat(this.entityMvtSpdBar, this.entityMvtSpdLabel, this.entityMvtSpdBonusLabel, Attribute.MVT_SPD, data, entity);
@@ -479,10 +530,17 @@ public class LevelController implements Initializable, ActionListener {
 			label.setVisible(true);
 	}
 	
+	private void stopDisplayStats() {
+		this.selectedEntity = null;
+		this.entityNameLabel.setText("Sélectionnez une entité");
+		Controller.setNodesVisibility(false, this.entityHealthBarBox, this.statsBox, this.entityAtkRangeLabel,
+				this.entityDistRangeLabel);
+	}
+	
 	void show() {
 		this.main.main.setCenter(this.levelPane);
 		Controller.setNodesVisibility(true, this.main.main.getRight(), this.main.main.getLeft(), this.main.buyInfoLabel,
-				this.main.moneyBox, this.main.pauseButton, this.main.speedBox, this.main.stepButton);
+				this.main.moneyBox, this.main.levelControlButtons);
 		
 		this.main.creditsLabel.setOnMouseClicked(null);
 	}
@@ -492,7 +550,7 @@ public class LevelController implements Initializable, ActionListener {
 		this.hero.spawn(this.level);
 		Actions.registerListeners(this);
 		
-		this.level.startLoop();
+		this.main.getGame().startLevel(this.level);
 	}
 	
 	public void stop() {

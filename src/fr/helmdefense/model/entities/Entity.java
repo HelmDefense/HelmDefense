@@ -65,7 +65,10 @@ public abstract class Entity implements DamageCause, ActionListener {
 	}
 	
 	public void dispawn() {
-		this.delete();
+		if (this instanceof LivingEntity)
+			LivingEntity.DispawnDamageCause.attackWithInstance((LivingEntity) this);
+		else
+			this.delete();
 		this.level = null;
 	}
 	
@@ -88,6 +91,7 @@ public abstract class Entity implements DamageCause, ActionListener {
 		Actions.trigger(action, this.abilities.stream()
 				.filter(ability -> ability.isUnlocked(this.data().getTier(), this.data().getTierSpecification()))
 				.collect(Collectors.toList()));
+		Actions.trigger(action, Arrays.asList(this));
 	}
 	
 	protected void delete() {
