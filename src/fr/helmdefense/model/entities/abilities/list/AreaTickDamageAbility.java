@@ -6,6 +6,7 @@ import java.util.Map;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
+import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.abilities.Ability;
@@ -62,5 +63,9 @@ public class AreaTickDamageAbility extends Ability {
 			}
 		}	
 	}
-
+	
+	@ActionHandler
+	public void onDeath(LivingEntityDeathAction action) {
+		this.map.forEach((entity, tick) -> entity.removeFlags(this.flag));
+	}
 }
