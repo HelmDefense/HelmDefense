@@ -97,10 +97,8 @@ public class Hero extends LivingEntity {
 		super.delete();
 		this.getModifiers().clear();
 		this.removeFlags(LivingEntity.ALL);
-		if (this.deathTick != -1) {
+		if (this.deathTick != -1)
 			Actions.registerListeners(this);
-			System.out.println("Registered respawn");
-		}
 	}
 	
 	private void setupStatUpgradeModifiers() {
@@ -123,7 +121,6 @@ public class Hero extends LivingEntity {
 		this.deathTick = this.getLevel().getGameloop().getTicks();
 		this.getModifiers().clear();
 		this.removeFlags(LivingEntity.ALL);
-		System.out.println("Hero died");
 	}
 	
 	@ActionHandler

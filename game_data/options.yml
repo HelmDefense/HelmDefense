@@ -1,0 +1,10 @@
+difficulty: EASY
+controls:
+  HERO_LEFT: LEFT
+  HERO_UP: UP
+  TOGGLE_PAUSE: ESCAPE
+  HERO_DOWN: DOWN
+  HERO_RIGHT: RIGHT
+  HERO_POWER: ENTER
+speedness: 1.0
+gamemode: NORMAL

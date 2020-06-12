@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.utils.Attribute;
-import fr.helmdefense.utils.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAML;
 import fr.helmdefense.view.statbar.StatBar;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -69,7 +69,7 @@ public class MenuController implements Initializable {
 	
 	public MenuController(Controller main) {
 		this.main = main;
-		this.levels = Paths.get(System.getProperty("user.dir"), YAMLLoader.SAVES_FOLDER).toFile().list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
+		this.levels = Paths.get(System.getProperty("user.dir"), YAML.SAVES_FOLDER).toFile().list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
 		this.selectedLevel = 0;
 		this.selectedHero = 0;
 		this.selectionMode = HERO_MODE;
@@ -209,15 +209,16 @@ public class MenuController implements Initializable {
 			this.selectedLevel = 0;
 		
 		this.currentLabel.setText(this.selectedLevel());
-		this.currentImage.setImage(new Image(Controller.path(YAMLLoader.SAVES_FOLDER, this.selectedLevel(), "icon.png")));
+		this.currentImage.setImage(new Image(Controller.path(YAML.SAVES_FOLDER, this.selectedLevel(), "icon.png")));
 	}
 	
 	void show() {
 		this.main.main.setCenter(this.root);
-
-		this.main.primaryStage.setTitle("Helm Defense");
 		
 		Controller.setNodesVisibility(false, this.main.controlButtons, this.main.buyInfoLabel);
+		this.main.primaryStage.titleProperty().unbind();
+		this.main.primaryStage.setTitle("HelmDefense");
+		this.main.levelNameLabel.textProperty().unbind();
 		this.main.levelNameLabel.setText("Lancez un niveau pour jouer !");
 		
 		this.main.moneyBox.setVisible(true);

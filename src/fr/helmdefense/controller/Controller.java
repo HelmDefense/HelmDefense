@@ -7,7 +7,12 @@ import java.util.ResourceBundle;
 
 import fr.helmdefense.model.HelmDefense;
 import fr.helmdefense.model.entities.living.special.Hero;
-import fr.helmdefense.utils.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAMLWriter;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +34,10 @@ public class Controller implements Initializable {
 	private OptionsController options;
 	private HelmDefense game;
 	private Gamemode gamemode;
+	private StringProperty windowNameProperty;
+	private StringProperty levelNameProperty;
+	private StringProperty waveNameProperty;
+	private IntegerProperty levelLivesProperty;
 	
 	Stage primaryStage;
 	
@@ -80,6 +89,10 @@ public class Controller implements Initializable {
 		YAMLLoader.loadEntityData();
 		
 		this.primaryStage = primaryStage;
+		this.windowNameProperty = new SimpleStringProperty("HelmDefense");
+		this.levelNameProperty = new SimpleStringProperty();
+		this.waveNameProperty = new SimpleStringProperty();
+		this.levelLivesProperty = new SimpleIntegerProperty();
 		this.game = new HelmDefense();
 		this.primaryStage.setTitle("Helm Defense");
 		this.primaryStage.getIcons().add(getImg("models", "icon.png"));
@@ -113,11 +126,20 @@ public class Controller implements Initializable {
 		if (this.hasLevelLoaded())
 			this.level.getLvl().getGameloop().step();
 	}
+	
+	public void closeHandler() {
+		YAMLWriter.saveOptions(this.options.getSelectedDifficulty(), this.speedness.getValue(), this.getGamemode());
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.options = new OptionsController(this);
 		this.menu = new MenuController(this);
+		
+		this.options.setDifficulty(YAMLLoader.loadDifficulty());
+		this.speedness.setValue(YAMLLoader.loadSpeedness());
+		this.options.setGamemode(YAMLLoader.loadGamemode());
+		YAMLLoader.applyControls();
 		
 		this.main.addEventFilter(KeyEvent.ANY, event -> {
 			if (this.hasLevelLoaded() && ! this.level.inOptions)
@@ -218,6 +240,54 @@ public class Controller implements Initializable {
 			this.stepButton.setVisible(true);
 			break;
 		}
+	}
+	
+	final String getWindowName() {
+		return this.windowNameProperty.get();
+	}
+	
+	final void setWindowName(String windowName) {
+		this.windowNameProperty.set(windowName);
+	}
+	
+	final StringProperty windowNameProperty() {
+		return this.windowNameProperty;
+	}
+	
+	final String getLevelName() {
+		return this.levelNameProperty.get();
+	}
+	
+	final void setLevelName(String levelName) {
+		this.levelNameProperty.set(levelName);
+	}
+	
+	final StringProperty levelNameProperty() {
+		return this.levelNameProperty;
+	}
+	
+	final String getWaveName() {
+		return this.waveNameProperty.get();
+	}
+	
+	final void setWaveName(String waveName) {
+		this.waveNameProperty.set(waveName);
+	}
+	
+	final StringProperty waveNameProperty() {
+		return this.waveNameProperty;
+	}
+	
+	final int getLevelLives() {
+		return this.levelLivesProperty.get();
+	}
+	
+	final void setLevelLives(int levelLives) {
+		this.levelLivesProperty.set(levelLives);
+	}
+	
+	final IntegerProperty levelLivesProperty() {
+		return this.levelLivesProperty;
 	}
 	
 	static String pathToImgPath(String path) {
