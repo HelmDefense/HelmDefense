@@ -70,7 +70,9 @@ public class Hero extends LivingEntity {
 		if (! this.isAlive())
 			return;
 		
-		this.teleport(dir.n(this.getLoc(), this.stat(Attribute.MVT_SPD) / GameLoop.TPS * this.getLevel().getGameloop().getSpeedness()));
+		Location loc = dir.n(this.getLoc(), this.stat(Attribute.MVT_SPD) / GameLoop.TPS * this.getLevel().getGameloop().getSpeedness());
+		if (loc.isInMap(this.getHitbox().getSize()))
+			this.teleport(loc);
 	}
 	
 	@Override
