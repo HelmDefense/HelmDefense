@@ -276,7 +276,8 @@ public class LevelController implements Initializable, ActionListener {
 					this.main.togglePause();
 					break;
 				case HERO_POWER:
-					this.hero.usePower();
+					if (this.level.getGameloop().isPlaying())
+						this.hero.usePower();
 					break;
 				default:
 					break;
@@ -589,6 +590,7 @@ public class LevelController implements Initializable, ActionListener {
 	}
 	
 	public void stop() {
+		this.hero.dispawn();
 		this.level.end();
 		this.level = null;
 	}
