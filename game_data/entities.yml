@@ -506,11 +506,6 @@ attackers:
           - 0.4
           - 30
           - [3.0, 3.5, 4.0]
-        MordorLaserAbility:
-          - 1200
-          - 20
-          - 25
-          - [4, 5, 6]
       size:
         width: 1
         height: 1
