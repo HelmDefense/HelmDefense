@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import fr.helmdefense.model.actions.ActionHandler;
+import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.entity.projectile.ProjectileEntityAttackAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.abilities.Ability;
@@ -34,7 +35,7 @@ public class TickDamageProjectileAbility extends Ability {
 	
 	@ActionHandler
 	public void onAttack(ProjectileEntityAttackAction action) {
-		if (this.flag == -1)
+		if (this.flag == -1 || ! action.getEntity().getSource().isAlive())
 			return;
 		
 		LivingEntity victim = action.getVictim();
@@ -55,5 +56,10 @@ public class TickDamageProjectileAbility extends Ability {
 				it.remove();
 			}
 		}
+	}
+	
+	@ActionHandler
+	public void onDeath(LivingEntityDeathAction action) {
+		this.map.forEach((entity, tick) -> entity.removeFlags(this.flag));
 	}
 }

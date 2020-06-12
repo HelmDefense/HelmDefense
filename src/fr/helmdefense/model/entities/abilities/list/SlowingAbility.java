@@ -47,7 +47,7 @@ public class SlowingAbility extends Ability {
 		for (Entity target : action.getLvl().getEntities()) {
 			if (target instanceof LivingEntity
 					&& ((LivingEntity) target).isEnemy(this.entity)
-					&& loc.distance(target.getLoc()) <= this.entity.stat(Attribute.SHOOT_RANGE)) {
+					&& loc.distance(target.getLoc()) <= this.entity.stat(Attribute.ATK_RANGE)) {
 				if ((mod = target.getModifier(this.getClass().getSimpleName())) == null)
 					target.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), Attribute.ATK_SPD, Operation.MULTIPLY, - this.slowingPercentage, action.getTicks(), this.effectDuration));	
 				else

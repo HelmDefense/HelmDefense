@@ -9,19 +9,7 @@ import fr.helmdefense.model.level.Level;
  * @see		GameAction
  */
 public class GameWinAction extends GameAction {
-	private int remainingDoors;
-	
-	public GameWinAction(Level lvl, int remainingDoors) {
+	public GameWinAction(Level lvl) {
 		super(lvl);
-		this.remainingDoors = remainingDoors;
-	}
-	
-	/**
-	 * Return the number of doors that are still alive.
-	 * 
-	 * @return	The number of doors that are still alive.
-	 */
-	public int getRemainingDoors() {
-		return this.remainingDoors;
 	}
 }

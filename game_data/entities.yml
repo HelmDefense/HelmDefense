@@ -276,7 +276,7 @@ defenders:
           - THROWING_AXE
           - 4.0
         KillingSpreeHealingAbility:
-          - 100
+          - 250
           - 150
           - 5.0
       size:
@@ -482,16 +482,19 @@ attackers:
       tier1:
         HP: 10000
         MVT_SPD: 0.4
+        ATK_RANGE: 2
         SHOOT_RANGE: 3
         REWARD: 1500
       tier2:
         HP: 12500
         MVT_SPD: 0.4
+        ATK_RANGE: 2.5
         SHOOT_RANGE: 3.5
         REWARD: 1750
       tier3:
         HP: 16250
         MVT_SPD: 0.4
+        ATK_RANGE: 3
         SHOOT_RANGE: 4
         REWARD: 2000
     MORDOR_TOWER:
@@ -505,24 +508,38 @@ attackers:
         SlowingAbility:
           - 0.4
           - 30
-          - [3.0, 3.5, 4.0]
+        ProjectileAttackAbility:
+          - LASER_BEAM
+        TickDamageProjectileAbility:
+          - FIRE
+          - 40
+        PiercingAbility: []
       size:
         width: 1
         height: 1
       tier1:
         HP: 20000
+        DMG: 0
         MVT_SPD: 0.45
-        SHOOT_RANGE: 3
+        ATK_SPD: 11
+        ATK_RANGE: 3
+        SHOOT_RANGE: 6
         REWARD: 3000
       tier2:
         HP: 25000
+        DMG: 0
         MVT_SPD: 0.45
-        SHOOT_RANGE: 3.5
+        ATK_SPD: 11
+        ATK_RANGE: 3.5
+        SHOOT_RANGE: 7
         REWARD: 3500
       tier3:
         HP: 32500
+        DMG: 0
         MVT_SPD: 0.45
-        SHOOT_RANGE: 4
+        ATK_SPD: 11
+        ATK_RANGE: 4
+        SHOOT_RANGE: 8
         REWARD: 4000
     GROND:
       name: "Tête de Loup (Grond)"
@@ -609,7 +626,7 @@ projectiles:
       width: 0.25
       height: 0.25
     stats:
-      MVT_SPD: 2
+      MVT_SPD: 4
   ROCKBALL:
     name: "Rocher"
     size:
@@ -623,7 +640,7 @@ projectiles:
       width: 0.25
       height: 0.25
     stats:
-      MVT_SPD: 4
+      MVT_SPD: 4.5
   SMALL_FIREBALL:
     name: "Petite boule de feu"
     size:
@@ -634,7 +651,7 @@ projectiles:
   LASER_BEAM:
     name: "Laser"
     size:
-      width: 0.25
-      height: 0.25
+      width: 0.5
+      height: 0.5
     stats:
-      MVT_SPD: 7
+      MVT_SPD: 10

@@ -5,7 +5,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import fr.helmdefense.model.HelmDefense;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.model.entities.utils.Attribute;
@@ -27,7 +26,6 @@ import javafx.scene.layout.VBox;
 
 public class MenuController implements Initializable {
 	private Controller main;
-	private HelmDefense game;
 	private String[] levels;
 	private int selectedLevel;
 	private int selectedHero;
@@ -71,7 +69,6 @@ public class MenuController implements Initializable {
 	
 	public MenuController(Controller main) {
 		this.main = main;
-		this.game = new HelmDefense();
 		this.levels = Paths.get(System.getProperty("user.dir"), YAMLLoader.SAVES_FOLDER).toFile().list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
 		this.selectedLevel = 0;
 		this.selectedHero = 0;
@@ -166,14 +163,14 @@ public class MenuController implements Initializable {
 		
 		// Upgrades initialization
 		this.upgradeHp.setOnMouseClicked(event -> {
-			if (this.game.removeStar())
+			if (this.main.getGame().removeStar())
 				this.selectedHero().upgradeHp();
 		});
 		this.upgradeHp.setOnMouseEntered(event -> this.upgradeHp.setOpacity(1));
 		this.upgradeHp.setOnMouseExited(event -> this.upgradeHp.setOpacity(0.75));
 		
 		this.upgradeDmg.setOnMouseClicked(event -> {
-			if (this.game.removeStar())
+			if (this.main.getGame().removeStar())
 				this.selectedHero().upgradeDmg();
 		});
 		this.upgradeDmg.setOnMouseEntered(event -> this.upgradeDmg.setOpacity(1));
@@ -181,7 +178,7 @@ public class MenuController implements Initializable {
 	}
 	
 	private Hero selectedHero() {
-		return this.game.getHero(LivingEntityType.HEROES[this.selectedHero]);
+		return this.main.getGame().getHero(LivingEntityType.HEROES[this.selectedHero]);
 	}
 	
 	private String selectedLevel() {
@@ -224,7 +221,7 @@ public class MenuController implements Initializable {
 		this.main.levelNameLabel.setText("Lancez un niveau pour jouer !");
 		
 		this.main.moneyBox.setVisible(true);
-		this.main.moneyLabel.textProperty().bind(this.game.starsProperty().asString());
+		this.main.moneyLabel.textProperty().bind(this.main.getGame().starsProperty().asString());
 		this.main.moneyImage.setImage(Controller.getImg("models", "star.png"));
 		
 		this.main.creditsLabel.setOnMouseClicked(event -> this.main.startLevel("Troll Level", this.selectedHero()));

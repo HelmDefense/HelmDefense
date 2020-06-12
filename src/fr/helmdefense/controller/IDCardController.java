@@ -146,7 +146,7 @@ public class IDCardController implements Initializable {
 		Tier next = data.getTier().next();
 		if (this.main.getLvl().debit((int) data.getStats(next).get(Attribute.UNLOCK))) {
 			data.setTier(next, this.main.getLvl());
-			this.main.displayStats(this.type.getData(), this.main.selectedEntity);
+			this.main.displayStats(this.type.getData());
 			updateUpgradeLabel();
 			updateCost(1);
 		}
@@ -169,7 +169,7 @@ public class IDCardController implements Initializable {
 			if (this.type.getData().getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					this.type.getData().setTierSpecification(Tier.Specification.A, this.main.getLvl());
-					this.main.displayStats(this.type.getData(), this.main.selectedEntity);
+					this.main.displayStats(this.type.getData());
 					this.main.unlockUpgradeButton.setDisable(true);
 				});
 			else
@@ -202,7 +202,7 @@ public class IDCardController implements Initializable {
 			if (this.type.getData().getTierSpecification() == Tier.Specification.DEFAULT)
 				this.main.unlockUpgradeButton.setOnMouseClicked(c -> {
 					this.type.getData().setTierSpecification(Tier.Specification.B, this.main.getLvl());
-					this.main.displayStats(this.type.getData(), this.main.selectedEntity);
+					this.main.displayStats(this.type.getData());
 					this.main.unlockUpgradeButton.setDisable(true);
 				});
 			else

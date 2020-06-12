@@ -20,11 +20,10 @@ doors:
   - x: 11.5
     y: 6.5
     hp: 10000
-    final: false
   - x: 15.5
     y: 5.5
     hp: 20000
-    final: true
+lives: 10
 name: "Niveau de test de Saroumane"
 start-money: 999999
 waves:

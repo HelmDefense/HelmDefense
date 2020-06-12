@@ -5,6 +5,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.model.HelmDefense;
 import fr.helmdefense.model.entities.living.special.Hero;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.event.ActionEvent;
@@ -26,6 +27,8 @@ public class Controller implements Initializable {
 	private LevelController level;
 	private MenuController menu;
 	private OptionsController options;
+	private HelmDefense game;
+	private Gamemode gamemode;
 	
 	Stage primaryStage;
 	
@@ -36,6 +39,8 @@ public class Controller implements Initializable {
 	// Controls buttons
 	@FXML
 	HBox controlButtons;
+	@FXML
+	HBox levelControlButtons;
 	@FXML
 	Button optionButton;
 	@FXML
@@ -72,7 +77,13 @@ public class Controller implements Initializable {
 	Label creditsLabel;
 	
 	public Controller(Stage primaryStage) {
+		YAMLLoader.loadEntityData();
+		
 		this.primaryStage = primaryStage;
+		this.game = new HelmDefense();
+		this.primaryStage.setTitle("Helm Defense");
+		this.primaryStage.getIcons().add(getImg("models", "icon.png"));
+		this.primaryStage.setMaximized(true);
 	}
 
 	@FXML
@@ -105,10 +116,6 @@ public class Controller implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		YAMLLoader.loadEntityData();
-		this.primaryStage.setTitle("Helm Defense");
-		this.primaryStage.getIcons().add(getImg("models", "icon.png"));
-		this.primaryStage.setMaximized(true);
 		this.options = new OptionsController(this);
 		this.menu = new MenuController(this);
 		
@@ -152,6 +159,7 @@ public class Controller implements Initializable {
 	void startLevel(String name, Hero hero) {
 		this.level = new LevelController(this, name, hero);
 		this.level.start();
+		this.level.getLvl().setDifficulty(this.options.getSelectedDifficulty());
 		this.resume();
 	}
 	
@@ -192,8 +200,32 @@ public class Controller implements Initializable {
 		return this.options;
 	}
 	
+	HelmDefense getGame() {
+		return this.game;
+	}
+	
+	Gamemode getGamemode() {
+		return this.gamemode;
+	}
+	
+	void setGamemode(Gamemode mode) {
+		this.gamemode = mode;
+		switch (mode) {
+		case NORMAL:
+			this.stepButton.setVisible(false);
+			break;
+		case DEMO:
+			this.stepButton.setVisible(true);
+			break;
+		}
+	}
+	
 	static String pathToImgPath(String path) {
-		return path.replace('.', File.separatorChar) + ".png";
+		return pathToImgPath(path, "");
+	}
+	
+	static String pathToImgPath(String path, String end) {
+		return path.replace('.', File.separatorChar) + end + ".png";
 	}
 
 	static ImageView getImgView(String... paths) {
@@ -213,5 +245,27 @@ public class Controller implements Initializable {
 	
 	static String path(String... paths) {
 		return Paths.get(System.getProperty("user.dir"), paths).toUri().toString();
+	}
+	
+	public enum Gamemode {
+		NORMAL("Normal"),
+		DEMO("Démonstration");
+		
+		private String name;
+		
+		public static final Gamemode DEFAULT = NORMAL;
+		
+		private Gamemode(String name) {
+			this.name = name;
+		}
+		
+		public String getName() {
+			return this.name;
+		}
+		
+		@Override
+		public String toString() {
+			return this.name;
+		}
 	}
 }

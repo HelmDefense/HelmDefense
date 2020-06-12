@@ -4,7 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import fr.helmdefense.model.actions.Action;
 import fr.helmdefense.model.actions.ActionHandler;
@@ -20,7 +23,7 @@ import fr.helmdefense.model.actions.ActionListener;
  * @see		AcionListener
  */
 public class Actions {
-	private static List<ActionListener> registeredListeners = new ArrayList<ActionListener>();
+	private static Set<ActionListener> registeredListeners = new HashSet<ActionListener>();
 	
 	private Actions() {}
 	
@@ -32,7 +35,7 @@ public class Actions {
 	 * @param listeners
 	 * 			The listeners that will handle action.
 	 */
-	public static void trigger(Action action, List<? extends ActionListener> listeners) {
+	public static void trigger(Action action, Collection<? extends ActionListener> listeners) {
 		List<ActionListener> list = new ArrayList<ActionListener>(listeners);
 		for (ActionListener a : list) {
 			Method[] actions = a.getClass().getMethods();
@@ -85,7 +88,7 @@ public class Actions {
 	 * @param listeners
 	 * 			The listeners to register.
 	 */
-	public static void registerListeners(List<? extends ActionListener> listeners) {
+	public static void registerListeners(Collection<? extends ActionListener> listeners) {
 		registeredListeners.addAll(listeners);
 	}
 	
@@ -111,7 +114,7 @@ public class Actions {
 	 * @param listeners
 	 * 			The listeners to unregister.
 	 */
-	public static void unregisterListeners(List<? extends ActionListener> listeners) {
+	public static void unregisterListeners(Collection<? extends ActionListener> listeners) {
 		registeredListeners.removeAll(listeners);
 	}
 	

@@ -16,20 +16,20 @@ public abstract class AttackAbility extends Ability {
 
 	public AttackAbility(Tier unlock, Tier.Specification tierSpecification) {
 		super(unlock, tierSpecification);
-		this.lastAtk = 0;
 	}
 
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
 		if (action.getEntity() instanceof LivingEntity) {
 			this.entity = (LivingEntity) action.getEntity();
+			this.lastAtk = 0;
 			this.init();
 		}
 	}
 
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if (this.entity == null)
+		if (this.entity == null || this.entity.getLevel() == null)
 			return;
 
 		LivingEntity enemy = this.getClosestEnemy();
@@ -48,7 +48,7 @@ public abstract class AttackAbility extends Ability {
 		for (Entity entity : this.entity.getLevel().getEntities()) {
 			if (entity instanceof LivingEntity
 					&& this.entity.isEnemy(testing = (LivingEntity) entity)
-					&& (d = entity.getLoc().distance(this.entity.getLoc())) < dMax
+					&& ((d = entity.getLoc().distance(this.entity.getLoc())) < dMax || testing.testFlags(LivingEntity.TAUNT))
 					&& this.canAttack(testing, d)
 					&& (! taunt || testing.testFlags(LivingEntity.TAUNT))) {
 				dMax = d;

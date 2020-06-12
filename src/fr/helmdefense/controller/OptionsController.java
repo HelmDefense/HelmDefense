@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.controller.Controller.Gamemode;
 import fr.helmdefense.controller.Controls.ControlsGroup;
 import fr.helmdefense.model.level.Difficulty;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class OptionsController implements Initializable {
 	private Controller main;
 	private Controls selectedControl;
 	private Button selectedButton;
+	private Difficulty selectedDifficulty;
 	
 	ScrollPane root;
 	
@@ -76,6 +78,8 @@ public class OptionsController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.setDifficulty(Difficulty.DEFAULT);
+		this.setGamemode(Gamemode.DEFAULT);
 	}
 
 	@FXML
@@ -101,8 +105,8 @@ public class OptionsController implements Initializable {
 		this.normalDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.NORMAL));
 		this.hardDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.HARD));
 		this.speedness.valueProperty().bindBidirectional(this.main.speedness.valueProperty());
-//		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.NORMAL));
-//		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.DEMO));
+		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.NORMAL));
+		this.demoGamemode.setOnAction(event -> this.setGamemode(Gamemode.DEMO));
 		
 		for (ControlsGroup group : ControlsGroup.values()) {
 			this.createControlsLine(group.getName(), null);
@@ -112,12 +116,14 @@ public class OptionsController implements Initializable {
 	}
 	
 	private void setDifficulty(Difficulty difficulty) {
-		
+		this.selectedDifficulty = difficulty;
+		this.difficultyButton.setText(difficulty.toString());
 	}
 	
-//	private void setGamemode(Gamemode mode) {
-//		
-//	}
+	private void setGamemode(Gamemode mode) {
+		this.main.setGamemode(mode);
+		this.gamemodeButton.setText(mode.toString());
+	}
 	
 	private void createControlsLine(String name, Controls control) {
 		Label label = new Label(name);
@@ -155,10 +161,15 @@ public class OptionsController implements Initializable {
 		}
 	}
 	
+	Difficulty getSelectedDifficulty() {
+		return this.selectedDifficulty;
+	}
+	
 	void show() {
 		this.main.main.setCenter(this.root);
 		Controller.setNodesVisibility(false, this.main.moneyBox, this.main.main.getLeft(), this.main.main.getRight(),
-				this.main.buyInfoLabel, this.main.pauseButton, this.main.speedBox, this.main.stepButton);
+				this.main.buyInfoLabel, this.main.levelControlButtons);
 		this.restartLevelButton.setDisable(! this.main.hasLevelLoaded());
+		this.difficultyButton.setDisable(this.main.hasLevelLoaded());
 	}
 }

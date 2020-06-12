@@ -34,7 +34,14 @@ public class YAMLLoader {
 	
 	public static Level loadLevel(String name) {
 		YAMLData lvl = load(Paths.get(SAVES_FOLDER, name, "data.yml").toString());
-		return new Level(lvl.getString("name"), loadMap(lvl), loadDoors(lvl.get("doors")), loadWaves(lvl), lvl.getInt("start-money"));
+		return new Level(
+				lvl.getString("name", "Niveau"),
+				loadMap(lvl),
+				loadDoors(lvl.get("doors")),
+				loadWaves(lvl.get("waves")),
+				lvl.getInt("start-money", 0),
+				lvl.getInt("lives", 0)
+		);
 	}
 	
 	public static GameMap loadMap(YAMLData lvl) {
@@ -53,8 +60,7 @@ public class YAMLLoader {
 				.collect(Collectors.toList());
 	}
 	
-	private static List<Wave> loadWaves(YAMLData lvl) {
-		List<Map<?, ?>> waves = lvl.get("waves");
+	private static List<Wave> loadWaves(List<Map<?, ?>> waves) {
 		return waves.stream()
 				.map(w -> new YAMLData(w))
 				.map(w -> new Wave(w.getString("name"), w.getInt("reward"), w.get("entities")))
@@ -67,8 +73,7 @@ public class YAMLLoader {
 			doorList.add(new Door(
 					(double) door.get("x"),
 					(double) door.get("y"),
-					(int) door.get("hp"),
-					(boolean) door.get("final")
+					(int) door.get("hp")
 			));
 		
 		return doorList;

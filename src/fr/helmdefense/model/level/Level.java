@@ -6,14 +6,19 @@ import java.util.List;
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
+import fr.helmdefense.model.actions.game.GameAttackerPassedAction;
+import fr.helmdefense.model.actions.game.GameLooseAction;
 import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
+import fr.helmdefense.model.actions.game.GameWinAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
+import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Door;
 import fr.helmdefense.model.entities.projectile.ProjectileType;
+import fr.helmdefense.model.entities.utils.DamageCause;
 import fr.helmdefense.model.map.GameMap;
 import fr.helmdefense.utils.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
@@ -33,8 +38,10 @@ public class Level implements ActionListener {
 	private Inventory inv;
 	private ReadOnlyIntegerWrapper purseProperty;
 	private Difficulty difficulty;
+	private ReadOnlyIntegerWrapper livesProperty;
+	private int totalLives;
 	
-	public Level(String name, GameMap map, List<Door> doors, List<Wave> waves, int startMoney) {
+	public Level(String name, GameMap map, List<Door> doors, List<Wave> waves, int startMoney, int lives) {
 		this.name = name;
 		this.map = map;
 		this.entities = FXCollections.observableSet();
@@ -52,6 +59,8 @@ public class Level implements ActionListener {
 		this.inv = new Inventory();
 		this.purseProperty = new ReadOnlyIntegerWrapper(startMoney);
 		this.setDifficulty(Difficulty.DEFAULT);
+		this.totalLives = lives;
+		this.livesProperty = new ReadOnlyIntegerWrapper(lives);
 	}
 	
 	public void startLoop() {
@@ -96,6 +105,22 @@ public class Level implements ActionListener {
 		}
 	}
 	
+	@ActionHandler
+	public void onAttackerPass(GameAttackerPassedAction action) {
+		if (action.getAttacker().getType().getSubType() == LivingEntityType.SubType.CLASSIC)
+			this.livesProperty.set(this.getLives() - 1);
+		else
+			this.livesProperty.set(-1);
+		
+		if (this.getLives() < 0) {
+			GameLooseAction loose = new GameLooseAction(this);
+			
+			this.gameloop.stop();
+			
+			Actions.trigger(loose);
+		}
+	}
+	
 	private void startWave(Wave o, Wave n) {
 		GameNewWaveAction wave = new GameNewWaveAction(this, o, n);
 		
@@ -104,6 +129,10 @@ public class Level implements ActionListener {
 			this.currentWave++;
 		}
 		else {
+			GameWinAction action = new GameWinAction(this);
+			
+			Actions.trigger(action);
+			
 			Actions.unregisterListeners(this);
 		}
 		
@@ -120,6 +149,14 @@ public class Level implements ActionListener {
 	
 	public ObservableSet<Entity> getEntities() {
 		return this.entities;
+	}
+	
+	public int getTotalDoors() {
+		return this.doors.size();
+	}
+	
+	public int getAliveDoors() {
+		return (int) this.doors.stream().filter(door -> door.isAlive()).count();
 	}
 	
 	public List<Wave> getWaves() {
@@ -178,6 +215,18 @@ public class Level implements ActionListener {
 				type.getData().setTier(this.difficulty.getTier(), this);
 	}
 	
+	public int getLives() {
+		return this.livesProperty.get();
+	}
+	
+	public ReadOnlyIntegerProperty livesProperty() {
+		return this.livesProperty.getReadOnlyProperty();
+	}
+	
+	public int getTotalLives() {
+		return this.totalLives;
+	}
+	
 	@Override
 	public String toString() {
 		return "Level [name=" + name + ", map=" + map + ", entities=" + entities + ", waves=" + waves + ", gameloop="
@@ -186,5 +235,27 @@ public class Level implements ActionListener {
 
 	public static Level load(String name) {
 		return YAMLLoader.loadLevel(name);
+	}
+	
+	public static class EndDamageCause implements DamageCause {
+		private static EndDamageCause instance;
+		
+		private EndDamageCause() {}
+		
+		public static EndDamageCause getInstance() {
+			if (instance == null)
+				instance = new EndDamageCause();
+			
+			return instance;
+		}
+		
+		@Override
+		public void attack(LivingEntity victim) {
+			victim.looseHp(victim.getHp(), this, true);
+		}
+		
+		public static void attackWithInstance(LivingEntity victim) {
+			getInstance().attack(victim);
+		}
 	}
 }

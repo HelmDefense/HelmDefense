@@ -2,8 +2,9 @@ package fr.helmdefense.model.entities.abilities.list;
 
 import fr.helmdefense.model.actions.ActionHandler;
 import fr.helmdefense.model.actions.entity.EntitySpawnAction;
+import fr.helmdefense.model.actions.game.GameAttackerPassedAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
-import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.LivingEntity;
 import fr.helmdefense.model.entities.utils.Attribute;
@@ -11,10 +12,11 @@ import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Location;
 import fr.helmdefense.model.entities.utils.coords.Vector;
 import fr.helmdefense.model.level.GameLoop;
+import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.map.Cell;
 
 public class MoveToEndAbility extends Ability {
-	private Entity entity;
+	private LivingEntity entity;
 	private Cell movingTo;
 	
 	public MoveToEndAbility(Tier unlock, Tier.Specification tierSpecification) {
@@ -23,18 +25,24 @@ public class MoveToEndAbility extends Ability {
 	
 	@ActionHandler
 	public void onSpawn(EntitySpawnAction action) {
-		this.entity = action.getEntity();
+		if (action.getEntity() instanceof LivingEntity)
+			this.entity = (LivingEntity) action.getEntity();
 	}
 	
 	@ActionHandler
 	public void onTick(GameTickAction action) {
-		if (this.entity == null || (this.entity instanceof LivingEntity && ((LivingEntity) this.entity).testFlags(LivingEntity.IMMOBILE)))
+		if (this.entity == null || this.entity.testFlags(LivingEntity.IMMOBILE))
 			return;
 		
 		if (this.movingTo == null) {
 			this.movingTo = this.entity.getLevel().getMap().getGraph().getCellAt(this.entity.getLoc()).getNext();
+			
 			if (this.movingTo == null) {
-				System.out.println("An enemy passed. Call Gandalf to prevent that");
+				GameAttackerPassedAction pass = new GameAttackerPassedAction(action.getLvl(), this.entity);
+				
+				Actions.trigger(pass);
+				
+				Level.EndDamageCause.attackWithInstance(this.entity);
 				return;
 			}
 		}
