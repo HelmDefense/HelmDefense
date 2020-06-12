@@ -416,9 +416,15 @@ public class LevelController implements Initializable, ActionListener {
 				LivingEntityType entity = item.getValue();
 				Location loc = new Location(event.getX() / GameMap.TILE_SIZE, event.getY() / GameMap.TILE_SIZE);
 				Hitbox hitbox = new Hitbox(loc, entity.getData().getSize());
+				
+				// Check if it overlaps other hitbox
 				for (Entity e : this.level.getEntities()) 
 					if (e.getHitbox().overlaps(hitbox)) 
 						return;
+				// Check if it is out of the map
+				if (! loc.isInMap(hitbox.getSize()))
+					return;
+				
 				new LivingEntity(entity, loc).spawn(this.level);
 				this.level.getInv().removeEntity(entity);
 			}

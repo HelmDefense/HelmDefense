@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities.utils.coords;
 
+import fr.helmdefense.model.entities.utils.coords.Hitbox.Size;
 import fr.helmdefense.model.map.GameMap;
 import javafx.beans.property.ReadOnlyDoubleWrapper;
 
@@ -69,7 +70,18 @@ public class Location implements Coords {
 	}
 	
 	public boolean isInMap() {
-		return this.getX() >= 0 && this.getX() < GameMap.WIDTH && this.getY() >= 0 && this.getY() < GameMap.HEIGHT;
+		return this.isInMap(null);
+	}
+	
+	public boolean isInMap(Size size) {
+		if (size == null)
+			return this.isInMap(0, 0);
+		else
+			return this.isInMap(size.getWidth() / 2, size.getHeight() / 2);
+	}
+	
+	private boolean isInMap(double dx, double dy) {
+		return this.getX() >= dx && this.getX() < GameMap.WIDTH - dx && this.getY() >= dy && this.getY() < GameMap.HEIGHT - dy;
 	}
 	
 	public Vector toVector() {

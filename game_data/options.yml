@@ -6,5 +6,5 @@ controls:
   HERO_DOWN: DOWN
   HERO_RIGHT: RIGHT
   HERO_POWER: ENTER
-speedness: 1.0
+speedness: 3.0
 gamemode: NORMAL
