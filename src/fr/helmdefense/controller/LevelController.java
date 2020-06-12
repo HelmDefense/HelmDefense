@@ -11,6 +11,7 @@ import fr.helmdefense.model.actions.ActionListener;
 import fr.helmdefense.model.actions.game.GameLooseAction;
 import fr.helmdefense.model.actions.game.GameNewWaveAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
+import fr.helmdefense.model.actions.game.GameWinAction;
 import fr.helmdefense.model.actions.utils.Actions;
 import fr.helmdefense.model.entities.Entity;
 import fr.helmdefense.model.entities.EntitySide;
@@ -54,12 +55,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.TextFlow;
 
 public class LevelController implements Initializable, ActionListener {
@@ -74,11 +77,15 @@ public class LevelController implements Initializable, ActionListener {
 	private LivingEntity selectedEntity;
 	
 	boolean inOptions;
+	StackPane boardPane;
 	Pane levelPane;
 	TilePane mapPane;
 	ScrollPane rightPane;
 	VBox entityIDCardList;
 	AnchorPane leftPane;
+	VBox gameRecapBox;
+	Label gameEndStatus;
+	Button gameFinishButton;
 	
 	/* Left Entity Infos */
 	@FXML
@@ -207,6 +214,19 @@ public class LevelController implements Initializable, ActionListener {
 		this.levelPane = new Pane(this.mapPane);
 		this.levelPane.setPrefSize(1024, 704);
 		
+		this.gameEndStatus = new Label("Fin de partie");
+		this.gameEndStatus.setFont(new Font(24));
+		this.gameFinishButton = new Button("Terminer");
+		this.gameFinishButton.setOnAction(event -> this.main.returnToMenu());
+		this.gameRecapBox = new VBox(30, this.gameEndStatus, this.gameFinishButton);
+		this.gameRecapBox.managedProperty().bind(this.gameRecapBox.visibleProperty());
+		this.gameRecapBox.setVisible(false);
+		this.gameRecapBox.setPadding(new Insets(15));
+		this.gameRecapBox.setStyle("-fx-background-color: -fx-color;");
+		this.gameRecapBox.setMaxSize(200, 150);
+		this.gameRecapBox.setAlignment(Pos.CENTER);
+		this.boardPane = new StackPane(this.levelPane, this.gameRecapBox);
+		
 		this.entityIDCardList = new VBox(25);
 		this.entityIDCardList.setAlignment(Pos.TOP_CENTER);
 		this.entityIDCardList.setPadding(new Insets(15));
@@ -256,7 +276,8 @@ public class LevelController implements Initializable, ActionListener {
 					this.main.togglePause();
 					break;
 				case HERO_POWER:
-					this.hero.usePower();
+					if (this.level.getGameloop().isPlaying())
+						this.hero.usePower();
 					break;
 				default:
 					break;
@@ -281,18 +302,24 @@ public class LevelController implements Initializable, ActionListener {
 	
 	@ActionHandler
 	public void onNewWave(GameNewWaveAction action) {
-		String waveName = "Terminé";
-		if (action.getNewWave() != null) {
-			waveName = action.getNewWave().getName();
-		}
-		this.main.levelNameLabel.setText(this.level.getName() + " - " + waveName);
-		this.main.primaryStage.setTitle(waveName + " - " + this.level.getName() + " - Helm Defense");
+		if (action.getNewWave() == null)
+			return;
+		
+		this.main.setWaveName(action.getNewWave().getName());
 	}
 	
 	@ActionHandler
 	public void onLoose(GameLooseAction action) {
-		this.main.levelNameLabel.setText(this.level.getName() + " - Défaite");
-		this.main.primaryStage.setTitle("Défaite - " + this.level.getName() + " - Helm Defense");
+		this.main.setWaveName("Défaite");
+		this.gameEndStatus.setText("Défaite");
+		this.gameRecapBox.setVisible(true);
+	}
+	
+	@ActionHandler
+	public void onWin(GameWinAction action) {
+		this.main.setWaveName("Victoire");
+		this.gameEndStatus.setText("Victoire");
+		this.gameRecapBox.setVisible(true);
 	}
 	
 	@Override
@@ -301,8 +328,11 @@ public class LevelController implements Initializable, ActionListener {
 		this.upgradeVBox.setVisible(false);
 		this.returnUpgradeButton.setOnMouseClicked(c -> this.upgradeVBox.setVisible(false));
 		this.main.controlButtons.setVisible(true);
-		this.main.levelNameLabel.setText(this.level.getName());
-		this.main.primaryStage.setTitle(this.level.getName() + " - Helm Defense");
+		this.main.primaryStage.titleProperty().bind(Bindings.concat(this.main.waveNameProperty(), " - ", this.main.levelNameProperty(), " (Défenses ", this.main.levelLivesProperty(), "%) - ", this.main.windowNameProperty()));
+		this.main.levelNameLabel.textProperty().bind(Bindings.concat(this.main.levelNameProperty(), " (Défenses ", this.main.levelLivesProperty(), "%) - ", this.main.waveNameProperty()));
+		this.main.setLevelName(this.level.getName());
+		this.main.levelLivesProperty().bind(this.level.livesProperty().multiply(100).divide(this.level.getTotalLives()));
+		this.main.setWaveName("Préparation");
 		this.main.buyInfoLabel.setVisible(true);
 		this.main.buyInfoLabel.setText("Sélectionnez une entité dans l'inventaire pour la placer");
 		this.level.getGameloop().speednessProperty().bind(this.main.speedness.valueProperty());
@@ -310,7 +340,7 @@ public class LevelController implements Initializable, ActionListener {
 		this.setup();
 		
 		// Board view
-		this.levelPane.setClip(new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE));
+		this.boardPane.setClip(new Rectangle(0, 0, GameMap.WIDTH * GameMap.TILE_SIZE, GameMap.HEIGHT * GameMap.TILE_SIZE));
 		
 		// Money loading
 		this.main.moneyBox.setVisible(true);
@@ -387,9 +417,15 @@ public class LevelController implements Initializable, ActionListener {
 				LivingEntityType entity = item.getValue();
 				Location loc = new Location(event.getX() / GameMap.TILE_SIZE, event.getY() / GameMap.TILE_SIZE);
 				Hitbox hitbox = new Hitbox(loc, entity.getData().getSize());
+				
+				// Check if it overlaps other hitbox
 				for (Entity e : this.level.getEntities()) 
 					if (e.getHitbox().overlaps(hitbox)) 
 						return;
+				// Check if it is out of the map
+				if (! loc.isInMap(hitbox.getSize()))
+					return;
+				
 				new LivingEntity(entity, loc).spawn(this.level);
 				this.level.getInv().removeEntity(entity);
 			}
@@ -538,7 +574,7 @@ public class LevelController implements Initializable, ActionListener {
 	}
 	
 	void show() {
-		this.main.main.setCenter(this.levelPane);
+		this.main.main.setCenter(this.boardPane);
 		Controller.setNodesVisibility(true, this.main.main.getRight(), this.main.main.getLeft(), this.main.buyInfoLabel,
 				this.main.moneyBox, this.main.levelControlButtons);
 		
@@ -554,6 +590,7 @@ public class LevelController implements Initializable, ActionListener {
 	}
 	
 	public void stop() {
+		this.hero.dispawn();
 		this.level.end();
 		this.level = null;
 	}

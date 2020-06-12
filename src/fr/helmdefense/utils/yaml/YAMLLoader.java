@@ -1,4 +1,4 @@
-package fr.helmdefense.utils;
+package fr.helmdefense.utils.yaml;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.yaml.snakeyaml.Yaml;
-
+import fr.helmdefense.controller.Controller.Gamemode;
+import fr.helmdefense.controller.Controls;
 import fr.helmdefense.model.entities.EntityType;
 import fr.helmdefense.model.entities.abilities.Ability;
 import fr.helmdefense.model.entities.living.special.Door;
@@ -20,20 +20,19 @@ import fr.helmdefense.model.entities.utils.Statistic;
 import fr.helmdefense.model.entities.utils.Tier;
 import fr.helmdefense.model.entities.utils.coords.Hitbox.Size;
 import fr.helmdefense.model.entities.utils.coords.Location;
+import fr.helmdefense.model.level.Difficulty;
 import fr.helmdefense.model.level.Level;
 import fr.helmdefense.model.level.Wave;
 import fr.helmdefense.model.map.GameMap;
+import javafx.scene.input.KeyCode;
 
 public class YAMLLoader {
-	private static final Yaml YAML = new Yaml();
-	
-	public static final String SAVES_FOLDER = "saves";
-	public static final String DATA_FOLDER = "game_data";
+	private static YAMLData loadedOptions;
 	
 	private YAMLLoader() {}
 	
 	public static Level loadLevel(String name) {
-		YAMLData lvl = load(Paths.get(SAVES_FOLDER, name, "data.yml").toString());
+		YAMLData lvl = load(Paths.get(YAML.SAVES_FOLDER, name, "data.yml").toString());
 		return new Level(
 				lvl.getString("name", "Niveau"),
 				loadMap(lvl),
@@ -80,7 +79,7 @@ public class YAMLLoader {
 	}
 	
 	public static void loadEntityData() {
-		YAMLData data = load(Paths.get(DATA_FOLDER, "entities.yml").toString());
+		YAMLData data = load(Paths.get(YAML.DATA_FOLDER, "entities.yml").toString());
 		
 		parseEntityData(data, "defenders", "heroes");
 		parseEntityData(data, "attackers", "bosses");
@@ -168,12 +167,61 @@ public class YAMLLoader {
 		
 		return list;
 	}
+
+	private static void loadOptions() {
+		loadedOptions = YAMLLoader.load(Paths.get(YAML.DATA_FOLDER, "options.yml").toString());
+	}
+	
+	public static void applyControls() {
+		if (loadedOptions == null)
+			loadOptions();
+		
+		YAMLData controls = loadedOptions.getData("controls");
+		for (String control : controls.getPaths()) {
+			try {
+				Controls.valueOf(control).setKey(KeyCode.valueOf(controls.getString(control)));
+			} catch (IllegalArgumentException e) {}
+		}
+	}
+	
+	public static Difficulty loadDifficulty() {
+		if (loadedOptions == null)
+			loadOptions();
+		
+		try {
+			return Difficulty.valueOf(loadedOptions.getString("difficulty"));
+		} catch (IllegalArgumentException e) {
+			return Difficulty.DEFAULT;
+		}
+	}
+	
+	public static double loadSpeedness() {
+		if (loadedOptions == null)
+			loadOptions();
+		
+		try {
+			return loadedOptions.getDouble("speedness");
+		} catch (IllegalArgumentException e) {
+			return 1;
+		}
+	}
+	
+	public static Gamemode loadGamemode() {
+		if (loadedOptions == null)
+			loadOptions();
+		
+		try {
+			return Gamemode.valueOf(loadedOptions.getString("gamemode"));
+		} catch (IllegalArgumentException e) {
+			return Gamemode.DEFAULT;
+		}
+	}
 	
 	public static YAMLData load(String file) {
 		try {
-			return new YAMLData(YAML.load(new FileReader(file)));
+			return new YAMLData(YAML.get().load(new FileReader(file)));
 		} catch (FileNotFoundException e) {
-			throw new YAMLLoadException("Cannot find file \"" + file + "\"!", e);
+			throw new YAMLException("Cannot find file \"" + file + "\"!", e);
 		}
 	}
 }

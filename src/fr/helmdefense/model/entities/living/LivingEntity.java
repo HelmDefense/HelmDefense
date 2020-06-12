@@ -6,6 +6,7 @@ import fr.helmdefense.model.actions.entity.living.LivingEntityDamagedAction;
 import fr.helmdefense.model.actions.entity.living.LivingEntityDeathAction;
 import fr.helmdefense.model.actions.game.GameTickAction;
 import fr.helmdefense.model.entities.Entity;
+import fr.helmdefense.model.entities.projectile.Projectile;
 import fr.helmdefense.model.entities.utils.Attribute;
 import fr.helmdefense.model.entities.utils.DamageCause;
 import fr.helmdefense.model.entities.utils.coords.Location;
@@ -75,7 +76,10 @@ public class LivingEntity extends Entity {
 			
 			if (cause instanceof Entity) {
 				EntityKillAction kill = new EntityKillAction((Entity) cause, this);
-				((Entity) cause).triggerAbilities(kill);
+				if (cause instanceof Projectile)
+					((Projectile) cause).getSource().triggerAbilities(kill);
+				else
+					((Entity) cause).triggerAbilities(kill);
 			}
 		}
 		

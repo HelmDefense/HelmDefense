@@ -70,7 +70,9 @@ public class Hero extends LivingEntity {
 		if (! this.isAlive())
 			return;
 		
-		this.teleport(dir.n(this.getLoc(), this.stat(Attribute.MVT_SPD) / GameLoop.TPS * this.getLevel().getGameloop().getSpeedness()));
+		Location loc = dir.n(this.getLoc(), this.stat(Attribute.MVT_SPD) / GameLoop.TPS * this.getLevel().getGameloop().getSpeedness());
+		if (loc.isInMap(this.getHitbox().getSize()))
+			this.teleport(loc);
 	}
 	
 	@Override
@@ -97,10 +99,8 @@ public class Hero extends LivingEntity {
 		super.delete();
 		this.getModifiers().clear();
 		this.removeFlags(LivingEntity.ALL);
-		if (this.deathTick != -1) {
+		if (this.deathTick != -1)
 			Actions.registerListeners(this);
-			System.out.println("Registered respawn");
-		}
 	}
 	
 	private void setupStatUpgradeModifiers() {
@@ -123,7 +123,6 @@ public class Hero extends LivingEntity {
 		this.deathTick = this.getLevel().getGameloop().getTicks();
 		this.getModifiers().clear();
 		this.removeFlags(LivingEntity.ALL);
-		System.out.println("Hero died");
 	}
 	
 	@ActionHandler

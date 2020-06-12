@@ -35,15 +35,22 @@ public class HeroBonusAbility extends Ability {
 			
 		for (Entity entity : action.getLvl().getEntities())
 			if (entity instanceof LivingEntity 
-					&& ((LivingEntity) entity).getType().getSide() == this.entitySide
-					&& entity.getModifier(this.getClass().getSimpleName()) == null)
-				entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), this.attr, Operation.MULTIPLY, this.pourcentValue));
+					&& ((LivingEntity) entity).getType().getSide() == this.entitySide)
+				this.addModifierToEntity(entity);
 	}
 	
 	@ActionHandler
 	public void onEntitySpawn(EntitySpawnAction action) {
-		if (action.getEntity() instanceof LivingEntity)
+		if (action.getEntity() instanceof LivingEntity) {
 			this.entitySide = ((LivingEntity) action.getEntity()).getType().getSide();
+			
+			this.addModifierToEntity(action.getEntity());
+		}
+	}
+	
+	private void addModifierToEntity(Entity entity) {
+		if (entity.getModifier(this.getClass().getSimpleName()) == null)
+			entity.getModifiers().add(new AttributeModifier(this.getClass().getSimpleName(), this.attr, Operation.MULTIPLY, this.pourcentValue));
 	}
 	
 	@ActionHandler

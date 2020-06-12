@@ -23,7 +23,7 @@ doors:
   - x: 15.5
     y: 5.5
     hp: 20000
-lives: 10
+lives: 5
 name: "Niveau de test classique"
 start-money: 999999
 waves:
