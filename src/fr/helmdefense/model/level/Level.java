@@ -20,7 +20,7 @@ import fr.helmdefense.model.entities.living.special.Door;
 import fr.helmdefense.model.entities.projectile.ProjectileType;
 import fr.helmdefense.model.entities.utils.DamageCause;
 import fr.helmdefense.model.map.GameMap;
-import fr.helmdefense.utils.YAMLLoader;
+import fr.helmdefense.utils.yaml.YAMLLoader;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.ReadOnlyIntegerWrapper;
 import javafx.collections.FXCollections;

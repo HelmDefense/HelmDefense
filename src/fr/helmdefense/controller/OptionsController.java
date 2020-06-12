@@ -101,12 +101,12 @@ public class OptionsController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.easyDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.EASY));
-		this.normalDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.NORMAL));
-		this.hardDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.HARD));
+		this.easyDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.EASY, false));
+		this.normalDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.NORMAL, false));
+		this.hardDifficulty.setOnAction(event -> this.setDifficulty(Difficulty.HARD, false));
 		this.speedness.valueProperty().bindBidirectional(this.main.speedness.valueProperty());
-		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.NORMAL));
-		this.demoGamemode.setOnAction(event -> this.setGamemode(Gamemode.DEMO));
+		this.normalGamemode.setOnAction(event -> this.setGamemode(Gamemode.NORMAL, false));
+		this.demoGamemode.setOnAction(event -> this.setGamemode(Gamemode.DEMO, false));
 		
 		for (ControlsGroup group : ControlsGroup.values()) {
 			this.createControlsLine(group.getName(), null);
@@ -115,14 +115,45 @@ public class OptionsController implements Initializable {
 		}
 	}
 	
-	private void setDifficulty(Difficulty difficulty) {
-		this.selectedDifficulty = difficulty;
-		this.difficultyButton.setText(difficulty.toString());
+	void setDifficulty(Difficulty difficulty) {
+		this.setDifficulty(difficulty, true);
 	}
 	
-	private void setGamemode(Gamemode mode) {
+	private void setDifficulty(Difficulty difficulty, boolean extern) {
+		this.selectedDifficulty = difficulty;
+		this.difficultyButton.setText(difficulty.toString());
+		if (extern) {
+			switch (difficulty) {
+			case EASY:
+				this.difficulty.selectToggle(this.easyDifficulty);
+				break;
+			case NORMAL:
+				this.difficulty.selectToggle(this.normalDifficulty);
+				break;
+			case HARD:
+				this.difficulty.selectToggle(this.hardDifficulty);
+				break;
+			}
+		}
+	}
+	
+	void setGamemode(Gamemode mode) {
+		this.setGamemode(mode, true);
+	}
+	
+	private void setGamemode(Gamemode mode, boolean extern) {
 		this.main.setGamemode(mode);
 		this.gamemodeButton.setText(mode.toString());
+		if (extern) {
+			switch (mode) {
+			case NORMAL:
+				this.gamemode.selectToggle(this.normalGamemode);
+				break;
+			case DEMO:
+				this.gamemode.selectToggle(this.demoGamemode);
+				break;
+			}
+		}
 	}
 	
 	private void createControlsLine(String name, Controls control) {
@@ -147,7 +178,7 @@ public class OptionsController implements Initializable {
 		}
 		
 		label.setPrefHeight(30);
-		button.setPrefSize(75, 30);
+		button.setPrefSize(150, 30);
 		this.controlsLabelBox.getChildren().add(label);
 		this.controlsButtonsBox.getChildren().add(button);
 	}

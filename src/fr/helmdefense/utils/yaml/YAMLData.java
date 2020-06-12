@@ -1,4 +1,4 @@
-package fr.helmdefense.utils;
+package fr.helmdefense.utils.yaml;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +54,7 @@ public class YAMLData {
 			return obj == null ? def : ((Number) obj).intValue();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			throw new YAMLLoadException("Cannot return data in specified format!", e);
+			throw new YAMLException("Cannot return data in specified format!", e);
 		}
 	}
 	
@@ -68,7 +68,7 @@ public class YAMLData {
 			return obj == null ? def : ((Number) obj).longValue();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			throw new YAMLLoadException("Cannot return data in specified format!", e);
+			throw new YAMLException("Cannot return data in specified format!", e);
 		}
 	}
 	
@@ -82,7 +82,7 @@ public class YAMLData {
 			return obj == null ? def : ((Number) obj).floatValue();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			throw new YAMLLoadException("Cannot return data in specified format!", e);
+			throw new YAMLException("Cannot return data in specified format!", e);
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class YAMLData {
 			return obj == null ? def : ((Number) obj).doubleValue();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			throw new YAMLLoadException("Cannot return data in specified format!", e);
+			throw new YAMLException("Cannot return data in specified format!", e);
 		}
 	}
 	
@@ -128,7 +128,7 @@ public class YAMLData {
 			return data == null ? def : new YAMLData(data);
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			throw new YAMLLoadException("Cannot return data in specified format!", e);
+			throw new YAMLException("Cannot return data in specified format!", e);
 		}
 	}
 	
