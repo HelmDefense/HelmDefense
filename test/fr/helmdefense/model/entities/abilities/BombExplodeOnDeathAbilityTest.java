@@ -39,7 +39,9 @@ class BombExplodeOnDeathAbilityTest {
 	void testBombExplodeOnDeathAbility() {
 		// Mort de bomber sous les coups de defenderA
 		bomber.looseHp(bomber.getHp(), defenderA);
+		// defenderA perd des Pv car il est dans la zone
 		assertEquals(defenderA.stat(Attribute.HP) - bomber.stat(Attribute.DMG), defenderA.getHp());
+		// defenderB ne perd rien car il est en dehors
 		assertEquals(defenderB.stat(Attribute.HP), defenderB.getHp());
 	}
 
