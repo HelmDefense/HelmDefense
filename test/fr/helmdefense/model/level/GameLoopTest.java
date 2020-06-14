@@ -7,20 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import fr.helmdefense.model.actions.game.GameTickAction;
-import fr.helmdefense.model.actions.utils.Actions;
-import fr.helmdefense.utils.yaml.YAMLLoader;
-
 class GameLoopTest {
 	private static GameLoop loop;
-	private static Level level;
 	
 	@BeforeEach
 	void setUpBeforeClass() throws Exception {
-		YAMLLoader.loadEntityData();
-		level = YAMLLoader.loadLevel("Troll Level");
-		loop = new GameLoop(ticks -> {
-			Actions.trigger(new GameTickAction(level, ticks));
+		loop = new GameLoop( t -> {
 		});
 	}
 
