@@ -24,8 +24,6 @@ class AreaAttackAbilityTest {
 	private static LivingEntity victimE;
 	private static LivingEntity victimF;
 	private static LivingEntity victimG;
-	
-	private static AreaAttackAbility ability;
 	private static Level level;
 
 	@BeforeAll
@@ -35,28 +33,29 @@ class AreaAttackAbilityTest {
 		/* ajout a entity l'abilité
 		 *de faire des dégats de zone dans un cercle de rayon 1 case autour de sa victime
 		 */
-		ability = new AreaDirectAttackAbility(Tier.TIER_1, Tier.Specification.NO_SPECIFICATION, 1d); 
+		AreaAttackAbility ability = new AreaDirectAttackAbility(Tier.TIER_1, Tier.Specification.NO_SPECIFICATION, 1d); 
 		entity = new LivingEntity(LivingEntityType.HUMAN_WARRIOR, 5, 5);
 		entity.addAbilities(ability); 
 		entityAlly = new LivingEntity(LivingEntityType.HUMAN_WARRIOR, 6, 7);
 		/* entityAlly est une unité du même camp que entity,
 		 * et ne doit pas être touché par l'attaque bien qu'elle soit dans la zone
 		 */
-		victimA = new LivingEntity(LivingEntityType.ORC_WARRIOR, 6, 6); 
+		double xA = 6, yA = 6;
+		victimA = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA, yA); 
 		/* victimA est la première victime de entity, c'est autour de cette dernière
 		 *  que les dégats de zone sont appliqués, il devient donc le centre du cercle de dégats
 		 */
-		victimB = new LivingEntity(LivingEntityType.ORC_WARRIOR, 6, 7);
+		victimB = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA, yA + 1);
 		// victimB est 1 case en dessous de victimA ; dans la zone
-		victimC = new LivingEntity(LivingEntityType.ORC_WARRIOR, 7, 6); 
+		victimC = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA + 1, yA); 
 		// victimC est 1 case à droite de victimA ; dans la zone
-		victimD = new LivingEntity(LivingEntityType.ORC_WARRIOR, 6.5, 6.5);
+		victimD = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA + 0.5, yA + 0.5);
 		// victimD est en bas à droite de victimA ; dans la zone
-		victimE = new LivingEntity(LivingEntityType.ORC_WARRIOR, 6, 7.1);
+		victimE = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA, yA + 1.1);
 		// victimE est en dessous de victimA ; en dehors de la zone
-		victimF = new LivingEntity(LivingEntityType.ORC_WARRIOR, 7.1, 6);
+		victimF = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA + 1.1, yA);
 		// victimF est à droite de victimA ; en dehors de la zone
-		victimG = new LivingEntity(LivingEntityType.ORC_WARRIOR, 7, 7); 
+		victimG = new LivingEntity(LivingEntityType.ORC_WARRIOR, xA + 1, yA + 1); 
 		// victimG est en dessous et à droite de victimA ; en dehors de la zone
 		
 		entity.spawn(level);
