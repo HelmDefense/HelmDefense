@@ -241,8 +241,8 @@ public class IDCardController implements Initializable {
 		updateUpgradeLabel();
 		String path = this.type.getData().getPath();
 		String name = path.substring(path.indexOf('.') + 1);
-		this.upgradeAImage.setImage(new Image(Controller.imgPath("models", name + "_a.png")));
-		this.upgradeBImage.setImage(new Image(Controller.imgPath("models", name + "_b.png")));
+		this.upgradeAImage.setImage(new Image(Controller.imgPath("models", name + "_A.png")));
+		this.upgradeBImage.setImage(new Image(Controller.imgPath("models", name + "_B.png")));
 		this.main.upgradeVBox.visibleProperty().addListener((obs, o, n) -> {
 			if(!n.booleanValue())
 				this.selectedImage = -1;

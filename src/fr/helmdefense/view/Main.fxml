@@ -94,11 +94,7 @@
 							</font>
 						</Label>
 						<ImageView fx:id="moneyImage" fitHeight="32.0"
-							fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-							<image>
-								<Image url="@../../../../assets/models/coin.png" />
-							</image>
-						</ImageView>
+							fitWidth="32.0" pickOnBounds="true" preserveRatio="true" />
 					</children>
 				</HBox>
 			</right>

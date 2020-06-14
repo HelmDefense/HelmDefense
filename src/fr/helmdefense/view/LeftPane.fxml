@@ -188,14 +188,14 @@
 														fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
 														preserveRatio="true">
 														<image>
-															<Image url="@../../../../assets/models/coin.png" />
+															<Image url="/assets/models/coin.png" />
 														</image>
 													</ImageView>
 													<ImageView fx:id="entityRewardCoin"
 														fitHeight="35.0" fitWidth="35.0" pickOnBounds="true"
 														preserveRatio="true">
 														<image>
-															<Image url="@../../../../assets/models/coin.png" />
+															<Image url="/assets/models/coin.png" />
 														</image>
 													</ImageView>
 												</children>

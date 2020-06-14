@@ -1,11 +1,10 @@
 package fr.helmdefense.view.inventory.item;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import fr.helmdefense.controller.Controller;
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -21,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
@@ -69,12 +67,7 @@ public class InventoryItem extends StackPane implements Initializable, Toggle {
 		this.managedProperty().bind(this.visibleProperty());
 		this.label.textProperty().bind(this.amountProperty.asString());
 		this.imgProperty.addListener((obs, o, n) -> {
-			this.imageView.setImage(new Image(Paths.get(
-					System.getProperty("user.dir"),
-					"assets",
-					"entities",
-					this.getImg().replace('.', File.separatorChar) + ".png"
-			).toUri().toString()));
+			this.imageView.setImage(Controller.getImg("entities", Controller.pathToImgPath(this.getImg())));
 		});
 		
 		this.scaleXProperty().bindBidirectional(this.scaleYProperty());

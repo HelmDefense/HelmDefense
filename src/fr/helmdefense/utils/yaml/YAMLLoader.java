@@ -1,8 +1,9 @@
 package fr.helmdefense.utils.yaml;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.nio.file.Paths;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class YAMLLoader {
 	private YAMLLoader() {}
 	
 	public static Level loadLevel(String name) {
-		YAMLData lvl = load(Paths.get(YAML.SAVES_FOLDER, name, "data.yml").toString());
+		YAMLData lvl = load(YAML.SAVES_FOLDER + "/" + name + "/data.yml");
 		return new Level(
 				lvl.getString("name", "Niveau"),
 				loadMap(lvl),
@@ -79,7 +80,7 @@ public class YAMLLoader {
 	}
 	
 	public static void loadEntityData() {
-		YAMLData data = load(Paths.get(YAML.DATA_FOLDER, "entities.yml").toString());
+		YAMLData data = load(YAML.DATA_FOLDER + "/entities.yml");
 		
 		parseEntityData(data, "defenders", "heroes");
 		parseEntityData(data, "attackers", "bosses");
@@ -169,7 +170,18 @@ public class YAMLLoader {
 	}
 
 	private static void loadOptions() {
-		loadedOptions = YAMLLoader.load(Paths.get(YAML.DATA_FOLDER, "options.yml").toString());
+		File options = new File(YAMLWriter.STORAGE, YAML.DATA_FOLDER + "/options.yml");
+		if (! options.exists()) {
+			try {
+				YAMLWriter.saveDefaultOptions();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			loadedOptions = YAMLLoader.load(YAML.DATA_FOLDER + "/options.yml");
+		}
+		else {
+			loadedOptions = YAMLLoader.loadAbsolute(options.getAbsolutePath());
+		}
 	}
 	
 	public static void applyControls() {
@@ -217,11 +229,16 @@ public class YAMLLoader {
 		}
 	}
 	
-	public static YAMLData load(String file) {
+	public static YAMLData load(String file) {	
+		return new YAMLData(YAML.get().load(YAMLLoader.class.getClassLoader().getResourceAsStream(file)));
+	}
+	
+	public static YAMLData loadAbsolute(String file) {
 		try {
 			return new YAMLData(YAML.get().load(new FileReader(file)));
 		} catch (FileNotFoundException e) {
-			throw new YAMLException("Cannot find file \"" + file + "\"!", e);
+			e.printStackTrace();
+			return null;
 		}
 	}
 }
