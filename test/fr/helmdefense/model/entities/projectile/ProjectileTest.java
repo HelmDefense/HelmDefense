@@ -23,13 +23,13 @@ class ProjectileTest {
 		level = YAMLLoader.loadLevel("Classic Testing Level");
 		entity = new LivingEntity(LivingEntityType.ARCHER, 10, 10);
 		victim = new LivingEntity(LivingEntityType.ORC_WARRIOR, 15, 10);
-		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 3);;
+		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 3);
 		entity.spawn(level);
 		victim.spawn(level);
 		projectile.spawn(level);
 	}
 
-	/* Projectile.move() est déclenchée à chaque tick ; pour la tester, on utilise la GameLoop du level
+	/* Projectile.move() est déclenchée à chaque tick pour la tester, on utilise la GameLoop du level
 	 * que l'on fait avancer manuellement avec la méthode step()
 	 */
 	@Test
