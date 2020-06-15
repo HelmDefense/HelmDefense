@@ -1,9 +1,15 @@
 package fr.helmdefense.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import fr.helmdefense.model.entities.living.LivingEntityType;
 import fr.helmdefense.model.entities.living.special.Hero;
@@ -69,13 +75,34 @@ public class MenuController implements Initializable {
 	
 	public MenuController(Controller main) {
 		this.main = main;
-		this.levels = Paths.get(System.getProperty("user.dir"), YAML.SAVES_FOLDER).toFile().list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
+		
+		JarFile jar = null;
+		try {
+			jar = new JarFile(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()));
+		} catch (IOException | URISyntaxException e) {}
+		
+		if (jar == null) {
+			this.levels = new File("resources", YAML.SAVES_FOLDER).list((file, name) -> ! name.equalsIgnoreCase("Troll Level"));
+		}
+		else {
+			List<String> levels = new ArrayList<String>();
+			Enumeration<JarEntry> enumeration = jar.entries();
+			while (enumeration.hasMoreElements()) {
+				JarEntry element = enumeration.nextElement();
+				String name = element.getName();
+				if (name.startsWith(YAML.SAVES_FOLDER + "/") && name.endsWith("/") && count(name, '/') == 2 && ! name.contains("Troll Level")) {
+					levels.add(name.substring(6, name.length() - 1));
+				}
+			}
+			this.levels = levels.toArray(new String[levels.size()]);
+		}
+		
 		this.selectedLevel = 0;
 		this.selectedHero = 0;
 		this.selectionMode = HERO_MODE;
 		
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fr/helmdefense/view/Menu.fxml"));
 			loader.setController(this);
 			this.root = loader.load();
 			this.show();
@@ -84,6 +111,14 @@ public class MenuController implements Initializable {
 		}
 		
 		this.selectHero(0);
+	}
+
+	public static int count(String str, char search) {
+		int nb = 0;
+		for (char c : str.toCharArray())
+			if (c == search)
+				nb++;
+		return nb;
 	}
 	
 	@FXML

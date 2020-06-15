@@ -236,7 +236,7 @@ public class LevelController implements Initializable, ActionListener {
 		this.main.main.setRight(this.rightPane);
 		
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/LeftPane.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fr/helmdefense/view/LeftPane.fxml"));
 			loader.setController(this);
 			this.main.main.setLeft(this.leftPane = loader.load());
 		} catch (IOException e) {
@@ -476,7 +476,7 @@ public class LevelController implements Initializable, ActionListener {
 
 	private void addIDCard(LivingEntityType type) {
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/EntityIDCard.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fr/helmdefense/view/EntityIDCard.fxml"));
 			loader.setController(new IDCardController(type, this));
 			VBox card = loader.load();
 			this.entityIDCardList.getChildren().add(card);

@@ -21,7 +21,7 @@
 					fitWidth="64.0" opacity="0.75" pickOnBounds="true"
 					preserveRatio="true">
 					<image>
-						<Image url="@../../../../assets/models/left-arrow.png" />
+						<Image url="/assets/models/left-arrow.png" />
 					</image>
 				</ImageView>
 				<ImageView fx:id="currentImage" fitHeight="256.0"
@@ -57,12 +57,12 @@
 											<children>
 												<ImageView>
 													<image>
-														<Image url="@../../../../assets/models/star.png" />
+														<Image url="/assets/models/star.png" />
 													</image>
 												</ImageView>
 												<ImageView StackPane.alignment="BOTTOM_RIGHT">
 													<image>
-														<Image url="@../../../../assets/models/plus.png" />
+														<Image url="/assets/models/plus.png" />
 													</image>
 												</ImageView>
 											</children>
@@ -71,12 +71,12 @@
 											<children>
 												<ImageView>
 													<image>
-														<Image url="@../../../../assets/models/star.png" />
+														<Image url="/assets/models/star.png" />
 													</image>
 												</ImageView>
 												<ImageView StackPane.alignment="BOTTOM_RIGHT">
 													<image>
-														<Image url="@../../../../assets/models/plus.png" />
+														<Image url="/assets/models/plus.png" />
 													</image>
 												</ImageView>
 											</children>
@@ -101,7 +101,7 @@
 					onMouseClicked="#nextArrowClicked" fitHeight="64.0" fitWidth="64.0"
 					opacity="0.75" pickOnBounds="true" preserveRatio="true">
 					<image>
-						<Image url="@../../../../assets/models/right-arrow.png" />
+						<Image url="/assets/models/right-arrow.png" />
 					</image>
 				</ImageView>
 			</children>
