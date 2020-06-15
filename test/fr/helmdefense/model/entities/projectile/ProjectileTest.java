@@ -1,5 +1,6 @@
 package fr.helmdefense.model.entities.projectile;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,12 +22,13 @@ class ProjectileTest {
 	static void setUpBeforeClass() throws Exception {
 		YAMLLoader.loadEntityData();
 		level = YAMLLoader.loadLevel("Classic Testing Level");
-		entity = new LivingEntity(LivingEntityType.ARCHER, 10, 10);
-		victim = new LivingEntity(LivingEntityType.ORC_WARRIOR, 15, 10);
-		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 3);
+		entity = new LivingEntity(LivingEntityType.ARCHER, 5, 5);
+		victim = new LivingEntity(LivingEntityType.ORC_WARRIOR, 7, 5);
+		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 10);
 		entity.spawn(level);
 		victim.spawn(level);
 		projectile.spawn(level);
+		projectile.addAbilities();
 	}
 
 	/* Projectile.move() est déclenchée à chaque tick pour la tester, on utilise la GameLoop du level
@@ -34,27 +36,32 @@ class ProjectileTest {
 	 */
 	@Test
 	void testMove() {
-		/* Cas : projectile a une vitesse de 3 cases / sec
-		 * le projectile part de (10, 10) qui est la Location de sa source,en direction de victim, en (15,10)
+		/* Cas : projectile a une vitesse de 10 cases / sec, il se déplace donc d'une case / tick
+		 * le projectile part de (5, 5) qui est la Location de sa source,en direction de victim, en (7, 5)
 		 * la loop défile d'une tick, on se déplace donc sur l'axe O(x)
 		 */
 		level.getGameloop().step();
-		assertTrue(10 < projectile.getLoc().getCenterX());
-		assertTrue(projectile.getLoc().getY() == 10);
-		// Cas : idem que le précedent, mais cette fois sur l'axe O(y) et projectile va en direction de victim2
-		victim.teleport(10, 15);
-		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 3);
+		assertEquals(6, projectile.getLoc().getX());
+		assertEquals(5, projectile.getLoc().getY());
+		// Cas : idem que le précedent, mais cette fois sur l'axe O(y) et projectile va en direction de victim (10,15)
+		victim.teleport(5, 7);
+		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 10);
+		projectile.spawn(level);
 		level.getGameloop().step();
-		assertTrue(projectile.getLoc().getX() == 10);
-		assertTrue(projectile.getLoc().getY() > 10);
-		/* Cas : projectile part de (10,10) en direction de victim3 (15,15)
+		assertEquals(5, projectile.getLoc().getX());
+		assertEquals(6, projectile.getLoc().getY());
+		/* Cas : projectile part de (5, 5) en direction de victim (7, 7)
 		 * Déplacement en diagonale
-		 */
-		victim.teleport(15, 15);
-		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 3);
+		 * Cette fois ci on utilise assertEquals(double attendue, double valeurActuelle, double delta) car la valeurActuelle 
+		 * est décimale ( 5.7076... en l'occurence )
+		*/
+		
+		victim.teleport(7, 7);
+		projectile = new Projectile(ProjectileType.ARROW, entity, victim.getLoc(), 10);
+		projectile.spawn(level);
 		level.getGameloop().step();
-		assertTrue(projectile.getLoc().getX() > 10);
-		assertTrue(projectile.getLoc().getY() > 10);
+		assertEquals(5.707, projectile.getLoc().getX(), 0.1);
+		assertEquals(5.7, projectile.getLoc().getY(), 0.1);
 	}
 
 	@Test
