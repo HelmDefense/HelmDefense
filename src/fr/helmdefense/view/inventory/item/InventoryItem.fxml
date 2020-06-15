@@ -23,7 +23,7 @@
 			fitWidth="16.0" pickOnBounds="true" preserveRatio="true"
 			StackPane.alignment="BOTTOM_LEFT">
 			<image>
-				<Image url="@../../../../../../assets/models/check-mark.png" />
+				<Image url="/assets/models/check-mark.png" />
 			</image>
 		</ImageView>
 	</children>
