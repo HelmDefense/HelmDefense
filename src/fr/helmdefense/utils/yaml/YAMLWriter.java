@@ -35,7 +35,7 @@ public class YAMLWriter {
 			FileWriter writer = new FileWriter(STORAGE + "/" + YAML.DATA_FOLDER + "/options.yml");
 			YAML.get().dump(data, writer);
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new YAMLException("Failed to save options in file \"" + STORAGE + "/" + YAML.DATA_FOLDER + "/options.yml\"", e);
 		}
 	}
 	

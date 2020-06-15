@@ -145,8 +145,7 @@ public class YAMLLoader {
 					try {
 						return (Class<? extends Ability>) Class.forName("fr.helmdefense.model.entities.abilities.list." + e.getKey());
 					} catch (ClassNotFoundException e1) {
-						e1.printStackTrace();
-						return null;
+						throw new YAMLException("Ability " + e.getKey() + " failed to load", e1);
 					}
 				}, e -> abilitiesParams(e.getValue())));
 	}
@@ -175,7 +174,7 @@ public class YAMLLoader {
 			try {
 				YAMLWriter.saveDefaultOptions();
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new YAMLException("Failed to save default options", e);
 			}
 			loadedOptions = YAMLLoader.load(YAML.DATA_FOLDER + "/options.yml");
 		}
@@ -237,8 +236,7 @@ public class YAMLLoader {
 		try {
 			return new YAMLData(YAML.get().load(new FileReader(file)));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return null;
+			throw new YAMLException("Cannot load file \"" + file + "\"", e);
 		}
 	}
 }
