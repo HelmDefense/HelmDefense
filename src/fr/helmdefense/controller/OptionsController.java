@@ -72,7 +72,7 @@ public class OptionsController implements Initializable {
 		this.main = main;
 		
 		try {
-			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Options.fxml"));
+			FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fr/helmdefense/view/Options.fxml"));
 			loader.setController(this);
 			this.root = loader.load();
 		} catch (IOException e) {

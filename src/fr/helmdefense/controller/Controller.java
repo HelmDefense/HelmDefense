@@ -1,8 +1,6 @@
 package fr.helmdefense.controller;
 
-import java.io.File;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 import fr.helmdefense.model.HelmDefense;
@@ -290,31 +288,28 @@ public class Controller implements Initializable {
 		return this.levelLivesProperty;
 	}
 	
-	static String pathToImgPath(String path) {
+	public static String pathToImgPath(String path) {
 		return pathToImgPath(path, "");
 	}
 	
 	static String pathToImgPath(String path, String end) {
-		return path.replace('.', File.separatorChar) + end + ".png";
+		return path.replace('.', '/') + end + ".png";
 	}
 
 	static ImageView getImgView(String... paths) {
-		return new ImageView(imgPath(paths));
+		return new ImageView(getImg(paths));
 	}
 	
-	static Image getImg(String... paths) {
-		return new Image(imgPath(paths));
+	public static Image getImg(String... paths) {
+		return new Image(Controller.class.getResourceAsStream("/" + imgPath(paths)));
 	}
 	
 	static String imgPath(String... paths) {
-		return Paths.get(
-				Paths.get(System.getProperty("user.dir"), "assets").toString(),
-				paths
-		).toUri().toString();
+		return "assets/" + String.join("/", paths);
 	}
 	
 	static String path(String... paths) {
-		return Paths.get(System.getProperty("user.dir"), paths).toUri().toString();
+		return String.join("/", paths);
 	}
 	
 	public enum Gamemode {
