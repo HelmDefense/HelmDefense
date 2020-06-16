@@ -6,7 +6,9 @@ Un jeu de __Tower Defense__ basé sur l'univers de la __Terre du Milieu__ *(Et p
 ## Le projet
 Ce projet constitue le __projet de second semestre__ de *[BOT Télio](https://github.com/TelioBOT "Accéder au profil GitHub")*, *[POMMERY Jules](https://github.com/JulesPopo "Accéder au profil GitHub")* et *[SZANTO Théo](https://github.com/indyteo "Accéder au profil GitHub")*. L'objectif était de réaliser un Tower Defense. Retrouvez __toutes les informations__ à ce sujet sur [notre Wiki](https://github.com/indyteo/HelmDefense/wiki "Helm Defense Wiki").
 
-*__Disclaimer :__ Ce jeu n'est pas pleinement fonctionnel / optimisé et il manque de nombreuses fonctionnalités pour le rendre totalement jouable et agréable, mais cela viendra dans le futur.*
+Vous pouvez accéder aux différentes [ressources techniques ici](https://github.com/indyteo/HelmDefense/blob/master/DOCS.md).
+
+> *__Disclaimer :__ Ce jeu n'est pas pleinement fonctionnel / optimisé et il manque de nombreuses fonctionnalités pour le rendre totalement jouable et agréable, mais cela viendra dans le futur.*
 
 ## Notre jeu
 ### Présentation
