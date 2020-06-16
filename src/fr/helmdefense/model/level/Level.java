@@ -175,10 +175,6 @@ public class Level implements ActionListener {
 		return this.inv;
 	}
 	
-	public boolean overdrawn() {
-		return this.getPurse() < 0;
-	}
-	
 	public int getPurse() {
 		return this.purseProperty.get();
 	}

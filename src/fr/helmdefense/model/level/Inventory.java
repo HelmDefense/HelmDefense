@@ -14,6 +14,8 @@ public class Inventory {
 	}
 	
 	public void addEntity(LivingEntityType ent, int amount) {
+		if (amount <= 0)
+			return;
 		if (this.content.containsKey(ent))
 			this.content.get(ent).set(this.content.get(ent).get() + amount);
 		else

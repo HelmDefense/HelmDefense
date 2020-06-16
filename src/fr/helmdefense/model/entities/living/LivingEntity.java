@@ -48,7 +48,7 @@ public class LivingEntity extends Entity {
 	}
 	
 	public int looseHp(int amount, DamageCause cause, boolean ignoreShield) {
-		if (! this.isAlive())
+		if (! this.isAlive() || amount < 0)
 			return -1;
 		
 		if (! ignoreShield) {
@@ -91,7 +91,7 @@ public class LivingEntity extends Entity {
 	}
 	
 	public void gainHp(int amount, boolean ignoreShield) {
-		if (! this.isAlive())
+		if (! this.isAlive() || amount < 0)
 			return;
 		
 		this.setHp(this.getHp() + amount);
